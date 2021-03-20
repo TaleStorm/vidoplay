@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+@import '~antd/dist/antd.css';
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 html,
 body {
   padding: 0;
@@ -18,3 +22,14 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.ant-carousel .slick-dots li.slick-active button {
+ background-color: #F8634A;
+}
+
+.ant-carousel .slick-dots li button:hover {
+  background-color: #F8634A;
+ }
+
+.slick-list {margin: 0 -10px;}
+.slick-slide>div {padding: 0 10px;}
