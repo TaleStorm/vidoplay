@@ -1,5 +1,5 @@
 const Footer = () => (
-  <footer className="relative h-72">
+  <footer className="relative h-52">
         
   </footer>
   

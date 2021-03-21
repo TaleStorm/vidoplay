@@ -45,15 +45,15 @@ let filmCategories = [
                 tags: [
                     {
                         name:"#дорамы",
-                        color:"doramaTag"
+                        color:"#36A4C9"
                     },
                     {
                         name:"#драма",
-                        color:"dramaTag"
+                        color:"#A036C9"
                     },
                     {
                         name:"#пролюбовь",
-                        color:"loveTag"
+                        color:"#6B4DC1"
                     }
                 ],
                 comments: 30,
@@ -67,15 +67,15 @@ let filmCategories = [
                 tags: [
                     {
                         name:"#дорамы",
-                        color:"doramaTag"
+                        color:"#36A4C9"
                     },
                     {
                         name:"#драма",
-                        color:"dramaTag"
+                        color:"#A036C9"
                     },
                     {
                         name:"#пролюбовь",
-                        color:"loveTag"
+                        color:"#6B4DC1"
                     }
                 ],
                 comments: 30,
@@ -89,15 +89,15 @@ let filmCategories = [
                 tags: [
                     {
                         name:"#дорамы",
-                        color:"doramaTag"
+                        color:"#36A4C9"
                     },
                     {
                         name:"#драма",
-                        color:"dramaTag"
+                        color:"#A036C9"
                     },
                     {
                         name:"#пролюбовь",
-                        color:"loveTag"
+                        color:"#6B4DC1"
                     }
                 ],
                 comments: 30,
@@ -111,15 +111,15 @@ let filmCategories = [
                 tags: [
                     {
                         name:"#дорамы",
-                        color:"doramaTag"
+                        color:"#36A4C9"
                     },
                     {
                         name:"#драма",
-                        color:"dramaTag"
+                        color:"#A036C9"
                     },
                     {
                         name:"#пролюбовь",
-                        color:"loveTag"
+                        color:"#6B4DC1"
                     }
                 ],
                 comments: 30,
@@ -133,15 +133,15 @@ let filmCategories = [
                 tags: [
                     {
                         name:"#дорамы",
-                        color:"doramaTag"
+                        color:"#36A4C9"
                     },
                     {
                         name:"#драма",
-                        color:"dramaTag"
+                        color:"#A036C9"
                     },
                     {
                         name:"#пролюбовь",
-                        color:"loveTag"
+                        color:"#6B4DC1"
                     }
                 ],
                 comments: 30,
@@ -155,15 +155,15 @@ let filmCategories = [
                 tags: [
                     {
                         name:"#дорамы",
-                        color:"doramaTag"
+                        color:"#36A4C9"
                     },
                     {
                         name:"#драма",
-                        color:"dramaTag"
+                        color:"#A036C9"
                     },
                     {
                         name:"#пролюбовь",
-                        color:"loveTag"
+                        color:"#6B4DC1"
                     }
                 ],
                 comments: 30,
@@ -183,15 +183,15 @@ let filmCategories = [
                 tags: [
                     {
                         name:"#дорамы",
-                        color:"doramaTag"
+                        color:"#36A4C9"
                     },
                     {
                         name:"#драма",
-                        color:"dramaTag"
+                        color:"#A036C9"
                     },
                     {
                         name:"#пролюбовь",
-                        color:"loveTag"
+                        color:"#6B4DC1"
                     }
                 ],
                 comments: 30,
@@ -205,15 +205,15 @@ let filmCategories = [
                 tags: [
                     {
                         name:"#дорамы",
-                        color:"doramaTag"
+                        color:"#36A4C9"
                     },
                     {
                         name:"#драма",
-                        color:"dramaTag"
+                        color:"#A036C9"
                     },
                     {
                         name:"#пролюбовь",
-                        color:"loveTag"
+                        color:"#6B4DC1"
                     }
                 ],
                 comments: 30,
@@ -227,15 +227,15 @@ let filmCategories = [
                 tags: [
                     {
                         name:"#дорамы",
-                        color:"doramaTag"
+                        color:"#36A4C9"
                     },
                     {
                         name:"#драма",
-                        color:"dramaTag"
+                        color:"#A036C9"
                     },
                     {
                         name:"#пролюбовь",
-                        color:"loveTag"
+                        color:"#6B4DC1"
                     }
                 ],
                 comments: 30,
@@ -249,15 +249,15 @@ let filmCategories = [
                 tags: [
                     {
                         name:"#дорамы",
-                        color:"doramaTag"
+                        color:"#36A4C9"
                     },
                     {
                         name:"#драма",
-                        color:"dramaTag"
+                        color:"#A036C9"
                     },
                     {
                         name:"#пролюбовь",
-                        color:"loveTag"
+                        color:"#6B4DC1"
                     }
                 ],
                 comments: 30,
@@ -271,15 +271,15 @@ let filmCategories = [
                 tags: [
                     {
                         name:"#дорамы",
-                        color:"doramaTag"
+                        color:"#36A4C9"
                     },
                     {
                         name:"#драма",
-                        color:"dramaTag"
+                        color:"#A036C9"
                     },
                     {
                         name:"#пролюбовь",
-                        color:"loveTag"
+                        color:"#6B4DC1"
                     }
                 ],
                 comments: 30,
@@ -293,15 +293,15 @@ let filmCategories = [
                 tags: [
                     {
                         name:"#дорамы",
-                        color:"doramaTag"
+                        color:"#36A4C9"
                     },
                     {
                         name:"#драма",
-                        color:"dramaTag"
+                        color:"#A036C9"
                     },
                     {
                         name:"#пролюбовь",
-                        color:"loveTag"
+                        color:"#6B4DC1"
                     }
                 ],
                 comments: 30,
@@ -321,15 +321,15 @@ let filmCategories = [
                 tags: [
                     {
                         name:"#дорамы",
-                        color:"doramaTag"
+                        color:"#36A4C9"
                     },
                     {
                         name:"#драма",
-                        color:"dramaTag"
+                        color:"#A036C9"
                     },
                     {
                         name:"#пролюбовь",
-                        color:"loveTag"
+                        color:"#6B4DC1"
                     }
                 ],
                 comments: 30,
@@ -343,15 +343,15 @@ let filmCategories = [
                 tags: [
                     {
                         name:"#дорамы",
-                        color:"doramaTag"
+                        color:"#36A4C9"
                     },
                     {
                         name:"#драма",
-                        color:"dramaTag"
+                        color:"#A036C9"
                     },
                     {
                         name:"#пролюбовь",
-                        color:"loveTag"
+                        color:"#6B4DC1"
                     }
                 ],
                 comments: 30,
@@ -365,15 +365,15 @@ let filmCategories = [
                 tags: [
                     {
                         name:"#дорамы",
-                        color:"doramaTag"
+                        color:"#36A4C9"
                     },
                     {
                         name:"#драма",
-                        color:"dramaTag"
+                        color:"#A036C9"
                     },
                     {
                         name:"#пролюбовь",
-                        color:"loveTag"
+                        color:"#6B4DC1"
                     }
                 ],
                 comments: 30,
@@ -387,15 +387,15 @@ let filmCategories = [
                 tags: [
                     {
                         name:"#дорамы",
-                        color:"doramaTag"
+                        color:"#36A4C9"
                     },
                     {
                         name:"#драма",
-                        color:"dramaTag"
+                        color:"#A036C9"
                     },
                     {
                         name:"#пролюбовь",
-                        color:"loveTag"
+                        color:"#6B4DC1"
                     }
                 ],
                 comments: 30,
@@ -409,15 +409,15 @@ let filmCategories = [
                 tags: [
                     {
                         name:"#дорамы",
-                        color:"doramaTag"
+                        color:"#36A4C9"
                     },
                     {
                         name:"#драма",
-                        color:"dramaTag"
+                        color:"#A036C9"
                     },
                     {
                         name:"#пролюбовь",
-                        color:"loveTag"
+                        color:"#6B4DC1"
                     }
                 ],
                 comments: 30,
@@ -431,15 +431,15 @@ let filmCategories = [
                 tags: [
                     {
                         name:"#дорамы",
-                        color:"doramaTag"
+                        color:"#36A4C9"
                     },
                     {
                         name:"#драма",
-                        color:"dramaTag"
+                        color:"#A036C9"
                     },
                     {
                         name:"#пролюбовь",
-                        color:"loveTag"
+                        color:"#6B4DC1"
                     }
                 ],
                 comments: 30,
@@ -573,7 +573,7 @@ const IndexPage = () => (
                     <Slider cards={cards}/>
 
                     {filmCategories.map((filmsCategory, i) => {    
-                        return <FilmCategory name={filmsCategory.name} cards={filmsCategory.filmCards} cardToShow={filmsCategory.cardToShow}/>
+                        return <FilmCategory key={i} name={filmsCategory.name} cards={filmsCategory.filmCards} cardToShow={filmsCategory.cardToShow}/>
                     })}
                 </div>
 

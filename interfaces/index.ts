@@ -9,8 +9,6 @@ export type SliderCardData = {
     image: string
     description: string
     key:number
-    nextFunction:() => void
-    prevFunction:() => void
 }
 
 export type SliderData = {
@@ -25,6 +23,14 @@ export type FilmCategoryData = {
     cards: {
         name: string
         image: string
+        description: string
+        languages: string[],
+        tags: {
+            name: string
+            color: string
+        }[]
+        comments: number,
+        rating: number
     }[]
     cardToShow: number
 }
@@ -43,6 +49,7 @@ export type FilmCategorySliderData = {
         rating: number
     }[]
     cardToShow: number
+    
 }
 
 export type CommentsData = {
@@ -66,11 +73,9 @@ export type FilmCategorySliderCardData = {
     }[]
     comments: number,
     rating: number
-    key:number
 }
 
 export type TagData = {
     name: string
     color: string
-    key:number
 }

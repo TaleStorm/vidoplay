@@ -3,11 +3,16 @@ import React, { Component } from "react";
 
 type SliderCardProps = SliderCardData
 
-class SliderCard extends React.Component {
+interface SliderCardState {
+}
+
+class SliderCard extends Component<SliderCardProps,SliderCardState> {
 	constructor(props: SliderCardProps) {
 		super(props);
 	}
+
 	
+
 	public render(): React.ReactElement<SliderCardProps> {
 	
 		return (

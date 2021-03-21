@@ -24,7 +24,7 @@ module.exports = {
     extend: {
       backgroundImage: theme => ({
         'slider': "url('/images/slider.png')",
-        'dorama': "url('/images/films/dorama.png')",
+        'dorama': "url('/images/dorama.png')",
        })
     },
   },
