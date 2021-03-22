@@ -8,7 +8,7 @@ import { SliderData } from '../interfaces'
 type SliderProps = SliderData
 
 export default class Slider extends Component<SliderProps>  {
-  public carousel: React.MutableRefObject<Carousel>
+  public carousel: React.MutableRefObject<typeof Carousel | null>
 
   constructor(props: SliderProps) {
     super(props);
