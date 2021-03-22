@@ -11,15 +11,20 @@ export default class FilmCategorySlider extends Component<FilmCategorySliderProp
 
   constructor(props: FilmCategorySliderProps) {
     super(props);
-    this.carousel  = React.createRef();
+    this.carousel  = React.createRef<typeof Carousel | null>();
     this.next = this.next.bind(this);
   }
 
   public next = () => {
-    this.carousel.current.next();
+    const node = this.carousel.current
+    if (node) {
+      node.next();
+    }
+    
   };
 
   componentDidMount() {
+    console.log(this.carousel)
     this.carousel.current = this.carousel
   }
 

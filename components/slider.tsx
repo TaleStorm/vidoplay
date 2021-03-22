@@ -12,7 +12,7 @@ export default class Slider extends Component<SliderProps>  {
 
   constructor(props: SliderProps) {
     super(props);
-    this.carousel  = React.createRef();
+    this.carousel  = React.createRef<typeof Carousel | null>();
     this.next = this.next.bind(this);
     this.prev = this.prev.bind(this);
     // this.carousel.current = this.carousel
