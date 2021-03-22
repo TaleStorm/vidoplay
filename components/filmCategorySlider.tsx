@@ -7,7 +7,7 @@ import { FilmCategorySliderData } from '../interfaces'
 type FilmCategorySliderProps = FilmCategorySliderData
 
 export default class FilmCategorySlider extends Component<FilmCategorySliderProps>  {
-  private carousel: React.MutableRefObject<Carousel>;
+  private carousel: React.MutableRefObject<typeof Carousel | null>;
 
   constructor(props: FilmCategorySliderProps) {
     super(props);
