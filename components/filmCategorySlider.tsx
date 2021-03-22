@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useRef } from "react";
 import FilmCategorySliderCard from '../components/filmCategorySliderCard'
 import { Carousel } from 'antd';
 
@@ -12,10 +12,13 @@ export default class FilmCategorySlider extends Component<FilmCategorySliderProp
   constructor(props: FilmCategorySliderProps) {
     super(props);
     this.carousel  = React.createRef<typeof Carousel | null>();
+    
     this.next = this.next.bind(this);
   }
 
   public next = () => {
+    console.log(this.carousel)
+
     const node = this.carousel.current
     if (node) {
       node.next();
@@ -24,11 +27,12 @@ export default class FilmCategorySlider extends Component<FilmCategorySliderProp
   };
 
   componentDidMount() {
-    console.log(this.carousel)
-    this.carousel.current = this.carousel
+    // console.log(this.carousel)
   }
 
+
   public render(): React.ReactElement<FilmCategorySliderProps> {
+
     const settings = {
       autoplay: false,
       dots: false,
@@ -42,7 +46,7 @@ export default class FilmCategorySlider extends Component<FilmCategorySliderProp
     };
     return (
       <div className="relative">
-        <Carousel id="carousel" ref={node => (this.carousel = node)} {...settings}>
+        <Carousel id="carousel" ref={this.carousel} {...settings}>
             
 
               {this.props.cards.map((card, i) => {

@@ -19,15 +19,21 @@ export default class Slider extends Component<SliderProps>  {
   }
 
   public next = () => {
-    this.carousel.current.next();
+    const node = this.carousel.current
+    if (node) {
+      node.next();
+    }
   };
 
   public prev = () => {
-    this.carousel.current.prev();
+    const node = this.carousel.current
+    if (node) {
+      node.prev();
+    }
   };
 
   componentDidMount() {
-    this.carousel.current = this.carousel
+    // this.carousel.current = this.carousel
   }
 
   public render(): React.ReactElement<SliderProps> {
@@ -42,7 +48,7 @@ export default class Slider extends Component<SliderProps>  {
 
     return (
       <div className="relative">
-        <Carousel autoplay dotPosition="bottom" id="carousel" ref={node => (this.carousel = node)} {...settings}>
+        <Carousel autoplay dotPosition="bottom" id="carousel" ref={this.carousel} {...settings}>
           {this.props.cards.map((card, i) => {    
             const sliderCardProps = { // make sure all required component's inputs/Props keys&types match
               key: i,
