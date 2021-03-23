@@ -35,6 +35,42 @@ export type FilmCategoryData = {
     cardToShow: number
 }
 
+export type SeriesData = {
+    series: {
+        videoLength: string
+        image: string
+    }[][]
+}
+
+export type SeriesSliderData = {
+    series: {
+        videoLength: string
+        image: string
+    }[]
+}
+
+export type SeriesSliderCardData = {
+    id: number
+    videoLength: string
+    image: string
+}
+
+export type ScreenshotsData = {
+    screenshots: {
+        image: string
+    }[][]
+}
+
+export type ScreenshotsSliderData = {
+    screenshots: {
+        image: string
+    }[]
+}
+
+export type ScreenshotsSliderCardData = {
+    image: string
+}
+
 export type FilmCategorySliderData = {
     cards: {
         name: string
@@ -56,6 +92,14 @@ export type CommentsData = {
     comments: {
         userImage: string
         film: string
+        username: string
+        comment: string
+    }[]
+}
+
+export type FilmCommentsData = {
+    comments: {
+        userImage: string
         username: string
         comment: string
     }[]

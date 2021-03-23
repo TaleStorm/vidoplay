@@ -3,15 +3,14 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     colors: {
-      background: "#15141F",
-      cardBackground: "#1C1B26",
+      background: "#242424",
+      cardBackground: "#2C2C2C",
       filmInfoBackground: "rgba(28, 27, 38, 0.5)",
 
       orange:"#F8634A",
       greySlider:"rgba(255,255,255,0.5)",
 
       mainText: "#FFFFFD",
-      greyText: "#rgba(255,255,255,0.3)",
 
       doramaTag: "#36A4C9",
       dramaTag: "#A036C9",

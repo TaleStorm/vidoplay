@@ -1,19 +1,16 @@
 import React, { Component, useRef } from "react";
-import FilmCategorySliderCard from '../components/filmCategorySliderCard'
-// import Carousel from '../components/carousel'
+import SeriesSliderCard from '../components/seriesSliderCard'
 import { Carousel } from 'antd';
-import { CarouselRef } from "antd/lib/carousel";
 
 
-import { FilmCategorySliderData } from '../interfaces'
+import { SeriesSliderData } from '../interfaces'
 
-type FilmCategorySliderProps = FilmCategorySliderData
+type SeriesSliderProps = SeriesSliderData
 
-export default class FilmCategorySlider extends Component<FilmCategorySliderProps>  {
+export default class SeriesSlider extends Component<SeriesSliderProps>  {
   private carousel: React.MutableRefObject<typeof Carousel | null>;
-  // private carouselRefs: typeof useRef<CarouselRef>();
 
-  constructor(props: FilmCategorySliderProps) {
+  constructor(props: SeriesSliderProps) {
     super(props);
     this.carousel  = React.createRef<typeof Carousel | null>();
     
@@ -31,11 +28,10 @@ export default class FilmCategorySlider extends Component<FilmCategorySliderProp
   };
 
   componentDidMount() {
-    // console.log(this.carousel)
   }
 
 
-  public render(): React.ReactElement<FilmCategorySliderProps> {
+  public render(): React.ReactElement<SeriesSliderProps> {
 
     const settings = {
       autoplay: false,
@@ -43,7 +39,7 @@ export default class FilmCategorySlider extends Component<FilmCategorySliderProp
       infinite: true,
       rows: 1,
       slidesPerRow: 1,
-      slidesToShow: this.props.cardToShow,
+      slidesToShow: 5,
       speed: 500,
       arrows: false,
       slidesToScroll: 1,
@@ -51,25 +47,17 @@ export default class FilmCategorySlider extends Component<FilmCategorySliderProp
     return (
       <div className="relative">
         <Carousel ref={node => (this.carousel.current = node)} {...settings}>
-        {/* <Carousel {...settings}> */}
-            
 
-              {this.props.cards.map((card, i) => {
+              {this.props.series.map((serie, i) => {
                   return <div key={i} className="mr-5">
-                      <FilmCategorySliderCard 
-                        name={card.name} 
-                        image={card.image}
-                        imageSize={this.props.cardToShow == 2 ? "72" : "52"}
-                        description={card.description}
-                        languages={card.languages}
-                        tags={card.tags}
-                        comments={card.comments}
-                        rating={card.rating}
+                      <SeriesSliderCard 
+                        id={i}
+                        videoLength={serie.videoLength} 
+                        image={serie.image}
                       />
                     </div>
                 })}
       
-                
         </Carousel>
         <div  className="-mr-8 absolute inset-y-0 right-0 h-full flex flex-wrap content-center inline-block" onClick={this.next}>
           <svg width="20" height="38" viewBox="0 0 20 38" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -7,7 +7,7 @@ type FilmCategorySliderCardProps = FilmCategorySliderCardData
 
 const FilmCategorySliderCard = (data: FilmCategorySliderCardProps) => (
   	<div className="bg-cardBackground w-full relative">
-		<div>
+		<a href="/films/testdorama">
 			<div className={`h-${data.imageSize} bg-cover relative bg-center`}> 
 				<Image
 					src={`/images/${data.image}.png`}
@@ -37,7 +37,7 @@ const FilmCategorySliderCard = (data: FilmCategorySliderCardProps) => (
 					})}
 				</div>
 			</div>
-		</div>
+		</a>
 		<div className="my-6">
 			<p className="text-xl font-roboto font-medium text-mainText mx-4 mb-4">
 				{data.name}

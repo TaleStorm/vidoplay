@@ -4,7 +4,7 @@ const Header = () => (
       <div className="flex justify-between items-center py-6 md:space-x-10">
             <div className="flex justify-between items-center py-6 md:space-x-10">
 
-              <div className="flex justify-center mx-7">
+              <div className="flex justify-center ">
                 <a href="#">
                   <span className="sr-only">Logo</span>
                   <img className="h-20 w-auto" src="/images/logo.png" alt="" />

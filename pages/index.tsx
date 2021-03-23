@@ -1,6 +1,5 @@
 import Header from '../components/header'
 import Footer from '../components/footer'
-
 import Slider from '../components/slider'
 import Comments from '../components/comments'
 import FilmCategory from '../components/filmCategory'
