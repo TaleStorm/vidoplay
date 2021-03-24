@@ -39,4 +39,6 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 2) run on your PC
 ```bash
 pm2 deploy production
+# or
+pm2 deploy production --force
 ```
