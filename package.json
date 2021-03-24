@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "deploy": "npm run build && pm2 deploy"
+    "start": "next start -p $PORT",
+    "deploy": "pm2 deploy production"
   },
   "dependencies": {
     "antd": "^4.14.0",
