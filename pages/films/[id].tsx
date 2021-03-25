@@ -32,6 +32,37 @@ let series = [
             image: "",
         },{
             videoLength: "10",
+<<<<<<< HEAD
+=======
+            image: "",
+        }
+    ],
+    [
+        {
+            videoLength: "20",
+            image: "",
+        },
+        {
+            videoLength: "20",
+            image: "",
+        },
+        {
+            videoLength: "20",
+            image: "",
+        },{
+            videoLength: "20",
+            image: "",
+        },
+        {
+            videoLength: "20",
+            image: "",
+        },
+        {
+            videoLength: "20",
+            image: "",
+        },{
+            videoLength: "20",
+>>>>>>> 16b074082e723d7e300ef5c4e06a68a57e119836
             image: "",
         }
     ],
