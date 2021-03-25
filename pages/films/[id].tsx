@@ -9,29 +9,57 @@ import FilmCategory from '../../components/filmCategory'
 let series = [
     [
         {
-            videoLength: "30",
+            videoLength: "10",
             image: "",
         },
         {
-            videoLength: "30",
+            videoLength: "10",
             image: "",
         },
         {
-            videoLength: "30",
+            videoLength: "10",
             image: "",
         },{
-            videoLength: "30",
+            videoLength: "10",
             image: "",
         },
         {
-            videoLength: "30",
+            videoLength: "10",
             image: "",
         },
         {
-            videoLength: "30",
+            videoLength: "10",
             image: "",
         },{
-            videoLength: "30",
+            videoLength: "10",
+            image: "",
+        }
+    ],
+    [
+        {
+            videoLength: "20",
+            image: "",
+        },
+        {
+            videoLength: "20",
+            image: "",
+        },
+        {
+            videoLength: "20",
+            image: "",
+        },{
+            videoLength: "20",
+            image: "",
+        },
+        {
+            videoLength: "20",
+            image: "",
+        },
+        {
+            videoLength: "20",
+            image: "",
+        },{
+            videoLength: "20",
             image: "",
         }
     ]
