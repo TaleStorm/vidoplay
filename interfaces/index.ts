@@ -55,6 +55,18 @@ export type SeriesSliderCardData = {
     image: string
 }
 
+export type FilmDescriptionData = {
+    name: string
+    description: string
+    yearPolicity: string
+    country: string
+    janr: string
+    director: string
+    operator: string
+    screenwriter: string
+    producer: string
+}
+
 export type ScreenshotsData = {
     screenshots: {
         image: string
