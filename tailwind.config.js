@@ -4,6 +4,9 @@ module.exports = {
   theme: {
     colors: {
       background: "#242424",
+      shadow: "#E5E5E5",
+      popupBackground: "#303030",
+      popupBorder: "#646464",
       cardBackground: "#2C2C2C",
       filmInfoBackground: "rgba(28, 27, 38, 0.5)",
 

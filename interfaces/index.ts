@@ -4,6 +4,14 @@
 //
 // import { User } from 'path/to/interfaces';
 
+export type HeaderData = {
+}
+
+export type AuthWindowData = {
+    hidden: boolean
+    hideFunc: () => void
+}
+
 export type SliderCardData = {
     name: string
     image: string
