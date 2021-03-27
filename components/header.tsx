@@ -5,27 +5,48 @@ import {HeaderData } from '../interfaces'
 
 type HeaderProps = HeaderData
 
-export default class Header extends Component<HeaderProps, {auth:boolean}>  {
+export default class Header extends Component<HeaderProps, {hidden:boolean,stage: string}>  {
   constructor(props: HeaderProps) {
     super(props);
     this.openAuth = this.openAuth.bind(this);
     this.closeAuth = this.closeAuth.bind(this);
     this.state = {
-      auth: false
+      stage: "auth",
+      hidden: false
     }
   }
 
   public openAuth = () => {
       this.setState({
-        auth: true
+        hidden: true
       })
   };
 
   public closeAuth = () => {
     this.setState({
-      auth: false
+      hidden: false,
+      stage: "auth"
     })
-};
+  };
+
+  public regFunc = () => {
+    this.setState({
+      stage: "reg"
+    })
+  };
+
+  public authFunc = () => {
+    this.setState({
+      stage: "auth"
+    })
+  };
+
+  public forPassFunc = () => {
+    this.setState({
+      stage: "passChange"
+    })
+  };
+
 
   componentDidMount() {
   }
@@ -70,11 +91,17 @@ export default class Header extends Component<HeaderProps, {auth:boolean}>  {
                   </svg>
                 </a>
               </nav>
-
             </div>
           </div>
           
-          <AuthWindow hidden={this.state.auth} hideFunc={this.closeAuth}/>
+          <AuthWindow 
+            stage={this.state.stage} 
+            hidden={this.state.hidden} 
+            hideFunc={this.closeAuth} 
+            authFunc={this.authFunc} 
+            regFunc={this.regFunc}
+            forPassFunc={this.forPassFunc}
+          />
         </header>
       );
     }

@@ -8,7 +8,29 @@ export type HeaderData = {
 }
 
 export type AuthWindowData = {
+    stage: string
     hidden: boolean
+    authFunc: () => void
+    forPassFunc: () => void
+    regFunc: () => void
+    hideFunc: () => void
+}
+
+export type ForgottenPassData = {
+    hidden: boolean
+    hideFunc: () => void
+}
+
+export type AuthorizationData = {
+    hidden: boolean
+    hideFunc: () => void
+    forPassFunc: () => void
+    regFunc: () => void
+}
+
+export type RegistrationData = {
+    hidden: boolean
+    authFunc: () => void
     hideFunc: () => void
 }
 

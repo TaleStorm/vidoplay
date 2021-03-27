@@ -1,18 +1,37 @@
 import React, { Component } from "react";
 
-import { AuthWindowData } from '../interfaces'
+import { AuthorizationData } from '../interfaces'
 
-type AuthWindowProps = AuthWindowData
+type AuthorizationProps = AuthorizationData
 
-export default class AuthWindow extends Component<AuthWindowProps, {hidden:boolean}>  {
-  constructor(props: AuthWindowProps) {
+export default class Authorization extends Component<AuthorizationProps, {passwordField:string}>  {
+  constructor(props: AuthorizationProps) {
     super(props);
+    this.showPass = this.showPass.bind(this);
+    this.hidePass = this.hidePass.bind(this);
+    this.state = {
+      passwordField: "password"
+    }
   }
+
+  public showPass = (e) => {
+    e.preventDefault();
+    this.setState({
+      passwordField: "text"
+    })
+  };
+
+  public hidePass = (e) => {
+    e.preventDefault();
+    this.setState({
+      passwordField: "password"
+    })
+  };
 
   componentDidMount() {
   }
 
-  public render(): React.ReactElement<AuthWindowProps> {
+  public render(): React.ReactElement<AuthorizationProps> {
     return (
       <div className={this.props.hidden ? "" : "hidden"}>
         <div className="fixed inset-0 z-40 bg-shadow opacity-10" id="shadow">
@@ -39,11 +58,11 @@ export default class AuthWindow extends Component<AuthWindowProps, {hidden:boole
               
               <label htmlFor="password" className="block text-black -py-2">Пароль</label>
               <div className="text-sm relative -mt-2 mb-2">
-                <input type="password" id="password" className="border border-popupBorder rounded-lg px-6 py-3 mt-5 focus:outline-none bg-popupBackground w-full" placeholder="Введите пароль" />
-                <button className="bottom-1/2 block w-7 h-7 text-center text-xl leading-0 absolute top-1/2 pb-8 right-2 text-gray-400 focus:outline-none hover:text-gray-900 transition-colors">
+                <input type={this.state.passwordField} id="password" className="border border-popupBorder rounded-lg px-6 py-3 mt-5 focus:outline-none bg-popupBackground w-full" placeholder="Введите пароль" />
+                <button className="bottom-1/2 block w-7 h-7 text-center text-xl leading-0 absolute top-1/2 pb-8 right-2 text-gray-400 focus:outline-none hover:text-gray-900 transition-colors" onClick={this.state.passwordField == "text" ? this.hidePass : this.showPass }>
                   <svg width="30" height="20" viewBox="0 0 30 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M15 1.56165C5.625 1.56165 1.875 10.0001 1.875 10.0001C1.875 10.0001 5.625 18.4366 15 18.4366C24.375 18.4366 28.125 10.0001 28.125 10.0001C28.125 10.0001 24.375 1.56165 15 1.56165Z" stroke="#646464" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M15 14.6876C17.5888 14.6876 19.6875 12.589 19.6875 10.0001C19.6875 7.41129 17.5888 5.31262 15 5.31262C12.4112 5.31262 10.3125 7.41129 10.3125 10.0001C10.3125 12.589 12.4112 14.6876 15 14.6876Z" stroke="#646464" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M15 1.56165C5.625 1.56165 1.875 10.0001 1.875 10.0001C1.875 10.0001 5.625 18.4366 15 18.4366C24.375 18.4366 28.125 10.0001 28.125 10.0001C28.125 10.0001 24.375 1.56165 15 1.56165Z" stroke={this.state.passwordField == "text" ? "#F8634A" : "#646464" } strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M15 14.6876C17.5888 14.6876 19.6875 12.589 19.6875 10.0001C19.6875 7.41129 17.5888 5.31262 15 5.31262C12.4112 5.31262 10.3125 7.41129 10.3125 10.0001C10.3125 12.589 12.4112 14.6876 15 14.6876Z" stroke={this.state.passwordField == "text" ? "#F8634A" : "#646464" } strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </button>
               </div>
@@ -69,7 +88,7 @@ export default class AuthWindow extends Component<AuthWindowProps, {hidden:boole
 
             <h3 className="text-mainText mt-5 text-center font-roboto text-base">
               <span>Впервые на Chill? </span>
-              <a className="text-orange hover:text-orange underline text-base" href="#">Зарегестрируйтесь!</a>
+              <a className="text-orange hover:text-orange underline text-base" onClick={this.props.regFunc}>Зарегестрируйтесь!</a>
             </h3>
             
             <div className="text-sm block mb-5 col-span-1 flex flex-row justify-center space-x-3 mt-5">
@@ -102,7 +121,7 @@ export default class AuthWindow extends Component<AuthWindowProps, {hidden:boole
             </div> 
 
             <h3 className="text-mainText mt-5 text-center font-roboto text-base">
-              <a className="text-orange hover:text-orange underline" href="#">Я не помню пароль</a>
+              <a className="text-orange hover:text-orange underline" onClick={this.props.forPassFunc}>Я не помню пароль</a>
             </h3>
 
           </div>
