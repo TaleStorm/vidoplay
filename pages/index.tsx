@@ -3,6 +3,9 @@ import Footer from '../components/footer'
 import Slider from '../components/slider'
 import Comments from '../components/comments'
 import FilmCategory from '../components/filmCategory'
+import apiReq from "../services/api-requests"
+
+const ApiReq = new apiReq()
 
 let cards = [
     {
@@ -591,5 +594,12 @@ const IndexPage = () => (
         <Footer />
     </div>
 )
+
+export const getServerSideProps = async (ctx) => {
+    let movies = await ApiReq.getMovies()
+    console.log(movies)
+
+    return({props: {}})
+}
 
 export default IndexPage
