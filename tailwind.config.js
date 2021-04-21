@@ -3,11 +3,11 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     colors: {
-      background: "#242424",
+      background: "#15141F",
       shadow: "#E5E5E5",
-      popupBackground: "#303030",
+      popupBackground: "#1C1B26",
       popupBorder: "#646464",
-      cardBackground: "#2C2C2C",
+      cardBackground: "#232230",
       filmInfoBackground: "rgba(28, 27, 38, 0.5)",
 
       orange:"#F8634A",

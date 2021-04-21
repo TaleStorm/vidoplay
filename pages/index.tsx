@@ -565,23 +565,29 @@ let comments = [
 const IndexPage = () => (
     <div className="bg-background text-mainText">
         <Header />
+        <div className="container mx-auto ">
+            <div className="max-w-screen-xl w-full mx-auto grid grid-cols-5 grid-rows-1 gap-7">
 
-        <div className="mx-auto max-w-7xl">
-            <div className="grid grid-cols-5 grid-rows-1 gap-7">
-                <div className="col-span-4 space-y-16">
-                    <Slider cards={cards}/>
+                        <div className="lg:col-span-4 md:col-span-5 space-y-16">
+                            <Slider cards={cards}/>
 
-                    {filmCategories.map((filmsCategory, i) => {    
-                        return <FilmCategory key={i} name={filmsCategory.name} cards={filmsCategory.filmCards} cardToShow={filmsCategory.cardToShow}/>
-                    })}
-                </div>
+                            {filmCategories.map((filmsCategory, i) => {    
+                                return <FilmCategory 
+                                    key={i} 
+                                    name={filmsCategory.name} 
+                                    cards={filmsCategory.filmCards} 
+                                    cardToShow={filmsCategory.cardToShow}
+                                    sliderIndex={i}
+                                />
+                            })}
+                        </div>
 
-                <div className="col-span-1">
-                    <Comments comments={comments}/>
-                </div>
+                        <div className="lg:col-span-1 lg:block md:hidden">
+                            <Comments comments={comments}/>
+                        </div>
+
             </div>
         </div>
-
         <Footer />
     </div>
 )

@@ -25,7 +25,7 @@ const FilmCategory = (data: FilmCategoryProps) => (
             </nav>
         </div>
 
-        <FilmCategorySlider cards={data.cards} cardToShow={data.cardToShow}/>
+        <FilmCategorySlider cards={data.cards} cardToShow={data.cardToShow} sliderIndex={data.sliderIndex}/>
 
 
 

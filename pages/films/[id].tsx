@@ -298,7 +298,7 @@ const IndexPage = () => (
             
             <div className="mt-8">
                 {filmCategories.map((filmsCategory, i) => {    
-                    return <FilmCategory key={i} name={filmsCategory.name} cards={filmsCategory.filmCards} cardToShow={filmsCategory.cardToShow}/>
+                    return <FilmCategory key={i} sliderIndex={i} name={filmsCategory.name} cards={filmsCategory.filmCards} cardToShow={filmsCategory.cardToShow}/>
                 })}
             </div>
         </div>

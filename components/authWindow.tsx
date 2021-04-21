@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import Authorization from '../components/authorization'
 import Registration from '../components/registration'
 import ForgottenPass from '../components/forgottenPass'
@@ -7,37 +7,28 @@ import { AuthWindowData } from '../interfaces'
 
 type AuthWindowProps = AuthWindowData
 
-export default class AuthWindow extends Component<AuthWindowProps>  {
-  constructor(props: AuthWindowProps) {
-    super(props);
-  }
+export default function AuthWindow(data:AuthWindowProps) {
 
-  componentDidMount() {
-
-  }
-
-  public render(): React.ReactElement<AuthWindowProps> {
-    if (this.props.stage == "auth") {
+      if (data.stage == "auth") {
       return (
         <Authorization 
-          hidden={this.props.hidden} 
-          hideFunc={this.props.hideFunc} 
-          forPassFunc={this.props.forPassFunc}
-          regFunc={this.props.regFunc}
+          hidden={data.hidden} 
+          hideFunc={data.hideFunc} 
+          forPassFunc={data.forPassFunc}
+          regFunc={data.regFunc}
         />
       );
-    } else if (this.props.stage == "reg") {
+    } else if (data.stage == "reg") {
       return (
         <Registration 
-          hidden={this.props.hidden} 
-          hideFunc={this.props.hideFunc}
-          authFunc={this.props.authFunc}
+          hidden={data.hidden} 
+          hideFunc={data.hideFunc}
+          authFunc={data.authFunc}
         />
       );
-    } else if (this.props.stage == "passChange") {
+    } else if (data.stage == "passChange") {
       return (
-        <ForgottenPass hidden={this.props.hidden} hideFunc={this.props.hideFunc}/>
+        <ForgottenPass hidden={data.hidden} hideFunc={data.hideFunc}/>
       );
     }
   }
-}

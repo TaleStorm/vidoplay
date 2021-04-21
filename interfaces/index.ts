@@ -4,12 +4,9 @@
 //
 // import { User } from 'path/to/interfaces';
 
-export type HeaderData = {
-}
-
 export type AuthWindowData = {
     stage: string
-    hidden: boolean
+    hidden: string
     authFunc: () => void
     forPassFunc: () => void
     regFunc: () => void
@@ -17,19 +14,19 @@ export type AuthWindowData = {
 }
 
 export type ForgottenPassData = {
-    hidden: boolean
+    hidden: string
     hideFunc: () => void
 }
 
 export type AuthorizationData = {
-    hidden: boolean
+    hidden: string
     hideFunc: () => void
     forPassFunc: () => void
     regFunc: () => void
 }
 
 export type RegistrationData = {
-    hidden: boolean
+    hidden: string
     authFunc: () => void
     hideFunc: () => void
 }
@@ -63,6 +60,7 @@ export type FilmCategoryData = {
         rating: number
     }[]
     cardToShow: number
+    sliderIndex: number
 }
 
 export type SeriesData = {
@@ -77,6 +75,11 @@ export type SeriesSliderData = {
         videoLength: string
         image: string
     }[]
+    index: number
+    sliderInfo: {
+        space: number,
+        sliders: number
+    }
 }
 
 export type SeriesSliderCardData = {
@@ -127,7 +130,7 @@ export type FilmCategorySliderData = {
         rating: number
     }[]
     cardToShow: number
-    
+    sliderIndex: number
 }
 
 export type CommentsData = {

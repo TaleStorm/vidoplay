@@ -1,77 +1,43 @@
-import React, { Component, useRef } from "react";
+import React from "react";
 import FilmCategorySliderCard from '../components/filmCategorySliderCard'
-// import Carousel from '../components/carousel'
-import { Carousel } from 'antd';
-import { CarouselRef } from "antd/lib/carousel";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore, { Navigation } from 'swiper';
 
+SwiperCore.use([ Navigation]);
 
 import { FilmCategorySliderData } from '../interfaces'
 
 type FilmCategorySliderProps = FilmCategorySliderData
 
-export default class FilmCategorySlider extends Component<FilmCategorySliderProps>  {
-  private carousel: React.MutableRefObject<typeof Carousel | null>;
-  // private carouselRefs: typeof useRef<CarouselRef>();
-
-  constructor(props: FilmCategorySliderProps) {
-    super(props);
-    this.carousel  = React.createRef<typeof Carousel | null>();
-    
-    this.next = this.next.bind(this);
-  }
-
-  public next = () => {
-    console.log(this.carousel)
-
-    const node = this.carousel.current
-    if (node) {
-      node.next();
-    }
-    
-  };
-
-  componentDidMount() {
-    // console.log(this.carousel)
-  }
-
-
-  public render(): React.ReactElement<FilmCategorySliderProps> {
-
-    const settings = {
-      autoplay: false,
-      dots: false,
-      infinite: true,
-      rows: 1,
-      slidesPerRow: 1,
-      slidesToShow: this.props.cardToShow,
-      speed: 500,
-      arrows: false,
-      slidesToScroll: 1,
-    };
+export default function FilmCategorySlider(data: FilmCategorySliderProps) {
     return (
       <div className="relative">
-        <Carousel ref={node => (this.carousel.current = node)} {...settings}>
-        {/* <Carousel {...settings}> */}
-            
-
-              {this.props.cards.map((card, i) => {
-                  return <div key={i} className="mr-5">
-                      <FilmCategorySliderCard 
-                        name={card.name} 
-                        image={card.image}
-                        imageSize={this.props.cardToShow == 2 ? "72" : "52"}
-                        description={card.description}
-                        languages={card.languages}
-                        tags={card.tags}
-                        comments={card.comments}
-                        rating={card.rating}
-                      />
-                    </div>
+        <Swiper
+                spaceBetween={20}
+                slidesPerView={data.cardToShow}
+                allowTouchMove= {true}
+                className="rounded-lg"
+                navigation={{
+                  nextEl: '#next' + data.sliderIndex,
+                }}
+                loop
+              >
+                {data.cards.map((card, i) => {    
+                  return <SwiperSlide key={i} className="">
+                    <FilmCategorySliderCard 
+                      name={card.name} 
+                      image={card.image}
+                      imageSize={data.cardToShow == 2 ? "72" : "52"}
+                      description={card.description}
+                      languages={card.languages}
+                      tags={card.tags}
+                      comments={card.comments}
+                      rating={card.rating}
+                    />
+                  </SwiperSlide>
                 })}
-      
-                
-        </Carousel>
-        <div  className="-mr-8 absolute inset-y-0 right-0 h-full flex flex-wrap content-center inline-block" onClick={this.next}>
+            </Swiper>
+        <div  className="-mr-8 absolute inset-y-0 right-0 h-full flex flex-wrap content-center inline-block" id={`next${data.sliderIndex}`}>
           <svg width="20" height="38" viewBox="0 0 20 38" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1.5625 2.125L18.4375 19L1.5625 35.875" stroke="white" strokeMiterlimit="3" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
@@ -79,4 +45,3 @@ export default class FilmCategorySlider extends Component<FilmCategorySliderProp
       </div>
     );
   }
-}
