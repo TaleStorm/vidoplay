@@ -18,6 +18,9 @@ module.exports = {
       doramaTag: "#36A4C9",
       dramaTag: "#A036C9",
       loveTag: "#6B4DC1",
+
+      playerMain: "#232230",
+      playerSecond: "#F8634A"
         
     },
     fontFamily: {

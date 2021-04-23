@@ -50,3 +50,13 @@ input[type=checkbox] + label:before {
 input[type=checkbox]:checked + label:before {
   color: #F8634A;
 }
+
+.playerButtons:hover > .svgStroke {
+  stroke: #F8634A;
+  stroke-opacity: 1;
+}
+
+.playerButtons:hover > .svgFill {
+  fill: #F8634A;
+  fill-opacity: 1;
+}
