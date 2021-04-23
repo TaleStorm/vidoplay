@@ -284,7 +284,7 @@ export default function Player() {
                     <div>
                       <Menu.Button className={`inline-flex justify-center w-full rounded-md shadow-sm px-4 py-2 bg-playerMain text-sm font-roboto ${serieState == "open" ? "text-playerSecond" : "text-mainText" }`} >
                         <div onClick={() => changeSerieState()} className="inline-flex">
-                          Серия {currentSerie+1}
+                          {currentSerie+1} Серия 
                           <ChevronDownIcon aria-hidden="true" className={`-mr-1 ml-2 h-5 w-5 ${serieState == "open" ? "hidden" : "" }`}/>
                           <ChevronUpIcon aria-hidden="true" className={`-mr-1 ml-2 h-5 w-5 ${serieState == "open" ? "" : "hidden" }`}/>
                         </div>
@@ -309,7 +309,7 @@ export default function Player() {
                                       )}
                                       onClick = {() => changeSerie(i)}
                                     >
-                                      Серия {i+1}
+                                      {i+1} Серия 
                                     </button>
                                 )}
                               </Menu.Item>
