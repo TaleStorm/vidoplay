@@ -3,6 +3,16 @@
 // example, to import the interface below do:
 //
 // import { User } from 'path/to/interfaces';
+export type ProgressBarData = {
+    currentTimePercent: string
+    bufferTimePercent: string
+    getMousePos: (e) => void
+    setPlay: () => void
+    setCurrentDuration: (e) => void
+    isPlaying: boolean
+    durationTime: number
+    currentTime: number
+}
 
 export type AuthWindowData = {
     stage: string
