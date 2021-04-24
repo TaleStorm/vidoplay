@@ -18,13 +18,12 @@ export default function FilmCategorySlider(data: FilmCategorySliderProps) {
       <div className="relative">
         <Swiper
                 spaceBetween={20}
-                slidesPerView={swiperWidth < minWidth ? 1 : data.cardToShow}
+                slidesPerView={swiperWidth < minWidth ? 1.2 : data.cardToShow}
                 allowTouchMove= {true}
-                className="rounded-lg"
+                className="sm:rounded-lg"
                 navigation={{
                   nextEl: '#next' + data.sliderIndex,
                 }}
-                loop
                 onInit={(swiper)=>{
                   setSwiperWidth(swiper.width)
                 }}
@@ -47,7 +46,7 @@ export default function FilmCategorySlider(data: FilmCategorySliderProps) {
                   </SwiperSlide>
                 })}
             </Swiper>
-        <div  className="-mr-2.5 z-10 sm:-mr-8 absolute inset-y-0 right-0 h-full flex flex-wrap content-center inline-block" id={`next${data.sliderIndex}`}>
+        <div  className="hidden -mr-2.5 z-10 sm:-mr-8 absolute inset-y-0 right-0 h-full sm:flex flex-wrap content-center inline-block" id={`next${data.sliderIndex}`}>
           <svg width="20" height="38" viewBox="0 0 20 38" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1.5625 2.125L18.4375 19L1.5625 35.875" stroke="white" strokeMiterlimit="3" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>

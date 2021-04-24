@@ -87,25 +87,20 @@ const Video = () => (
                 objectFit="cover"
             />
         </div>
-        <div className="text-sm block mt-4 col-span-1 sm:hidden flex flex-wrap flex-row  items-center">
+        <div className="text-sm block sm:hidden mt-4 col-span-1 flex flex-wrap flex-row  items-center">
             <a href="/#" className="mt-2 self-center mr-3" >
                 <h4 className="font-roboto text-mainText text-base inline self-center">
                     Поделиться
                     </h4>
             </a>
-            <div className="mt-2 text-sm block col-span-1 flex flex-row space-x-3 items-center">
+            <div className="mt-2 text-sm col-span-1 flex flex-row space-x-2 items-center">
                 <a href="/#" className="self-center">
                     {/* TG logo */}
-                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" className="inline self-center">
-                        <path d="M15 30C23.2843 30 30 23.2843 30 15C30 6.71575 23.2843 0 15 0C6.71575 0 0 6.71575 0 15C0 23.2843 6.71575 30 15 30Z" fill="url(#paint0_linear)" />
-                        <path d="M5.58651 15.7337C7.34 14.7679 9.29738 13.9617 11.1263 13.1515C14.2726 11.8244 17.4315 10.5202 20.6222 9.30611C21.2431 9.09923 22.3585 8.89692 22.4679 9.81692C22.408 11.1192 22.1616 12.4138 21.9926 13.7084C21.5637 16.5554 21.0679 19.3927 20.5845 22.2303C20.4179 23.1755 19.2339 23.6648 18.4762 23.0599C16.6555 21.83 14.8207 20.6122 13.0233 19.3538C12.4344 18.7555 12.9804 17.8963 13.5063 17.469C15.0059 15.9912 16.5963 14.7355 18.0176 13.1813C18.4009 12.2555 17.2682 13.0357 16.8946 13.2748C14.8416 14.6895 12.8388 16.1907 10.6743 17.434C9.56869 18.0427 8.28006 17.5225 7.17494 17.1829C6.18405 16.7727 4.73204 16.3594 5.58641 15.7338L5.58651 15.7337Z" fill="white" />
-                        <defs>
-                            <linearGradient id="paint0_linear" x1="11.2517" y1="1.251" x2="3.75175" y2="18.75" gradientUnits="userSpaceOnUse">
-                                <stop stopColor="#37AEE2" />
-                                <stop offset="1" stopColor="#1E96C8" />
-                            </linearGradient>
-                        </defs>
-                    </svg>
+                    <img
+                        src={`/images/Telegram.svg`}
+                        alt=""
+                        style={{minHeight:28,minWidth:28}}
+                    />
                 </a>
 
                 <a href="/#" className="self-center">
@@ -157,7 +152,7 @@ const Video = () => (
 
         </div>
 
-        <h4 className="mt-6 font-roboto text-mainText font-normal text-3xl sm:hidden block sm:mb-5 col-span-1">
+        <h4 className="mt-6 font-roboto text-mainText font-normal text-xl sm:hidden block sm:mb-5 col-span-1">
             В яблочко! Парни - лучники
         </h4>
 

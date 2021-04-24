@@ -16,12 +16,11 @@ const Slider = (data: SliderProps) => (
                 spaceBetween={0}
                 slidesPerView={1}
                 allowTouchMove= {true}
-                className="rounded-lg"
+                className="rounded-lg h-40 sm:h-auto"
                 navigation={{
                   nextEl: '#nextMainSlide',
                   prevEl: '#prevMainSlide',
                 }}
-                loop
               >
                 {data.cards.map((card, i) => {    
                   const sliderCardProps = {
