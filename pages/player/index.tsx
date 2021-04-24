@@ -96,11 +96,12 @@ export default function Player() {
   const[seasonState, setSeasonState] = useState("closed");
   const[currentActing, setActing] = useState(0);
   const[actingState, setActingState] = useState("closed");
-
   const[interval, setIntervalVideo] = useState(undefined);
   const[durationTime, setVideoDuration] = useState(0);
   const[currentTime, setVideoCurrent] = useState(0);
   const[currentTimePercent, setVideoPercentCurrent] = useState("0");
+  const[isFullScreen, setFullScreen] = useState(false);
+
 
   const[globalGplayerAPI, setPlayer] = useState(undefined);
 
@@ -225,9 +226,17 @@ export default function Player() {
     globalGplayerAPI.method({ name: "seekPercentage", params: percent.toFixed(1) })
   }
 
-  var fullScreen = () => {
-    console.log(1)
-    globalGplayerAPI.method({ name: "toggleFullscreen"})
+  var fullScreen = async () => {
+    if (isFullScreen) {
+      await document.exitFullscreen()
+      // globalGplayerAPI.method({ name: "resize", params: {width: (window as any).innerWidth, height: (window as any).innerHeight} })
+      setFullScreen(true)
+    } else {
+      await document.getElementById("playerWrapper").requestFullscreen()
+      // globalGplayerAPI.method({ name: "resize", params: {width: (window as any).innerWidth, height: (window as any).innerHeight} })
+      setFullScreen(false)
+    }
+    
   }
 
   var testFunc = async () => {
@@ -243,7 +252,7 @@ export default function Player() {
       <Head>
         <script src="https://vplatform.gcdn.co/_players/v2.0.71/gplayerAPI.js"></script>
       </Head>
-      <div className="relative inline-block">
+      <div className="relative inline-block" id="playerWrapper">
         <iframe
           width="960"
           height="540"
