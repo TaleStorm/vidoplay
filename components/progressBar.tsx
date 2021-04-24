@@ -52,7 +52,7 @@ export default function ProgressBar(data:ProgressBarProps) {
             {/* <div className="absolute bg-white top-0 opacity-30 w-34/100 h-full z-40">
             
             </div> */}
-            <div className={`absolute bg-playerSecond top-0 w-${data.currentTimePercent}/100 h-full z-40`}>
+            <div className={`absolute bg-playerSecond top-0 h-full z-40`} style={{width:String(data.currentTimePercent)+"%"}}>
             
             </div>
             <span className="absolute inset-y-0 right-4 z-50 text-mainText text-sm pointer-events-none" >
@@ -60,13 +60,13 @@ export default function ProgressBar(data:ProgressBarProps) {
             </span>     
         </div>
     
-        <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={() => data.fullScreen()} className="playerButtons">
+        {/* <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={() => data.fullScreen()} className="playerButtons">
             <rect className="wrapper" width="42" height="42" rx="8" fill="white" fillOpacity="0.2"/>
             <path d="M25 12H30V17" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
             <path d="M17 30H12V25" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
             <path d="M30 25V30H25" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
             <path d="M12 17V12H17" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
+        </svg> */}
 
     </div>
     )
