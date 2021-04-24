@@ -4,11 +4,11 @@ type FilmDescriptionProps = FilmDescriptionData
 
 const FilmDescription = (data: FilmDescriptionProps) => (
 
-  <div className="py-10">
-    <h4 className="font-roboto text-mainText font-normal text-3xl block mb-5">
+  <div className="mx-6 sm:mx-0 sm:py-10">
+    <h4 className="hidden font-roboto text-mainText font-normal text-3xl sm:block mb-5">
       {data.name}
     </h4>
-    <div className="grid grid-cols-2 grid-rows-1 gap-4 mb-6">
+    <div className="sm:grid grid-cols-2 grid-rows-1 gap-4 mb-6">
                 <div className="col-span-1">
                     <h6 className="font-roboto text-mainText opacity-70 font-normal text-sm block mb-5">
                         {data.description}

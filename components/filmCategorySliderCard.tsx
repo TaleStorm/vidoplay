@@ -6,7 +6,7 @@ import { FilmCategorySliderCardData } from '../interfaces'
 type FilmCategorySliderCardProps = FilmCategorySliderCardData
 
 const FilmCategorySliderCard = (data: FilmCategorySliderCardProps) => (
-  	<div className="bg-cardBackground w-full relative">
+  	<div className="bg-cardBackground relative">
 		<a href="/films/testdorama">
 			<div className={`h-${data.imageSize} bg-cover relative bg-center`}> 
 				<Image
@@ -51,8 +51,9 @@ const FilmCategorySliderCard = (data: FilmCategorySliderCardProps) => (
 				return <Tag key={i} name={tag.name} color={tag.color}/>
 			})}
 		</div>
-		<div  className="absolute bottom-0 right-0 h-12 mx-auto w-auto flex flex-wrap content-center mr-4">
-			<h1 className="text-xs font-roboto font-medium text-mainText inline ml-2">
+		<div  className="bg-filmReviewBackground justify-center items-center sm:absolute bottom-0 right-0 h-12 mx-auto w-auto flex flex-wrap content-center sm:bg-filmInfoBackground sm:mr-4">
+			<h1 className="text-md block font-roboto font-medium text-mainText inline ml-2 sm:text-xs sm:hidden">Отзывы</h1>
+			<h1 className="text-md  font-roboto font-medium text-mainText inline ml-2 sm:text-xs">
 				{data.comments}
 			</h1>
 			<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" className="inline ml-2"> 
