@@ -8,6 +8,7 @@ export type ProgressBarData = {
     bufferTimePercent: string
     getMousePos: (e) => void
     setPlay: () => void
+    fullScreen: () => void
     setCurrentDuration: (e) => void
     isPlaying: boolean
     durationTime: number
