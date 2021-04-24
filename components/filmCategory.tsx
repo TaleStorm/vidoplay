@@ -13,8 +13,8 @@ const FilmCategory = (data: FilmCategoryProps) => {
                 {data.name} 
             </h2>
 
-            <nav className="hidden sm:flex justify-end inline  ">
-                <a href="#" className="text-sm text-base hover:text-gray-900 ml-5">
+            <nav className="hidden sm:flex justify-end md:inline  ">
+                <a href="#" className="text-base hover:text-gray-900 ml-5">
                     <h4 className="font-roboto text-orange font-normal text-base inline">
                         Посмотреть все
                     </h4>
@@ -28,8 +28,8 @@ const FilmCategory = (data: FilmCategoryProps) => {
 
         <FilmCategorySlider cards={data.cards} cardToShow={data.cardToShow} sliderIndex={data.sliderIndex}/>
        
-        <nav className="flex justify-start pt-3 inline sm:hidden">
-                <a href="#" className="text-sm text-base hover:text-gray-900">
+        <nav className="flex justify-start pt-3 sm:hidden">
+                <a href="#" className="text-base hover:text-gray-900">
                     <h4 className="font-roboto text-orange font-normal text-base inline mr-1.5">
                         Посмотреть все
                     </h4>

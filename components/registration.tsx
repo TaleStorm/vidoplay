@@ -28,7 +28,7 @@ export default function Registration(data: RegistrationProps) {
               </svg>
             </a>
 
-            <h5 className="font-medium mt-3 text-center text-lg sm:text-3xl font-roboto text-mainText font-medium">
+            <h5 className="mt-3 text-center text-lg sm:text-3xl font-roboto text-mainText font-medium">
               Регистрация
             </h5>
           </div>

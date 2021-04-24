@@ -46,7 +46,7 @@ export default function FilmCategorySlider(data: FilmCategorySliderProps) {
                   </SwiperSlide>
                 })}
             </Swiper>
-        <div  className="hidden -mr-2.5 z-10 sm:-mr-8 absolute inset-y-0 right-0 h-full sm:flex flex-wrap content-center inline-block" id={`next${data.sliderIndex}`}>
+        <div  className="hidden -mr-2.5 z-10 sm:-mr-8 absolute inset-y-0 right-0 h-full sm:flex flex-wrap content-center" id={`next${data.sliderIndex}`}>
           <svg width="20" height="38" viewBox="0 0 20 38" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1.5625 2.125L18.4375 19L1.5625 35.875" stroke="white" strokeMiterlimit="3" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>

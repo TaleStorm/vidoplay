@@ -53,7 +53,7 @@ const FilmComments = (data: FilmCommentsProps) => (
 						<h6 className="font-roboto text-mainText text-sm inline self-end opacity-70">
 							09.10.2020
 							</h6>
-						<div className="text-sm block col-span-1 flex flex-row justify-end space-x-7 content-end mt-8">
+						<div className="text-sm col-span-1 flex flex-row justify-end space-x-7 content-end mt-8">
 
 							<a href="/#" className="self-center space-x-2">
 								<h6 className="font-roboto text-mainText text-base inline self-center">
@@ -77,7 +77,7 @@ const FilmComments = (data: FilmCommentsProps) => (
 						</div>
 					</div>
 					<div className="sm:hidden col-span-2 grid gap-x-0.5 grid-cols-2 ">
-						<div className="text-sm block col-span-1 flex flex-row py-2 justify-center space-x-7 content-end bg-filmReviewBackground">
+						<div className="text-sm col-span-1 flex flex-row py-2 justify-center space-x-7 content-end bg-filmReviewBackground">
 							<a href="/#" className="self-center space-x-2">
 								<h6 className="font-roboto text-mainText text-base inline self-center">
 									123
@@ -88,7 +88,7 @@ const FilmComments = (data: FilmCommentsProps) => (
 								</svg>
 							</a>
 						</div>
-						<div className="text-sm block col-span-1 flex flex-row py-2 justify-center space-x-7 content-end bg-filmReviewBackground">
+						<div className="text-sm col-span-1 flex flex-row py-2 justify-center space-x-7 content-end bg-filmReviewBackground">
 							<a href="/#" className="self-center space-x-2">
 								<h6 className="font-roboto text-mainText text-base inline self-center">
 									1
@@ -109,7 +109,7 @@ const FilmComments = (data: FilmCommentsProps) => (
 				</button>
 		</div>
 		<nav className="flex justify-center pt-3 sm:hidden">
-			<a href="#" className="text-sm text-base hover:text-gray-900">
+			<a href="#" className="text-base hover:text-gray-900">
 				<h4 className="font-roboto text-orange font-normal text-base inline">
 					Показать ещё  	
         </h4>

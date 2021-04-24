@@ -28,7 +28,7 @@ export default function Authorization(data: AuthorizationProps) {
               </svg>
             </a>
 
-            <h5 className="font-medium mt-3 text-center text-lg sm:text-3xl font-roboto text-mainText font-medium">
+            <h5 className="mt-3 text-center text-lg sm:text-3xl font-roboto text-mainText font-medium">
               Авторизация
             </h5>
 
@@ -77,7 +77,7 @@ export default function Authorization(data: AuthorizationProps) {
             <a className="text-orange hover:text-orange underline text-base" onClick={data.regFunc}>Зарегестрируйтесь!</a>
           </h3>
 
-          <div className="text-sm block mb-5 col-span-1 flex flex-row justify-center space-x-3 mt-5">
+          <div className="text-sm mb-5 col-span-1 flex flex-row justify-center space-x-3 mt-5">
             <a href="#" className="self-center">
               {/* GGL logo */}
               <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">

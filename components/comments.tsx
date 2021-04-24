@@ -9,7 +9,7 @@ const Comments = (data: CommentsProps) => (
             </h4>
 		  {data.comments.map((comment, i) => {    
             return <div className="" key={i}>
-				<a href="#" className="text-xs text-base hover:text-gray-900 ml-7 block mt-5">
+				<a href="#" className="text-base hover:text-gray-900 ml-7 block mt-5">
 					<svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg" className="inline">
 						<rect width="19" height="19" fill="#B82424"/>
 						<path d="M9.5 11.625C11.8472 11.625 13.75 9.72221 13.75 7.375C13.75 5.02779 11.8472 3.125 9.5 3.125C7.15279 3.125 5.25 5.02779 5.25 7.375C5.25 9.72221 7.15279 11.625 9.5 11.625Z" stroke="#E87E7E" strokeWidth="2" strokeMiterlimit="10"/>

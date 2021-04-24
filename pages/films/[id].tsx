@@ -288,8 +288,8 @@ const IndexPage = () => (
     <Header />
 
     <div className=" mx-auto max-w-7xl">
-      <nav className="hidden sm:flex justify-start inline">
-        <a href="/" className="text-sm text-base hover:text-gray-900">
+      <nav className="hidden sm:flex justify-start md:inline">
+        <a href="/" className="text-base">
           <svg
             width="17"
             height="17"

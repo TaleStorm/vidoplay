@@ -29,7 +29,7 @@ const FilmCategorySliderCard = (data: FilmCategorySliderCardProps) => (
 
 				<div  className="absolute bottom-0 left-0 h-8 sm:h-12 mx-auto w-auto flex flex-row justify-start flex-wrap space-x-2">
 					{data.languages.map((language, i) => {    
-						return <div key={i} className="h-8 sm:h-12 w-8 sm:w-12 flex flex-wrap content-center bg-filmInfoBackground justify-center inline">
+						return <div key={i} className="h-8 sm:h-12 w-8 sm:w-12 flex flex-wrap content-center bg-filmInfoBackground justify-center">
 							<h1 className="text-md sm:text-lg font-roboto font-medium text-mainText">
 								{language.toUpperCase()}
 							</h1>
@@ -51,8 +51,8 @@ const FilmCategorySliderCard = (data: FilmCategorySliderCardProps) => (
 				return <Tag key={i} name={tag.name} color={tag.color}/>
 			})}
 		</div>
-		<div  className="bg-filmReviewBackground justify-center items-center sm:absolute bottom-0 right-0 h-8 mx-auto w-auto flex flex-wrap content-center sm:bg-filmInfoBackground sm:mr-4">
-			<h1 className="text-md block font-roboto font-medium text-mainText inline ml-2 pl-2 sm:text-xs ">Отзывы</h1>
+		<div  className="bg-filmReviewBackground justify-center items-center sm:absolute bottom-0 right-0 h-8 mx-auto w-auto flex flex-wrap content-center sm:bg-filmInfoBackground sm:mr-4 sm:mb-4">
+			<h1 className="text-md font-roboto font-medium inline text-mainText ml-2 pl-2 sm:text-xs ">Отзывы</h1>
 			<h1 className="text-md  font-roboto font-medium text-mainText inline ml-2 sm:text-xs">
 				{data.comments}
 			</h1>

@@ -18,7 +18,7 @@ export default function Series(data: SeriesProps) {
         <div className="mx-6 sm:mx-0 sm:py-10">
             <ul className="list-reset flex sm:px-3 mb-3">
                 {data.series.map((serie, i) => {
-                    return <li key={i} className={i == slider ? "flex active items-center p-2 mr-2 mb-2 border-b-2 border-orange inline w-16" : "flex items-center p-2 mr-2 mb-2 border-orange inline w-16"}>
+                    return <li key={i} className={i == slider ? "flex active items-center p-2 mr-2 mb-2 border-b-2 border-orange md:inline w-16" : "flex items-center p-2 mr-2 mb-2 border-orange md:inline w-16"}>
                         <a className=" tabLinks text-sm hover:text-orange" data-select={i + 1} id={"tabLink" + String(i + 1)} onClick={() => changeSlider(i)}>
                             {i + 1} сезон
                             </a>

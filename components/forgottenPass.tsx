@@ -18,7 +18,7 @@ export default function Registration(data:ForgottenPassProps) {
               </svg>
             </a>
             
-            <h1 className="font-medium mt-3 text-center text-lg sm:text-3xl font-roboto text-mainText font-medium">
+            <h1 className="mt-3 text-center text-lg sm:text-3xl font-roboto text-mainText font-medium">
               Восстановление пароля
             </h1>
             </div>

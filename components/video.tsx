@@ -8,7 +8,7 @@ const Video = () => (
             <h4 className="hidden font-roboto text-mainText font-normal text-3xl sm:block mb-5 col-span-1">
                 В яблочко! Парни - лучники
             </h4>
-            <div className="hidden text-sm block mb-5 col-span-1 sm:flex flex-row justify-end space-x-3">
+            <div className="hidden text-sm mb-5 col-span-1 sm:flex flex-row justify-end space-x-3">
                 <a href="/#" className="self-center" >
                     <h4 className="font-roboto text-mainText text-base inline self-center">
                         Поделиться
@@ -87,7 +87,7 @@ const Video = () => (
                 objectFit="cover"
             />
         </div>
-        <div className="text-sm block sm:hidden mt-4 col-span-1 flex flex-wrap flex-row  items-center">
+        <div className="text-sm sm:hidden mt-4 col-span-1 flex flex-wrap flex-row  items-center">
             <a href="/#" className="mt-2 self-center mr-3" >
                 <h4 className="font-roboto text-mainText text-base inline self-center">
                     Поделиться
@@ -165,8 +165,8 @@ const Video = () => (
                     Смотреть трейлер
                 </button>
             </div>
-            <div className="text-sm block col-span-1 flex flex-row justify-end content-between space-x-7 mt-8 pb-2">
-                <div className="text-sm block col-span-1 flex justify-end space-x-3 flex-wrap content-between mt-8">
+            <div className="text-sm col-span-1 flex flex-row justify-end content-between space-x-7 mt-8 pb-2">
+                <div className="text-sm col-span-1 flex justify-end space-x-3 flex-wrap content-between mt-8">
 
                     <h4 className="font-roboto text-mainText text-base inline self-center">
                         Оцените сериал
@@ -202,7 +202,7 @@ const Video = () => (
                         </svg>
                     </a>
                 </div>
-                <div className="text-sm block col-span-1 flex flex-row justify-end space-x-7 content-end mt-8">
+                <div className="text-sm col-span-1 flex flex-row justify-end space-x-7 content-end mt-8">
 
                     <a href="/#" className="self-center space-x-2">
                         <h6 className="font-roboto text-mainText text-base inline self-center">

@@ -43,7 +43,7 @@ export default function SeriesSlider(data: SeriesSliderProps) {
           </SwiperSlide>
         })}
       </Swiper>
-      <div className="-mr-3.5 z-10 sm:-mr-8 absolute inset-y-0 right-0 h-full hidden sm:flex flex-wrap content-center inline-block" id={"nextSeries" + data.index}>
+      <div className="-mr-3.5 z-10 sm:-mr-8 absolute inset-y-0 right-0 h-full hidden sm:flex flex-wrap content-center " id={"nextSeries" + data.index}>
         <svg width="20" height="38" viewBox="0 0 20 38" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M1.5625 2.125L18.4375 19L1.5625 35.875" stroke="white" strokeMiterlimit="3" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
