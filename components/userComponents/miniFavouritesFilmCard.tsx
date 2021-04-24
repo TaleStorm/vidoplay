@@ -35,7 +35,7 @@ const MiniFavouritesFilmCard  = (data:FilmCategorySliderCardData) => {
             </div>
         </a>
         <div className="my-4">
-            <p className="text-xl font-roboto font-medium text-mainText mx-4 mb-4">
+            <p className="text-mainText mx-4 mb-4 text-h1-mobile font-medium">
                 {data.name}
             </p>
         </div>

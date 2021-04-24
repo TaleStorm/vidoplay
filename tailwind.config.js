@@ -8,6 +8,7 @@ module.exports = {
 
       background: "#15141F",
       "sub-gray": "#313043",
+      "user-button-gray": "#4F4E59",
       shadow: "#E5E5E5",
       popupBackground: "#1C1B26",
       popupBorder: "#646464",
@@ -37,7 +38,8 @@ module.exports = {
        }),
        spacing: {
          "72": "18rem",
-         "25": "6.25rem"
+         "25": "6.25rem",
+         "30": "7.5rem"
        },
        fontSize: {
          "ui-text": ["14px", {
@@ -47,6 +49,14 @@ module.exports = {
            lineHeight: "32px",
            letterSpacing: "-0.02em"
          }],
+         "h1-mobile": ["20px", {
+           lineHeight: "24px",
+           letterSpacing: "-0.02em"
+         }],
+         "h2-mobile": ["16px", {
+          lineHeight: "20px",
+          letterSpacing: "-0.02em"
+         }]
 
        }
     },
