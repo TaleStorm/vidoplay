@@ -52,11 +52,16 @@ input[type=checkbox]:checked + label:before {
 }
 
 .playerButtons:hover > .svgStroke {
-  stroke: #F8634A;
+  stroke: white;
   stroke-opacity: 1;
 }
 
 .playerButtons:hover > .svgFill {
+  fill: white;
+  fill-opacity: 1;
+}
+
+.playerButtons:hover > .wrapper {
   fill: #F8634A;
   fill-opacity: 1;
 }

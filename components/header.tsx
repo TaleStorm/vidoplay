@@ -1,5 +1,5 @@
 import AuthWindow from '../components/authWindow'
-import React, {useState } from "react";
+import React, {useState} from "react";
 
 export default function Header() {
   const[auth, changeAuth] = useState("hidden")
