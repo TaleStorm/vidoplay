@@ -47,6 +47,10 @@ input[type=checkbox] + label:before {
   text-align: center;
 }
 
+button:focus {
+  outline: none;
+}
+
 input[type=checkbox]:checked + label:before {
   color: #F8634A;
 }

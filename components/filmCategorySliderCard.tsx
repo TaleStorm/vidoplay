@@ -29,7 +29,7 @@ const FilmCategorySliderCard = (data: FilmCategorySliderCardProps) => (
 
 				<div  className="absolute bottom-0 left-0 h-12 mx-auto w-auto flex flex-row justify-start flex-wrap space-x-2">
 					{data.languages.map((language, i) => {    
-						return <div key={i} className="h-12 w-12 flex flex-wrap content-center bg-filmInfoBackground flex justify-center inline">
+						return <div key={i} className="h-12 w-12 flex flex-wrap content-center bg-filmInfoBackground justify-center">
 							<h1 className="text-lg font-roboto font-medium text-mainText">
 								{language.toUpperCase()}
 							</h1>
