@@ -7,7 +7,7 @@ type SeriesSliderCardProps = SeriesSliderCardData
 const SeriesSliderCard = (data: SeriesSliderCardProps) => (
   	<div className="bg-cardBackground w-full relative">
 		<a href="/films/testdorama">
-			<div className={`h-32 bg-cover bg-center relative`}> 
+			<div className={`h-24 sm:h-32 bg-cover bg-center relative`}> 
 				<Image
 					src={`/images/dorama.png`}
 					alt="Picture of the film"

@@ -1,5 +1,5 @@
 module.exports = {
-  purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
+  purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   darkMode: false, // or 'media' or 'class'
   theme: {
     colors: {
@@ -9,6 +9,7 @@ module.exports = {
       popupBorder: "#646464",
       cardBackground: "#232230",
       filmInfoBackground: "rgba(28, 27, 38, 0.5)",
+      filmReviewBackground: "#313043",
 
       orange:"#F8634A",
       white: "#fff",
@@ -25,13 +26,13 @@ module.exports = {
         
     },
     fontFamily: {
-      roboto: ['Roboto'],
+      roboto: ["Roboto"],
     },
     extend: {
-      backgroundImage: theme => ({
-        'slider': "url('/images/slider.png')",
-        'dorama': "url('/images/dorama.png')",
-       }),
+      backgroundImage: (theme) => ({
+        slider: "url('/images/slider.png')",
+        dorama: "url('/images/dorama.png')",
+      }),
     },
   },
   variants: {

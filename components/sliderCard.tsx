@@ -25,7 +25,7 @@ class SliderCard extends Component<SliderCardProps,SliderCardState> {
 					objectFit="cover"
 					className="rounded-lg z-40"
 				/>
-				<h3 className="font-medium text-3xl text-greySlider m-10 z-50 relative">{this.props.name}</h3>
+				<h3 className="font-medium text-sm sm:text-3xl text-greySlider m-10 z-50 relative">{this.props.name}</h3>
 			</div>
 		)
 	}

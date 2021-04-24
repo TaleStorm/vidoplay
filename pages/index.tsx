@@ -569,9 +569,9 @@ const IndexPage = () => (
     <div className="bg-background text-mainText">
         <Header />
         <div className="container mx-auto ">
-            <div className="max-w-screen-xl w-full mx-auto grid grid-cols-5 grid-rows-1 gap-7">
+            <div className="max-w-screen-xl w-full mx-auto px-6 sm:grid grid-cols-5 grid-rows-1 gap-7">
 
-                        <div className="lg:col-span-4 md:col-span-5 space-y-16">
+                        <div className="lg:col-span-4 md:col-span-5 space-y-12 sm:space-y-16">
                             <Slider cards={cards}/>
 
                             {filmCategories.map((filmsCategory, i) => {    
@@ -585,7 +585,7 @@ const IndexPage = () => (
                             })}
                         </div>
 
-                        <div className="lg:col-span-1 lg:block md:hidden">
+                        <div className="hidden lg:col-span-1 lg:block">
                             <Comments comments={comments}/>
                         </div>
 
