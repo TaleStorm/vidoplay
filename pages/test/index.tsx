@@ -225,6 +225,11 @@ export default function Player() {
     globalGplayerAPI.method({ name: "seekPercentage", params: percent.toFixed(1) })
   }
 
+  var fullScreen = () => {
+    console.log(1)
+    globalGplayerAPI.method({ name: "toggleFullscreen"})
+  }
+
   var testFunc = async () => {
 
   }
@@ -269,6 +274,7 @@ export default function Player() {
             isPlaying={realPanelState == "hidden"}
             durationTime = {durationTime}
             currentTime = {currentTime}
+            fullScreen = {fullScreen}
           />
         </div>
 
@@ -441,6 +447,7 @@ export default function Player() {
             isPlaying={realPanelState == "hidden"}
             durationTime = {durationTime}
             currentTime = {currentTime}
+            fullScreen = {fullScreen}
           />
         </div>
       </div>
