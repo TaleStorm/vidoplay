@@ -115,6 +115,8 @@ export default function Player() {
     gplayerAPI.on('play', () => {
       gplayerAPI.method({name: 'getCurrentTime', params: {}, callback: (res) => {
         if (res < 0.1) {
+          clearInterval(interval)
+          setVideoPercentCurrent("0");
           removeFakeButton();
           gplayerAPI.method({name: 'getDuration', params: {}, callback: (res) => {
             setVideoDuration(res)
@@ -163,6 +165,7 @@ export default function Player() {
   };
 
   var changeVideo = async (direction) => {
+    clearInterval(interval);
     if (direction == "prev") {
       setSerie(currentSerie-1);
     } else {
