@@ -228,6 +228,7 @@ export default function Player() {
   }
 
   var fullScreen = async () => {
+    setFullScreen(true);
     // if (isFullScreen) {
     //   globalGplayerAPI.method({ name: "resize", params: {width: 960, height: 540} })
     //   document.exitFullscreen()
@@ -255,7 +256,8 @@ export default function Player() {
       <Head>
         <script src="https://vplatform.gcdn.co/_players/v2.0.71/gplayerAPI.js"></script>
       </Head>
-      <FullScreen className="relative inline-block" isEnter={isFullScreen}>
+      <FullScreen className="relative inline-block" isEnter={isFullScreen} > 
+      {/* onChange={setIsEnter} */}
         <iframe
           width="960"
           height="540"
