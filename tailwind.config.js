@@ -2,8 +2,13 @@ module.exports = {
   purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   darkMode: false, // or 'media' or 'class'
   theme: {
-    colors: {
+    colors: {      
+      black: "#000000",
+      white: "#FFFFFF",
+
       background: "#15141F",
+      "sub-gray": "#313043",
+      "user-button-gray": "#4F4E59",
       shadow: "#E5E5E5",
       popupBackground: "#1C1B26",
       popupBorder: "#646464",
@@ -30,9 +35,32 @@ module.exports = {
     },
     extend: {
       backgroundImage: (theme) => ({
-        slider: "url('/images/slider.png')",
-        dorama: "url('/images/dorama.png')",
-      }),
+        'slider': "url('/images/slider.png')",
+        'dorama': "url('/images/dorama.png')",
+       }),
+       spacing: {
+         "72": "18rem",
+         "25": "6.25rem",
+         "30": "7.5rem"
+       },
+       fontSize: {
+         "ui-text": ["14px", {
+           lineHeight: "16px"
+         }],
+         "lk-header": ["28px", {
+           lineHeight: "32px",
+           letterSpacing: "-0.02em"
+         }],
+         "h1-mobile": ["20px", {
+           lineHeight: "24px",
+           letterSpacing: "-0.02em"
+         }],
+         "h2-mobile": ["16px", {
+          lineHeight: "20px",
+          letterSpacing: "-0.02em"
+         }]
+
+       }
     },
   },
   variants: {
