@@ -6,11 +6,14 @@ import Link from 'next/link'
 import { ChevronLeftIcon } from "@heroicons/react/solid"
 import comments from "../../data/comments"
 import Comments from "../../components/comments"
+import apiReq from "../../services/api-requests"
+
+const urlPrefix  = process.env.API_DOMAIN
+
+const ApiReq = new apiReq()
 
 
 const IndexPage = () => {
-
-
     return (
         <div className="bg-background text-mainText">
             <Header />
@@ -31,9 +34,9 @@ const IndexPage = () => {
                             Дорамы и другие азиатские сериалы
                     </h2>
                     <div className={`grid gap-x-8 gap-y-6 grid-cols-3`}>
-                    {doramas.map((dorama, i) => (
-                            <FilmCategorySliderCard key={`${dorama.name}${i}`} {...dorama} imageSize={"52"} />
-                        ))}
+                    {/* {doramas.map((dorama, i) => (
+                            <FilmCategorySliderCard key={i} {...dorama} imageSize={"52"} />
+                        ))} */}
                     </div>
 
                     </div>

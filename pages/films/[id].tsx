@@ -6,6 +6,11 @@ import Video from "../../components/video"
 import Series from "../../components/series"
 import Screenshots from "../../components/screenshots"
 import FilmCategory from "../../components/filmCategory"
+import apiReq from "../../services/api-requests"
+
+const urlPrefix  = process.env.API_DOMAIN
+
+const ApiReq = new apiReq()
 
 let series = [
   [
@@ -362,7 +367,7 @@ const IndexPage = () => (
 
       <FilmComments comments={comments} />
 
-      <div className="mt-8 mx-6 sm:mx-0">
+      {/* <div className="mt-8 mx-6 sm:mx-0">
         {filmCategories.map((filmsCategory, i) => {
           return (
             <FilmCategory
@@ -374,12 +379,28 @@ const IndexPage = () => (
             />
           )
         })}
-      </div>
+      </div> */}
     </div>
 
     <Footer />
   </div>
 )
+
+export const getServerSideProps = async (ctx) => {
+  const playlists = await ApiReq.getEntities("playlists")
+  const movies = []
+
+  for (let playlist in playlists) {
+      const playlistMovies = []
+      for (let movie in playlists[playlist].movies) {
+          const movieInfo = await ApiReq.getSingleEntity("movies",playlists[playlist].movies[movie]._id)
+          playlistMovies.push(movieInfo)
+      }
+      movies.push(playlistMovies)
+  }
+  console.log(movies)
+  return({props: { playlists, movies }})
+}
 
 
 export default IndexPage

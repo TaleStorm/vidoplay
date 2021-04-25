@@ -1,11 +1,11 @@
 import FilmCategorySlider from '../components/filmCategorySlider'
+import apiReq from "../services/api-requests"
 
 import { FilmCategoryData } from '../interfaces'
 
 type FilmCategoryProps = FilmCategoryData
 
 const FilmCategory = (data: FilmCategoryProps) => {
-
     return (<div>
         <div className="flex justify-between items-center mb-4 sm:mb-7">
 

@@ -88,9 +88,10 @@ export type SliderData = {
 export type FilmCategoryData = {
     name: string
     cards: {
-        name: string
+        title: string
+        stringName: string
         image: string
-        description: string
+        excerpt: string
         languages: string[],
         tags: {
             name: string
@@ -158,9 +159,10 @@ export type ScreenshotsSliderCardData = {
 
 export type FilmCategorySliderData = {
     cards: {
-        name: string
+        stringName: string
+        title: string
         image: string
-        description: string
+        excerpt: string
         languages: string[],
         tags: {
             name: string
@@ -191,10 +193,11 @@ export type FilmCommentsData = {
 }
 
 export type FilmCategorySliderCardData = {
-    name: string
+    stringName: string
+    title: string
     imageSize: string
     image: string
-    description: string
+    excerpt: string
     languages: string[],
     tags: {
         name: string
