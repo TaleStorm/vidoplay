@@ -8,7 +8,7 @@ type FilmCategorySliderCardProps = FilmCategorySliderCardData
 const FilmCategorySliderCard = (data: FilmCategorySliderCardProps) => (
   	<div className="bg-cardBackground relative">
 		<a href={`/films/${data.stringName}`}>
-			<div className={`h-40 sm:h-${data.imageSize} bg-cover relative bg-center`}>
+			<div className={`h-40 md:h-72 sm:h-${data.imageSize} bg-cover relative bg-center`}>
 				<Image
 					src={data.image}
 					alt="Picture of the film"
