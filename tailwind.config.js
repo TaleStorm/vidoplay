@@ -11,6 +11,7 @@ module.exports = {
       "user-button-gray": "#4F4E59",
       "user-button-gray-2": "#44434C",
       shadow: "#E5E5E5",
+      "checkbox-border": "#8A898F",
       popupBackground: "#1C1B26",
       popupBorder: "#646464",
       cardBackground: "#232230",

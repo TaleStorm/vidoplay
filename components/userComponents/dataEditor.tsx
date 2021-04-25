@@ -1,6 +1,6 @@
 import { MutableRefObject, useEffect, useRef, useState } from "react"
 import ModalOverlay from "../layout/modalOverlay"
-import TextInput from "../textInput"
+import TextInput from "../inputs/textInput"
 
 const DataEditor = ({name, setName, lastName, setLastName, patronymic, setPatronymic}) => {
 
