@@ -192,7 +192,7 @@ export const getServerSideProps = async (ctx) => {
         }
         movies.push(playlistMovies)
     }
-    console.log(movies)
+    // console.log(movies)
     return({props: { playlists, movies }})
 }
 
