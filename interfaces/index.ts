@@ -16,6 +16,28 @@ export type ProgressBarData = {
     setFullScreen: () => void
 }
 
+export type TopPlayerPanelData = {
+    data: {
+        acting: string
+        videoId: string
+    }[][][]
+
+    changeSeasonState: () => void
+    changeSeason: (index: number) => void
+    currentSeason: number
+    seasonState: string
+
+    changeSerieState: () => void
+    changeSerie: (index: number) => void
+    currentSerie: number
+    serieState: string
+
+    changeActingState: () => void
+    changeActing: (index: number) => void
+    currentActing: number
+    actingState: string
+}
+
 export type AuthWindowData = {
     stage: string
     hidden: string

@@ -47,19 +47,21 @@ export default function ProgressBar(data:ProgressBarProps) {
         </div>
 
 
-        <div  className={`relative w-full h-7 cursor-pointer mx-2`} onMouseMove= {(e) => data.getMousePos(e)}  onClick= {(e) => data.setCurrentDuration(e)}>
-            <div className="absolute bg-white top-0 opacity-20 w-full h-full z-30">
+        <div  className={`w-full mx-2`}>
+            <div  className={`relative w-full h-7 cursor-pointer mx-2`} onMouseMove= {(e) => data.getMousePos(e)}  onClick= {(e) => data.setCurrentDuration(e)}>
+                <div className="absolute bg-white top-0 opacity-20 w-full h-full z-30">
 
+                </div>
+                {/* <div className="absolute bg-white top-0 opacity-30 w-34/100 h-full z-40">
+                
+                </div> */}
+                <div className={`absolute bg-playerSecond top-0 h-full z-40`} style={{width:String(data.currentTimePercent)+"%"}}>
+                
+                </div>
+                <span className="absolute inset-y-0 right-4 z-50 text-mainText text-sm pointer-events-none" >
+                    {currentTimeUser} | {durationTimeUser}
+                </span>     
             </div>
-            {/* <div className="absolute bg-white top-0 opacity-30 w-34/100 h-full z-40">
-            
-            </div> */}
-            <div className={`absolute bg-playerSecond top-0 h-full z-40`} style={{width:String(data.currentTimePercent)+"%"}}>
-            
-            </div>
-            <span className="absolute inset-y-0 right-4 z-50 text-mainText text-sm pointer-events-none" >
-                {currentTimeUser} | {durationTimeUser}
-            </span>     
         </div>
 
         <div  className={``}>
@@ -95,6 +97,11 @@ export default function ProgressBar(data:ProgressBarProps) {
             
             </div> */}
         </div>
+        
+      {/* <svg width="120" height="40" viewBox="0 0 132 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="132" height="42" rx="8" fill="red" fill-opacity="0.2"/>
+          <path d="M57.5 42H74.5L66 51L57.5 42Z" fill="red" fill-opacity="0.2"/>
+      </svg> */}
 
     </div>
     )
