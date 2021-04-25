@@ -38,6 +38,9 @@ module.exports = {
         'slider': "url('/images/slider.png')",
         'dorama': "url('/images/dorama.png')",
        }),
+       margin: {
+        '-10.5': '-2.625rem',
+       },
        spacing: {
          "72": "18rem",
          "25": "6.25rem",

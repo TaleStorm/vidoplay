@@ -5,15 +5,19 @@
 // import { User } from 'path/to/interfaces';
 export type ProgressBarData = {
     currentTimePercent: string
+    currentVolume: number
     bufferTimePercent: string
     getMousePos: (e) => void
     setPlay: () => void
     fullScreenFunc: () => void
     setCurrentDuration: (e) => void
+    setCurrentVolume: (e) => void
     isPlaying: boolean
     durationTime: number
     currentTime: number
     setFullScreen: () => void
+    isMuted: boolean
+    changeMute: () => void
 }
 
 export type AuthWindowData = {
