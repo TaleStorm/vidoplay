@@ -96,9 +96,12 @@ export default function Player() {
   const[durationTime, setVideoDuration] = useState(0);
   const[currentTime, setVideoCurrent] = useState(0);
   const[currentTimePercent, setVideoPercentCurrent] = useState("0");
-  const[isFullScreen, setFullScreen] = useState(false);
-
+  const[currentVolume, setVolumeCurrent] = useState(100);
+  const[bufferVolume, setVolumeBuffer] = useState(100);
   const[userWindow, setUserWindow] = useState({width: 0, height: 0});
+  const[isFullScreen, setFullScreen] = useState(false);
+  const[isMuted, setMute] = useState(false);
+  const[currentQuality, setCurrentQuality] = useState("AUTO");
 
   const[globalGplayerAPI, setPlayer] = useState(undefined);
 
@@ -209,9 +212,22 @@ export default function Player() {
 
   var changeSeasonState = async () => {
     if (seasonState == "open") {
-      setSeasonState("closed")
+      setSeasonState("closed");
     } else {
-      setSeasonState("open")
+      setSeasonState("open");
+    };
+  }
+
+  var changeMute = async () => {
+    if (isMuted) {
+      setMute(false);
+      globalGplayerAPI.method({ name: "unmute"});
+      setVolumeCurrent(bufferVolume);
+    } else {
+      setMute(true);
+      globalGplayerAPI.method({ name: "mute"});
+      setVolumeBuffer(currentVolume);
+      setVolumeCurrent(0);
     }
   }
 
@@ -225,6 +241,25 @@ export default function Player() {
     const percent = 100 * (e.screenX - target.x) / e.target.parentElement.offsetWidth
     globalGplayerAPI.method({ name: "seekPercentage", params: percent.toFixed(1) })
   }
+  
+  var changeCurrentVolume = (e) => {
+    setMute(false);
+    const target = e.target.parentElement.getBoundingClientRect();
+    const percent = 100 * (e.screenX - target.x) / e.target.parentElement.offsetWidth
+    globalGplayerAPI.method({ name: "setVolume", params: percent.toFixed(0) })
+    setVolumeCurrent(Number(percent.toFixed(0)))
+  }
+
+  var changeCurrentLevel = (quality) => {    
+    setCurrentQuality(quality);
+    globalGplayerAPI.method({name: 'getPlugin', params: {
+      pluginName: 'level_selector', 
+      pluginMethod: 'setLevel',
+      pluginValue: quality.toLowerCase()
+      }, callback: (e) => {
+      console.log(e) 
+    }})
+  }
 
   var fullScreenFunc = async () => {
     if (isFullScreen) {
@@ -236,23 +271,6 @@ export default function Player() {
     }
   }
   
-  const exitHandler = (gplayerAPI) => {
-    if (isFullScreen) {
-      gplayerAPI.method({ name: "resize", params: {width: 960, height: 540} })
-      setFullScreen(false)
-    } else {
-      gplayerAPI.method({ name: "resize", params: userWindow })
-      setFullScreen(true)
-    }
-
-    // if (typeof window !== 'undefined') {
-    //   if (!(document as any).fullscreenElement && !(document as any).webkitIsFullScreen && !(document as any).mozFullScreen && !(document as any).msFullscreenElement) {
-    //     gplayerAPI.method({ name: "resize", params: {width: 960, height: 540} })
-    //     setFullScreen(false)
-    //   }
-    // }
-  }
-
   const setEventListener = (gplayerAPI, userWindow, isFullScreen) => {
     if (typeof window !== 'undefined') {
       (document as any).addEventListener('fullscreenchange', () => {
@@ -273,7 +291,7 @@ export default function Player() {
 
   useEffect(  () => {
     getPlayer().then(vars => {
-      setEventListener(vars.gplayerAPI,vars.userWindow, false);
+      setEventListener(vars.gplayerAPI, vars.userWindow, false);
     })
   }, [])
 
@@ -336,6 +354,12 @@ export default function Player() {
             currentTime = {currentTime}
             fullScreenFunc = {isFullScreen ? onExit : onRequest}
             setFullScreen = {fullScreenFunc}
+            changeMute={changeMute}
+            isMuted={isMuted}
+            setCurrentVolume={changeCurrentVolume}
+            currentVolume={currentVolume}
+            changeCurrentLevel={changeCurrentLevel}
+            currentQuality={currentQuality}
           />
         </div>
 
@@ -388,6 +412,12 @@ export default function Player() {
             currentTime = {currentTime}
             fullScreenFunc = {onRequest}
             setFullScreen = {isFullScreen ? onExit : onRequest}
+            changeMute={changeMute}
+            isMuted={isMuted}
+            setCurrentVolume={changeCurrentVolume}
+            currentVolume={currentVolume}
+            changeCurrentLevel={changeCurrentLevel}
+            currentQuality={currentQuality}
           />
         </div>
         </div>
