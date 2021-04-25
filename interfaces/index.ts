@@ -7,10 +7,12 @@ export type ProgressBarData = {
     currentTimePercent: string
     currentVolume: number
     bufferTimePercent: string
+    currentQuality: string
     getMousePos: (e) => void
     setPlay: () => void
     fullScreenFunc: () => void
     setCurrentDuration: (e) => void
+    changeCurrentLevel: (quality) => void
     setCurrentVolume: (e) => void
     isPlaying: boolean
     durationTime: number

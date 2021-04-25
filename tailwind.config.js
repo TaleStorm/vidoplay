@@ -38,6 +38,9 @@ module.exports = {
         'slider': "url('/images/slider.png')",
         'dorama': "url('/images/dorama.png')",
        }),
+       height: {
+        "10.5": '2.625rem',
+       },
        margin: {
         '-10.5': '-2.625rem',
        },
