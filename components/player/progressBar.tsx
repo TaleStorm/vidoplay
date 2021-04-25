@@ -1,7 +1,7 @@
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment } from "react";
 
-import { ProgressBarData } from '../interfaces'
+import { ProgressBarData } from '../../interfaces'
 
 type ProgressBarProps = ProgressBarData
 

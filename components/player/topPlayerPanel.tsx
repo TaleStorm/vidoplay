@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon, ChevronUpIcon} from '@heroicons/react/solid';
 
-import { TopPlayerPanelData } from '../interfaces'
+import { TopPlayerPanelData } from '../../interfaces'
 
 type TopPlayerPanelProps = TopPlayerPanelData
 

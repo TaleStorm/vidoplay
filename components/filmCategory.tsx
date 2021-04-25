@@ -1,5 +1,4 @@
 import FilmCategorySlider from '../components/filmCategorySlider'
-import apiReq from "../services/api-requests"
 
 import { FilmCategoryData } from '../interfaces'
 
@@ -14,7 +13,7 @@ const FilmCategory = (data: FilmCategoryProps) => {
             </h2>
 
             <nav className="hidden sm:flex justify-end md:inline  ">
-                <a href="#" className="text-base hover:text-gray-900 ml-5">
+                <a href={`/${data.stringName}`} className="text-base hover:text-gray-900 ml-5">
                     <h4 className="font-roboto text-orange font-normal text-base inline">
                         Посмотреть все
                     </h4>

@@ -25,7 +25,7 @@ const ScreenshotsSlider = (data: ScreenshotsSliderProps) => (
                   return <SwiperSlide key={i} className="">
                     <div key={i} className="mr-5">
                       <ScreenshotsSliderCard 
-                        image={screenshot.image}
+                        image={screenshot}
                       />
                     </div>
                 </SwiperSlide>

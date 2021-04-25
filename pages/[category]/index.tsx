@@ -8,12 +8,9 @@ import comments from "../../data/comments"
 import Comments from "../../components/comments"
 import apiReq from "../../services/api-requests"
 
-const urlPrefix  = process.env.API_DOMAIN
-
 const ApiReq = new apiReq()
 
-
-const IndexPage = () => {
+const IndexPage = ({ playlist, movies }) => {
     return (
         <div className="bg-background text-mainText">
             <Header />
@@ -31,12 +28,32 @@ const IndexPage = () => {
                         </Link>
                     </nav>
                     <h2 className="font-roboto text-mainText mb-8  font-medium text-3xl">
-                            Дорамы и другие азиатские сериалы
+                            {playlist.name}
                     </h2>
                     <div className={`grid gap-x-8 gap-y-6 grid-cols-3`}>
-                    {/* {doramas.map((dorama, i) => (
-                            <FilmCategorySliderCard key={i} {...dorama} imageSize={"52"} />
-                        ))} */}
+                    {movies.map((movie, i) => (
+                            // <FilmCategorySliderCard key={i} {...dorama} imageSize={"52"} />
+                            <FilmCategorySliderCard 
+                                key={i}
+                                title={movie.title} 
+                                image={movie.image}
+                                stringName={movie.stringName}
+                                imageSize={"52"}
+                                excerpt={movie.excerpt}
+                                languages={["EN","RU","KO"]}
+                                tags={[{
+                                        name:"#дорамы",
+                                        color:"#36A4C9"
+                                    },
+                                    {
+                                        name:"#драма",
+                                        color:"#A036C9"
+                                    }
+                                ]}
+                                comments={30}
+                                rating={7.8}
+                            />
+                        ))}
                     </div>
 
                     </div>
@@ -50,6 +67,19 @@ const IndexPage = () => {
             <Footer />
         </div>
     )
+}
+
+export const getServerSideProps = async (ctx) => {
+    const { category } = ctx.query
+
+    const playlist = await ApiReq.getSingleEntity("playlists",category)
+    const movies = []
+
+    for (let movie in playlist.movies) {
+        const movieInfo = await ApiReq.getSingleEntity("movies",playlist.movies[movie]._id)
+        movies.push(movieInfo)
+    }
+    return({props: { playlist, movies }})
 }
 
 export default IndexPage

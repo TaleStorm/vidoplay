@@ -52,8 +52,8 @@ export default function FilmCategorySlider(data: FilmCategorySliderProps) {
                         name:"#пролюбовь",
                         color:"#6B4DC1"
                       }]}
-                      comments={card.comments}
-                      rating={card.rating}
+                      comments={30}
+                      rating={7.8}
                     />
                   </SwiperSlide>
                 })}

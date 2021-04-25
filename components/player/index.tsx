@@ -1,8 +1,12 @@
 import Head from 'next/head';
 import { useEffect, useState } from "react";
 import ReactFullscreen from 'react-easyfullscreen';
-import ProgressBar from '../../components/player/progressBar';
-import TopPlayerPanel from '../../components/player/topPlayerPanel';
+import ProgressBar from './progressBar';
+import TopPlayerPanel from './topPlayerPanel';
+
+import { PlayerData } from '../../interfaces'
+
+type PlayerProps = PlayerData
 
 let series = [
   [
@@ -82,7 +86,7 @@ let series = [
   ]
 ]
 
-export default function Player() {
+export default function Player(data: PlayerProps) {
   const[buttonState, setButton] = useState("visible");
   const[panelState, setPanel] = useState("hidden");
   const[realPanelState, setRealPanel] = useState("hidden");
@@ -297,9 +301,6 @@ export default function Player() {
 
   return (
     <div>
-      <Head>
-        <script src="https://vplatform.gcdn.co/_players/v2.0.71/gplayerAPI.js"></script>
-      </Head>
       <ReactFullscreen>
         {({ ref, onRequest, onExit }) => (
           <div
@@ -307,8 +308,8 @@ export default function Player() {
             className="relative inline-block"
           >
         <iframe
-          width="960"
-          height="540"
+          width={data.width}
+          height={data.height}
           src={`https://chillvision.gcdn.co/videos/${series[currentSeason][currentSerie][currentActing].videoId}?player_id=777`}
           allowFullScreen
           frameBorder="0"

@@ -7,246 +7,9 @@ import Series from "../../components/series"
 import Screenshots from "../../components/screenshots"
 import FilmCategory from "../../components/filmCategory"
 import apiReq from "../../services/api-requests"
-
-const urlPrefix  = process.env.API_DOMAIN
+import Head from 'next/head';
 
 const ApiReq = new apiReq()
-
-let series = [
-  [
-    {
-      videoLength: "10",
-      image: "",
-    },
-    {
-      videoLength: "10",
-      image: "",
-    },
-    {
-      videoLength: "10",
-      image: "",
-    },
-    {
-      videoLength: "10",
-      image: "",
-    },
-    {
-      videoLength: "10",
-      image: "",
-    },
-    {
-      videoLength: "10",
-      image: "",
-    },
-    {
-      videoLength: "10",
-      image: "",
-    },
-  ],
-  [
-    {
-      videoLength: "20",
-      image: "",
-    },
-    {
-      videoLength: "20",
-      image: "",
-    },
-    {
-      videoLength: "20",
-      image: "",
-    },
-    {
-      videoLength: "20",
-      image: "",
-    },
-    {
-      videoLength: "20",
-      image: "",
-    },
-    {
-      videoLength: "20",
-      image: "",
-    },
-    {
-      videoLength: "20",
-      image: "",
-    },
-  ],
-]
-
-let screenshots = [
-  [
-    {
-      image: "",
-    },
-    {
-      image: "",
-    },
-    {
-      image: "",
-    },
-    {
-      image: "",
-    },
-    {
-      image: "",
-    },
-    {
-      image: "",
-    },
-    {
-      image: "",
-    },
-  ],
-]
-
-let filmCategories = [
-  {
-    name: "Похожие фильмы и сериалы",
-    cardToShow: 2,
-    filmCards: [
-      {
-        name: "В яблочко! Парни - лучники",
-        description:
-          "Хон Шин А — яркая и амбициозная девушка. Она рисует, причём очень даже неплохо. На данный момент девушка весь свой талант направляет на создание вебтунов, поэтому становиться членом команды по стрельбе из лука, в которой кстати говоря, одни парни",
-        image: "dorama",
-        languages: ["en", "ko", "ru"],
-        tags: [
-          {
-            name: "#дорамы",
-            color: "#36A4C9",
-          },
-          {
-            name: "#драма",
-            color: "#A036C9",
-          },
-          {
-            name: "#пролюбовь",
-            color: "#6B4DC1",
-          },
-        ],
-        comments: 30,
-        rating: 7.8,
-      },
-      {
-        name: "В яблочко! Парни - лучники",
-        description:
-          "Хон Шин А — яркая и амбициозная девушка. Она рисует, причём очень даже неплохо. На данный момент девушка весь свой талант направляет на создание вебтунов, поэтому становиться членом команды по стрельбе из лука, в которой кстати говоря, одни парни",
-        image: "dorama",
-        languages: ["en", "ko", "ru"],
-        tags: [
-          {
-            name: "#дорамы",
-            color: "#36A4C9",
-          },
-          {
-            name: "#драма",
-            color: "#A036C9",
-          },
-          {
-            name: "#пролюбовь",
-            color: "#6B4DC1",
-          },
-        ],
-        comments: 30,
-        rating: 7.8,
-      },
-      {
-        name: "В яблочко! Парни - лучники",
-        description:
-          "Хон Шин А — яркая и амбициозная девушка. Она рисует, причём очень даже неплохо. На данный момент девушка весь свой талант направляет на создание вебтунов, поэтому становиться членом команды по стрельбе из лука, в которой кстати говоря, одни парни",
-        image: "dorama",
-        languages: ["en", "ko", "ru"],
-        tags: [
-          {
-            name: "#дорамы",
-            color: "#36A4C9",
-          },
-          {
-            name: "#драма",
-            color: "#A036C9",
-          },
-          {
-            name: "#пролюбовь",
-            color: "#6B4DC1",
-          },
-        ],
-        comments: 30,
-        rating: 7.8,
-      },
-      {
-        name: "В яблочко! Парни - лучники",
-        description:
-          "Хон Шин А — яркая и амбициозная девушка. Она рисует, причём очень даже неплохо. На данный момент девушка весь свой талант направляет на создание вебтунов, поэтому становиться членом команды по стрельбе из лука, в которой кстати говоря, одни парни",
-        image: "dorama",
-        languages: ["en", "ko", "ru"],
-        tags: [
-          {
-            name: "#дорамы",
-            color: "#36A4C9",
-          },
-          {
-            name: "#драма",
-            color: "#A036C9",
-          },
-          {
-            name: "#пролюбовь",
-            color: "#6B4DC1",
-          },
-        ],
-        comments: 30,
-        rating: 7.8,
-      },
-      {
-        name: "В яблочко! Парни - лучники",
-        description:
-          "Хон Шин А — яркая и амбициозная девушка. Она рисует, причём очень даже неплохо. На данный момент девушка весь свой талант направляет на создание вебтунов, поэтому становиться членом команды по стрельбе из лука, в которой кстати говоря, одни парни",
-        image: "dorama",
-        languages: ["en", "ko", "ru"],
-        tags: [
-          {
-            name: "#дорамы",
-            color: "#36A4C9",
-          },
-          {
-            name: "#драма",
-            color: "#A036C9",
-          },
-          {
-            name: "#пролюбовь",
-            color: "#6B4DC1",
-          },
-        ],
-        comments: 30,
-        rating: 7.8,
-      },
-      {
-        name: "В яблочко! Парни - лучники",
-        description:
-          "Хон Шин А — яркая и амбициозная девушка. Она рисует, причём очень даже неплохо. На данный момент девушка весь свой талант направляет на создание вебтунов, поэтому становиться членом команды по стрельбе из лука, в которой кстати говоря, одни парни",
-        image: "dorama",
-        languages: ["en", "ko", "ru"],
-        tags: [
-          {
-            name: "#дорамы",
-            color: "#36A4C9",
-          },
-          {
-            name: "#драма",
-            color: "#A036C9",
-          },
-          {
-            name: "#пролюбовь",
-            color: "#6B4DC1",
-          },
-        ],
-        comments: 30,
-        rating: 7.8,
-      },
-    ],
-  },
-]
 
 let comments = [
   {
@@ -275,21 +38,28 @@ let comments = [
   },
 ]
 
-let description = {
-  name: "В яблочко! Парни - лучники",
-  description:
-    "Новый интерактивный мультсериал для малышей. Космический Доктор Кот, его помощник Осьминог Зео и верный друг Собака - Полицейский, который знает приемы кунг-фу, приходят на помощь инопланетным жителям в любой ситуации. Сериал в игровой форме обучает малышей правилам гигиены, безопасности, правильному питанию и хорошим привычкам. В конце каждой серии кулинарная школа или мастер класс 'сделай сам'. Подробнее https://spacedoctorcat.com/ru ",
-  yearPolicity: "0+",
-  country: "Россия",
-  janr: "Для детей",
-  director: "Петр Тарасов",
-  operator: "Михаил Старков, Денис Дубровский",
-  screenwriter: "Наталья Иванова-Достоевская, Полина Ратковская-Орлова, Анна Бондаренко, Ольга Сташкевич",
-  producer: "Антон Калинкин, Наталья Иванова-Достоевская",
-}
+export default function IndexPage({ movie, playlist, movies }) {
+  const series = []
+  for (let season in movie.parts) {
+    const seasonBuffer = []
+    for (let serie in movie.parts[season].series) {
+      seasonBuffer.push(
+        {
+          videoId: movie.parts[season].series[serie].value,
+          acting: "LostFilm",
+          videoLength: "10",
+          image: movie.image,
+        }
+      )
+    }
+    series.push(seasonBuffer)
+  }
 
-const IndexPage = () => (
+  return(
   <div className="bg-background text-mainText">
+    <Head>
+      <script src="https://vplatform.gcdn.co/_players/v2.0.71/gplayerAPI.js"></script>
+    </Head>
     <Header />
 
     <div className=" mx-auto max-w-7xl">
@@ -315,11 +85,21 @@ const IndexPage = () => (
         </a>
       </nav>
 
-      <Video />
+      <Video name={movie.title} series={series} />
 
-      <Series series={series} />
+      <Series series={series}/>
 
-      <FilmDescription {...description} />
+      <FilmDescription
+        name={movie.title}
+        description={movie.excerpt}
+        yearPolicity={movie.age}
+        country={movie.contry}
+        janr={movie.type}
+        director={movie.director}
+        operator={movie.producer}
+        producer={movie.producer}
+        screenwriter={movie.writers}
+      />
 
       <div className="mx-6 sm:hidden">
         <div className="text-sm flex mt-3 space-y-2 flex-wrap">
@@ -362,45 +142,38 @@ const IndexPage = () => (
       </div>
 
       <div className="hidden sm:block">
-        <Screenshots screenshots={screenshots} />
+        <Screenshots name={movie.title} screenshots={[movie.image,movie.image,movie.image,movie.image,movie.image,movie.image,movie.image,movie.image]} />
       </div>
 
       <FilmComments comments={comments} />
 
-      {/* <div className="mt-8 mx-6 sm:mx-0">
-        {filmCategories.map((filmsCategory, i) => {
-          return (
-            <FilmCategory
-              key={i}
-              name={filmsCategory.name}
-              cards={filmsCategory.filmCards}
-              cardToShow={filmsCategory.cardToShow}
-              sliderIndex={i}
+      <div className="mt-8 mx-6 sm:mx-0">
+            <FilmCategory 
+              name={playlist.name} 
+              stringName={playlist.stringName} 
+              cards={movies} 
+              cardToShow={3}
+              sliderIndex={0}
             />
           )
-        })}
-      </div> */}
+      </div>
     </div>
 
     <Footer />
   </div>
-)
+)}
 
 export const getServerSideProps = async (ctx) => {
+  const { id } = ctx.query
   const playlists = await ApiReq.getEntities("playlists")
+  const playlist = playlists[0]
+  console.log(playlist)
+  const movie = await ApiReq.getSingleEntity("movies",id)
+  console.log(movie)
   const movies = []
-
-  for (let playlist in playlists) {
-      const playlistMovies = []
-      for (let movie in playlists[playlist].movies) {
-          const movieInfo = await ApiReq.getSingleEntity("movies",playlists[playlist].movies[movie]._id)
-          playlistMovies.push(movieInfo)
-      }
-      movies.push(playlistMovies)
+  for (let movie in playlist.movies) {
+    const movieInfo = await ApiReq.getSingleEntity("movies",playlist.movies[movie]._id)
+    movies.push(movieInfo)
   }
-  console.log(movies)
-  return({props: { playlists, movies }})
+  return({props: { movie, playlist, movies  }})
 }
-
-
-export default IndexPage

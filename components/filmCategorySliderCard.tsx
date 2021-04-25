@@ -10,7 +10,6 @@ const FilmCategorySliderCard = (data: FilmCategorySliderCardProps) => (
 		<a href={`/films/${data.stringName}`}>
 			<div className={`h-40 sm:h-${data.imageSize} bg-cover relative bg-center`}>
 				<Image
-					// src={`/images/${data.image}.png`}
 					src={data.image}
 					alt="Picture of the film"
 					layout="fill"

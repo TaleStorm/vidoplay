@@ -3,6 +3,17 @@
 // example, to import the interface below do:
 //
 // import { User } from 'path/to/interfaces';
+export type PlayerData = {
+    width: string
+    height: string
+    series: {
+        videoLength: string
+        image: string
+        videoId: string
+        acting: string
+    }[][]
+}
+
 export type ProgressBarData = {
     currentTimePercent: string
     currentVolume: number
@@ -85,8 +96,19 @@ export type SliderData = {
     }[]
 }
 
+export type VideoData = {
+    name: string
+    series: {
+        videoLength: string
+        image: string
+        videoId: string
+        acting: string
+    }[][] 
+}
+
 export type FilmCategoryData = {
     name: string
+    stringName: string
     cards: {
         title: string
         stringName: string
@@ -108,6 +130,8 @@ export type SeriesData = {
     series: {
         videoLength: string
         image: string
+        videoId: string
+        acting: string
     }[][]
 }
 
@@ -115,6 +139,8 @@ export type SeriesSliderData = {
     series: {
         videoLength: string
         image: string
+        videoId: string
+        acting: string
     }[]
     index: number
     sliderInfo: {
@@ -142,15 +168,12 @@ export type FilmDescriptionData = {
 }
 
 export type ScreenshotsData = {
-    screenshots: {
-        image: string
-    }[][]
+    screenshots: string[]
+    name: string
 }
 
 export type ScreenshotsSliderData = {
-    screenshots: {
-        image: string
-    }[]
+    screenshots: string[]
 }
 
 export type ScreenshotsSliderCardData = {

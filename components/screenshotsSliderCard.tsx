@@ -9,7 +9,7 @@ const ScreenshotsSliderCard = (data: ScreenshotsSliderCardProps) => (
 		<a href="/films/testdorama">
 			<div className={`h-32 bg-cover bg-center relative`}> 
 				<Image
-					src={`/images/dorama.png`}
+					src={`${data.image}`}
 					alt="Picture of the film"
 					layout="fill"
 					objectFit="cover"
