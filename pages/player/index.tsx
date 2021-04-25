@@ -3,7 +3,7 @@ import { useEffect, useState, Fragment } from "react";
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon, ChevronUpIcon} from '@heroicons/react/solid';
 import ProgressBar from '../../components/progressBar';
-import FullScreen from "fullscreen-react";
+import Fullscreen from "react-full-screen";
 
 let series = [
   [
