@@ -8,11 +8,12 @@ export type ProgressBarData = {
     bufferTimePercent: string
     getMousePos: (e) => void
     setPlay: () => void
-    fullScreen: () => void
+    fullScreenFunc: () => void
     setCurrentDuration: (e) => void
     isPlaying: boolean
     durationTime: number
     currentTime: number
+    setFullScreen: () => void
 }
 
 export type AuthWindowData = {

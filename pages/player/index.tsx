@@ -3,7 +3,7 @@ import { useEffect, useState, Fragment } from "react";
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon, ChevronUpIcon} from '@heroicons/react/solid';
 import ProgressBar from '../../components/progressBar';
-import Fullscreen from "react-full-screen";
+import ReactFullscreen from 'react-easyfullscreen';
 
 let series = [
   [
@@ -103,6 +103,7 @@ export default function Player() {
   const[currentTimePercent, setVideoPercentCurrent] = useState("0");
   const[isFullScreen, setFullScreen] = useState(false);
 
+  const[userWindow, setUserWindow] = useState({width: 0, height: 0});
 
   const[globalGplayerAPI, setPlayer] = useState(undefined);
 
@@ -124,9 +125,12 @@ export default function Player() {
             setVideoDuration(res)
             setIntervalVideo(setInterval(() => tick(res,gplayerAPI), 500));
           }})
+          setUserWindow({width: (window as any).innerWidth, height: (window as any).innerHeight})
         }
       }});
     })
+
+    return {gplayerAPI:gplayerAPI,userWindow:{width: (window as any).innerWidth, height: (window as any).innerHeight}}
   }
 
   var tick = (duration,gplayerAPI) => {
@@ -227,28 +231,61 @@ export default function Player() {
     globalGplayerAPI.method({ name: "seekPercentage", params: percent.toFixed(1) })
   }
 
-  var fullScreen = async () => {
-    setFullScreen(true);
-    // if (isFullScreen) {
-    //   globalGplayerAPI.method({ name: "resize", params: {width: 960, height: 540} })
-    //   document.exitFullscreen()
-    //   setFullScreen(false)
-    // } else {
-    //   globalGplayerAPI.method({ name: "resize", params: {width: 1536, height: 722} })
-    //   await document.getElementById("playerWrapper").requestFullscreen()
-    //   console.log((window as any).innerWidth, (window as any).innerHeight)
-    //   // globalGplayerAPI.method({ name: "resize", params: {width: (window as any).innerWidth, height: (window as any).innerHeight} })
-    //   setFullScreen(true)
-    // }
+  var fullScreenFunc = async () => {
+    if (isFullScreen) {
+      globalGplayerAPI.method({ name: "resize", params: {width: 960, height: 540} })
+      setFullScreen(false)
+    } else {
+      globalGplayerAPI.method({ name: "resize", params: userWindow })
+      setFullScreen(true)
+    }
+  }
+  
+  const exitHandler = (gplayerAPI) => {
+    if (isFullScreen) {
+      gplayerAPI.method({ name: "resize", params: {width: 960, height: 540} })
+      setFullScreen(false)
+    } else {
+      gplayerAPI.method({ name: "resize", params: userWindow })
+      setFullScreen(true)
+    }
+
     
+
+    // if (typeof window !== 'undefined') {
+    //   if (!(document as any).fullscreenElement && !(document as any).webkitIsFullScreen && !(document as any).mozFullScreen && !(document as any).msFullscreenElement) {
+    //     gplayerAPI.method({ name: "resize", params: {width: 960, height: 540} })
+    //     setFullScreen(false)
+    //   }
+    // }
   }
 
-  var testFunc = async () => {
-    setFullScreen(true)
+  const setEventListener = (gplayerAPI, userWindow, isFullScreen) => {
+    if (typeof window !== 'undefined') {
+      (document as any).addEventListener('fullscreenchange', () => {
+        if (isFullScreen) {
+          gplayerAPI.method({ name: "resize", params: {width: 960, height: 540} });
+          setFullScreen(false);
+          (document as any).removeEventListener('fullscreenchange', () => setEventListener(gplayerAPI, userWindow, false));
+          setEventListener(gplayerAPI, userWindow, false);
+        } else {
+          gplayerAPI.method({ name: "resize", params: userWindow });
+          setFullScreen(true);
+          (document as any).removeEventListener('fullscreenchange', () => setEventListener(gplayerAPI, userWindow, true));
+          setEventListener(gplayerAPI, userWindow, true);
+        }
+      });
+    }
   }
 
-  useEffect( () => {
-    getPlayer();
+  const testFunc = async (test) => {
+    console.log(test)
+  }
+
+  useEffect(  () => {
+    getPlayer().then(vars => {
+      setEventListener(vars.gplayerAPI,vars.userWindow, false);
+    })
   }, [])
 
   return (
@@ -256,8 +293,12 @@ export default function Player() {
       <Head>
         <script src="https://vplatform.gcdn.co/_players/v2.0.71/gplayerAPI.js"></script>
       </Head>
-      <FullScreen className="relative inline-block" isEnter={isFullScreen} > 
-      {/* onChange={setIsEnter} */}
+      <ReactFullscreen>
+        {({ ref, onRequest, onExit }) => (
+          <div
+            ref={ref}
+            className="relative inline-block"
+          >
         <iframe
           width="960"
           height="540"
@@ -287,7 +328,8 @@ export default function Player() {
             isPlaying={realPanelState == "hidden"}
             durationTime = {durationTime}
             currentTime = {currentTime}
-            fullScreen = {fullScreen}
+            fullScreenFunc = {isFullScreen ? onExit : onRequest}
+            setFullScreen = {fullScreenFunc}
           />
         </div>
 
@@ -459,10 +501,13 @@ export default function Player() {
             isPlaying={realPanelState == "hidden"}
             durationTime = {durationTime}
             currentTime = {currentTime}
-            fullScreen = {fullScreen}
+            fullScreenFunc = {onRequest}
+            setFullScreen = {isFullScreen ? onExit : onRequest}
           />
         </div>
-      </FullScreen>
+        </div>
+        )}
+      </ReactFullscreen>
       {/* <button onClick = {handle.enter}>
         test
       </button> */}

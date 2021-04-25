@@ -26,9 +26,11 @@ function convertTime(time) {
 export default function ProgressBar(data:ProgressBarProps) {
     const currentTimeUser = convertTime(data.currentTime)
     const durationTimeUser = convertTime(data.durationTime)
-    // const currentTimeUser = Math.floor(data.currentTime)
-    // const durationTimeUser = Math.floor(data.durationTime)
-    // var finalTime = str_pad_left(minutes,'0',2)+':'+str_pad_left(seconds,'0',2);
+
+    var setFullScreen = async () => {
+        data.fullScreenFunc()
+        data.setFullScreen()
+    }
 
     return(
     <div  className={`absolute bottom-4 inset-x-0 mx-4 w-auto flex items-end `}>
@@ -79,7 +81,7 @@ export default function ProgressBar(data:ProgressBarProps) {
         </div>
 
         <div  className={``}>
-            <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={() => data.fullScreen()} className="playerButtons">
+            <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={() => setFullScreen()} className="playerButtons">
                 <rect className="wrapper" width="42" height="42" rx="8" fill="white" fillOpacity="0.2"/>
                 <path d="M25 12H30V17" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
                 <path d="M17 30H12V25" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
