@@ -1,13 +1,45 @@
-import { MutableRefObject, useRef, useState } from "react"
+import { MutableRefObject, useEffect, useRef, useState } from "react"
+import ModalOverlay from "../layout/modalOverlay"
 import TextInput from "../textInput"
 
 const DataEditor = ({name, setName, lastName, setLastName, patronymic, setPatronymic}) => {
 
     const [stage, setStage] = useState(0)
     const sliderBody = useRef() as MutableRefObject<HTMLDivElement>
+    const [modalOpen, setModalOpen] = useState(false)
+
+    useEffect(() => {
+        const resizeListener = () => {
+            sliderBody.current.style.transform=`translate3d(${-stage * sliderBody.current.getBoundingClientRect().width}px, 0px, 0px)`
+        }
+        sliderBody.current.style.transform=`translate3d(${-stage * sliderBody.current.getBoundingClientRect().width}px, 0px, 0px)`
+        window.addEventListener("resize", resizeListener)
+        return () => {window.removeEventListener("resize", resizeListener)}
+    },[modalOpen])
 
     return (
         <div className={`w-full`}>
+        <ModalOverlay modalOpen={modalOpen} setModalOpen={setModalOpen} classes={`px-4`}>
+            <div className={`w-full h-auto bg-popupBackground mt-30 flex flex-col items-center sm:px-8 px-4 pt-4 pb-8 max-w-md mx-auto`}>
+                <div className={`text-h2-mobile mb-5`}> Вы точно хотите сменить пароль?</div>
+                        <button 
+                        onClick={() => {
+                            setModalOpen(!modalOpen);
+                            
+                        }}
+                        className="mb-3 text-center text-h2-mobile text-white bg-orange p-3 duration-300 rounded-lg hover:bg-orange w-full">
+                        Сменить пароль
+                        </button>
+                        <button 
+                        onClick={() => {
+                            setModalOpen(!modalOpen);
+                            
+                        }}
+                        className="text-center text-h2-mobile text-white  p-3 duration-300 rounded-lg bg-user-button-gray-2 w-full">
+                        Отмена
+                        </button>
+            </div>
+        </ModalOverlay>
         <div className={`w-full hidden sm:block`}>
             <div className={`mb-12`}>
                 <h3 className={`text-lk-header mb-5`}>
@@ -29,7 +61,12 @@ const DataEditor = ({name, setName, lastName, setLastName, patronymic, setPatron
                         <div />
                         <TextInput label={`Новый пароль`} name={`name`} state={name} setState={setName} type={`password`} />
                         <TextInput label={`Повторите новый пароль`} name={`name`} state={name} setState={setName} type={`password`} />
-                        <button className="text-center text-h2-mobile text-white bg-orange p-3 duration-300 rounded-lg hover:bg-orange w-full ">
+                        <button 
+                        onClick={() => {
+                            setModalOpen(!modalOpen);
+                            
+                        }}
+                        className="text-center text-h2-mobile text-white bg-orange p-3 duration-300 rounded-lg hover:bg-orange w-full ">
                         Сменить пароль
                         </button>
                     </div>
@@ -83,7 +120,9 @@ const DataEditor = ({name, setName, lastName, setLastName, patronymic, setPatron
                     <TextInput label={`Текущий пароль`} name={`name`} state={name} setState={setName} type={`password`} />
                     <TextInput label={`Новый пароль`} name={`name`} state={name} setState={setName} type={`password`} />
                     <TextInput label={`Повторите новый пароль`} name={`name`} state={name} setState={setName} type={`password`} />
-                    <button className="mt-1 text-h2-mobile text-center text-white bg-orange p-3 duration-300 rounded-lg hover:bg-orange w-full ">
+                    <button onClick={() => {
+                        setModalOpen(!modalOpen);
+                    }} className="mt-1 text-h2-mobile text-center text-white bg-orange p-3 duration-300 rounded-lg hover:bg-orange w-full ">
                         Сменить пароль
                     </button>
                 </div>
