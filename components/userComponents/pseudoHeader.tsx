@@ -2,7 +2,7 @@ import { ChevronLeftIcon } from "@heroicons/react/solid"
 
 const PseudoHeader = ({display, setDisplay}) => {
     return (
-        <div className={`h-30 w-full z-50 fixed sm:hidden bg-background top-0 left-0 pt-8 py-4 px-5`}>
+        <div className={`h-30 w-full z-30 fixed sm:hidden bg-background top-0 left-0 pt-8 py-4 px-5`}>
             <div className={`flex h-full items-center w-full justify-between relative `}>
             <img src="/icons/left-chevron.svg" className={`w-6 h-6 cursor-pointer z-10 relative ${!display && "hidden"}`} onClick={() => {setDisplay("")}} alt=""/>
             <a href="/" className={`${display && "hidden"}`}>
