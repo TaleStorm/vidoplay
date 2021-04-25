@@ -7,16 +7,15 @@ type FilmCategorySliderCardProps = FilmCategorySliderCardData
 
 const FilmCategorySliderCard = (data: FilmCategorySliderCardProps) => (
   	<div className="bg-cardBackground relative">
-		<a href="/films/testdorama">
-			<div className={`h-40 sm:h-${data.imageSize} bg-cover relative bg-center`}> 
+		<a href={`/films/${data.stringName}`}>
+			<div className={`h-40 sm:h-${data.imageSize} bg-cover relative bg-center`}>
 				<Image
-					src={`/images/${data.image}.png`}
+					// src={`/images/${data.image}.png`}
+					src={data.image}
 					alt="Picture of the film"
 					layout="fill"
 					objectFit="cover"
 				/>
-
-				
 
 				<div  className="absolute top-0 right-0 h-8 sm:h-12 mx-auto w-20 flex flex-wrap content-center bg-filmInfoBackground">
 					<svg width="24" height="22" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg" className="inline ml-2">
@@ -38,12 +37,12 @@ const FilmCategorySliderCard = (data: FilmCategorySliderCardProps) => (
 				</div>
 			</div>
 		</a>
-		<div className="my-2 sm:my-6">
+		<div className="my-2 sm:my-6 md:h-48">
 			<p className="text-md sm:text-xl font-roboto font-medium text-mainText mx-2 sm:mx-4 mb-1 sm:mb-4">
-				{data.name}
+				{data.title}
 			</p>
 			<p className="text-xs sm:text-sm font-roboto text-mainText mx-2 sm:mx-4 opacity-70 sm:mb-6">
-				{data.description}
+				{data.excerpt ? (data.excerpt.length > 450 ? data.excerpt.substr(0, 447) + "..." : data.excerpt) : data.excerpt}
 			</p>
 		</div>
 		<div className="flex flex-row mb-1 mt-3 sm:mb-auto sm:py-3 justify-start flex-wrap mx-2 sm:mx-4">
@@ -51,7 +50,7 @@ const FilmCategorySliderCard = (data: FilmCategorySliderCardProps) => (
 				return <Tag key={i} name={tag.name} color={tag.color}/>
 			})}
 		</div>
-		<div  className="bg-filmReviewBackground justify-center items-center sm:absolute bottom-0 right-0 h-8 mx-auto w-auto flex flex-wrap content-center sm:bg-filmInfoBackground sm:mr-4 sm:mb-4">
+		<div  className="bg-filmReviewBackground justify-center items-center sm:absolute bottom-0 right-0 h-8 mx-auto w-auto flex flex-wrap content-center sm:bg-filmInfoBackground sm:mr-4 sm:mb-4 pr-3">
 			<h1 className="text-md font-roboto font-medium inline text-mainText ml-2 pl-2 sm:text-xs ">Отзывы</h1>
 			<h1 className="text-md  font-roboto font-medium text-mainText inline ml-2 sm:text-xs">
 				{data.comments}

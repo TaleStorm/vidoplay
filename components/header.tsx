@@ -61,14 +61,14 @@ export default function Header() {
                 </svg>
                 :
                 <div className="flex justify-center sm:hidden">
-                  <a href="#">
+                  <a href="/">
                     <span className="sr-only">Logo</span>
                     <img className="h-20 w-auto" src="/images/logo.png" alt="" />
                   </a>
                 </div>
               }
               <div className="hidden sm:flex justify-center ">
-                <a href="#">
+                <a href="/">
                   <span className="sr-only">Logo</span>
                   <img className="h-20 w-auto" src="/images/logo.png" alt="" />
                 </a>

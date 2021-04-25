@@ -26,6 +26,13 @@ const nextConfig = {
   publicRuntimeConfig: {
     urlPrefix: urlPrefix,
   },
+  images: {
+    domains: [
+      'avatars.mds.yandex.net',
+      'kinopoisk-ru.clstorage.net',
+      'www.film.ru',
+    ],
+  },
 }
 
 const config = nextConfig

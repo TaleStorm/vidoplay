@@ -1,9 +1,12 @@
+import { useEffect } from "react";
 import Header from '../components/header'
 import Footer from '../components/footer'
 import Slider from '../components/slider'
 import Comments from '../components/comments'
 import FilmCategory from '../components/filmCategory'
 import apiReq from "../services/api-requests"
+
+const urlPrefix  = process.env.API_DOMAIN
 
 const ApiReq = new apiReq()
 
@@ -565,41 +568,54 @@ let comments = [
     },
 ]
 
-const IndexPage = () => (
+const fetcher = (url) => fetch(url).then((res) => res.json())
+
+function IndexPage({ playlists, movies }) {
+    
+    useEffect(() => {
+        console.log(movies)
+    }, [])
+  
+    return (
     <div className="bg-background text-mainText">
         <Header />
         <div className="container mx-auto ">
             <div className="max-w-screen-xl w-full mx-auto px-6 sm:grid grid-cols-5 grid-rows-1 gap-7">
-
-                        <div className="lg:col-span-4 md:col-span-5 space-y-12 sm:space-y-16">
-                            <Slider cards={cards}/>
-
-                            {filmCategories.map((filmsCategory, i) => {    
-                                return <FilmCategory 
-                                    key={i} 
-                                    name={filmsCategory.name} 
-                                    cards={filmsCategory.filmCards} 
-                                    cardToShow={filmsCategory.cardToShow}
-                                    sliderIndex={i}
-                                />
-                            })}
-                        </div>
-
-                        <div className="hidden lg:col-span-1 lg:block">
-                            <Comments comments={comments}/>
-                        </div>
-
+                <div className="lg:col-span-4 md:col-span-5 space-y-12 sm:space-y-16">
+                    <Slider cards={cards}/>
+                    {playlists.map((playlist, i) => {    
+                        return <FilmCategory 
+                            key={i} 
+                            name={playlist.name} 
+                            cards={movies[i]} 
+                            cardToShow={2}
+                            sliderIndex={i}
+                        />
+                    })}
+                </div>
+                <div className="hidden lg:col-span-1 lg:block">
+                    <Comments comments={comments}/>
+                </div>
             </div>
         </div>
         <Footer />
     </div>
-)
+)}
 
 export const getServerSideProps = async (ctx) => {
-    let movies = await ApiReq.getMovies()
-    console.log(movies)
+    const playlists = await ApiReq.getEntities("playlists")
+    const movies = []
 
-    return({props: {}})
+    for (let playlist in playlists) {
+        const playlistMovies = []
+        for (let movie in playlists[playlist].movies) {
+            const movieInfo = await ApiReq.getSingleEntity("movies",playlists[playlist].movies[movie]._id)
+            playlistMovies.push(movieInfo)
+        }
+        movies.push(playlistMovies)
+    }
+    console.log(movies)
+    return({props: { playlists, movies }})
 }
 
 export default IndexPage

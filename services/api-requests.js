@@ -21,18 +21,6 @@ export default class NewsService {
     return result
   }
 
-  deleteResource = async (url) => {
-    const response = await fetch(url, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-
-    const result = await response.json()
-    return result
-  }
-
   putResource = async (url, fieldsVals) => {
     const response = await fetch(url, {
       method: "PUT",
@@ -43,7 +31,11 @@ export default class NewsService {
     return result
   }
 
-  getMovies = () => {
-    return this.getResource(`${urlPrefix}/api/movies`)
+  getEntities = (entity) => {
+    return this.getResource(`${urlPrefix}/api/${entity}`)
+  }
+
+  getSingleEntity = (entity, id) => {
+    return this.getResource(`${urlPrefix}/api/${entity}/${id}`)
   }
 }

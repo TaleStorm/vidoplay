@@ -34,12 +34,24 @@ export default function FilmCategorySlider(data: FilmCategorySliderProps) {
                 {data.cards.map((card, i) => {    
                   return <SwiperSlide key={i} className="">
                     <FilmCategorySliderCard 
-                      name={card.name} 
+                      title={card.title} 
                       image={card.image}
+                      stringName={card.stringName}
                       imageSize={data.cardToShow == 2 ? "72" : "52"}
-                      description={card.description}
-                      languages={card.languages}
-                      tags={card.tags}
+                      excerpt={card.excerpt}
+                      languages={["EN","RU","KO"]}
+                      tags={[{
+                        name:"#дорамы",
+                        color:"#36A4C9"
+                      },
+                      {
+                        name:"#драма",
+                        color:"#A036C9"
+                      },
+                      {
+                        name:"#пролюбовь",
+                        color:"#6B4DC1"
+                      }]}
                       comments={card.comments}
                       rating={card.rating}
                     />
