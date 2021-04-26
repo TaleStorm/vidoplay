@@ -1,3 +1,4 @@
+import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import Footer from "../../components/footer"
 import Header from "../../components/header"
@@ -5,15 +6,16 @@ import Checkbox from "../../components/inputs/checkbox"
 import CheckboxDropdown from "../../components/inputs/checkboxDropdown"
 import Dropdown from "../../components/inputs/dropdown"
 
-const IndexPage = () => {
+const IndexPage = ({query}) => {
+
     const years = ["Любой", "1812", "1945", "2014"]
     const [year, setYear] = useState(years[0])
 
     const countries = ["Все страны", "Россия", "Корея"]
     const [country, setCountry] = useState(countries[0])
 
-    const genres = ["Фантастика", "Не фантастика"]
-    const [genre, setGenre] = useState(genres[0])
+    const genres = ["Фантастика", "Дорамы", "Драмы"]
+    const [genre, setGenre] = useState(query.genre ? query.genre : genres[0])
 
     const sorts = ["По популярности", "По чему-то ещё"]
     const [sort, setSort] = useState(sorts[0])
@@ -106,3 +108,11 @@ const IndexPage = () => {
 }
 
 export default IndexPage
+
+export async function getServerSideProps(context) {
+
+    console.log(context.query)
+    return {
+      props: {query: context.query}, // will be passed to the page component as props
+    }
+  }

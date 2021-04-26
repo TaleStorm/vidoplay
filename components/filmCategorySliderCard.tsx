@@ -1,13 +1,15 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import Tag from '../components/tag'
 
 import { FilmCategorySliderCardData } from '../interfaces'
+import FilmCardLanguages from './filmCards/flimCardLanguages'
 
 type FilmCategorySliderCardProps = FilmCategorySliderCardData
 
 const FilmCategorySliderCard = (data: FilmCategorySliderCardProps) => (
-  	<div className="bg-cardBackground relative">
-		<a href={`/films/${data.stringName}`}>
+	<a href={`/films/${data.stringName}`}>
+  	<div className="bg-cardBackground relative cursor-pointer">
 			<div className={`h-40 md:h-72 sm:h-${data.imageSize} bg-cover relative bg-center`}>
 				<Image
 					src={data.image}
@@ -25,17 +27,9 @@ const FilmCategorySliderCard = (data: FilmCategorySliderCardProps) => (
 					</h1>
 				</div>
 
-				<div  className="absolute bottom-0 left-0 h-8 sm:h-12 mx-auto w-auto flex flex-row justify-start flex-wrap space-x-2">
-					{data.languages.map((language, i) => {    
-						return <div key={i} className="h-8 sm:h-12 w-8 sm:w-12 flex flex-wrap content-center bg-filmInfoBackground justify-center">
-							<h1 className="text-md sm:text-lg font-roboto font-medium text-mainText">
-								{language.toUpperCase()}
-							</h1>
-						</div>
-					})}
-				</div>
+				<FilmCardLanguages data={data}/>
 			</div>
-		</a>
+
 		<div className="my-2 sm:my-6 md:h-48">
 			<p className="text-md sm:text-xl font-roboto font-medium text-mainText mx-2 sm:mx-4 mb-1 sm:mb-4">
 				{data.title}
@@ -46,7 +40,7 @@ const FilmCategorySliderCard = (data: FilmCategorySliderCardProps) => (
 		</div>
 		<div className="flex flex-row mb-1 mt-3 sm:mb-auto sm:py-3 justify-start flex-wrap mx-2 sm:mx-4">
 			{data.tags.map((tag, i) => {    
-				return <Tag key={i} name={tag.name} color={tag.color}/>
+				return <Tag genre={tag.genre} key={i} name={tag.name} color={tag.color}/>
 			})}
 		</div>
 		<div  className="bg-filmReviewBackground justify-center items-center sm:absolute bottom-0 right-0 h-8 mx-auto w-auto flex flex-wrap content-center sm:bg-filmInfoBackground sm:mr-4 sm:mb-4 pr-3">
@@ -58,7 +52,10 @@ const FilmCategorySliderCard = (data: FilmCategorySliderCardProps) => (
 				<path d="M15.9375 2.5H4.0625C3.48285 2.50165 2.9274 2.73265 2.51753 3.14253C2.10765 3.5524 1.87665 4.10785 1.875 4.6875V12.1875C1.87665 12.7672 2.10765 13.3226 2.51753 13.7325C2.9274 14.1424 3.48285 14.3734 4.0625 14.375H5.625V17.5L9.28594 14.4477C9.34216 14.4007 9.41308 14.375 9.48633 14.375H15.9375C16.5172 14.3734 17.0726 14.1424 17.4825 13.7325C17.8924 13.3226 18.1234 12.7672 18.125 12.1875V4.6875C18.1234 4.10785 17.8924 3.5524 17.4825 3.14253C17.0726 2.73265 16.5172 2.50165 15.9375 2.5V2.5Z" stroke="white" strokeLinejoin="round"/>
 			</svg>
 		</div>
+
+		
     </div>
+	</a>
 )
 
 export default FilmCategorySliderCard

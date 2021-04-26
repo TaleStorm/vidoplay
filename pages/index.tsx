@@ -5,6 +5,7 @@ import Slider from '../components/slider'
 import Comments from '../components/comments'
 import FilmCategory from '../components/filmCategory'
 import apiReq from "../services/api-requests"
+import comments from "../data/comments";
 
 const ApiReq = new apiReq()
 
@@ -35,119 +36,7 @@ let cards = [
     },
 ]
 
-let comments = [
-    {
-        comment: "Хорошая версия, но мне ближе другая.",
-        film: "«Здравствуйте, я робот»",
-        username: "Виталий Иванович",
-        userImage: "",
-    },
-    {
-        comment: "Хорошая версия, но мне ближе другая.",
-        film: "«Здравствуйте, я робот»",
-        username: "Виталий Иванович",
-        userImage: "",
-    },
-    {
-        comment: "Хорошая версия, но мне ближе другая.",
-        film: "«Здравствуйте, я робот»",
-        username: "Виталий Иванович",
-        userImage: "",
-    },
-    {
-        comment: "Хорошая версия, но мне ближе другая.",
-        film: "«Здравствуйте, я робот»",
-        username: "Виталий Иванович",
-        userImage: "",
-    },
-    {
-        comment: "Хорошая версия, но мне ближе другая.",
-        film: "«Здравствуйте, я робот»",
-        username: "Виталий Иванович",
-        userImage: "",
-    },
 
-    {
-        comment: "Хорошая версия, но мне ближе другая.",
-        film: "«Здравствуйте, я робот»",
-        username: "Виталий Иванович",
-        userImage: "",
-    },
-    {
-        comment: "Хорошая версия, но мне ближе другая.",
-        film: "«Здравствуйте, я робот»",
-        username: "Виталий Иванович",
-        userImage: "",
-    },
-    {
-        comment: "Хорошая версия, но мне ближе другая.",
-        film: "«Здравствуйте, я робот»",
-        username: "Виталий Иванович",
-        userImage: "",
-    },
-    {
-        comment: "Хорошая версия, но мне ближе другая.",
-        film: "«Здравствуйте, я робот»",
-        username: "Виталий Иванович",
-        userImage: "",
-    },
-    {
-        comment: "Хорошая версия, но мне ближе другая.",
-        film: "«Здравствуйте, я робот»",
-        username: "Виталий Иванович",
-        userImage: "",
-    },
-    {
-        comment: "Хорошая версия, но мне ближе другая.",
-        film: "«Здравствуйте, я робот»",
-        username: "Виталий Иванович",
-        userImage: "",
-    },
-
-    {
-        comment: "Хорошая версия, но мне ближе другая.",
-        film: "«Здравствуйте, я робот»",
-        username: "Виталий Иванович",
-        userImage: "",
-    },
-    {
-        comment: "Хорошая версия, но мне ближе другая.",
-        film: "«Здравствуйте, я робот»",
-        username: "Виталий Иванович",
-        userImage: "",
-    },
-    {
-        comment: "Хорошая версия, но мне ближе другая.",
-        film: "«Здравствуйте, я робот»",
-        username: "Виталий Иванович",
-        userImage: "",
-    },
-    {
-        comment: "Хорошая версия, но мне ближе другая.",
-        film: "«Здравствуйте, я робот»",
-        username: "Виталий Иванович",
-        userImage: "",
-    },
-    {
-        comment: "Хорошая версия, но мне ближе другая.",
-        film: "«Здравствуйте, я робот»",
-        username: "Виталий Иванович",
-        userImage: "",
-    },
-    {
-        comment: "Хорошая версия, но мне ближе другая.",
-        film: "«Здравствуйте, я робот»",
-        username: "Виталий Иванович",
-        userImage: "",
-    },
-
-    {
-        comment: "Хорошая версия, но мне ближе другая.",
-        film: "«Здравствуйте, я робот»",
-        username: "Виталий Иванович",
-        userImage: "",
-    },
-]
 
 function IndexPage({ playlists, movies }) {
     
