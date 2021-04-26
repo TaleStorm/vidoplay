@@ -5,6 +5,9 @@ import ProgressBar from './progressBar';
 import TopPlayerPanel from './topPlayerPanel';
 
 import { PlayerData } from '../../interfaces'
+import CompilationSlider from './compilationSlider';
+import CompilationModal from './compilationModal';
+import PlayerModalOverlay from './playerModalOverlay';
 
 type PlayerProps = PlayerData
 
@@ -106,6 +109,7 @@ export default function Player(data: PlayerProps) {
   const[isFullScreen, setFullScreen] = useState(false);
   const[isMuted, setMute] = useState(false);
   const[currentQuality, setCurrentQuality] = useState("AUTO");
+  const [isCompliationModalOpen, setIsCompliationModalOpen] = useState(false)
 
   const[globalGplayerAPI, setPlayer] = useState(undefined);
 
@@ -343,8 +347,14 @@ export default function Player(data: PlayerProps) {
               </svg>
             </div>
         </div>
-        
+
         <div className={`absolute inset-0 w-full h-full ${panelState}`} onClick = {(e) => showRealPanel(e)} id="playingPanel">
+        <div className={`${buttonState}`}>
+          <CompilationSlider setModalOpen={setIsCompliationModalOpen}/>
+          <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
+          <CompilationModal setModalOpen={setIsCompliationModalOpen}/>
+          </PlayerModalOverlay>
+        </div>
           <ProgressBar 
             currentTimePercent={currentTimePercent} 
             bufferTimePercent={""}
@@ -402,7 +412,12 @@ export default function Player(data: PlayerProps) {
             currentActing={currentActing}
             actingState={actingState}
           />
-
+          <div>
+          <CompilationSlider setModalOpen={setIsCompliationModalOpen}/>
+          <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
+          <CompilationModal setModalOpen={setIsCompliationModalOpen}/>
+          </PlayerModalOverlay>
+          </div>
           <ProgressBar 
             currentTimePercent={currentTimePercent} 
             bufferTimePercent={""}

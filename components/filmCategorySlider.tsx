@@ -42,15 +42,13 @@ export default function FilmCategorySlider(data: FilmCategorySliderProps) {
                       languages={["EN","RU","KO"]}
                       tags={[{
                         name:"#дорамы",
-                        color:"#36A4C9"
+                        color:"#36A4C9",
+                        genre: "Дорамы"
                       },
                       {
                         name:"#драма",
-                        color:"#A036C9"
-                      },
-                      {
-                        name:"#пролюбовь",
-                        color:"#6B4DC1"
+                        color:"#A036C9",
+                        genre: "Драма"
                       }]}
                       comments={30}
                       rating={7.8}

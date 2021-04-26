@@ -73,6 +73,7 @@ function IndexPage({ playlists, movies }) {
 export const getServerSideProps = async (ctx) => {
     const playlists = await ApiReq.getEntities("playlists")
     const movies = []
+    console.log(playlists)
     for (let playlist in playlists) {
         const playlistMovies = []
         for (let movie in playlists[playlist].movies) {

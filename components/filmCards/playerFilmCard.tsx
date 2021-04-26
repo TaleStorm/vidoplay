@@ -1,12 +1,10 @@
 import Image from "next/image"
-import { FilmCategorySliderCardData } from "../../interfaces"
 import Tag from "../tag"
 import FilmCardLanguages from "./flimCardLanguages"
 
-const MiniHistoryFilmCard = (data) => {
+const PlayerFilmCard = (data) => {
     return (
-        <div className="bg-cardBackground w-full relative">
-        <a href={`/films/${data.stringName}`}>
+        <div className="bg-cardBackground w-full relative ">
             <div className={`h-${data.imageSize} bg-cover relative bg-center`}> 
                 <Image
                     src={`/images/${data.image}.png`}
@@ -24,9 +22,10 @@ const MiniHistoryFilmCard = (data) => {
                 </div>
                 <FilmCardLanguages data={data}/>
             </div>
+
         <div className="my-4">
-            <p className=" text-mainText mx-4 mb-4 text-h1-mobile font-medium">
-                {data.title}
+            <p className="text-mainText mx-4 mb-4 text-h1-mobile font-medium">
+                {data.name}
             </p>
         </div>
         <div className="flex flex-row justify-start flex-wrap mx-4 mb-2">
@@ -34,18 +33,9 @@ const MiniHistoryFilmCard = (data) => {
                 return <Tag genre={tag.genre} key={i} name={tag.name} color={tag.color}/>
             })}
         </div>
-        </a>
-        <div  className="h-10 flex flex-wrap justify-center items-center mr-4 cursor-pointer bg-sub-gray w-full">
-            <h1 className="font-roboto font-normal text-mainText inline">
-                Отзывы: {data.comments}
-            </h1>
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" className="inline ml-2"> 
-                <path d="M15.9375 2.5H4.0625C3.48285 2.50165 2.9274 2.73265 2.51753 3.14253C2.10765 3.5524 1.87665 4.10785 1.875 4.6875V12.1875C1.87665 12.7672 2.10765 13.3226 2.51753 13.7325C2.9274 14.1424 3.48285 14.3734 4.0625 14.375H5.625V17.5L9.28594 14.4477C9.34216 14.4007 9.41308 14.375 9.48633 14.375H15.9375C16.5172 14.3734 17.0726 14.1424 17.4825 13.7325C17.8924 13.3226 18.1234 12.7672 18.125 12.1875V4.6875C18.1234 4.10785 17.8924 3.5524 17.4825 3.14253C17.0726 2.73265 16.5172 2.50165 15.9375 2.5V2.5Z" stroke="white" strokeLinejoin="round"/>
-            </svg>
-        </div>
     </div>
     )
 
 }
 
-export default MiniHistoryFilmCard
+export default PlayerFilmCard

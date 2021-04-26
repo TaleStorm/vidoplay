@@ -4,7 +4,7 @@ import Tag from "../tag"
 import FilmCardLanguages from "./flimCardLanguages"
 
 
-const MiniFavouritesFilmCard  = (data:FilmCategorySliderCardData) => {
+const MiniFavouritesFilmCard  = (data) => {
     return (
         <div className="bg-cardBackground w-full relative">
         <a href={`/films/${data.stringName}`}>
