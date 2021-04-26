@@ -8,6 +8,7 @@ import { PlayerData } from '../../interfaces'
 import CompilationSlider from './compilationSlider';
 import CompilationModal from './compilationModal';
 import PlayerModalOverlay from './playerModalOverlay';
+import EndedModal from './endedModal';
 
 type PlayerProps = PlayerData
 
@@ -109,6 +110,8 @@ export default function Player(data: PlayerProps) {
   const[isFullScreen, setFullScreen] = useState(false);
   const[isMuted, setMute] = useState(false);
   const[currentQuality, setCurrentQuality] = useState("AUTO");
+
+  const [isEndedModalOpen, setIsEndedModalOpen] = useState(false)
   const [isCompliationModalOpen, setIsCompliationModalOpen] = useState(false)
 
   const[globalGplayerAPI, setPlayer] = useState(undefined);
@@ -134,6 +137,15 @@ export default function Player(data: PlayerProps) {
           setUserWindow({width: (window as any).innerWidth, height: (window as any).innerHeight})
         }
       }});
+
+    })
+
+    gplayerAPI.on("ended", () => {
+      gplayerAPI.method({name: "seekPercentage", params: 100})
+      gplayerAPI.method({name: "pause"})
+      console.log(series[currentSeason].length)
+      console.log(series.length)
+      setIsEndedModalOpen(true)
     })
 
     return {gplayerAPI:gplayerAPI,userWindow:{width: (window as any).innerWidth, height: (window as any).innerHeight}}
@@ -152,6 +164,8 @@ export default function Player(data: PlayerProps) {
     //   setVideoPercentCurrent(percent.toFixed(1))
     // }})
   }
+
+  
 
   var removeFakeButton = () => {
     setPanel("visible");
@@ -347,12 +361,15 @@ export default function Player(data: PlayerProps) {
               </svg>
             </div>
         </div>
+        <PlayerModalOverlay setModalOpen={setIsEndedModalOpen} modalOpen={isEndedModalOpen}>
+            <EndedModal setModalOpen={setIsEndedModalOpen} series={series} currentSeason={currentSeason} currentSerie={currentSerie} modalOpen={isEndedModalOpen} changeSerie={changeSerie} changeSeason={changeSeason}/>
+        </PlayerModalOverlay>
 
         <div className={`absolute inset-0 w-full h-full ${panelState}`} onClick = {(e) => showRealPanel(e)} id="playingPanel">
         <div className={`${buttonState}`}>
           <CompilationSlider setModalOpen={setIsCompliationModalOpen}/>
           <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
-          <CompilationModal setModalOpen={setIsCompliationModalOpen}/>
+            <CompilationModal setModalOpen={setIsCompliationModalOpen}/>
           </PlayerModalOverlay>
         </div>
           <ProgressBar 
@@ -415,7 +432,7 @@ export default function Player(data: PlayerProps) {
           <div>
           <CompilationSlider setModalOpen={setIsCompliationModalOpen}/>
           <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
-          <CompilationModal setModalOpen={setIsCompliationModalOpen}/>
+            <CompilationModal setModalOpen={setIsCompliationModalOpen}/>
           </PlayerModalOverlay>
           </div>
           <ProgressBar 

@@ -29,7 +29,9 @@ module.exports = {
       loveTag: "#6B4DC1",
 
       playerMain: "#232230",
-      playerSecond: "#F8634A"
+      playerSecond: "#F8634A",
+
+      "error-red": "#FF4343"
         
     },
     fontFamily: {
@@ -79,6 +81,10 @@ module.exports = {
          }],
          "smol": ["0.75rem", {
           lineHeight: "1rem"
+         }],
+         "h7" : ["1.5rem", {
+           lineHeight: "1.5rem",
+
          }]
 
        }

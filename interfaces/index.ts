@@ -217,6 +217,20 @@ export type FilmCommentsData = {
     comments: Comment[]
 }
 
+export interface InputProps  {
+    label: string,
+    name: string,
+    type?: string,
+    placeholder:string,
+    state: string,
+    validator?: Function,
+    error?: boolean,
+    setError?: Function,
+    setState: Function,
+    errorMessage?: string
+
+}
+
 export type FilmCategorySliderCardData = {
     stringName: string
     title: string

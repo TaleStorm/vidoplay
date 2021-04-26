@@ -1,13 +1,76 @@
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import doramas from "../../data/doramas";
 import FilmCardLanguages from "../filmCards/flimCardLanguages";
-import Tag from "../tag";
 
-const CompilationModal = ({setModalOpen}) => {
+const EndedModal = ({setModalOpen, series, currentSeason, currentSerie, modalOpen, changeSerie, changeSeason}) => {
+    const getNext = () => {
+
+        if (currentSerie + 2 > series[currentSeason].length) {
+            if (currentSeason + 2 > series.length) {
+                return {
+                    season: 0,
+                    serie: 0
+                }
+            }
+            return {
+                season: currentSeason + 1,
+                serie: 0
+            }
+        }
+        return {
+            season: currentSeason,
+            serie: currentSerie + 1
+        }
+    }
+
+    const [timeLeft, setTimeLeft] = useState(10)
+    let ticks = 10
+
+    const next = getNext()
     const data = doramas[0]
+
+
+    const switchToNext = () => {
+        setModalOpen(false)
+        if (currentSerie + 2 > series[currentSeason].length) {
+            if (currentSeason + 2 > series.length) {
+                alert("НЕТ ФИЛЬМОВ")
+            }
+        }
+        changeSeason(next.season)
+        changeSerie(next.serie)
+    }
+
+    useEffect(() => {
+
+           const clear = setInterval(() => {
+                if (modalOpen) {
+                    if (ticks === 0) {
+                        switchToNext()
+                    }
+                    else {
+                        ticks--
+                        setTimeLeft(ticks)
+                    }
+                    
+                }
+            }, 1000)
+
+            return () => {clearInterval(clear)}
+        
+    }, [modalOpen])
+
+    useEffect(() => {
+        if (!modalOpen) {
+            ticks = 10
+            setTimeLeft(10)
+        }
+    }, [modalOpen])
+    
     return (
     <div className={`mt-28 w-96`}>
-        <div className={`text-h2-mobile font-medium mb-2`}>Следующая серия</div>
+        <div className={`text-h2-mobile font-medium mb-2`}>Сериал {data.name}</div>
         <div className="bg-cardBackground w-full relative ">
             <div className={`h-54 bg-cover relative bg-center`}> 
                 <Image
@@ -35,10 +98,10 @@ const CompilationModal = ({setModalOpen}) => {
                 </p>
             </div>
             <div className={`text-h1-mobile font-medium mb-3`}>
-            1 серия, 1 сезон
+            {next.serie + 1} серия, {next.season + 1} сезон
             </div>
             <p className={`text-smol opacity-70 mb-4`}>
-                {data.description}
+                Смотрите далее через {timeLeft} секунд
             </p>
             <div className={`grid grid-cols-2 gap-2`}>
                     <button onClick={() => {
@@ -48,9 +111,9 @@ const CompilationModal = ({setModalOpen}) => {
                     </button>
 
                     <button onClick={() => {
-                        setModalOpen(false);
+                        switchToNext()
                     }} className=" text-h2-mobile text-center text-white bg-orange p-2 duration-300 rounded-lg hover:bg-orange w-full flex items-center justify-center">
-                        Сменить пароль
+                        Воспроизвести
                     </button>
             </div>
         </div>
@@ -59,4 +122,4 @@ const CompilationModal = ({setModalOpen}) => {
     );
 };
 
-export default CompilationModal
+export default EndedModal
