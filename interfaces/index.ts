@@ -198,21 +198,23 @@ export type FilmCategorySliderData = {
     sliderIndex: number
 }
 
-export type CommentsData = {
-    comments: {
-        userImage: string
-        film: string
-        username: string
-        comment: string
-    }[]
+export type Comment = {
+    userImage: string
+    username: string
+    comment: string
+}
+
+export interface DetachedComment extends Comment {
+    film: string,
+    url: string
+}
+
+export interface CommentsData  {
+    comments: DetachedComment[]
 }
 
 export type FilmCommentsData = {
-    comments: {
-        userImage: string
-        username: string
-        comment: string
-    }[]
+    comments: Comment[]
 }
 
 export type FilmCategorySliderCardData = {
@@ -222,10 +224,7 @@ export type FilmCategorySliderCardData = {
     image: string
     excerpt: string
     languages: string[],
-    tags: {
-        name: string
-        color: string
-    }[]
+    tags: TagData[]
     comments: number,
     rating: number
 }
@@ -233,4 +232,5 @@ export type FilmCategorySliderCardData = {
 export type TagData = {
     name: string
     color: string
+    genre: string
 }
