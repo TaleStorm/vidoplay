@@ -96,7 +96,7 @@ export default function Video(data: VideoProps) {
                 </div>
             </div>
 
-            <div className="relative h-64 sm:h-screen bg-white" ref={targetRef}>
+            <div className="relative h-64 sm:h-screen" ref={targetRef}>
                 <PLayer 
                     width={String(dimensions.width)}
                     height={String(dimensions.height)}

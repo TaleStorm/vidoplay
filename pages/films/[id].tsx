@@ -167,9 +167,7 @@ export const getServerSideProps = async (ctx) => {
   const { id } = ctx.query
   const playlists = await ApiReq.getEntities("playlists")
   const playlist = playlists[0]
-  console.log(playlist)
   const movie = await ApiReq.getSingleEntity("movies",id)
-  // console.log(movie)
   const movies = []
   for (let movie in playlist.movies) {
     const movieInfo = await ApiReq.getSingleEntity("movies",playlist.movies[movie]._id)

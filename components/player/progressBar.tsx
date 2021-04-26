@@ -61,7 +61,7 @@ export default function ProgressBar(data:ProgressBarProps) {
                 <path d="M16.5 10H12C11.4477 10 11 10.4477 11 11V31C11 31.5523 11.4477 32 12 32H16.5C17.0523 32 17.5 31.5523 17.5 31V11C17.5 10.4477 17.0523 10 16.5 10Z" fill="white"/>
             </svg>
         </div>
-        <div  className={`w-full mx-2`}>
+        <div  className={`w-full mr-2`}>
             <div  className={`relative w-full h-6 cursor-pointer mx-2`} onMouseMove= {(e) => data.getMousePos(e)}  onClick= {(e) => data.setCurrentDuration(e)} onMouseUp={(e) => data.setCurrentDuration(e)}>
                 <div className="absolute bg-white top-0 opacity-20 w-full h-full z-30">
 
@@ -78,7 +78,7 @@ export default function ProgressBar(data:ProgressBarProps) {
             </div>
         </div>
 
-        <div  className={`relative mr-2`}>
+        <div  className={`relative mx-2`}>
             <svg width="132" height="42" viewBox="0 0 132 42" fill="none" xmlns="http://www.w3.org/2000/svg" className="-mb-10.5">
                 <rect width="132" height="42" rx="8" fill="white" fillOpacity="0.2"/>
             </svg>

@@ -316,7 +316,7 @@ export default function Player() {
         >
         </iframe>
 
-        <div className={`absolute inset-0 w-full h-full ${buttonState} `}>
+        <div className={`absolute top-0 left-0 w-full h-auto ${buttonState}`} >
           <TopPlayerPanel 
             data={series}
             changeSeasonState={changeSeasonState}
@@ -332,14 +332,15 @@ export default function Player() {
             currentActing={currentActing}
             actingState={actingState}
           />
-          <div className="w-full h-full pointer-events-none">
+        </div>
+
+        <div className={`absolute inset-0 w-full h-full ${buttonState} pointer-events-none`} >
             <div className="flex justify-center flex-wrap content-center h-full">
               <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="playerButtons">
                 <path d="M0 8C0 3.58172 3.58172 0 8 0H92C96.4183 0 100 3.58172 100 8V92C100 96.4183 96.4183 100 92 100H8C3.58172 100 0 96.4183 0 92V8Z" fill="white" fillOpacity="0.2"/>
                 <path className="svgFill" d="M75.6968 48.3804L36.3282 24.321C35.9966 24.1183 35.617 24.0077 35.2285 24.0004C34.8399 23.9931 34.4564 24.0895 34.1175 24.2796C33.7785 24.4697 33.4963 24.7466 33.2999 25.0819C33.1035 25.4173 33 25.7989 33 26.1875V74.3063C33 74.6949 33.1035 75.0765 33.2999 75.4118C33.4963 75.7472 33.7785 76.0241 34.1175 76.2142C34.4564 76.4043 34.8399 76.5007 35.2285 76.4934C35.617 76.4861 35.9966 76.3755 36.3282 76.1728L75.6968 52.1134C76.0165 51.918 76.2807 51.6437 76.464 51.3169C76.6473 50.9901 76.7436 50.6216 76.7436 50.2469C76.7436 49.8722 76.6473 49.5037 76.464 49.1769C76.2807 48.85 76.0165 48.5758 75.6968 48.3804Z" fill="white"/>
               </svg>
             </div>
-          </div>
         </div>
 
         <div className={`absolute inset-0 w-full h-full ${panelState}`} onClick = {(e) => showRealPanel(e)} id="playingPanel">
@@ -423,6 +424,7 @@ export default function Player() {
         </div>
         )}
       </ReactFullscreen>
+    
     </div>
   )
 }
