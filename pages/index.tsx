@@ -72,17 +72,16 @@ function IndexPage({ playlists, movies }) {
 }
 
 export const getServerSideProps = async (ctx) => {
-    const playlists = await ApiReq.getEntities("playlists")
-    const movies = []
-    console.log(playlists)
-    for (let playlist in playlists) {
-        const playlistMovies = []
-        for (let movie in playlists[playlist].movies) {
-            const movieInfo = await ApiReq.getSingleEntity("movies",playlists[playlist].movies[movie]._id)
-            playlistMovies.push(movieInfo)
-        }
-        movies.push(playlistMovies)
+  const playlists = await ApiReq.getEntities("playlists")
+  const movies = []
+  for (let playlist in playlists) {
+    const playlistMovies = []
+    for (let movie in playlists[playlist].movies) {
+      const movieInfo = await ApiReq.getSingleEntity("movies", playlists[playlist].movies[movie]._id)
+      playlistMovies.push(movieInfo)
     }
+    movies.push(playlistMovies)
+  }
   // console.log(movies)
   return { props: { playlists, movies } }
 }
