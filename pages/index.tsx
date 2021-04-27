@@ -42,37 +42,37 @@ const partnerCards:PartnerSliderCardData[] =[
   {
     title:"Partner 1",
     discription: "Hello",
-    image:"https://picsum.photos/400",
+    image:"https://picsum.photos/400?random=1",
     age:6
   },
   {
     title:"Partner 2",
     discription: "Hello",
-    image:"https://picsum.photos/400",
+    image:"https://picsum.photos/400?random=2",
     age:18
   },
   {
     title:"Partner 3",
     discription: "Hello",
-    image:"https://picsum.photos/400",
+    image:"https://picsum.photos/400?random=3",
     age:15
   },
   {
     title:"Partner 4",
     discription: "Hello",
-    image:"https://picsum.photos/400",
+    image:"https://picsum.photos/400?random=4",
     age:0
   },
   {
     title:"Partner 5",
     discription: "Hello",
-    image:"https://picsum.photos/400",
+    image:"https://picsum.photos/400?random=5",
     age:21
   },
   {
     title:"Partner 6",
     discription: "Hello",
-    image:"https://picsum.photos/400",
+    image:"https://picsum.photos/400?random=6",
     age:8
   },
 ]

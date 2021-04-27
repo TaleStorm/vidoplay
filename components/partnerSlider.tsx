@@ -24,7 +24,6 @@ export default function PartnerSlider(data: PartnerSliderProps) {
       <div className="relative w-full">
         <Swiper
           spaceBetween={20}
-          // slidesPerView={swiperWidth < minWidth ? 1.2 : data.cardToShow}
           slidesPerView={swiperWidth/290}
           allowTouchMove={true}
           className="sm:rounded-lg"
@@ -41,7 +40,7 @@ export default function PartnerSlider(data: PartnerSliderProps) {
         >
           {data.cards.map((card, i) => {
             return <SwiperSlide key={i} className="sm:py-5">
-              <PartnerSliderCard {...card} image={card.image + `?random=${1 + i}`} />
+              <PartnerSliderCard {...card}/>
             </SwiperSlide>
           })}
         </Swiper>
