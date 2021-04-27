@@ -48,7 +48,7 @@ const ImageInput = ({buttonText, notice, header, multiple=true}) => {
             </div>
             
             <Swiper
-                    spaceBetween={10}
+                    spaceBetween={0}
                     slidesPerView={multiple ? images.length < 5 ? 2 : 5 : 1}
                     allowTouchMove={true}
                     navigation={{
