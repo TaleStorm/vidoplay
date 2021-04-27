@@ -12,9 +12,9 @@ export default function Authorization(data: AuthorizationProps) {
   const loginContext = useContext(LoginContext)
 
   useEffect(() => {
-    VK.init({
-      apiId: 7838936,
-    })
+    // VK.init({
+    //   apiId: 7838936,
+    // })
   }, [])
 
   const setPassword = () => {
@@ -25,35 +25,35 @@ export default function Authorization(data: AuthorizationProps) {
     }
   }
 
-  const vkLogin = () => {
-    VK.Auth.login(async (r) => {
-      console.log(r)
-      VK.api(
-        "users.get",
-        {
-          fields: "bdate,photo_50,sex, books",
-          v: "5.130",
-        },
-        async (data) => {
-          console.log(data.response)
-          let tmp = {
-            firstname: data.response[0].first_name,
-            _user: data.response[0].id,
-            type: "vk-login",
-          }
-          let response = await fetch("/api/login", {
-            method: "POST",
-            body: JSON.stringify(tmp),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
-          response = await response.json()
-          console.log(response)
-        }
-      )
-    }, 272629760)
-  }
+  // const vkLogin = () => {
+  //   VK.Auth.login(async (r) => {
+  //     console.log(r)
+  //     VK.api(
+  //       "users.get",
+  //       {
+  //         fields: "bdate,photo_50,sex, books",
+  //         v: "5.130",
+  //       },
+  //       async (data) => {
+  //         console.log(data.response)
+  //         let tmp = {
+  //           firstname: data.response[0].first_name,
+  //           _user: data.response[0].id,
+  //           type: "vk-login",
+  //         }
+  //         let response = await fetch("/api/login", {
+  //           method: "POST",
+  //           body: JSON.stringify(tmp),
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //         })
+  //         response = await response.json()
+  //         console.log(response)
+  //       }
+  //     )
+  //   }, 272629760)
+  // }
 
   const getFieldsData = (e) => {
     setFieldsData({ ...fieldsData, [e.target.name]: e.target.value })
@@ -204,7 +204,8 @@ export default function Authorization(data: AuthorizationProps) {
               </svg>
             </a>
 
-            <a href="#" className="self-center" onClick={() => vkLogin()}>
+            <a href="#" className="self-center" > 
+            {/* onClick={() => vkLogin()} */}
               {/* VK logo */}
               <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
