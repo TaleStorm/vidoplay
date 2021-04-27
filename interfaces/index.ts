@@ -231,6 +231,10 @@ export interface InputProps  {
 
 }
 
+export interface ResizableInputProps extends InputProps {
+    rows?: number
+}
+
 export type FilmCategorySliderCardData = {
     stringName: string
     title: string
