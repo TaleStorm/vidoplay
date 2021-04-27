@@ -10,7 +10,7 @@ type PartnerSliderCardProps = PartnerSliderCardData
 const PartnerSliderCard = (data: PartnerSliderCardProps) => (
   <a >
     <div className="bg-cardBackground partner-card relative cursor-pointer ">
-      <div className="partner-image h-48 bg-cover bg-center overflow-hidden">
+      <div className="partner-image h-48 bg-cover bg-center overflow-hidden rounded-lg">
         <img
           src={data.image}
           alt="Picture of the film"
