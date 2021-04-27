@@ -20,12 +20,12 @@ function MyApp({ Component, pageProps }) {
   }, [])
 
   return (
-    <>
-        <Head>
+    <div>
+      <Head>
           <script src="//vk.com/js/api/openapi.js"></script>
         </Head>
       <Component {...pageProps} />
-    </>
+    </div>
   )
 }
 
