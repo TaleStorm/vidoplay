@@ -24,13 +24,13 @@ const DropdownWrapper = ({heading, children}) => {
         })
     },[])
     return (
-        <div className={`w-full`}>
+        <div className={`w-full mb-6`}>
             <div
                 onClick={() => {
                     window.dispatchEvent(new Event('resize'));
                     setIsSliderOpen(!isSliderOpen)
                 }}
-                className={`w-auto text-h2-mobile mb-3 font-medium flex cursor-pointer items-center`}>
+                className={`w-auto text-h2-mobile font-medium flex cursor-pointer`}>
                 <div className={`mr-3`}>{heading}</div>
                 <ChevronDown classname={`stroke-current w-8 h-8 transform transition-all duration-150 ease-out ${isSliderOpen ? "rotate-180" : "rotate-0"}`} />
             </div>

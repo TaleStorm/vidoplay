@@ -36,6 +36,7 @@ module.exports = {
     },
     fontFamily: {
       roboto: ["Roboto"],
+      inter: ["Inter"]
     },
     extend: {
       backgroundImage: (theme) => ({
