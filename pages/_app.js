@@ -3,17 +3,22 @@ import "swiper/swiper.scss"
 import "swiper/components/scrollbar/scrollbar.scss"
 import "swiper/components/pagination/pagination.scss"
 import "swiper/components/effect-fade/effect-fade.scss"
-import Head from "next/head"
+import { useEffect } from 'react';
 
 function MyApp({ Component, pageProps }) {
-  return (
-    <div>
-      <Head>
-        <script src="//vk.com/js/api/openapi.js?169"  ></script>
-      </Head>
-      <Component {...pageProps} />
-    </div>
-  )
+  
+  useEffect(() => {
+    const appHeight = () => {
+      let vh = window.innerHeight * 0.01
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    }
+    window.addEventListener("resize", appHeight);
+    appHeight();
+    return () => {
+      window.removeEventListener("resize", appHeight);
+    };
+  }, [])
+  
 }
 
 export default MyApp

@@ -43,11 +43,13 @@ const IndexPage = ({ playlist, movies }) => {
                                 languages={["EN","RU","KO"]}
                                 tags={[{
                                         name:"#дорамы",
-                                        color:"#36A4C9"
+                                        color:"#36A4C9",
+                                        genre: "Дорамы"
                                     },
                                     {
                                         name:"#драма",
-                                        color:"#A036C9"
+                                        color:"#A036C9",
+                                        genre: "Драмы"
                                     }
                                 ]}
                                 comments={30}

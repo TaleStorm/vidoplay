@@ -10,6 +10,7 @@ import { SliderData } from '../interfaces'
 type SliderProps = SliderData
 
 const Slider = (data: SliderProps) => (
+  
 
       <div className="relative">
           <Swiper

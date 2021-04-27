@@ -58,21 +58,22 @@ module.exports = {
         "33": "8.25rem",
        },
        fontSize: {
-         "ui-text": ["14px", {
-           lineHeight: "16px"
+         "ui-text": ["0.875rem", {
+           lineHeight: "1rem"
          }],
-         "lk-header": ["28px", {
-           lineHeight: "32px",
+         "lk-header": ["1.75rem", {
+           lineHeight: "2rem",
            letterSpacing: "-0.02em"
          }],
-         "h1-mobile": ["20px", {
-           lineHeight: "24px",
+         "h1-mobile": ["1.25rem", {
+           lineHeight: "1.5rem",
            letterSpacing: "-0.02em"
          }],
-         "h2-mobile": ["16px", {
+         "h2-mobile": ["1rem", {
           lineHeight: "20px",
           letterSpacing: "-0.02em"
-         }]
+         }],
+         "h6": ["35px"]
 
        }
     },
