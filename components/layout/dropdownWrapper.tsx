@@ -5,32 +5,29 @@ const DropdownWrapper = ({heading, children}) => {
     const [isSliderOpen, setIsSliderOpen] = useState(true)
     const sliderContainerRef = useRef() as MutableRefObject<HTMLDivElement>
     useEffect(() => {
+        const listener = () => {
+            if (isSliderOpen) {
+                sliderContainerRef.current.style.height = sliderContainerRef.current.scrollHeight + "px"
+            }
+            else {
+                sliderContainerRef.current.style.height = "0px"
+            }
+        }
         if (isSliderOpen) {
             sliderContainerRef.current.style.height = sliderContainerRef.current.scrollHeight + "px"
         }
         else {
             sliderContainerRef.current.style.height = "0px"
         }
+        window.addEventListener("refreshDropdown", listener)
+        window.addEventListener('autosize:resized', listener)
+        
+        return () => {
+            window.removeEventListener("refreshDropdown", listener)
+            window.removeEventListener('autosize:resized', listener)
+        }
     }, [isSliderOpen])
-
-    useEffect(() => {
-        window.addEventListener("refreshDropdown", () => {
-            if (isSliderOpen) {
-                sliderContainerRef.current.style.height = sliderContainerRef.current.scrollHeight + "px"
-            }
-            else {
-                sliderContainerRef.current.style.height = "0px"
-            }
-        })
-        window.addEventListener('autosize:resized', function(){
-            if (isSliderOpen) {
-                sliderContainerRef.current.style.height = sliderContainerRef.current.scrollHeight + "px"
-            }
-            else {
-                sliderContainerRef.current.style.height = "0px"
-            }
-          })
-    },[])
+    
     return (
         <div className={`w-full mb-8`}>
             <div
@@ -43,7 +40,7 @@ const DropdownWrapper = ({heading, children}) => {
                 <ChevronDown classname={`stroke-current w-8 h-8 transform transition-all duration-150 ease-out ${isSliderOpen ? "rotate-0" : "-rotate-90"}`} />
             </div>
             <div 
-            className={`w-full overflow-hidden transition-all duration-300 ease-out ${!isSliderOpen && "opacity-10"}`}
+            className={`w-full overflow-y-hidden transition-all duration-300 ease-out ${!isSliderOpen && "opacity-10"}`}
             ref={sliderContainerRef}>
             {children}
             </div>

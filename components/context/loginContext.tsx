@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { ReactNode, useEffect, useState } from "react";
 
 const LoginContext = React.createContext({
-    userToken: "",
+    userToken: null,
     loginHandler: (data) => {new Promise((() => true))},
     logOut: (data) => {},
     registerHandler: (data) => {new Promise((() => true))}

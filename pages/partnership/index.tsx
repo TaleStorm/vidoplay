@@ -5,6 +5,7 @@ import { useState } from "react";
 import validator from "../../components/inputs/validator";
 import PartnershipHeroBlock from "../../components/partnershipHeroBlock";
 import ResizableTextInput from "../../components/inputs/resizableTextInput";
+import ImageInput from "../../components/inputs/imageInput";
 
 
 const Partnership = () => {
@@ -26,6 +27,14 @@ const Partnership = () => {
     const [serieLength, setSerieLength] = useState("")
 
     const [annotation, setAnnotation] = useState("")
+
+    const [director, setDirector] = useState("")
+
+    const [producer, setProducer] = useState("")
+
+    const [actors, setActive] = useState("")
+
+    const [trailer, setTrailer] = useState("")
 
     return (
         <Layout>
@@ -57,7 +66,7 @@ const Partnership = () => {
         </div>
         </DropdownWrapper>
         <DropdownWrapper heading={`Информация о сериале`}>
-        <div className={`w-full grid grid-cols-2 gap-14 pt-6 gap-y-6`}>
+        <div className={`w-full grid grid-cols-2 gap-x-14 pt-6 gap-y-6`}>
             <TextInput
             label={'Название (На языке оригинала)'}
             name={"series-name"}
@@ -112,24 +121,45 @@ const Partnership = () => {
         </div>
         </DropdownWrapper>
         <DropdownWrapper heading={`Дополнительная информация`}>
-        <div className={`w-full grid grid-cols-2 gap-14 pt-6`}>
+        <div className={`w-full grid grid-cols-2 gap-x-14 pt-6 gap-y-6`}>
             <TextInput
-            label={'Имя'}
-            name={"name"}
-            placeholder={"Константин Констанитинопольский"}
-            state={name}
-            setState={setName}
+            label={'Режиссер'}
+            name={"director"}
+            placeholder={"Режиссер"}
+            state={director}
+            setState={setDirector}
             />
             <TextInput
-            label={`Email`}
-            name={`email`}
-            type={`email`}
-            placeholder={`Введите email`}
+            label={`Продюссер`}
+            name={`producer`}
+            placeholder={`Продюссер`}
             state={email}
             setState={setEmail}
-            validator={validator.email}
-            error={emailError}
-            setError={setEmailError}
+            />
+            <TextInput
+            label={`Актеры`}
+            name={`producer`}
+            placeholder={`Актеры`}
+            state={email}
+            setState={setEmail}
+            />
+            <TextInput
+            label={`Ссылка на скачивание трейлера`}
+            name={`producer`}
+            placeholder={`Ссылка на скачивание трейлера`}
+            state={email}
+            setState={setEmail}
+            />
+            <ImageInput
+            header={"Постер"}
+            buttonText={`Прикрепить постер`}
+            notice={`*  Постер — 400*520px`}
+            />
+            <ImageInput
+                        header={"Постер"}
+                        buttonText={`Прикрепить постер`}
+                        notice={`*  Постер — 400*520px`}
+                        multiple={false}
             />
         </div>
         </DropdownWrapper>
