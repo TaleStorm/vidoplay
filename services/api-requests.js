@@ -38,4 +38,6 @@ export default class NewsService {
   getSingleEntity = (entity, id) => {
     return this.getResource(`${urlPrefix}/api/${entity}/${id}`)
   }
+
+
 }

@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 
 import { RegistrationData } from "../interfaces"
+import LoginContext from "./context/loginContext"
 
 type RegistrationProps = RegistrationData
 
 export default function Registration(data: RegistrationProps) {
   const [password, changePassword] = useState("password")
   const [fieldsData, setFieldsData] = useState({})
+  const loginContext = useContext(LoginContext)
 
   const setPassword = () => {
     if (password == "password") {
@@ -21,17 +23,6 @@ export default function Registration(data: RegistrationProps) {
     setFieldsData({ ...fieldsData, [e.target.name]: e.target.value })
   }
 
-  const register = async () => {
-    let response = await fetch("/api/register", {
-      method: "POST",
-      body: JSON.stringify(fieldsData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-    response = await response.json()
-    console.log(response)
-  }
 
   return (
     <div className={`${data.hidden} w-full`}>
@@ -140,7 +131,9 @@ export default function Registration(data: RegistrationProps) {
           </form>
           <button
             className="block text-center text-white bg-orange p-3 duration-300 rounded-lg hover:bg-orange w-full mt-5"
-            onClick={() => register()}
+            onClick={async () => {
+              await loginContext.registerHandler(fieldsData)
+            }}
           >
             Зарегестрироваться
           </button>

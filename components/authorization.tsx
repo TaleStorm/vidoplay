@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 
 import { AuthorizationData } from "../interfaces"
-import login from "../pages/api/login"
+import LoginContext from "./context/loginContext"
 
 type AuthorizationProps = AuthorizationData
 
 export default function Authorization(data: AuthorizationProps) {
   const [password, changePassword] = useState("password")
   const [fieldsData, setFieldsData] = useState({})
+
+  const loginContext = useContext(LoginContext)
 
   useEffect(() => {
     VK.init({
@@ -62,15 +64,7 @@ export default function Authorization(data: AuthorizationProps) {
 
     tmp["type"] = "base-login"
 
-    let response = await fetch("/api/login", {
-      method: "POST",
-      body: JSON.stringify(tmp),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-    response = await response.json()
-    console.log(response)
+    loginContext.loginHandler(fieldsData)
   }
 
   return (

@@ -12,6 +12,7 @@
     "@headlessui/react": "^1.0.0",
     "@heroicons/react": "^1.0.1",
     "autosize": "^4.0.2",
+    "axios": "^0.21.1",
     "dotenv": "^8.2.0",
     "dotenv-webpack": "^7.0.2",
     "isomorphic-unfetch": "^3.1.0",
