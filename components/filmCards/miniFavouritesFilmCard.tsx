@@ -1,12 +1,13 @@
 import Image from "next/image"
 import { FilmCategorySliderCardData } from "../../interfaces"
 import Tag from "../tag"
+import FilmCardLanguages from "./flimCardLanguages"
 
 
-const MiniFavouritesFilmCard  = (data:FilmCategorySliderCardData) => {
+const MiniFavouritesFilmCard  = (data) => {
     return (
         <div className="bg-cardBackground w-full relative">
-        <a href="/films/testdorama">
+        <a href={`/films/${data.stringName}`}>
             <div className={`h-${data.imageSize} bg-cover relative bg-center`}> 
                 <Image
                     src={`/images/${data.image}.png`}
@@ -22,18 +23,9 @@ const MiniFavouritesFilmCard  = (data:FilmCategorySliderCardData) => {
                         {data.rating}
                     </h1>
                 </div>
-    
-                <div  className="absolute bottom-0 left-0 h-10 mx-auto w-auto flex flex-row justify-start flex-wrap space-x-2">
-                    {data.languages.map((language, i) => {    
-                        return <div key={i} className="h-10 w-10 flex-wrap content-center bg-filmInfoBackground justify-center flex">
-                            <h1 className="text-lg font-roboto font-medium text-mainText">
-                                {language.toUpperCase()}
-                            </h1>
-                        </div>
-                    })}
-                </div>
+                <FilmCardLanguages data={data}/>
             </div>
-        </a>
+
         <div className="my-4">
             <p className="text-mainText mx-4 mb-4 text-h1-mobile font-medium">
                 {data.title}
@@ -41,9 +33,10 @@ const MiniFavouritesFilmCard  = (data:FilmCategorySliderCardData) => {
         </div>
         <div className="flex flex-row justify-start flex-wrap mx-4 mb-2">
             {data.tags.map((tag, i) => {    
-                return <Tag key={i} name={tag.name} color={tag.color}/>
+                return <Tag genre={tag.genre} key={i} name={tag.name} color={tag.color}/>
             })}
         </div>
+        </a>
         <div className={`grid grid-cols-2 gap-4 bg-background`}>
         <div  className="h-10 flex flex-wrap justify-center items-center mr-4 cursor-pointer bg-sub-gray w-full">
             <h1 className="font-roboto font-normal text-mainText inline">

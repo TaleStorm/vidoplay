@@ -1,6 +1,5 @@
 import { useEffect, useState, Fragment } from "react";
 import { Menu, Transition } from '@headlessui/react';
-import { ChevronDownIcon, ChevronUpIcon} from '@heroicons/react/solid';
 import Checkbox from "./checkbox";
 import { stat } from "node:fs";
 

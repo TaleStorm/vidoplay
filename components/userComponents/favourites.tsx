@@ -1,5 +1,5 @@
 import { FilmCategorySliderCardData } from "../../interfaces"
-import MiniFavouritesFilmCard from "./miniFavouritesFilmCard"
+import MiniFavouritesFilmCard from "../filmCards/miniFavouritesFilmCard"
 
 const Favourites = ({films}) => {
     return (

@@ -29,11 +29,14 @@ module.exports = {
       loveTag: "#6B4DC1",
 
       playerMain: "#232230",
-      playerSecond: "#F8634A"
+      playerSecond: "#F8634A",
+
+      "error-red": "#FF4343"
         
     },
     fontFamily: {
       roboto: ["Roboto"],
+      inter: ["Inter"]
     },
     extend: {
       backgroundImage: (theme) => ({
@@ -47,31 +50,42 @@ module.exports = {
         '-10.5': '-2.625rem',
        },
        spacing: {
-         
+         "18": "4.5rem",
          "25": "6.25rem",
          "30": "7.5rem",
-         
+         "45": "11.25rem",
+         "54": "13.5rem",
          "72": "18rem",
-         
        },
        maxWidth: {
         "33": "8.25rem",
        },
        fontSize: {
-         "ui-text": ["14px", {
-           lineHeight: "16px"
+         "ui-text": ["0.875rem", {
+           lineHeight: "1rem"
          }],
-         "lk-header": ["28px", {
-           lineHeight: "32px",
+         "lk-header": ["1.75rem", {
+           lineHeight: "2rem",
            letterSpacing: "-0.02em"
          }],
-         "h1-mobile": ["20px", {
-           lineHeight: "24px",
+         "h1-mobile": ["1.25rem", {
+           lineHeight: "1.5rem",
            letterSpacing: "-0.02em"
          }],
-         "h2-mobile": ["16px", {
-          lineHeight: "20px",
+         "h2-mobile": ["1rem", {
+          lineHeight: "1.25rem",
           letterSpacing: "-0.02em"
+         }],
+         "h6": ["2.1875rem", {
+          lineHeight: "3.125rem",
+          letterSpacing: "-0.02em"
+         }],
+         "smol": ["0.75rem", {
+          lineHeight: "1rem"
+         }],
+         "h7" : ["1.5rem", {
+           lineHeight: "1.5rem",
+
          }]
 
        }
