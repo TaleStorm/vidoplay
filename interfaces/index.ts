@@ -248,3 +248,16 @@ export type TagData = {
     color: string
     genre: string
 }
+
+export type PartnerSliderCardData = {
+    title: string
+    image: string
+    discription: string
+    age: number
+}
+
+export type PartnerSliderData = {
+    cards: PartnerSliderCardData[]
+    cardToShow: number
+    sliderIndex: number
+}

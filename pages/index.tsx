@@ -6,6 +6,8 @@ import Comments from "../components/comments"
 import FilmCategory from "../components/filmCategory"
 import apiReq from "../services/api-requests"
 import comments from "../data/comments";
+import PartnerSlider from "../components/partnerSlider"
+import { PartnerSliderCardData } from "../interfaces"
 
 const ApiReq = new apiReq()
 
@@ -36,10 +38,49 @@ let cards = [
   },
 ]
 
+const partnerCards:PartnerSliderCardData[] =[
+  {
+    title:"Partner 1",
+    discription: "Hello",
+    image:"https://picsum.photos/400",
+    age:6
+  },
+  {
+    title:"Partner 2",
+    discription: "Hello",
+    image:"https://picsum.photos/400",
+    age:18
+  },
+  {
+    title:"Partner 3",
+    discription: "Hello",
+    image:"https://picsum.photos/400",
+    age:15
+  },
+  {
+    title:"Partner 4",
+    discription: "Hello",
+    image:"https://picsum.photos/400",
+    age:0
+  },
+  {
+    title:"Partner 5",
+    discription: "Hello",
+    image:"https://picsum.photos/400",
+    age:21
+  },
+  {
+    title:"Partner 6",
+    discription: "Hello",
+    image:"https://picsum.photos/400",
+    age:8
+  },
+]
+
 
 
 function IndexPage({ playlists, movies }) {
-  useEffect(() => {}, [])
+  useEffect(() => { }, [])
 
   return (
     <div className="bg-background text-mainText">
@@ -60,6 +101,8 @@ function IndexPage({ playlists, movies }) {
                 />
               )
             })}
+        <PartnerSlider cards={partnerCards} cardToShow={3} sliderIndex={8} />
+
           </div>
           <div className="hidden lg:col-span-1 lg:block">
             <Comments comments={comments} />
