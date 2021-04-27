@@ -23,6 +23,7 @@ module.exports = {
       greySlider:"rgba(255,255,255,0.5)",
 
       mainText: "#FFFFFD",
+      secondaryText: "#c8c6d2",
 
       doramaTag: "#36A4C9",
       dramaTag: "#A036C9",
