@@ -20,7 +20,7 @@ const LoginContextProvider = ({ children }: Props) => {
     const resp = await axios.post("/api/login", {email: data.email, password: data.password, type: "base-login"})
     const respData = resp.data
     console.log(respData)
-    if (respData.status === "ok") {
+    if ((respData.status === "ok") && (!respData.error)) {
         logIn(respData.data["_user"])
         return true
     }

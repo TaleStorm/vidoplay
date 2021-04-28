@@ -103,7 +103,8 @@ export type VideoData = {
         image: string
         videoId: string
         acting: string
-    }[][] 
+    }[][]
+    movieId: string 
 }
 
 export type FilmCategoryData = {

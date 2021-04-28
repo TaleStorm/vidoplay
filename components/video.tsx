@@ -1,5 +1,6 @@
 import PLayer from "../components/player"
 import { useRef, useEffect, useState } from "react";
+import axios from "axios"
 
 import { VideoData } from '../interfaces'
 
@@ -17,6 +18,18 @@ export default function Video(data: VideoProps) {
           });
         }
       }, []);
+
+      const pickInFavorites = async () => {
+          console.log(JSON.stringify(localStorage.getItem('_user')))
+        let tmp  = {
+            movieTitle: data.name,
+            movieId: data.movieId,
+            _user: localStorage.getItem('_user')
+        }
+        console.log(tmp)
+        const resp = await axios.post("/api/favorites", tmp)
+        console.log(resp)
+      }
 
     return(
         <div className="mx-6 mt-6 sm:mx-auto max-w-7xl">
@@ -231,7 +244,7 @@ export default function Video(data: VideoProps) {
                             </svg>
                         </a>
 
-                        <a href="/#" className="self-center space-x-2">
+                        <a  className="self-center space-x-2" onClick = {() => pickInFavorites()}>
                             <h6 className="font-roboto text-mainText text-base inline self-center">
                                 1
                             </h6>
