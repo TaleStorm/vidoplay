@@ -155,7 +155,6 @@ export default function IndexPage({ movie, playlist, movies }) {
               cardToShow={3}
               sliderIndex={0}
             />
-          )
       </div>
     </div>
 
