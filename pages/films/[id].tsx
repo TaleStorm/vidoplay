@@ -57,7 +57,6 @@ export default function IndexPage({ movie, playlist, movies }) {
   }
 
   useEffect(() => {
-    console.log(movie)
   },[])
 
 
