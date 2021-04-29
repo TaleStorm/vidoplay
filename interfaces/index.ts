@@ -103,7 +103,8 @@ export type VideoData = {
         image: string
         videoId: string
         acting: string
-    }[][] 
+    }[][]
+    movieId: string 
 }
 
 export type FilmCategoryData = {
@@ -227,8 +228,8 @@ export interface InputProps  {
     error?: boolean,
     setError?: Function,
     setState: Function,
-    errorMessage?: string
-
+    errorMessage?: string,
+    onBlur?: Function,
 }
 
 export interface ResizableInputProps extends InputProps {
