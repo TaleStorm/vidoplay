@@ -24,7 +24,7 @@ const ImageInput = ({buttonText, notice, header, multiple=true}) => {
             {header}
             </div>
             
-            <div className={`w-72 bg-orange flex justify-center items-center py-4 cursor-pointer rounded-lg hover:bg-opacity-80 transition-all duration-200 ease-out`}>
+            <div className={`md:w-72 w-full bg-orange flex justify-center items-center py-4 cursor-pointer rounded-lg hover:bg-opacity-80 transition-all duration-200 ease-out`}>
                 <div className={`flex items-center`}>
                     <div className={`mr-4 text-h1-mobile`}>
                     {buttonText}
@@ -43,10 +43,22 @@ const ImageInput = ({buttonText, notice, header, multiple=true}) => {
             </div>
 
             <div className={`w-full h-auto flex relative items-center`}>
-            <div ref={leftRef} id={`poster-prev`} className={`${images.length < 1 && "hidden"} transform w-8 h-8 rotate-90 cursor-pointer flex-shrink-0 z-10 select-none`}>
+            <div ref={leftRef} id={`poster-prev`} className={`${images.length < 1 && "hidden"} ${!multiple && "hidden"} transform w-8 h-8 rotate-90 cursor-pointer flex-shrink-0 z-10 select-none`}>
                 <ChevronDown/>
             </div>
-            
+            {images.map((image, i) => {
+                        return  (<div
+                        
+                        style={{
+                            backgroundImage: `url(${URL.createObjectURL(image)})`
+                        }}
+                        className={`bg-center ${multiple ? `hidden` : `h-56 mx-auto w-96` }  bg-cover`}>
+                            <img src="/icons/close.svg" className={`ml-auto`} alt="" onClick={() => {
+                                SetImages(images.filter(file => image.name !== file.name))
+                            }}/>
+                        </div>) 
+                       
+                    })}
             <Swiper
                     spaceBetween={0}
                     slidesPerView={multiple ? images.length < 5 ? 2 : 5 : 1}
@@ -55,6 +67,7 @@ const ImageInput = ({buttonText, notice, header, multiple=true}) => {
                         nextEl: `#poster-next`,
                         prevEl: `#poster-prev`
                     }}
+                    className={!multiple ? "hidden" : ""}
 
                 >
                     {images.map((image, i) => {
@@ -63,7 +76,7 @@ const ImageInput = ({buttonText, notice, header, multiple=true}) => {
                         style={{
                             backgroundImage: `url(${URL.createObjectURL(image)})`
                         }}
-                        className={`bg-center w-12 h-12 lg:w-18 lg:h-18 bg-cover`}>
+                        className={`bg-center ${multiple ? `w-12 h-12 lg:w-18 lg:h-18` : `w-40 h-56` }  bg-cover`}>
                             <img src="/icons/close.svg" className={`ml-auto`} alt="" onClick={() => {
                                 SetImages(images.filter(file => image.name !== file.name))
                             }}/>
@@ -71,7 +84,7 @@ const ImageInput = ({buttonText, notice, header, multiple=true}) => {
                         </SwiperSlide>
                     })}
                 </Swiper>
-                <div id={`poster-next`} className={`${images.length < 1 && "hidden"} transform w-8 h-8 -rotate-90 flex-shrink-0 cursor-pointer z-10 select-none `}>
+                <div id={`poster-next`} className={`${images.length < 1 && "hidden"} ${!multiple && "hidden"} transform w-8 h-8 -rotate-90 flex-shrink-0 cursor-pointer z-10 select-none `}>
                     <ChevronDown/>
                 </div>
                 

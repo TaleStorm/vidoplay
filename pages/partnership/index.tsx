@@ -6,6 +6,7 @@ import validator from "../../components/inputs/validator";
 import PartnershipHeroBlock from "../../components/partnershipHeroBlock";
 import ResizableTextInput from "../../components/inputs/resizableTextInput";
 import ImageInput from "../../components/inputs/imageInput";
+import Checkbox from "../../components/inputs/checkbox";
 
 
 const Partnership = () => {
@@ -36,15 +37,27 @@ const Partnership = () => {
 
     const [trailer, setTrailer] = useState("")
 
+    const [facebookLink, setFacebookLink] = useState("")
+
+    const [vkLink, setVkLink] = useState("")
+
+    const [instagramLink, setInstagramLink] = useState("")
+    
+    const [youtubeLink, setYoutubeLink] = useState("")
+
+    const [festivalInfo, setFestivalInfo] = useState("")
+
+    const [conditions, setConditions] = useState("")
+
     return (
         <Layout>
         <div className={`mb-16`}>
             <PartnershipHeroBlock/>
         </div>
         <form onSubmit={(e) => {e.preventDefault()}}>
-        <div className={`lg:w-3/4`}>
+        <div className={`xl:w-3/4`}>
         <DropdownWrapper heading={`Контактная информация`}>
-        <div className={`w-full grid grid-cols-2 gap-14 py-6`}>
+        <div className={`w-full grid grid-cols-1 md:grid-cols-2 gap-x-14 gap-y-6 py-6`}>
             <TextInput
             label={'Имя'}
             name={"name"}
@@ -66,7 +79,7 @@ const Partnership = () => {
         </div>
         </DropdownWrapper>
         <DropdownWrapper heading={`Информация о сериале`}>
-        <div className={`w-full grid grid-cols-2 gap-x-14 pt-6 gap-y-6`}>
+        <div className={`w-full grid grid-cols-1 md:grid-cols-2 gap-x-14 pt-6 gap-y-6`}>
             <TextInput
             label={'Название (На языке оригинала)'}
             name={"series-name"}
@@ -109,7 +122,7 @@ const Partnership = () => {
             state={serieLength}
             setState={setSerieLength}
             />
-            <div className={`col-span-2`}>
+            <div className={`md:col-span-2`}>
             <ResizableTextInput
             label={'Аннотация'}
             name={"annotation"}
@@ -121,7 +134,7 @@ const Partnership = () => {
         </div>
         </DropdownWrapper>
         <DropdownWrapper heading={`Дополнительная информация`}>
-        <div className={`w-full grid grid-cols-2 gap-x-14 pt-6 gap-y-6`}>
+        <div className={`w-full grid grid-cols-1 md:grid-cols-2 gap-x-14 pt-6 gap-y-6`}>
             <TextInput
             label={'Режиссер'}
             name={"director"}
@@ -150,41 +163,72 @@ const Partnership = () => {
             state={email}
             setState={setEmail}
             />
-            <ImageInput
-            header={"Постер"}
-            buttonText={`Прикрепить постер`}
-            notice={`*  Постер — 400*520px`}
-            />
+
             <ImageInput
                         header={"Постер"}
                         buttonText={`Прикрепить постер`}
                         notice={`*  Постер — 400*520px`}
                         multiple={false}
             />
+                        <ImageInput
+            header={"Обложки серий"}
+            buttonText={`Прикрепить обложки`}
+            notice={`*  Обложки серий — 400*400px и 1280*720px`}
+            />
         </div>
         </DropdownWrapper>
         <DropdownWrapper heading={`Социальные сети`}>
-        <div className={`w-full grid grid-cols-2 gap-14 pt-6`}>
+        <div className={`w-full grid md:grid-cols-2 gap-x-14 pt-6 gap-y-6`}>
             <TextInput
-            label={'Имя'}
-            name={"name"}
-            placeholder={"Константин Констанитинопольский"}
-            state={name}
-            setState={setName}
+            label={'Facebook'}
+            name={"facebook"}
+            placeholder={"https://facebook.com"}
+            state={facebookLink}
+            setState={setFacebookLink}
             />
             <TextInput
-            label={`Email`}
-            name={`email`}
-            type={`email`}
-            placeholder={`Введите email`}
-            state={email}
-            setState={setEmail}
-            validator={validator.email}
-            error={emailError}
-            setError={setEmailError}
+            label={`VK`}
+            name={`vk`}
+            placeholder={`https://vk.com`}
+            state={vkLink}
+            setState={setVkLink}
             />
+            <TextInput
+            label={'Instagram'}
+            name={"instagram"}
+            placeholder={"https://instagram.com"}
+            state={instagramLink}
+            setState={setInstagramLink}
+            />
+            <TextInput
+            label={'Youtube'}
+            name={"youtube"}
+            placeholder={"https://youtube.com"}
+            state={youtubeLink}
+            setState={setYoutubeLink}
+            />
+            <div className={`md:col-span-2`}>
+            <ResizableTextInput
+            label={'Информация об участии в фестивалях'}
+            name={"festival-info"}
+            placeholder={"Введите информацию об участии в фестивалях"}
+            state={annotation}
+            setState={setAnnotation}
+            />
+            </div>
         </div>
         </DropdownWrapper>
+        <div className={`flex items-center`}>
+        <div className={`w-6 h-6 mr-3`}>
+        <Checkbox state={conditions} setState={setConditions}/>
+        </div>
+        Я принимаю условия пользования платформой
+        </div>
+        
+        <button 
+        className="mt-10 text-h2-mobile text-center text-white bg-orange p-3 duration-300 rounded-lg hover:bg-orange w-full md:w-64">
+                Отправить
+        </button>
         </div>
         </form>
         </Layout>
