@@ -1,4 +1,4 @@
-const Footer = () => (
+const Footer = (data:{onAboutChillClick?:Function}) => (
 
   <footer className="relative">
     <div className="font-roboto text-mainText text-base  flex flex-col-reverse sm:grid grid-cols-12 pb-8 sm:pb-0 pt-8 sm:pt-14 sm:h-72 px-6 max-w-screen-xl container mx-auto sm:overflow-hidden">
@@ -12,9 +12,9 @@ const Footer = () => (
         </div>
       </div>
       <div className="mt-6 sm:mt-0 lg:pl-10 col-span-4 sm:block flex flex-col items-center relative ">
-        <p>
+        <a href="mailto:help@chillvision.ru">
           help@chillvision.ru
-        </p>
+        </a>
         <div className="hidden mt-2 sm:mt-3 text-sm col-span-1 flex flex-row space-x-2 items-center">
           <a href="/#" className="self-center">
             {/* TG logo */}
@@ -87,20 +87,21 @@ const Footer = () => (
       </div>
       <div className="grid grid-cols-6 col-span-8 lg:col-span-6">
         <div className="col-span-1 text-xs sm:text-base">
-          <div>
+          {/* <div>
             <a href="/" >
               Лента
-          </a>
-          </div>
-          <div className="mt-3">
-            <a href="/" >
+            </a>
+          </div> */}
+          {/* <div className="mt-3"> */}
+          {/* <div>
+            <a className="cursor-pointer" onClick={()=>data.onAboutChillClick()}>
               О CHILL
           </a>
-          </div>
+          </div> */}
         </div>
         <div className="pl-8 col-span-5 relative text-xs sm:text-base">
           <div>
-            <a href="/" >
+            <a href="/partnership" >
               Как стать автором контента
           </a>
           </div>

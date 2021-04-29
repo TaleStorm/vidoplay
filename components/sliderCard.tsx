@@ -19,11 +19,12 @@ class SliderCard extends Component<SliderCardProps,SliderCardState> {
 		return (
 			<div className="h-72">
 				<Image
-					src={`/images/slider.png`}
+					src={this.props.image}
 					alt="Picture of the film"
 					layout="fill"
 					objectFit="cover"
 					className="rounded-lg z-40"
+					onClick={(e)=> this.props.onClick(e)}
 				/>
 				<h3 className="font-medium text-sm sm:text-3xl text-greySlider m-10 z-50 relative">{this.props.name}</h3>
 			</div>

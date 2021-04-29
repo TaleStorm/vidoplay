@@ -90,12 +90,14 @@ export type SliderCardData = {
     image: string
     description: string
     key:number
+    onClick?:Function
 }
 
 export type SliderData = {
     cards: {
         name: string
         image: string
+        onClick?: Function
     }[]
 }
 
