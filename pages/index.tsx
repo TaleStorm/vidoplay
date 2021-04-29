@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import Header from "../components/header"
 import Footer from "../components/footer"
 import Slider from "../components/slider"
@@ -102,7 +102,6 @@ function IndexPage({ playlists, movies }) {
               )
             })}
         <PartnerSlider cards={partnerCards} cardToShow={3} sliderIndex={8} />
-
           </div>
           <div className="hidden lg:col-span-1 lg:block">
             <Comments comments={comments} />
