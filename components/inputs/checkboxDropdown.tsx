@@ -17,7 +17,7 @@ const CheckboxDropdown = ({datas, state, setState, resetState}) => {
                       <div>
                         <Menu.Button 
                         
-                        className={`inline-flex justify-center w-full rounded-md pl-3 shadow-sm py-2 bg-playerMain text-sm font-roboto`} >
+                        className={`inline-flex justify-center w-full rounded-md pl-2 shadow-sm py-2 bg-playerMain text-sm font-roboto`} >
                           <div 
                           onClick={() => {
                             setIsOpen(!open)
