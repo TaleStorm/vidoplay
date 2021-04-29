@@ -36,26 +36,4 @@ export default function AuthWindow(data: AuthWindowProps) {
       </div>
     </div>
   )
-  if (data.stage == "auth") {
-    return (
-      <Authorization
-        hidden={data.hidden}
-        hideFunc={data.hideFunc}
-        forPassFunc={data.forPassFunc}
-        regFunc={data.regFunc}
-      />
-    );
-  } else if (data.stage == "reg") {
-    return (
-      <Registration
-        hidden={data.hidden}
-        hideFunc={data.hideFunc}
-        authFunc={data.authFunc}
-      />
-    );
-  } else if (data.stage == "passChange") {
-    return (
-      <ForgottenPass hidden={data.hidden} hideFunc={data.hideFunc} />
-    );
-  }
 }
