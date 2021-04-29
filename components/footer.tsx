@@ -15,7 +15,7 @@ const Footer = () => (
         <p>
           help@chillvision.ru
         </p>
-        <div className="mt-2 sm:mt-3 text-sm col-span-1 flex flex-row space-x-2 items-center">
+        <div className="hidden mt-2 sm:mt-3 text-sm col-span-1 flex flex-row space-x-2 items-center">
           <a href="/#" className="self-center">
             {/* TG logo */}
             <img
