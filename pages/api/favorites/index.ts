@@ -14,7 +14,8 @@ export default async (req, res) => {
             }
           })
           response = await response.json()
-          console.log(response)
+          console.log(response) 
+          
           res.status(200).json(response)
           break
         default:
