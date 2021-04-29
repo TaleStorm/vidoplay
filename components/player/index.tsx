@@ -15,13 +15,13 @@ let series = [
   [
     [
       {
-        videoId: "18824_q5gS3ArtjoivvkAH",
+        videoId: "18824_vxmu7DQnLXkQElz",
         acting: "LostFilm"
       },{
-        videoId: "18824_q5gS3ArtjoivvkAH",
+        videoId: "18824_vxmu7DQnLXkQElz",
         acting: "Озвучка 2"
       },{
-        videoId: "18824_q5gS3ArtjoivvkAH",
+        videoId: "18824_vxmu7DQnLXkQElz",
         acting: "Озвучка 3"
       },
     ],
@@ -136,6 +136,11 @@ export default function Player(data: PlayerProps) {
         }
       }});
 
+    })
+
+    gplayerAPI.on('tracks', (info) => {
+      console.log('[Event]', 'tracks')
+      console.log(info)
     })
 
     gplayerAPI.on("ended", () => {
