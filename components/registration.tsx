@@ -25,12 +25,7 @@ export default function Registration(data: RegistrationProps) {
 
 
   return (
-    <div className={`${data.hidden} w-full`}>
-      <div className="fixed inset-0 z-40 bg-shadow opacity-10" id="shadow"></div>
-      <div
-        className="fixed mx-5 sm:max-w-md sm:mx-auto z-50 sm:inset-16 bg-popupBackground opacity-100 w-full"
-        id="authoritation"
-      >
+      <>
         <div className="pt-3 pb-8 sm:py-8 px-4 sm:px-8 rounded-xl">
           <div>
             <a className="absolute sm:top-3 right-3" onClick={data.hideFunc}>
@@ -145,7 +140,6 @@ export default function Registration(data: RegistrationProps) {
             </a>
           </h3>
         </div>
-      </div>
-    </div>
+      </>
   )
 }
