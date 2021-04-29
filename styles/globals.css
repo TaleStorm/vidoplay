@@ -106,3 +106,35 @@ input[type="checkbox"]:checked + label:before {
 {
   transform: scale(1);
 }
+
+.styled-scroll::-webkit-scrollbar-button {
+  background-image:url('');
+  background-repeat:no-repeat;
+  width:5px;
+  height:0px
+  }
+  
+  .styled-scroll::-webkit-scrollbar-track {
+  background-color:transparent
+  }
+  
+  .styled-scroll::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+  background-color:#F8634A;
+  }
+  
+  .styled-scroll::-webkit-scrollbar-thumb:hover{
+  background-color:#F8634A;
+  }
+  
+  .styled-scroll::-webkit-resizer{
+  background-image:url('');
+  background-repeat:no-repeat;
+  width:4px;
+  height:0px
+  }
+  
+  .styled-scroll::-webkit-scrollbar{
+  width: 4px;
+  }
