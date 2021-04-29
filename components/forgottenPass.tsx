@@ -6,10 +6,7 @@ type ForgottenPassProps = ForgottenPassData
 
 export default function Registration(data:ForgottenPassProps) {
     return (
-      <div className={data.hidden ? "" : "hidden"}>
-        <div className="fixed inset-0 z-40 bg-shadow opacity-10" id="shadow">
-        </div>
-        <div className="fixed mx-5 sm:max-w-md sm:mx-auto z-50 sm:inset-16 sm:bottom-60 bg-popupBackground opacity-100" id="authoritation">
+        <>
           <div className="pt-2 pb-5 sm:py-8 px-4 sm:px-8 rounded-xl">
             <div>
             <a className="absolute sm:top-3 right-3" onClick={data.hideFunc}>
@@ -33,7 +30,6 @@ export default function Registration(data:ForgottenPassProps) {
               </button>
             </form>
           </div>
-        </div>
-      </div>
+        </>
     );
   }

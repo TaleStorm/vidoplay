@@ -68,11 +68,7 @@ export default function Authorization(data: AuthorizationProps) {
   }
 
   return (
-    <div className={`${data.hidden}`}>
-      <div className="fixed inset-0 z-40 bg-shadow opacity-10" id="shadow"></div>
-      <div
-        className="fixed mx-5 sm:max-w-md sm:mx-auto z-50 sm:inset-16 bg-popupBackground opacity-100"
-        id="authoritation"
+      <
       >
         <div className="pt-2 pb-8 sm:py-8 px-4 sm:px-8 rounded-xl">
           <div>
@@ -242,7 +238,6 @@ export default function Authorization(data: AuthorizationProps) {
             </a>
           </h3>
         </div>
-      </div>
-    </div>
+      </>
   )
 }

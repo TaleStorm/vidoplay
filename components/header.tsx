@@ -133,7 +133,6 @@ export default function Header() {
             </nav>
           </div>
         </div>
-
         <AuthWindow
           hidden={auth}
           stage={authState}
@@ -142,6 +141,7 @@ export default function Header() {
           regFunc={regFunc}
           forPassFunc={forPassFunc}
         />
+
       </div>
     </header>
   );
