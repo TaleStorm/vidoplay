@@ -1,4 +1,3 @@
-
 const CommentForm = (data: { onInputChange: Function, onSubmit: Function, value: any }) => (
   <div className="ml-7">
     <div className="relative w-full mb-2">

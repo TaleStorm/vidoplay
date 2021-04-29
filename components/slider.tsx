@@ -29,6 +29,7 @@ const Slider = (data: SliderProps) => (
                     name: card.name, 
                     description: card.name, 
                     image: card.image,
+                    onClick: card.onClick || (()=>{}),
                   }
                   return <SwiperSlide key={i} className="">
                     <SliderCard {...sliderCardProps} />
