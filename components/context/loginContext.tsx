@@ -3,9 +3,9 @@ import React, { ReactNode, useEffect, useState } from "react";
 
 const LoginContext = React.createContext({
     userToken: null,
-    loginHandler: (data) => {new Promise((() => true))},
+    loginHandler: (data) => {return new Promise((() => true))},
     logOut: (data) => {},
-    registerHandler: (data) => {new Promise((() => true))}
+    registerHandler: (data) => {return new Promise((() => true))}
 });
 
 interface Props {
@@ -16,7 +16,6 @@ const LoginContextProvider = ({ children }: Props) => {
   const [userToken, setUserToken] = useState(null);
 
   const loginHandler = async (data) => {
-
     const resp = await axios.post("/api/login", {email: data.email, password: data.password, type: "base-login"})
     const respData = resp.data
     console.log(respData)

@@ -89,7 +89,7 @@ const ImageInput = ({buttonText, notice, header, multiple=true}) => {
                 </div>
                 
             </div>
-            <div className={`${images.length < 1 && "hidden"} text-sm mt-3 select-none`}>
+            <div className={`${images.length < 1 && "hidden"} ${!multiple && "hidden"} text-sm mt-3 select-none`}>
                 {images.length} из 30
             </div>
         </div>
