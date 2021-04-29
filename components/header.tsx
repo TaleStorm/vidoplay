@@ -12,7 +12,6 @@ export default function Header() {
   const router = useRouter()
 
   useEffect(() => {
-    console.log(router)
   }, [])
 
   const setAuth = () => {
@@ -43,8 +42,8 @@ export default function Header() {
 
       <div className="container mx-auto ">
         <div className="max-w-screen-xl w-full mx-auto ">
-          <div className="px-6  pt-4 pb-6 sm:px-0 flex justify-between items-center sm:py-6 md:space-x-10">
-            <div className="flex justify-between items-center sm:py-6 md:space-x-10">
+          <div className="md:px-6  pt-4 pb-6 sm:px-0 flex justify-between items-center sm:py-6 md:space-x-10">
+            <div className="flex justify-between items-center sm:py-6">
               {router.pathname.match(/^\/films\/+/) !== null ?
                 <svg
                   width="35"
@@ -65,18 +64,16 @@ export default function Header() {
                 :
                 <div className="flex justify-center sm:hidden">
                   <a href="/">
-                    <span className="sr-only">Logo</span>
                     <img className="h-20 w-auto" src="/images/logo.png" alt="" />
                   </a>
                 </div>
               }
-              <div className="hidden sm:flex justify-center ">
+              <div className="hidden sm:block mx-0">
                 <a href="/">
-                  <span className="sr-only">Logo</span>
                   <img className="h-20 w-auto" src="/images/logo.png" alt="" />
                 </a>
               </div>
-              <nav className="hidden sm:flex justify-self-start space-x-8 font-roboto font-normal text-sm">
+              <nav className="hidden sm:flex justify-self-start space-x-8 font-roboto font-normal text-sm sm:ml-10">
                 <a href="#" className=" text-base text-black-500 hover:text-orange">
                   Лента
                   </a>

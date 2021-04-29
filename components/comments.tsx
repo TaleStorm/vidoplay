@@ -3,7 +3,7 @@ import { CommentsData } from '../interfaces'
 type CommentsProps = CommentsData
 
 const Comments = (data: CommentsProps) => (
-  	<div className="ml-7">
+  	<div className="ml-2">
 		  	<h4 className="text-sm font-roboto text-mainText font-normal block ml-7 mt-4 opacity-80">
                 Комментарии
             </h4>

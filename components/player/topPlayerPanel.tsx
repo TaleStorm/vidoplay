@@ -103,7 +103,7 @@ export default function TopPlayerPanel(data:TopPlayerPanelProps) {
             )}
           </Menu>
         </div>
-        <div className="">
+        {/* <div className="">
           <Menu as="div" className="relative inline-block text-left " onClick={() => data.changeActingState()}>
             {({ open }) => (
               <>
@@ -148,6 +148,7 @@ export default function TopPlayerPanel(data:TopPlayerPanelProps) {
             )}
           </Menu>
         </div>
+       */}
       </div>
       
     )

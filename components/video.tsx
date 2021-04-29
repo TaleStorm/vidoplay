@@ -101,6 +101,7 @@ export default function Video(data: VideoProps) {
                     width={String(dimensions.width)}
                     height={String(dimensions.height)}
                     series={data.series}
+                    name={data.name}
                 />
             </div>
 

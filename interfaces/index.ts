@@ -6,6 +6,7 @@
 export type PlayerData = {
     width: string
     height: string
+    name: string
     series: {
         videoLength: string
         image: string
@@ -37,6 +38,8 @@ export type TopPlayerPanelData = {
     data: {
         acting: string
         videoId: string
+        // videoLength: string
+        // image: string
     }[][][]
 
     changeSeasonState: () => void

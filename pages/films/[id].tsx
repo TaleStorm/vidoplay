@@ -40,12 +40,12 @@ let comments = [
 
 export default function IndexPage({ movie, playlist, movies }) {
   const series = []
-  for (let season in movie.parts) {
+  for (let season in movie.serial) {
     const seasonBuffer = []
-    for (let serie in movie.parts[season].series) {
+    for (let serie in movie.serial[season].series) {
       seasonBuffer.push(
         {
-          videoId: movie.parts[season].series[serie].value,
+          videoId: movie.serial[season].series[serie].value,
           acting: "LostFilm",
           videoLength: "10",
           image: movie.image,
@@ -155,7 +155,6 @@ export default function IndexPage({ movie, playlist, movies }) {
               cardToShow={3}
               sliderIndex={0}
             />
-          )
       </div>
     </div>
 
