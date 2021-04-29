@@ -27,6 +27,13 @@ body,
   color: #fffffd;
 }
 
+a {
+  cursor: pointer;
+}
+.swiper-wrapper {
+  justify-items: center;
+}
+
 html,
 body {
   padding: 0;

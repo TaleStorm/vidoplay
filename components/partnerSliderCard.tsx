@@ -19,7 +19,7 @@ const PartnerSliderCard = (data: PartnerSliderCardProps) => (
         <div className="absolute w-full h-full top-0 z-10 bottomFade"/>
       </div>
       <div className="absolute w-full h-full top-0 z-10">
-        <div className="absolute top-0 right-0 h-8 sm:h-12 px-5 mx-autoflex flex flex-wrap content-center bg-filmInfoBackground">
+        <div className="absolute top-4 right-4 h-8 sm:h-12 px-5 mx-autoflex flex flex-wrap content-center bg-filmInfoBackground">
           <h1 className="text-lg font-roboto font-medium text-mainText">
             +{data.age}
           </h1>

@@ -13,9 +13,17 @@ const minWidth = 640
 
 export default function FilmCategorySlider(data: FilmCategorySliderProps) {
     const [swiperWidth,setSwiperWidth] = useState(1920)
+    const [leftActive, setLeftActive] = useState(false)
+    const [rightActive, setRightActive] =  useState(true)
 
     return (
       <div className="relative">
+        <div  className={`hidden -ml-8 z-10 sm:-mr-8 absolute inset-y-0 left-0 h-full sm:flex flex-wrap content-center ${!leftActive && "opacity-25"} transform rotate-180`}  id={`prev${data.sliderIndex}`}>
+          <svg width="20" height="38" viewBox="0 0 20 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1.5625 2.125L18.4375 19L1.5625 35.875" stroke="white" strokeMiterlimit="3" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+				</div>
+
         <Swiper
                 spaceBetween={20}
                 slidesPerView={swiperWidth < minWidth ? 1.2 : data.cardToShow}
@@ -23,12 +31,27 @@ export default function FilmCategorySlider(data: FilmCategorySliderProps) {
                 className="sm:rounded-lg"
                 navigation={{
                   nextEl: '#next' + data.sliderIndex,
+                  prevEl: `#prev` + data.sliderIndex
                 }}
                 onInit={(swiper)=>{
                   setSwiperWidth(swiper.width)
                 }}
                 onResize={(swiper)=>{
                   setSwiperWidth(swiper.width)
+                }}
+                onSlideChange={(swiper) => {
+                  if (swiper.activeIndex > 0) {
+                    setLeftActive(true)
+                  }
+                  if (swiper.activeIndex === data.cards.length - data.cardToShow) {
+                    setRightActive(false)
+                  }
+                  if (swiper.activeIndex === 0) {
+                    setLeftActive(false)
+                  }
+                  if (swiper.activeIndex < data.cards.length - data.cardToShow) {
+                    setRightActive(true)
+                  }
                 }}
               >
                 {data.cards.map((card, i) => {    
@@ -56,7 +79,7 @@ export default function FilmCategorySlider(data: FilmCategorySliderProps) {
                   </SwiperSlide>
                 })}
             </Swiper>
-        <div  className="hidden -mr-2.5 z-10 sm:-mr-8 absolute inset-y-0 right-0 h-full sm:flex flex-wrap content-center" id={`next${data.sliderIndex}`}>
+        <div  className={`${!rightActive && "opacity-25"} hidden -mr-2.5 z-10 sm:-mr-8 absolute inset-y-0 right-0 h-full sm:flex flex-wrap content-center`}  id={`next${data.sliderIndex}`}>
           <svg width="20" height="38" viewBox="0 0 20 38" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1.5625 2.125L18.4375 19L1.5625 35.875" stroke="white" strokeMiterlimit="3" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>

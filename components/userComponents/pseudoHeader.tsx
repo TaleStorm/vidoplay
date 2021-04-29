@@ -13,7 +13,6 @@ const PseudoHeader = ({display, setDisplay}) => {
             {display === "data" ? "Профиль" : display === "history" ? "История просмотров" : display === "favourites" ? "Избранное" : ""}
             </div>
             <div className={`flex flex-shrink-0 z-10 relative`}>
-            <img src="/icons/search-outline.svg" className={`flex-shrink-0 w-6 h-6 mr-5`} alt=""/>
             <img src="/icons/user.svg" className={`flex-shrink-0 w-6 h-6`} alt=""/>
             </div>
             </div>

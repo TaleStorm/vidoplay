@@ -40,37 +40,37 @@ const IndexPage = ({query}) => {
             <div className="container mx-auto h-screen">
                 <div className="max-w-screen-xl w-full mx-auto ">
                     <div className={`w-full flex`}>
-                        <div className={`w-full mr-5`}>
+                        <div className={`mr-5 w-36`}>
                             <div className={`mb-3`}>
                                 Год
-                   </div>
+                         </div>
                             <Dropdown datas={years} state={year} setState={setYear} />
                         </div>
-                        <div className={`w-full mr-5`}>
+                        <div className={`w-36 mr-5`}>
                             <div className={`mb-3`}>
                                 Страна
-                   </div>
+                        </div>
                             <Dropdown datas={countries} state={country} setState={setCountry} />
                         </div>
-                        <div className={`w-full mr-5`}>
+                        <div className={`w-36 mr-5`}>
                             <div className={`mb-3`}>
                                 Жанр
                    </div>
                             <Dropdown datas={genres} state={genre} setState={setGenre} />
                         </div>
-                        <div className={`w-full mr-5`}>
+                        <div className={`mr-5 w-48`}>
                             <div className={`mb-3`}>
                                 Сортировка
                    </div>
                             <Dropdown datas={sorts} state={sort} setState={setSort} />
                         </div>
-                        <div className={`w-full mr-5`}>
+                        <div className={`w-44 mr-5`}>
                             <div className={`mb-3`}>
                                 Язык
                             </div>
                             <CheckboxDropdown datas={languages} state={activeLanguages} setState={setActiveLanguages} resetState={"На всех языках"} />
                         </div>
-                        <div className={`flex items-center mt-6`}>
+                        <div className={`flex items-center mt-6 w-auto`}>
                         <div className={`flex-shrink-0 w-auto flex items-center mr-7 `}>
                             <div className={`mr-2`}>
                                 Фильмы

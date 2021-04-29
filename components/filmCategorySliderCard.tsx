@@ -8,7 +8,7 @@ import FilmCardLanguages from './filmCards/flimCardLanguages'
 type FilmCategorySliderCardProps = FilmCategorySliderCardData
 
 const FilmCategorySliderCard = (data: FilmCategorySliderCardProps) => (
-	<a href={`/films/${data.stringName}`}>
+	<a href={`/films/${data.stringName} h-full`}>
   	<div className="bg-cardBackground relative cursor-pointer">
 			<div className={`h-40 md:h-72 sm:h-${data.imageSize} bg-cover relative bg-center`}>
 				<Image
@@ -30,7 +30,7 @@ const FilmCategorySliderCard = (data: FilmCategorySliderCardProps) => (
 				<FilmCardLanguages data={data}/>
 			</div>
 
-		<div className="my-2 sm:my-6 md:h-48">
+		<div className="my-2 sm:my-6 h-36 md:h-48">
 			<p className="text-md sm:text-xl font-roboto font-medium text-mainText mx-2 sm:mx-4 mb-1 sm:mb-4">
 				{data.title}
 			</p>

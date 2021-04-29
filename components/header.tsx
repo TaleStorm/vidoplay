@@ -105,10 +105,10 @@ export default function Header() {
                 </a>
               </div>
               <nav className="hidden sm:flex justify-self-start space-x-8 font-roboto font-normal text-sm sm:ml-10">
-                <a href="#" className=" text-base text-black-500 hover:text-orange">
+                <a href="/catalog" className=" text-base text-black-500 hover:text-orange">
                   Каталог
                   </a>
-                <a href="#" className=" text-base text-black-500 hover:text-orange">
+                <a href="/" className=" text-base text-black-500 hover:text-orange">
                   Подборки
                   </a>
               </nav>
@@ -120,13 +120,13 @@ export default function Header() {
                   <path d="M19.8218 19.8217L26.2501 26.25" stroke="white" strokeWidth="2" strokeMiterlimit="10" strokeLinecap="round" />
                 </svg>
               </a> */}
-              <a className={`${!loginContext.userToken ? "hidden" : ""} text-base hover:text-gray-900 ml-5 w-6 h-6 sm:h-10 sm:w-10 text-orange`} href={`/user`}>
+              <a className={`${!loginContext.userToken ? "hidden" : ""} cursor-pointer text-base hover:text-gray-900 ml-5 w-6 h-6 sm:h-10 sm:w-10 text-orange`} href={`/user`}>
                 <svg className={`w-full h-full stroke-current`} width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M15 18.75C19.1421 18.75 22.5 15.3921 22.5 11.25C22.5 7.10786 19.1421 3.75 15 3.75C10.8579 3.75 7.5 7.10786 7.5 11.25C7.5 15.3921 10.8579 18.75 15 18.75Z" strokeWidth="2" strokeMiterlimit="10" />
                   <path d="M3.63135 25.3114C4.78396 23.3164 6.44128 21.6598 8.43684 20.508C10.4324 19.3563 12.6959 18.75 15 18.75C17.304 18.75 19.5675 19.3564 21.563 20.5082C23.5586 21.6599 25.2159 23.3166 26.3684 25.3116" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </a>
-              <a className={`${loginContext.userToken ? "hidden" : ""} text-base text-black-500 hover:text-gray-900 ml-5 w-6 h-6 sm:h-10 sm:w-10`} onClick={() => setAuth()}>
+              <a className={`${loginContext.userToken ? "hidden" : ""} cursor-pointer text-base text-black-500 hover:text-gray-900 ml-5 w-6 h-6 sm:h-10 sm:w-10`} onClick={() => setAuth()}>
                 <svg className={`w-full h-full`} width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M15 18.75C19.1421 18.75 22.5 15.3921 22.5 11.25C22.5 7.10786 19.1421 3.75 15 3.75C10.8579 3.75 7.5 7.10786 7.5 11.25C7.5 15.3921 10.8579 18.75 15 18.75Z" stroke="white" strokeWidth="2" strokeMiterlimit="10" />
                   <path d="M3.63135 25.3114C4.78396 23.3164 6.44128 21.6598 8.43684 20.508C10.4324 19.3563 12.6959 18.75 15 18.75C17.304 18.75 19.5675 19.3564 21.563 20.5082C23.5586 21.6599 25.2159 23.3166 26.3684 25.3116" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />

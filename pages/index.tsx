@@ -115,15 +115,20 @@ function IndexPage({ playlists, movies }) {
 
 export const getServerSideProps = async (ctx) => {
   const playlists = await ApiReq.getEntities("playlists")
+  let count = 1
+  let time = new Date().getTime()/1000
   const movies = []
   for (let playlist in playlists) {
     const playlistMovies = []
     for (let movie in playlists[playlist].movies) {
+      count++
+      console.log(new Date().getTime()/1000 - time)
       const movieInfo = await ApiReq.getSingleEntity("movies", playlists[playlist].movies[movie]._id)
       playlistMovies.push(movieInfo)
     }
     movies.push(playlistMovies)
   }
+  console.log(`MADE ${count} REQUESTS`)
   return { props: { playlists, movies } }
 }
 
