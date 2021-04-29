@@ -129,7 +129,7 @@ input[type="checkbox"]:checked + label:before {
 
 .search-container
 {
-  transition: all 0.25s ease-in-out;
+  transition: all 0.3s ease-in-out;
   transform: translateY(-100%);
 }
 
