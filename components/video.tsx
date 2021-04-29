@@ -32,7 +32,7 @@ export default function Video(data: VideoProps) {
     }
 
     return (
-        <div className="mx-6 mt-6 sm:mx-auto max-w-7xl">
+        <div className="mx-6 mt-6 sm:mx-auto w-full">
 
             <div className="sm:grid grid-cols-2 grid-rows-1 gap-4 mb-6">
                 <h4 className="hidden font-roboto text-mainText font-normal text-3xl sm:block mb-5 col-span-1">

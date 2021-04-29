@@ -63,7 +63,7 @@ const IndexPage = () => {
     }, [display])
 
     return (
-        <div className="bg-background text-mainText">
+        <>
             <ModalOverlay modalOpen={exitModalOpen} setModalOpen={setExitModalOpen} classes={`px-4`}>
                 <div className={`w-full h-auto bg-popupBackground mt-30 flex flex-col items-center sm:px-8 px-4 pt-4 pb-8 max-w-md mx-auto`}>  
                     <h1>
@@ -88,10 +88,9 @@ const IndexPage = () => {
                         </h1>
                 </div>
             </ModalOverlay>
-            <Header />
             <PseudoHeader display={display} setDisplay={setDisplay} />
-            <div className="container mx-auto ">
-                <div className="max-w-screen-xl w-full mx-auto grid">
+            <div className="">
+                <div className=" w-full mx-auto grid">
                     <h2 className="font-roboto text-mainText mb-10 font-medium text-3xl hidden sm:block">
                         Личное
                     </h2>
@@ -212,8 +211,7 @@ const IndexPage = () => {
                     }
                 </div>
             </div>
-            <Footer />
-        </div>
+        </>
     )
 
 }

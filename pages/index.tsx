@@ -83,10 +83,8 @@ function IndexPage({ playlists, movies }) {
   useEffect(() => { }, [])
 
   return (
-    <div className="bg-background text-mainText">
-      <Header />
-      <div className="container mx-auto ">
-        <div className="max-w-screen-xl w-full mx-auto px-6 sm:grid grid-cols-5 grid-rows-1 gap-7">
+      <div className="w-full">
+        <div className="w-full mx-auto sm:grid grid-cols-5 grid-rows-1 gap-7">
           <div className="lg:col-span-4 md:col-span-5 space-y-12 sm:space-y-16">
             <Slider cards={cards} />
             {playlists.map((playlist, i) => {
@@ -103,13 +101,11 @@ function IndexPage({ playlists, movies }) {
             })}
         <PartnerSlider cards={partnerCards} cardToShow={3} sliderIndex={8} />
           </div>
-          <div className="hidden lg:col-span-1 lg:block">
+          <div className="hidden lg:col-span-1 md:-mr-7 lg:block">
             <Comments comments={comments} />
           </div>
         </div>
       </div>
-      <Footer />
-    </div>
   )
 }
 
