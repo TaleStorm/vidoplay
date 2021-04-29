@@ -50,7 +50,7 @@ const CompilationModal = ({setModalOpen}) => {
                     <button onClick={() => {
                         setModalOpen(false);
                     }} className=" text-h2-mobile text-center text-white bg-orange p-2 duration-300 rounded-lg hover:bg-orange w-full flex items-center justify-center">
-                        Сменить пароль
+                        Воспроизвести
                     </button>
             </div>
         </div>

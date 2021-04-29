@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import { useEffect, useState } from "react";
 import ReactFullscreen from 'react-easyfullscreen';
 import ProgressBar from './progressBar';
@@ -16,13 +15,13 @@ let series = [
   [
     [
       {
-        videoId: "18824_q5gS3ArtjoivvkAH",
+        videoId: "18824_vxmu7DQnLXkQElz",
         acting: "LostFilm"
       },{
-        videoId: "18824_q5gS3ArtjoivvkAH",
+        videoId: "18824_vxmu7DQnLXkQElz",
         acting: "Озвучка 2"
       },{
-        videoId: "18824_q5gS3ArtjoivvkAH",
+        videoId: "18824_vxmu7DQnLXkQElz",
         acting: "Озвучка 3"
       },
     ],
@@ -94,7 +93,7 @@ export default function Player(data: PlayerProps) {
   const[buttonState, setButton] = useState("visible");
   const[panelState, setPanel] = useState("hidden");
   const[realPanelState, setRealPanel] = useState("hidden");
-  const[currentSerie, setSerie] = useState(1);
+  const[currentSerie, setSerie] = useState(0);
   const[serieState, setSerieState] = useState("closed");
   const[currentSeason, setSeason] = useState(0);
   const[seasonState, setSeasonState] = useState("closed");
@@ -110,14 +109,13 @@ export default function Player(data: PlayerProps) {
   const[isFullScreen, setFullScreen] = useState(false);
   const[isMuted, setMute] = useState(false);
   const[currentQuality, setCurrentQuality] = useState("AUTO");
-
   const [isEndedModalOpen, setIsEndedModalOpen] = useState(false)
   const [isCompliationModalOpen, setIsCompliationModalOpen] = useState(false)
 
   const[globalGplayerAPI, setPlayer] = useState(undefined);
 
   const getPlayer = async () => {
-    clearInterval(interval)
+    clearInterval(interval);
     setVideoPercentCurrent("0");
 
     const GcorePlayer = (window as any).GcorePlayer.gplayerAPI;
@@ -140,12 +138,19 @@ export default function Player(data: PlayerProps) {
 
     })
 
+    gplayerAPI.on('tracks', (info) => {
+      console.log('[Event]', 'tracks')
+      console.log(info)
+    })
+
     gplayerAPI.on("ended", () => {
-      gplayerAPI.method({name: "seekPercentage", params: 100})
-      gplayerAPI.method({name: "pause"})
-      console.log(series[currentSeason].length)
-      console.log(series.length)
-      setIsEndedModalOpen(true)
+      gplayerAPI.method({name: "seekPercentage", params: 100});
+      gplayerAPI.method({name: "pause"});
+      setRealPanel("visible");
+      console.log(currentSerie , series[currentSeason].length-1)
+      if (currentSerie < series[currentSeason].length-1) {
+        setIsEndedModalOpen(true);
+      }
     })
 
     return {gplayerAPI:gplayerAPI,userWindow:{width: (window as any).innerWidth, height: (window as any).innerHeight}}
@@ -207,6 +212,9 @@ export default function Player(data: PlayerProps) {
   }
 
   var changeSerie = async (newSerie) => {
+    if (isEndedModalOpen) {
+      setIsEndedModalOpen(false);
+    }
     clearInterval(interval);
     setSerie(newSerie);
     setVideoPercentCurrent("0");
@@ -279,7 +287,6 @@ export default function Player(data: PlayerProps) {
       pluginMethod: 'setLevel',
       pluginValue: quality.toLowerCase()
       }, callback: (e) => {
-      console.log(e) 
     }})
   }
 
@@ -362,9 +369,18 @@ export default function Player(data: PlayerProps) {
             </div>
         </div>
         <PlayerModalOverlay setModalOpen={setIsEndedModalOpen} modalOpen={isEndedModalOpen}>
-            <EndedModal setModalOpen={setIsEndedModalOpen} series={series} currentSeason={currentSeason} currentSerie={currentSerie} modalOpen={isEndedModalOpen} changeSerie={changeSerie} changeSeason={changeSeason}/>
+          <EndedModal 
+            name={data.name} 
+            image={data.series[currentSeason][currentSerie].image} 
+            setModalOpen={setIsEndedModalOpen} 
+            series={series} 
+            currentSeason={currentSeason} 
+            currentSerie={currentSerie} 
+            modalOpen={isEndedModalOpen} 
+            changeSerie={changeSerie} 
+            setIsEndedModalOpen={setIsEndedModalOpen}
+          />
         </PlayerModalOverlay>
-
         <div className={`absolute inset-0 w-full h-full ${panelState}`} onClick = {(e) => showRealPanel(e)} id="playingPanel">
         <div className={`${buttonState}`}>
           <CompilationSlider setModalOpen={setIsCompliationModalOpen}/>

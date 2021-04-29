@@ -1,20 +1,19 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import doramas from "../../data/doramas";
-import FilmCardLanguages from "../filmCards/flimCardLanguages";
 
-const EndedModal = ({setModalOpen, series, currentSeason, currentSerie, modalOpen, changeSerie, changeSeason}) => {
+const EndedModal = ({setModalOpen, series, currentSeason, currentSerie, modalOpen, changeSerie, setIsEndedModalOpen, name, image}) => {
     const getNext = () => {
 
         if (currentSerie + 2 > series[currentSeason].length) {
             if (currentSeason + 2 > series.length) {
                 return {
-                    season: 0,
+                    season: currentSeason,
                     serie: 0
                 }
             }
             return {
-                season: currentSeason + 1,
+                season: currentSeason,
                 serie: 0
             }
         }
@@ -33,17 +32,16 @@ const EndedModal = ({setModalOpen, series, currentSeason, currentSerie, modalOpe
 
     const switchToNext = () => {
         setModalOpen(false)
-        if (currentSerie + 2 > series[currentSeason].length) {
-            if (currentSeason + 2 > series.length) {
-                alert("НЕТ ФИЛЬМОВ")
-            }
-        }
-        changeSeason(next.season)
+        console.log(next.serie)
         changeSerie(next.serie)
     }
 
     useEffect(() => {
-
+        // if (modalOpen && currentSerie < series[currentSeason].length-1) {
+        //     console.log(currentSerie < series[currentSeason].length-1)
+        //     setIsEndedModalOpen(false)
+        //     return
+        // }
            const clear = setInterval(() => {
                 if (modalOpen) {
                     if (ticks === 0) {
@@ -70,11 +68,11 @@ const EndedModal = ({setModalOpen, series, currentSeason, currentSerie, modalOpe
     
     return (
     <div className={`mt-28 w-96`}>
-        <div className={`text-h2-mobile font-medium mb-2`}>Сериал {data.name}</div>
+        <div className={`text-h2-mobile font-medium mb-2`}>Сериал {name}</div>
         <div className="bg-cardBackground w-full relative ">
             <div className={`h-54 bg-cover relative bg-center`}> 
                 <Image
-                    src={`/images/${data.image}.png`}
+                    src={`${image}`}
                     alt="Picture of the film"
                     layout="fill"
                     objectFit="cover"
@@ -91,7 +89,7 @@ const EndedModal = ({setModalOpen, series, currentSeason, currentSerie, modalOpe
             <div className={`p-3`}>
             <div className="flex justify-between items-center mb-1">
                 <p className="text-mainText text-h1-mobile font-medium">
-                    {data.name}
+                    {name}
                 </p>
                 <p className={`opacity-70 text-h2-mobile`}>
                     30 мин.
@@ -111,7 +109,7 @@ const EndedModal = ({setModalOpen, series, currentSeason, currentSerie, modalOpe
                     </button>
 
                     <button onClick={() => {
-                        switchToNext()
+                        changeSerie(currentSerie+1)
                     }} className=" text-h2-mobile text-center text-white bg-orange p-2 duration-300 rounded-lg hover:bg-orange w-full flex items-center justify-center">
                         Воспроизвести
                     </button>
