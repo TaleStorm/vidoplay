@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react"
 
 import { AuthorizationData } from "../interfaces"
 import LoginContext from "./context/loginContext"
+import GoodToast from "./goodtoast"
 
 type AuthorizationProps = AuthorizationData
 
@@ -64,7 +65,12 @@ export default function Authorization(data: AuthorizationProps) {
 
     tmp["type"] = "base-login"
 
-    loginContext.loginHandler(fieldsData)
+    const loginStatus =  await loginContext.loginHandler(fieldsData) 
+    if (loginStatus) {
+      data.hideFunc()
+      GoodToast("Успешная авторизация!")
+    }
+
   }
 
   return (

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react"
 
 import { RegistrationData } from "../interfaces"
 import LoginContext from "./context/loginContext"
+import GoodToast from "./goodtoast"
 
 type RegistrationProps = RegistrationData
 
@@ -132,7 +133,13 @@ export default function Registration(data: RegistrationProps) {
           <button
             className="block text-center text-white bg-orange p-3 duration-300 rounded-lg hover:bg-orange w-full mt-5"
             onClick={async () => {
-              await loginContext.registerHandler(fieldsData)
+
+              const status = await loginContext.registerHandler(fieldsData) 
+              if (status) {
+                data.hideFunc()
+                GoodToast("Успешная регистрация и авторизация")
+              }
+
             }}
           >
             Зарегестрироваться

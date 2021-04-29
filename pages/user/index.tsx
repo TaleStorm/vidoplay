@@ -65,16 +65,15 @@ const IndexPage = () => {
     return (
         <div className="bg-background text-mainText">
             <ModalOverlay modalOpen={exitModalOpen} setModalOpen={setExitModalOpen} classes={`px-4`}>
-                <div className={`w-full h-auto bg-popupBackground mt-30 flex flex-col items-center sm:px-8 px-4 pt-4 pb-8 max-w-md mx-auto`}>
-                    
+                <div className={`w-full h-auto bg-popupBackground mt-30 flex flex-col items-center sm:px-8 px-4 pt-4 pb-8 max-w-md mx-auto`}>  
                     <h1>
                     <div className={`text-h2-mobile mb-5`}> Вы точно хотите выйти?</div>
                     <button
                         onClick={() => {
                             localStorage.removeItem("_user")
                             logOut("")
-                            Router.push("/")
                             setExitModalOpen(false)
+                            window.location.href = "/"
                         }}
                         className="mb-3 text-center text-h2-mobile text-white bg-orange p-3 duration-300 rounded-lg hover:bg-orange w-full">
                         Выйти
