@@ -107,8 +107,8 @@ export default function Header() {
                 <a href="/catalog" className=" text-base text-black-500 hover:text-orange mr-10">
                   Каталог
                   </a>
-                <a href="/" className=" text-base text-black-500 hover:text-orange mr-10">
-                  Подборки
+                <a href="/partnership" className=" text-base text-black-500 hover:text-orange mr-10">
+                  Как стать частью CHILL?
                   </a>
               </nav>
             </div>

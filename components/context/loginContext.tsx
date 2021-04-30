@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { ReactNode, useEffect, useState } from "react";
+import authAxios from "../network/authAxios";
 
 const LoginContext = React.createContext({
     userToken: null,
@@ -16,7 +17,7 @@ const LoginContextProvider = ({ children }: Props) => {
   const [userToken, setUserToken] = useState(null);
 
   const loginHandler = async (data) => {
-    const resp = await axios.post("/api/login", {email: data.email, _password: data._password, type: "base-login"})
+    const resp = await authAxios.post("/api/login", {email: data.email, _password: data._password, type: "base-login"})
     const respData = resp.data
     console.log(respData)
     if ((respData.status === "ok") && (!respData.error)) {
@@ -30,7 +31,7 @@ const LoginContextProvider = ({ children }: Props) => {
   };
 
   const registerHandler = async (data) => {
-      const resp = await axios.post('/api/register', data)
+      const resp = await authAxios.post('/api/register', data)
       const signupStatus = resp.data.status
       console.log(signupStatus)
       if (signupStatus === "exist") {

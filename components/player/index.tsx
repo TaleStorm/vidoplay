@@ -111,6 +111,7 @@ export default function Player(data: PlayerProps) {
   const[currentQuality, setCurrentQuality] = useState("AUTO");
   const [isEndedModalOpen, setIsEndedModalOpen] = useState(false)
   const [isCompliationModalOpen, setIsCompliationModalOpen] = useState(false)
+  const [isSliderOpen, setIsSliderOpen] = useState(false)
 
   const[globalGplayerAPI, setPlayer] = useState(undefined);
 
@@ -153,7 +154,7 @@ export default function Player(data: PlayerProps) {
       }
     })
 
-    return {gplayerAPI:gplayerAPI,userWindow:{width: (window as any).innerWidth, height: (window as any).innerHeight}}
+    return {gplayerAPI:gplayerAPI,userWindow:{width: (window).innerWidth, height: (window).innerHeight}}
   }
 
   var tick = (duration,gplayerAPI) => {
@@ -180,6 +181,7 @@ export default function Player(data: PlayerProps) {
   var showRealPanel = async (e) => {
     if (e.target.id == "playingPanel") {
       setRealPanel("visible");
+      setIsSliderOpen(true)
       globalGplayerAPI.method({ name: "pause" });
     }
   }
@@ -188,10 +190,11 @@ export default function Player(data: PlayerProps) {
     if (realPanelState == "hidden") {
       setRealPanel("visible");
       globalGplayerAPI.method({ name: "pause" })
-      setIsCompliationModalOpen(true)
+      setIsSliderOpen(true)
     } else {
       setRealPanel("hidden");
       globalGplayerAPI.method({ name: "play" })
+      setIsSliderOpen(false)
     }
     
   };
@@ -382,13 +385,14 @@ export default function Player(data: PlayerProps) {
             setIsEndedModalOpen={setIsEndedModalOpen}
           />
         </PlayerModalOverlay>
-        <div className={`absolute inset-0 w-full h-full ${panelState}`} onClick = {(e) => showRealPanel(e)} id="playingPanel">
-        <div className={`${buttonState}`}>
-          <CompilationSlider setModalOpen={setIsCompliationModalOpen}/>
+        <div className={`${(buttonState === "hidden" || panelState === "hidden") && "opacity-0"}`}>
+          <CompilationSlider setModalOpen={setIsCompliationModalOpen} isSliderOpen={isSliderOpen} setIsSliderOpen={setIsSliderOpen}/>
           <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
             <CompilationModal setModalOpen={setIsCompliationModalOpen}/>
           </PlayerModalOverlay>
         </div>
+        <div className={`absolute inset-0 w-full h-full ${panelState}`} onClick = {(e) => showRealPanel(e)} id="playingPanel">
+
           <ProgressBar 
             currentTimePercent={currentTimePercent} 
             bufferTimePercent={""}
@@ -447,7 +451,7 @@ export default function Player(data: PlayerProps) {
             actingState={actingState}
           />
           <div>
-          <CompilationSlider setModalOpen={setIsCompliationModalOpen}/>
+          <CompilationSlider setModalOpen={setIsCompliationModalOpen} isSliderOpen={isSliderOpen} setIsSliderOpen={setIsSliderOpen}/>
           <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
             <CompilationModal setModalOpen={setIsCompliationModalOpen}/>
           </PlayerModalOverlay>

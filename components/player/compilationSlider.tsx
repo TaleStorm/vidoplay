@@ -8,11 +8,13 @@ import PlayerFilmCard from "../filmCards/playerFilmCard";
 SwiperCore.use([Navigation]);
 const minWidth = 640
 
-const CompilationSlider = ({setModalOpen}) => {
-    const [isSliderOpen, setIsSliderOpen] = useState(false)
+const CompilationSlider = ({setModalOpen, isSliderOpen, setIsSliderOpen}) => {
+
     const sliderContainerRef = useRef() as MutableRefObject<HTMLDivElement>
 
     useEffect(() => {
+        window.dispatchEvent(new Event('resize'));
+                    
         if (isSliderOpen) {
             sliderContainerRef.current.style.height = sliderContainerRef.current.scrollHeight + "px"
         }
@@ -27,7 +29,6 @@ const CompilationSlider = ({setModalOpen}) => {
 
             <div
                 onClick={() => {
-                    window.dispatchEvent(new Event('resize'));
                     setIsSliderOpen(!isSliderOpen)
                 }}
                 className={`w-auto text-h2-mobile mb-3 font-medium flex cursor-pointer`}>
