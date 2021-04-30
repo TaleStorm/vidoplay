@@ -1,5 +1,5 @@
 import { MutableRefObject, useEffect, useRef, useState } from "react"
-import Header from "../components/header"
+import Header from "../components/layout/header"
 import Footer from "../components/footer"
 import Slider from "../components/slider"
 import Comments from "../components/comments"
@@ -113,19 +113,21 @@ function IndexPage({ playlists, movies }) {
 }
 
 export const getStaticProps = async (ctx) => {
+  let time = new Date().getTime()/1000
   const playlists = await ApiReq.getEntities("playlists")
   let count = 1
-  let time = new Date().getTime()/1000
+
   const movies = []
   for (let playlist in playlists) {
     const playlistMovies = []
-    for (let movie in playlists[playlist].movies) {
-      count++
-      console.log(new Date().getTime()/1000 - time)
-      const movieInfo = await ApiReq.getSingleEntity("movies", playlists[playlist].movies[movie]._id)
-      
-      playlistMovies.push(movieInfo)
-    }
+    count++
+    
+    // for (let movie in playlists[playlist].movies) {
+    //   count++
+    //   console.log(new Date().getTime()/1000 - time)
+    //   const movieInfo = await ApiReq.getSingleEntity("movies", playlists[playlist].movies[movie]._id)
+    //   playlistMovies.push(movieInfo)
+    // }
     movies.push(playlistMovies)
   }
   console.log(`MADE ${count} REQUESTS`)

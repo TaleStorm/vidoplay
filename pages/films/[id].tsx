@@ -1,4 +1,4 @@
-import Header from "../../components/header"
+import Header from "../../components/layout/header"
 import FilmDescription from "../../components/filmDescription"
 import Footer from "../../components/footer"
 import FilmComments from "../../components/filmComments"

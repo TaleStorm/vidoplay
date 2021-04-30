@@ -87,7 +87,7 @@ module.exports = {
          }],
          "h7" : ["1.5rem", {
            lineHeight: "1.5rem",
-
+           letterSpacing: "-0.02em"
          }]
 
        }

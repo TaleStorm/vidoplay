@@ -1,7 +1,5 @@
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import Footer from "../../components/footer"
-import Header from "../../components/header"
 import Checkbox from "../../components/inputs/checkbox"
 import CheckboxDropdown from "../../components/inputs/checkboxDropdown"
 import Dropdown from "../../components/inputs/dropdown"
