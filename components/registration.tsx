@@ -56,7 +56,7 @@ export default function Registration(data: RegistrationProps) {
               <input
                 type="text"
                 autoFocus
-                id="email"
+                id=""
                 name="firstname"
                 className="border border-popupBorder rounded-lg px-3 sm:px-6 py-3 mt-2 sm:mt-3 focus:outline-none bg-popupBackground w-full"
                 placeholder="Введите имя"
@@ -79,14 +79,14 @@ export default function Registration(data: RegistrationProps) {
               />
             </div>
 
-            <label htmlFor="password" className="block -py-2">
+            <label htmlFor="_password" className="block -py-2">
               Пароль
             </label>
             <div className="text-sm relative -mt-2 mb-1 sm:mb-2">
               <input
                 type={password}
                 id="password"
-                name="password"
+                name="_password"
                 className="border border-popupBorder rounded-lg px-3 sm:px-6 py-3 mt-4 sm:mt-5 focus:outline-none bg-popupBackground w-full"
                 placeholder="Введите пароль"
                 onChange={(e) => getFieldsData(e)}

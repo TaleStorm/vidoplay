@@ -16,6 +16,8 @@ export default function Authorization(data: AuthorizationProps) {
     // VK.init({
     //   apiId: 7838936,
     // })
+
+    console.log(window)
   }, [])
 
   const setPassword = () => {
@@ -57,6 +59,7 @@ export default function Authorization(data: AuthorizationProps) {
   // }
 
   const getFieldsData = (e) => {
+    console.log(e.target.name)
     setFieldsData({ ...fieldsData, [e.target.name]: e.target.value })
   }
 
@@ -65,7 +68,7 @@ export default function Authorization(data: AuthorizationProps) {
 
     tmp["type"] = "base-login"
 
-    const loginStatus =  await loginContext.loginHandler(fieldsData) 
+    const loginStatus =  await loginContext.loginHandler(tmp) 
     if (loginStatus) {
       data.hideFunc()
       GoodToast("Успешная авторизация!")
@@ -121,7 +124,7 @@ export default function Authorization(data: AuthorizationProps) {
                 type={password}
                 onChange={(e) => getFieldsData(e)}
                 id="password"
-                name="password"
+                name="_password"
                 className="border border-popupBorder rounded-lg px-3 sm:px-6 py-3 mt-4 sm:mt-5 focus:outline-none bg-popupBackground w-full"
                 placeholder="Введите пароль"
               />

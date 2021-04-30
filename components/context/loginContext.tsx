@@ -16,7 +16,7 @@ const LoginContextProvider = ({ children }: Props) => {
   const [userToken, setUserToken] = useState(null);
 
   const loginHandler = async (data) => {
-    const resp = await axios.post("/api/login", {email: data.email, password: data.password, type: "base-login"})
+    const resp = await axios.post("/api/login", {email: data.email, _password: data._password, type: "base-login"})
     const respData = resp.data
     console.log(respData)
     if ((respData.status === "ok") && (!respData.error)) {
