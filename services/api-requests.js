@@ -39,5 +39,11 @@ export default class NewsService {
     return this.getResource(`${urlPrefix}/api/${entity}/${id}`)
   }
 
+  getPlaylistMoves = (id) => {
+    return this.postResource(`/api/getPlaylistMovies`, {
+      playlistId: id
+    })
+  }
+
 
 }

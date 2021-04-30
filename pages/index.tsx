@@ -9,6 +9,7 @@ import comments from "../data/comments";
 import PartnerSlider from "../components/partnerSlider"
 import { PartnerSliderCardData } from "../interfaces"
 import { ChillPromo } from "../components/chillPromo"
+import axios from "axios"
 
 const ApiReq = new apiReq()
 
@@ -115,21 +116,25 @@ function IndexPage({ playlists, movies }) {
 export const getStaticProps = async (ctx) => {
   let time = new Date().getTime()/1000
   const playlists = await ApiReq.getEntities("playlists")
+  console.log(new Date().getTime()/1000 - time)
   let count = 1
-
   const movies = []
-  for (let playlist in playlists) {
+  for (let playlist of playlists) {
     const playlistMovies = []
+    const result = await ApiReq.getPlaylistMoves(playlist._id)
+    console.log(result.data)
+    movies.push(playlistMovies)
     count++
-    
+    console.log(new Date().getTime()/1000 - time)
+    }
     // for (let movie in playlists[playlist].movies) {
     //   count++
     //   console.log(new Date().getTime()/1000 - time)
     //   const movieInfo = await ApiReq.getSingleEntity("movies", playlists[playlist].movies[movie]._id)
     //   playlistMovies.push(movieInfo)
     // }
-    movies.push(playlistMovies)
-  }
+
+  
   console.log(`MADE ${count} REQUESTS`)
   return { 
     props: { playlists, movies },
