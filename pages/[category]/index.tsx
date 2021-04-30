@@ -1,7 +1,6 @@
 import FilmCategorySliderCard from "../../components/filmCategorySliderCard"
 import Footer from "../../components/footer"
 import Header from "../../components/header"
-import doramas from "../../data/doramas"
 import Link from 'next/link'
 import { ChevronLeftIcon } from "@heroicons/react/solid"
 import comments from "../../data/comments"
@@ -12,10 +11,9 @@ const ApiReq = new apiReq()
 
 const IndexPage = ({ playlist, movies }) => {
     return (
-        <div className="bg-background text-mainText">
-            <Header />
-            <div className="container mx-auto ">
-                <div className="max-w-screen-xl w-full mx-auto grid grid-cols-5 grid-rows-1 gap-7 ">
+        <>
+            <div className="w-full ">
+                <div className=" w-full mx-auto grid grid-cols-5 grid-rows-1 gap-7 ">
                     <div className="lg:col-span-4 md:col-span-5">
                     <nav className="inline-flex max-h-full h-min mb-5">
                         <Link href="/">
@@ -60,14 +58,14 @@ const IndexPage = ({ playlist, movies }) => {
 
                     </div>
 
-                    <div className="lg:col-span-1 lg:block hidden overflow-visible">
+                    <div className="lg:col-span-1 lg:block hidden overflow-visible -ml-7">
                         <Comments comments={comments}/>
                     </div>
 
                 </div>
             </div>
             <Footer />
-        </div>
+        </>
     )
 }
 

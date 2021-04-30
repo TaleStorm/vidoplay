@@ -35,11 +35,9 @@ const IndexPage = ({query}) => {
 
 
     return (
-        <div className="bg-background text-mainText">
-            <Header />
-            <div className="container mx-auto h-screen">
-                <div className="max-w-screen-xl w-full mx-auto ">
-                    <div className={`w-full flex`}>
+            <div className="w-full">
+                    <div className={`w-full flex justify-between flex-wrap -mt-5`}>
+                        <div className={`w-auto flex`}>
                         <div className={`mr-5 w-36`}>
                             <div className={`mb-3`}>
                                 Год
@@ -55,13 +53,13 @@ const IndexPage = ({query}) => {
                         <div className={`w-36 mr-5`}>
                             <div className={`mb-3`}>
                                 Жанр
-                   </div>
+                        </div>
                             <Dropdown datas={genres} state={genre} setState={setGenre} />
                         </div>
                         <div className={`mr-5 w-48`}>
                             <div className={`mb-3`}>
                                 Сортировка
-                   </div>
+                            </div>
                             <Dropdown datas={sorts} state={sort} setState={setSort} />
                         </div>
                         <div className={`w-44 mr-5`}>
@@ -69,6 +67,7 @@ const IndexPage = ({query}) => {
                                 Язык
                             </div>
                             <CheckboxDropdown datas={languages} state={activeLanguages} setState={setActiveLanguages} resetState={"На всех языках"} />
+                        </div>
                         </div>
                         <div className={`flex items-center mt-6 w-auto`}>
                         <div className={`flex-shrink-0 w-auto flex items-center mr-7 `}>
@@ -100,9 +99,6 @@ const IndexPage = ({query}) => {
                         </div>
                     </div>
                 </div>
-            </div>
-            <Footer />
-        </div>
     )
 
 }

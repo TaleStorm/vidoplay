@@ -50,7 +50,7 @@ const Partnership = () => {
     const [conditions, setConditions] = useState("")
 
     return (
-        <Layout>
+<>
         <div className={`mb-16`}>
             <PartnershipHeroBlock/>
         </div>
@@ -231,7 +231,7 @@ const Partnership = () => {
         </button>
         </div>
         </form>
-        </Layout>
+        </>
     )
 }
 

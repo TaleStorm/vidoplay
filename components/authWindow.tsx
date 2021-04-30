@@ -25,7 +25,7 @@ export default function AuthWindow(data: AuthWindowProps) {
   }
 
   return (
-    <div className={`${data.hidden} absolute w-screen h-screen px-6 container`}>
+    <div className={`${data.hidden} fixed w-full h-screen px-6 top-0 left-0`}>
       <div className="max-w-screen-xl w-full mx-auto sm:px-6 sm:grid grid-cols-5 gap-7">
         <div className="relative flex justify-center col-span-5">
           <div className="fixed inset-0 z-40 bg-shadow opacity-10" id="shadow" />

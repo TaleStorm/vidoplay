@@ -61,13 +61,11 @@ export default function IndexPage({ movie, playlist, movies }) {
 
 
   return(
-  <div className="bg-background text-mainText">
+  <>
     <Head>
       <script src="https://vplatform.gcdn.co/_players/v2.0.71/gplayerAPI.js"></script>
     </Head>
-    <Header />
-
-    <div className=" mx-auto max-w-7xl">
+    <div className="w-full">
       <nav className="hidden sm:flex justify-start md:inline">
         <a href="/" className="text-base">
           <svg
@@ -163,9 +161,7 @@ export default function IndexPage({ movie, playlist, movies }) {
             />
       </div>
     </div>
-
-    <Footer />
-  </div>
+  </>
 )}
 
 export const getServerSideProps = async (ctx) => {
