@@ -9,6 +9,7 @@ import comments from "../data/comments";
 import PartnerSlider from "../components/partnerSlider"
 import { PartnerSliderCardData } from "../interfaces"
 import { ChillPromo } from "../components/chillPromo"
+import axios from "axios"
 
 const ApiReq = new apiReq()
 
@@ -69,6 +70,15 @@ const partnerCards: PartnerSliderCardData[] = [
 function IndexPage({ playlists, movies }) {
 
   const [chillPromoOpen, setChillPromoOpen] = useState(false)
+
+  const getData = async () => {
+    let res = await axios.post("/api/getMoviesFromPlaylist", {playlistId: "608a785da10df33ecced916a"})
+    console.log(res)
+  }
+
+  useEffect(() => {
+    getData()
+  },[])
 
   const aboutChillSlide = {
     name: "",

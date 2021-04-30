@@ -22,7 +22,6 @@ export default function Video(data: VideoProps) {
     const pickInFavorites = async () => {
         console.log(JSON.stringify(localStorage.getItem('_user')))
         let tmp = {
-            movieTitle: data.name,
             movieId: data.movieId,
             _user: localStorage.getItem('_user')
         }
@@ -239,7 +238,7 @@ export default function Video(data: VideoProps) {
                     </div>
                     <div className="text-sm col-span-1 flex flex-row justify-end space-x-7 content-end mt-8">
 
-                        <a href="/#" className="self-center space-x-2 flex justify-center">
+                        <a className="self-center space-x-2 flex justify-center" onClick={() => pickInFavorites()}>
                             <h6 className="font-roboto text-mainText text-base inline self-center">
                                 123
                             </h6>
@@ -249,7 +248,7 @@ export default function Video(data: VideoProps) {
                             </svg>
                         </a>
 
-                        <a className="self-center space-x-2 flex justify-center" onClick={() => pickInFavorites()}>
+                        <a className="self-center space-x-2 flex justify-center">
                             <h6 className="font-roboto text-mainText text-base inline self-center">
                                 1
                             </h6>
