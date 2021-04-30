@@ -109,7 +109,7 @@ export type VideoData = {
         videoId: string
         acting: string
     }[][]
-    movieId: string 
+    movieId: string, 
 }
 
 export type FilmCategoryData = {

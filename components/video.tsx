@@ -6,7 +6,7 @@ import { VideoData } from '../interfaces'
 
 type VideoProps = VideoData
 
-export default function Video(data: VideoProps) {
+export default function Video(data) {
     const targetRef = useRef();
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
@@ -113,6 +113,7 @@ export default function Video(data: VideoProps) {
 
             <div className="relative h-64 sm:h-screen" ref={targetRef}>
                 <PLayer
+                    movies={data.movies}
                     width={String(dimensions.width)}
                     height={String(dimensions.height)}
                     series={data.series}

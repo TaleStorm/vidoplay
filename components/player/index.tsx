@@ -89,7 +89,7 @@ let series = [
   ]
 ]
 
-export default function Player(data: PlayerProps) {
+export default function Player(data) {
   const[buttonState, setButton] = useState("visible");
   const[panelState, setPanel] = useState("hidden");
   const[realPanelState, setRealPanel] = useState("hidden");
@@ -111,6 +111,7 @@ export default function Player(data: PlayerProps) {
   const[currentQuality, setCurrentQuality] = useState("AUTO");
   const [isEndedModalOpen, setIsEndedModalOpen] = useState(false)
   const [isCompliationModalOpen, setIsCompliationModalOpen] = useState(false)
+  const [currentCompilationMovie, setCurrentCompilationMovie] = useState(data.movies[0])
   const [isSliderOpen, setIsSliderOpen] = useState(false)
 
   const[globalGplayerAPI, setPlayer] = useState(undefined);
@@ -386,9 +387,9 @@ export default function Player(data: PlayerProps) {
           />
         </PlayerModalOverlay>
         <div className={`${(buttonState === "hidden" || panelState === "hidden") && "opacity-0"}`}>
-          <CompilationSlider setModalOpen={setIsCompliationModalOpen} isSliderOpen={isSliderOpen} setIsSliderOpen={setIsSliderOpen}/>
+          <CompilationSlider setCurrentCompilationMovie={setCurrentCompilationMovie} movies={data.movies} setModalOpen={setIsCompliationModalOpen} isSliderOpen={isSliderOpen} setIsSliderOpen={setIsSliderOpen}/>
           <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
-            <CompilationModal setModalOpen={setIsCompliationModalOpen}/>
+            <CompilationModal currentCompilationMovie={currentCompilationMovie} setModalOpen={setIsCompliationModalOpen}/>
           </PlayerModalOverlay>
         </div>
         <div className={`absolute inset-0 w-full h-full ${panelState}`} onClick = {(e) => showRealPanel(e)} id="playingPanel">
@@ -451,9 +452,9 @@ export default function Player(data: PlayerProps) {
             actingState={actingState}
           />
           <div>
-          <CompilationSlider setModalOpen={setIsCompliationModalOpen} isSliderOpen={isSliderOpen} setIsSliderOpen={setIsSliderOpen}/>
+          <CompilationSlider setCurrentCompilationMovie={setCurrentCompilationMovie} movies={data.movies} setModalOpen={setIsCompliationModalOpen} isSliderOpen={isSliderOpen} setIsSliderOpen={setIsSliderOpen}/>
           <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
-            <CompilationModal setModalOpen={setIsCompliationModalOpen}/>
+            <CompilationModal currentCompilationMovie={currentCompilationMovie} setModalOpen={setIsCompliationModalOpen}/>
           </PlayerModalOverlay>
           </div>
           <ProgressBar 

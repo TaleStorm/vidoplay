@@ -8,7 +8,7 @@ import PlayerFilmCard from "../filmCards/playerFilmCard";
 SwiperCore.use([Navigation]);
 const minWidth = 640
 
-const CompilationSlider = ({setModalOpen, isSliderOpen, setIsSliderOpen}) => {
+const CompilationSlider = ({setModalOpen, isSliderOpen, setIsSliderOpen, movies, setCurrentCompilationMovie}) => {
 
     const sliderContainerRef = useRef() as MutableRefObject<HTMLDivElement>
 
@@ -46,12 +46,13 @@ const CompilationSlider = ({setModalOpen, isSliderOpen, setIsSliderOpen}) => {
                         nextEl: '#next' + 1,
                     }}
                 >
-                    {doramas.map((card, i) => {
+                    {movies.map((card, i) => {
                         return <SwiperSlide key={i} className="">
                             <a onClick={(e) => {
                                 e.preventDefault()
                                 setIsSliderOpen(false)
                                 setModalOpen(true)
+                                setCurrentCompilationMovie(card)
                             }} className={`w-full relative z-20 cursor-pointer`}>
                                 <PlayerFilmCard {...card} imageSize={"45"} />
                             </a>

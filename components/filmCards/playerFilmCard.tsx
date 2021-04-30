@@ -3,11 +3,13 @@ import Tag from "../tag"
 import FilmCardLanguages from "./flimCardLanguages"
 
 const PlayerFilmCard = (data) => {
+    console.log(data)
     return (
+        
         <div className="bg-cardBackground w-full relative ">
             <div className={`h-45 bg-cover relative bg-center`}> 
                 <Image
-                    src={`/images/${data.image}.png`}
+                    src={`${data.image}`}
                     alt="Picture of the film"
                     layout="fill"
                     objectFit="cover"
@@ -20,12 +22,11 @@ const PlayerFilmCard = (data) => {
                         {data.rating}
                     </h1>
                 </div>
-                <FilmCardLanguages data={data}/>
             </div>
 
         <div className="my-4">
             <p className="text-mainText mx-4 mb-4 text-h1-mobile font-medium">
-                {data.name}
+                {data.title}
             </p>
         </div>
         <div className="flex flex-row justify-start flex-wrap mx-4 mb-2">

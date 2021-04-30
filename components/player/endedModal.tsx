@@ -68,7 +68,7 @@ const EndedModal = ({setModalOpen, series, currentSeason, currentSerie, modalOpe
     
     return (
     <div className={`mt-28 w-96`}>
-        <div className={`text-h2-mobile font-medium mb-2`}>Сериал {name}</div>
+        <div className={`text-h2-mobile font-medium mb-2`}>Следующая серия</div>
         <div className="bg-cardBackground w-full relative ">
             <div className={`h-54 bg-cover relative bg-center`}> 
                 <Image
