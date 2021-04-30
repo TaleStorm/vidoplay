@@ -1,6 +1,6 @@
 export default async (req, res) => {
-    const { method, body } = req
-    console.log(body)
+    const { method, body, query } = req
+    console.log(body, query)
     try {
       switch (method) {
         case "GET":

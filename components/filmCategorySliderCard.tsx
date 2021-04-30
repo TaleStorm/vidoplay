@@ -1,6 +1,4 @@
 import Image from 'next/image'
-import Link from 'next/link'
-import { useState } from 'react'
 import Tag from '../components/tag'
 
 import { FilmCategorySliderCardData } from '../interfaces'
