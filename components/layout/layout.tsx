@@ -5,10 +5,8 @@ const Layout = ({children}) => {
     return (
         <>
         <Header />
-        <div className="container mx-auto h-auto flex-shrink-0">
-            <div className="max-w-screen-xl w-full mx-auto px-6 h-full">
-            {children}
-            </div>
+        <div className="h-auto w-full min-h-full flex-shrink-0 md:px-16 px-6 pt-9">
+          {children}
         </div>
         <Footer />
         </>

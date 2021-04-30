@@ -1,8 +1,7 @@
 const Footer = (data:{onAboutChillClick?:Function}) => (
 
-  <footer className="relative">
-    <div className="font-roboto text-mainText text-base  flex flex-col-reverse sm:grid grid-cols-12 pb-8 sm:pb-0 pt-8 sm:pt-14 sm:h-72 px-6 max-w-screen-xl container mx-auto sm:overflow-hidden">
-
+  <footer className="relative md:pl-16 md:pr-28 px-6 pt-36">
+    <div className="font-roboto text-mainText text-base  flex flex-col-reverse sm:grid grid-cols-12 pb-8 sm:pb-0 pt-8 sm:pt-14 sm:h-72 mx-auto sm:overflow-hidden">
       <div className="col-span-2 hidden lg:block">
         <div className="flex  justify-center">
           <a href="/" className="-top-14 h-72 relative w-full">

@@ -188,6 +188,7 @@ export default function Player(data: PlayerProps) {
     if (realPanelState == "hidden") {
       setRealPanel("visible");
       globalGplayerAPI.method({ name: "pause" })
+      setIsCompliationModalOpen(true)
     } else {
       setRealPanel("hidden");
       globalGplayerAPI.method({ name: "play" })

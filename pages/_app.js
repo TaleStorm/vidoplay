@@ -6,6 +6,7 @@ import "swiper/components/effect-fade/effect-fade.scss"
 import Head from 'next/head'
 import { useEffect } from "react"
 import {LoginContextProvider} from "../components/context/loginContext"
+import Layout from "../components/layout/layout"
 
 function MyApp({ Component, pageProps }) {
   
@@ -26,7 +27,9 @@ function MyApp({ Component, pageProps }) {
         <Head>
           <script src="//vk.com/js/api/openapi.js"></script>
         </Head>
+      <Layout>
       <Component {...pageProps} />
+      </Layout>
     </LoginContextProvider>
   )
 }
