@@ -71,6 +71,15 @@ function IndexPage({ playlists, movies }) {
 
   const [chillPromoOpen, setChillPromoOpen] = useState(false)
 
+  const getData = async () => {
+    let res = await axios.post("/api/getMoviesFromPlaylist", {playlistId: "608a785da10df33ecced916a"})
+    console.log(res)
+  }
+
+  useEffect(() => {
+    getData()
+  },[])
+
   const aboutChillSlide = {
     name: "",
     image: "/images/aboutChill.png",

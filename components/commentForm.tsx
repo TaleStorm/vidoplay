@@ -1,3 +1,4 @@
+// data: { onInputChange: Function, onSubmit: Function, value: any }
 const CommentForm = (data: { onInputChange: Function, onSubmit: Function, value: any }) => (
   <div className="ml-7">
     <div className="relative w-full mb-2">
@@ -22,14 +23,14 @@ const CommentForm = (data: { onInputChange: Function, onSubmit: Function, value:
       <textarea
         style={{ resize: "none" }}
         className={`styled-scroll focus:outline-none bg-transparent w-full h-full pr-4`}
-        value={data.value}
-        onChange={(e) => { data.onInputChange(e.target.value) }}
+        // value={data.value}
+        // onChange={(e) => { data.onInputChange(e.target.value) }}
         placeholder="Введите отзыв"
       />
     </div>
     <div className="flex justify-center">
       <button
-        onClick={(e) => data.onSubmit(e)}
+        // onClick={(e) => data.onSubmit(e)}
         className="mx-auto text-center text-h2-mobile text-white bg-orange p-3 duration-300 rounded-lg hover:bg-orange w-full max-w-sm">
         Опубликовать
       </button>

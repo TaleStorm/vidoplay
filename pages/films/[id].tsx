@@ -9,6 +9,7 @@ import FilmCategory from "../../components/filmCategory"
 import apiReq from "../../services/api-requests"
 import Head from 'next/head';
 import { useEffect } from "react"
+import CommentForm from '../../components/commentForm'
 
 const ApiReq = new apiReq()
 
@@ -150,6 +151,8 @@ export default function IndexPage({ movie, playlist, movies }) {
       </div>
 
       <FilmComments comments={comments} />
+
+      {/* <CommentForm /> */}
 
       <div className="mt-8 mx-6 sm:mx-0">
             <FilmCategory 
