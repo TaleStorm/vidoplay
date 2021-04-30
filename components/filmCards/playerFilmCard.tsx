@@ -5,7 +5,7 @@ import FilmCardLanguages from "./flimCardLanguages"
 const PlayerFilmCard = (data) => {
     return (
         <div className="bg-cardBackground w-full relative ">
-            <div className={`h-${data.imageSize} bg-cover relative bg-center`}> 
+            <div className={`h-45 bg-cover relative bg-center`}> 
                 <Image
                     src={`/images/${data.image}.png`}
                     alt="Picture of the film"

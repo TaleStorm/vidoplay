@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { useState } from 'react'
 import Tag from '../components/tag'
 
 import { FilmCategorySliderCardData } from '../interfaces'
@@ -7,8 +8,10 @@ import FilmCardLanguages from './filmCards/flimCardLanguages'
 
 type FilmCategorySliderCardProps = FilmCategorySliderCardData
 
-const FilmCategorySliderCard = (data: FilmCategorySliderCardProps) => (
-	<a href={`/films/${data.stringName} h-full`}>
+const FilmCategorySliderCard = (data: FilmCategorySliderCardProps) => {
+
+	return (
+<a href={`/films/${data.stringName}`}>
   	<div className="bg-cardBackground relative cursor-pointer">
 			<div className={`h-40 md:h-72 sm:h-${data.imageSize} bg-cover relative bg-center`}>
 				<Image
@@ -56,7 +59,8 @@ const FilmCategorySliderCard = (data: FilmCategorySliderCardProps) => (
 		
     </div>
 	</a>
-)
+	)
+}
 
 export default FilmCategorySliderCard
 

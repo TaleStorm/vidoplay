@@ -79,7 +79,7 @@ export default function Authorization(data: AuthorizationProps) {
   return (
       <
       >
-        <div className="pt-2 pb-8 sm:py-8 px-4 sm:px-8 rounded-xl">
+        <div className="pt-2 pb-8 sm:py-8 px-4 sm:px-8 rounded-xl relative z-50">
           <div>
             <a className="absolute sm:top-3 right-3" onClick={data.hideFunc}>
               <svg

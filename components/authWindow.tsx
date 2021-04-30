@@ -25,10 +25,10 @@ export default function AuthWindow(data: AuthWindowProps) {
   }
 
   return (
-    <div className={`${data.hidden} fixed w-full h-screen px-6 top-0 left-0`}>
+    <div className={`${data.hidden} fixed w-full h-screen px-6 top-0 left-0 z-50`}>
       <div className="max-w-screen-xl w-full mx-auto sm:px-6 sm:grid grid-cols-5 gap-7">
         <div className="relative flex justify-center col-span-5">
-          <div className="fixed inset-0 z-40 bg-shadow opacity-10" id="shadow" />
+          <div className="fixed inset-0 z-50 bg-shadow opacity-10" id="shadow" />
           <div className="z-50 absolute top-3 sm:max-w-md sm:mx-auto bg-popupBackground w-full ">
             {stages[data.stage]}
           </div>
