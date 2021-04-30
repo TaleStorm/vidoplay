@@ -129,10 +129,8 @@ export const getStaticProps = async (ctx) => {
   let count = 1
   const movies = []
   for (let playlist of playlists) {
-    const playlistMovies = []
     const result = await ApiReq.getPlaylistMoves(playlist._id)
-    console.log(result.data)
-    movies.push(playlistMovies)
+    movies.push(result.data)
     count++
     console.log(new Date().getTime()/1000 - time)
     }
