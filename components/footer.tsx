@@ -87,16 +87,16 @@ const Footer = (data:{onAboutChillClick?:Function}) => (
       <div className="grid grid-cols-6 col-span-8 lg:col-span-6">
         <div className="col-span-1 text-xs sm:text-base">
           {/* <div>
-            <a href="/" >
+            <a href="/" > 
               Лента
             </a>
           </div> */}
           {/* <div className="mt-3"> */}
-          {/* <div>
-            <a className="cursor-pointer" onClick={()=>data.onAboutChillClick()}>
+          <div>
+            <a href="https://about.chillvision.ru" className="cursor-pointer" onClick={()=>data.onAboutChillClick()}>
               О CHILL
           </a>
-          </div> */}
+          </div>
         </div>
         <div className="pl-8 col-span-5 relative text-xs sm:text-base">
           <div>
@@ -105,17 +105,17 @@ const Footer = (data:{onAboutChillClick?:Function}) => (
           </a>
           </div>
           <div className="mt-3">
-            <a href="/" >
+            <a href="https://about.chillvision.ru/use_rules" >
               Правила использования
           </a>
           </div>
           <div className="mt-3">
-            <a href="/" >
+            <a href="https://about.chillvision.ru/policy" >
               Политика конфиденциальности
           </a>
           </div>
           <div className="mt-3">
-            <a href="/" >
+            <a href="https://about.chillvision.ru/usl_raz" >
               Условия размещения контента пользователя в сервисе
           </a>
           </div>

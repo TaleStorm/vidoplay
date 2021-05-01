@@ -28,7 +28,6 @@ export default function FilmCategorySlider(data: FilmCategorySliderProps) {
                 spaceBetween={20}
                 slidesPerView={swiperWidth < minWidth ? 1.2 : data.cardToShow}
                 allowTouchMove= {true}
-                className="sm:rounded-lg"
                 navigation={{
                   nextEl: '#next' + data.sliderIndex,
                   prevEl: `#prev` + data.sliderIndex

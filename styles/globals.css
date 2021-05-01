@@ -176,7 +176,7 @@ input[type="checkbox"]:checked + label:before {
   transform: translateY(-100%);
 }
 
-.search-container:focus-within
+.search-container.open
 {
   transform: translateY(0%);
 }

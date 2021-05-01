@@ -17,7 +17,7 @@ const Slider = (data: SliderProps) => (
                 spaceBetween={0}
                 slidesPerView={1}
                 allowTouchMove= {true}
-                className="rounded-lg h-40 sm:h-auto"
+                className=" h-40 sm:h-auto"
                 navigation={{
                   nextEl: '#nextMainSlide',
                   prevEl: '#prevMainSlide',

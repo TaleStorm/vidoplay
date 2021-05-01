@@ -23,7 +23,7 @@ class SliderCard extends Component<SliderCardProps,SliderCardState> {
 					alt="Picture of the film"
 					layout="fill"
 					objectFit="cover"
-					className="rounded-lg z-40"
+					className="z-40"
 					onClick={(e)=> this.props.onClick(e)}
 				/>
 				<h3 className="font-medium text-sm sm:text-3xl text-greySlider m-10 z-50 relative">{this.props.name}</h3>

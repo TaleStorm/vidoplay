@@ -18,6 +18,17 @@ export default function Header() {
   const router = useRouter()
 
   useEffect(() => {
+    console.log(router.pathname)
+    console.log(router.pathname === "/search");
+
+    if (router.pathname === "/search") {
+      setIsSearchOpen(true)
+
+      // searchInputRef.current.focus()
+
+    }
+    else
+      setIsSearchOpen(false)
   }, [])
 
   const setAuth = () => {
@@ -50,9 +61,27 @@ export default function Header() {
       <div className="w-full">
         <div className="w-full relative py-2">
           <div className="sm:px-0 flex justify-between items-center">
-            <div className="absolute search-container z-10 top-0 left-0 pt-4 pb-6 sm:px-0 flex justify-between items-center bg-background w-full h-full">
+            <div className={`absolute ${isSearchOpen ? "open" : ""} search-container z-10 top-0 left-0 pt-4 pb-6 sm:px-0 flex justify-between items-center bg-background w-full h-full`}>
               {/* <SearchInput label={`Имя`} name={`name`} state={searchRequest} setState={setSearchRequest} onBlur={()=>setIsSearchOpen(false)}/> */}
-              <div className="bg-filmReviewBackground flex font-medium rounded-lg sm:px-4 py-2 px-2 sm:py-4 w-full text-ui-text transition-all duration-200 ease-out">
+              <a className="mt-4" href="/">
+                <svg
+                  width="35"
+                  height="35"
+                  viewBox="0 0 17 17"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="inline sm:hidden"
+                >
+                  <path
+                    d="M10.8906 13.2812L6.10937 8.5L10.8906 3.71875"
+                    stroke="#FFFFFF"
+                    strokeWidth="1"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </a>
+              <div className="bg-filmReviewBackground flex font-medium rounded-lg sm:px-4 mt-4 py-2 px-2 sm:py-4 w-full text-ui-text transition-all duration-200 ease-out">
                 <svg className={`mr-2`} width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M12.9545 3.75C11.134 3.75 9.35443 4.28983 7.84075 5.30124C6.32708 6.31264 5.14732 7.75018 4.45065 9.43209C3.75399 11.114 3.57171 12.9647 3.92687 14.7502C4.28202 16.5357 5.15867 18.1758 6.44594 19.4631C7.73321 20.7503 9.37329 21.627 11.1588 21.9821C12.9443 22.3373 14.795 22.155 16.4769 21.4583C18.1588 20.7617 19.5964 19.5819 20.6078 18.0682C21.6192 16.5546 22.159 14.775 22.159 12.9545C22.1588 10.5134 21.189 8.17225 19.4629 6.44611C17.7367 4.71996 15.3956 3.75016 12.9545 3.75V3.75Z" stroke="white" strokeWidth="2" strokeMiterlimit="10" />
                   <path d="M19.8218 19.8217L26.2501 26.25" stroke="white" strokeWidth="2" strokeMiterlimit="10" strokeLinecap="round" />
@@ -74,22 +103,22 @@ export default function Header() {
             <div className="flex justify-between items-center">
               {router.pathname.match(/^\/films\/+/) !== null ?
                 <a href="/">
-                <svg
-                  width="35"
-                  height="35"
-                  viewBox="0 0 17 17"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="inline sm:hidden"
-                >
-                  <path
-                    d="M10.8906 13.2812L6.10937 8.5L10.8906 3.71875"
-                    stroke="#FFFFFF"
-                    strokeWidth="1"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                  <svg
+                    width="35"
+                    height="35"
+                    viewBox="0 0 17 17"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="inline sm:hidden"
+                  >
+                    <path
+                      d="M10.8906 13.2812L6.10937 8.5L10.8906 3.71875"
+                      stroke="#FFFFFF"
+                      strokeWidth="1"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
                 </a>
                 :
                 <div className="flex justify-center sm:hidden">
@@ -113,12 +142,14 @@ export default function Header() {
               </nav>
             </div>
             <nav className="flex justify-end">
-              {/* <a href="#" onClick={openSearch} className="text-base text-black-500 hover:text-orange ml-5 w-6 h-6 sm:h-10 sm:w-10">
+              <a
+                href="/search"
+                onClick={openSearch} className="text-base text-black-500 hover:text-orange ml-5 w-6 h-6 sm:h-8 sm:w-8">
                 <svg className={`w-full h-full`} width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M12.9545 3.75C11.134 3.75 9.35443 4.28983 7.84075 5.30124C6.32708 6.31264 5.14732 7.75018 4.45065 9.43209C3.75399 11.114 3.57171 12.9647 3.92687 14.7502C4.28202 16.5357 5.15867 18.1758 6.44594 19.4631C7.73321 20.7503 9.37329 21.627 11.1588 21.9821C12.9443 22.3373 14.795 22.155 16.4769 21.4583C18.1588 20.7617 19.5964 19.5819 20.6078 18.0682C21.6192 16.5546 22.159 14.775 22.159 12.9545C22.1588 10.5134 21.189 8.17225 19.4629 6.44611C17.7367 4.71996 15.3956 3.75016 12.9545 3.75V3.75Z" stroke="white" strokeWidth="2" strokeMiterlimit="10" />
                   <path d="M19.8218 19.8217L26.2501 26.25" stroke="white" strokeWidth="2" strokeMiterlimit="10" strokeLinecap="round" />
                 </svg>
-              </a> */}
+              </a>
               <a className={`${!loginContext.userToken ? "hidden" : ""} cursor-pointer text-base hover:text-gray-900 ml-5 w-6 h-6 sm:h-8 sm:w-8 text-orange`} href={`/user`}>
                 <svg className={`w-full h-full stroke-current`} width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M15 18.75C19.1421 18.75 22.5 15.3921 22.5 11.25C22.5 7.10786 19.1421 3.75 15 3.75C10.8579 3.75 7.5 7.10786 7.5 11.25C7.5 15.3921 10.8579 18.75 15 18.75Z" strokeWidth="2" strokeMiterlimit="10" />
