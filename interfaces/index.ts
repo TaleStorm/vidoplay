@@ -220,7 +220,8 @@ export interface CommentsData  {
 }
 
 export type FilmCommentsData = {
-    comments: Comment[]
+    comments: Comment[],
+    movieId: string
 }
 
 export interface InputProps  {
