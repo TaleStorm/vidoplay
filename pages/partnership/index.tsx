@@ -33,7 +33,7 @@ const Partnership = () => {
 
     const [producer, setProducer] = useState("")
 
-    const [actors, setActive] = useState("")
+    const [actors, setActors] = useState("")
 
     const [trailer, setTrailer] = useState("")
 
@@ -146,29 +146,29 @@ const Partnership = () => {
             label={`Продюссер`}
             name={`producer`}
             placeholder={`Продюссер`}
-            state={email}
-            setState={setEmail}
+            state={producer}
+            setState={setProducer}
             />
             <TextInput
             label={`Актеры`}
             name={`producer`}
             placeholder={`Актеры`}
-            state={email}
-            setState={setEmail}
+            state={actors}
+            setState={setActors}
             />
             <TextInput
             label={`Ссылка на скачивание трейлера`}
             name={`producer`}
             placeholder={`Ссылка на скачивание трейлера`}
-            state={email}
-            setState={setEmail}
+            state={trailer}
+            setState={setTrailer}
             />
 
             <ImageInput
-                        header={"Постер"}
-                        buttonText={`Прикрепить постер`}
-                        notice={`*  Постер — 400*520px`}
-                        multiple={false}
+            header={"Постер"}
+            buttonText={`Прикрепить постер`}
+            notice={`*  Постер — 400*520px`}
+            multiple={false}
             />
                         <ImageInput
             header={"Обложки серий"}
@@ -212,19 +212,20 @@ const Partnership = () => {
             label={'Информация об участии в фестивалях'}
             name={"festival-info"}
             placeholder={"Введите информацию об участии в фестивалях"}
-            state={annotation}
-            setState={setAnnotation}
+            state={festivalInfo}
+            setState={setFestivalInfo}
             />
             </div>
         </div>
         </DropdownWrapper>
+        <label className={`cursor-pointer select-none`}>
         <div className={`flex items-center`}>
-        <div className={`w-6 h-6 mr-3`}>
+        <div className={`w-6 h-6 mr-3`}>  
         <Checkbox state={conditions} setState={setConditions}/>
         </div>
         Я принимаю условия пользования платформой
         </div>
-        
+        </label>
         <button 
         className="mt-10 text-h2-mobile text-center text-white bg-orange p-3 duration-300 rounded-lg hover:bg-orange w-full md:w-64">
                 Отправить

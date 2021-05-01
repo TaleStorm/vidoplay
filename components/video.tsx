@@ -1,14 +1,27 @@
 import PLayer from "../components/player"
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, MutableRefObject } from "react";
 import axios from "axios"
 
 import { VideoData } from '../interfaces'
+import StarIcon from "./icons/starIcon";
+import ThumbsUp from "./icons/thumbsUp";
 
 type VideoProps = VideoData
 
 export default function Video(data) {
-    const targetRef = useRef();
+    const targetRef = useRef() as MutableRefObject<HTMLDivElement>
+    const containRef = useRef() as MutableRefObject<HTMLDivElement>
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+    console.log(data)
+    const [rating, setRating] = useState(null)
+    const [hoveredRating, setHoveredRating] = useState(0)
+    const stars = [1,2,3,4,5]
+
+
+
+    useEffect(() => {
+        targetRef.current.style.height = (containRef.current.getBoundingClientRect().width * 9/16) + 120 + "px"
+    },[])
 
     useEffect(() => {
         if (targetRef.current) {
@@ -31,13 +44,14 @@ export default function Video(data) {
     }
 
     return (
-        <div className="mx-6 mt-6 sm:mx-auto w-full">
-
-            <div className="sm:grid grid-cols-2 grid-rows-1 gap-4 mb-6">
-                <h4 className="hidden font-roboto text-mainText font-normal text-3xl sm:block mb-5 col-span-1">
+        <>
+                <h4 className="hidden mt-6 font-roboto text-mainText font-normal text-3xl sm:block mb-4 col-span-1 w-full">
                     {data.name}
                 </h4>
-                <div className="hidden text-sm mb-5 col-span-1 sm:flex flex-row justify-end space-x-3">
+        <div ref={containRef}  className=" md:mx-auto max-w-4xl  w-full">
+
+            <div className="sm:grid grid-cols-2 grid-rows-1 gap-4 mb-6">
+                <div className="hidden text-sm col-span-1 sm:flex flex-row justify-end space-x-3">
                     <div className="hidden">
 
                         <a href="/#" className="self-center" >
@@ -111,7 +125,7 @@ export default function Video(data) {
                 </div>
             </div>
 
-            <div className="relative h-64 sm:h-screen" ref={targetRef}>
+            <div className="relative h-64" ref={targetRef}>
                 <PLayer
                     movies={data.movies}
                     width={String(dimensions.width)}
@@ -191,7 +205,7 @@ export default function Video(data) {
                 {data.name}
             </h4>
 
-            <div className="hidden sm:grid grid-cols-2 grid-rows-1 gap-4 mb-6">
+            <div className="hidden grid-cols-2 grid-rows-1 gap-4 mb-6">
                 <div className="hidden mt-10 space-x-6 col-span-1 sm:flex flex-wrap content-end">
                     {/* <button className="bg-orange hover:bg-orange text-mainText font-normal py-3 px-14 rounded-md text-sm">
                         Совместный просмотр
@@ -200,54 +214,40 @@ export default function Video(data) {
                         Смотреть трейлер
                     </button> */}
                 </div>
-                <div className="text-sm col-span-1 flex flex-row justify-end content-between space-x-7 mt-8 pb-2">
-                    <div className="text-sm col-span-1 flex justify-end space-x-3 flex-wrap content-between mt-8">
 
-                        <h4 className="font-roboto text-mainText text-base inline self-center">
-                            Оцените сериал
+            </div>
+
+        </div>
+        <div className = {`w-full`}>
+                            <div className="text-sm col-span-1 flex flex-row justify-end content-between mt-8 pb-2">
+                    <div className="text-sm col-span-1 flex items-center justify-end mt-8 mr-8">
+                        <h4 className="font-roboto font-medium text-mainText text-base inline self-center mr-5">
+                            {rating ? "Ваша оценка" : "Оцените сериал"}
                         </h4>
+                        <div 
+                        onMouseLeave={() => {
+                                setHoveredRating(0)
+                            }}
+                        className={`flex items-center`}>
+                        {stars.map((star, i) => {
+                            return (
+                                <div className={`${i === stars.length - 1 ? "mr-0" : "mr-2"} w-8 h-8`}>
+                                    <StarIcon setRating={setRating} rating={rating} index={star} hoveredRating={hoveredRating} setHoveredRating={setHoveredRating}/>
+                                </div>
+                            )
 
-                        <a href="/#" className="self-center">
-                            <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M23.6127 28.9768L15.6118 22.7632L14.9984 22.2869L14.3851 22.7632L6.3816 28.9788C6.38037 28.9756 6.37918 28.9722 6.37808 28.9684L5.41862 29.2503L6.37808 28.9684C6.37034 28.9421 6.37072 28.9122 6.37882 28.8866L6.37901 28.886L9.51423 18.9385L9.72941 18.2558L9.15251 17.832L1.02693 11.863L1.0265 11.8626C1.02625 11.8625 1.01483 11.8534 1.00666 11.8283C0.998347 11.8028 0.9977 11.7727 1.00538 11.746C1.01 11.73 1.0162 11.7197 1.0207 11.7138H11.0219H11.7636L11.9788 11.0041L14.9984 1.0497L18.018 11.0073L18.2332 11.7171H18.975H28.9793C28.9838 11.723 28.99 11.7332 28.9946 11.7492C29.0023 11.7759 29.0017 11.806 28.9934 11.8315C28.9852 11.8567 28.9738 11.8658 28.9735 11.866L28.9734 11.866L20.8447 17.8317L20.2674 18.2554L20.4826 18.9384L23.616 28.8832L23.616 28.8834C23.6219 28.902 23.624 28.9238 23.6209 28.9456L24.6114 29.0834L23.6209 28.9456C23.6193 28.9578 23.6162 28.9682 23.6127 28.9768Z" stroke="#C0C0C0" strokeWidth="2" />
-                            </svg>
-                        </a>
-
-                        <a href="/#" className="self-center">
-                            <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M23.6127 28.9768L15.6118 22.7632L14.9984 22.2869L14.3851 22.7632L6.3816 28.9788C6.38037 28.9756 6.37918 28.9722 6.37808 28.9684L5.41862 29.2503L6.37808 28.9684C6.37034 28.9421 6.37072 28.9122 6.37882 28.8866L6.37901 28.886L9.51423 18.9385L9.72941 18.2558L9.15251 17.832L1.02693 11.863L1.0265 11.8626C1.02625 11.8625 1.01483 11.8534 1.00666 11.8283C0.998347 11.8028 0.9977 11.7727 1.00538 11.746C1.01 11.73 1.0162 11.7197 1.0207 11.7138H11.0219H11.7636L11.9788 11.0041L14.9984 1.0497L18.018 11.0073L18.2332 11.7171H18.975H28.9793C28.9838 11.723 28.99 11.7332 28.9946 11.7492C29.0023 11.7759 29.0017 11.806 28.9934 11.8315C28.9852 11.8567 28.9738 11.8658 28.9735 11.866L28.9734 11.866L20.8447 17.8317L20.2674 18.2554L20.4826 18.9384L23.616 28.8832L23.616 28.8834C23.6219 28.902 23.624 28.9238 23.6209 28.9456L24.6114 29.0834L23.6209 28.9456C23.6193 28.9578 23.6162 28.9682 23.6127 28.9768Z" stroke="#C0C0C0" strokeWidth="2" />
-                            </svg>
-                        </a>
-
-                        <a href="/#" className="self-center">
-                            <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M23.6127 28.9768L15.6118 22.7632L14.9984 22.2869L14.3851 22.7632L6.3816 28.9788C6.38037 28.9756 6.37918 28.9722 6.37808 28.9684L5.41862 29.2503L6.37808 28.9684C6.37034 28.9421 6.37072 28.9122 6.37882 28.8866L6.37901 28.886L9.51423 18.9385L9.72941 18.2558L9.15251 17.832L1.02693 11.863L1.0265 11.8626C1.02625 11.8625 1.01483 11.8534 1.00666 11.8283C0.998347 11.8028 0.9977 11.7727 1.00538 11.746C1.01 11.73 1.0162 11.7197 1.0207 11.7138H11.0219H11.7636L11.9788 11.0041L14.9984 1.0497L18.018 11.0073L18.2332 11.7171H18.975H28.9793C28.9838 11.723 28.99 11.7332 28.9946 11.7492C29.0023 11.7759 29.0017 11.806 28.9934 11.8315C28.9852 11.8567 28.9738 11.8658 28.9735 11.866L28.9734 11.866L20.8447 17.8317L20.2674 18.2554L20.4826 18.9384L23.616 28.8832L23.616 28.8834C23.6219 28.902 23.624 28.9238 23.6209 28.9456L24.6114 29.0834L23.6209 28.9456C23.6193 28.9578 23.6162 28.9682 23.6127 28.9768Z" stroke="#C0C0C0" strokeWidth="2" />
-                            </svg>
-                        </a>
-
-                        <a href="/#" className="self-center">
-                            <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M23.6127 28.9768L15.6118 22.7632L14.9984 22.2869L14.3851 22.7632L6.3816 28.9788C6.38037 28.9756 6.37918 28.9722 6.37808 28.9684L5.41862 29.2503L6.37808 28.9684C6.37034 28.9421 6.37072 28.9122 6.37882 28.8866L6.37901 28.886L9.51423 18.9385L9.72941 18.2558L9.15251 17.832L1.02693 11.863L1.0265 11.8626C1.02625 11.8625 1.01483 11.8534 1.00666 11.8283C0.998347 11.8028 0.9977 11.7727 1.00538 11.746C1.01 11.73 1.0162 11.7197 1.0207 11.7138H11.0219H11.7636L11.9788 11.0041L14.9984 1.0497L18.018 11.0073L18.2332 11.7171H18.975H28.9793C28.9838 11.723 28.99 11.7332 28.9946 11.7492C29.0023 11.7759 29.0017 11.806 28.9934 11.8315C28.9852 11.8567 28.9738 11.8658 28.9735 11.866L28.9734 11.866L20.8447 17.8317L20.2674 18.2554L20.4826 18.9384L23.616 28.8832L23.616 28.8834C23.6219 28.902 23.624 28.9238 23.6209 28.9456L24.6114 29.0834L23.6209 28.9456C23.6193 28.9578 23.6162 28.9682 23.6127 28.9768Z" stroke="#C0C0C0" strokeWidth="2" />
-                            </svg>
-                        </a>
-
-                        <a href="/#" className="self-center">
-                            <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M23.6127 28.9768L15.6118 22.7632L14.9984 22.2869L14.3851 22.7632L6.3816 28.9788C6.38037 28.9756 6.37918 28.9722 6.37808 28.9684L5.41862 29.2503L6.37808 28.9684C6.37034 28.9421 6.37072 28.9122 6.37882 28.8866L6.37901 28.886L9.51423 18.9385L9.72941 18.2558L9.15251 17.832L1.02693 11.863L1.0265 11.8626C1.02625 11.8625 1.01483 11.8534 1.00666 11.8283C0.998347 11.8028 0.9977 11.7727 1.00538 11.746C1.01 11.73 1.0162 11.7197 1.0207 11.7138H11.0219H11.7636L11.9788 11.0041L14.9984 1.0497L18.018 11.0073L18.2332 11.7171H18.975H28.9793C28.9838 11.723 28.99 11.7332 28.9946 11.7492C29.0023 11.7759 29.0017 11.806 28.9934 11.8315C28.9852 11.8567 28.9738 11.8658 28.9735 11.866L28.9734 11.866L20.8447 17.8317L20.2674 18.2554L20.4826 18.9384L23.616 28.8832L23.616 28.8834C23.6219 28.902 23.624 28.9238 23.6209 28.9456L24.6114 29.0834L23.6209 28.9456C23.6193 28.9578 23.6162 28.9682 23.6127 28.9768Z" stroke="#C0C0C0" strokeWidth="2" />
-                            </svg>
-                        </a>
+                        })}
+                        </div>
                     </div>
-                    <div className="text-sm col-span-1 flex flex-row justify-end space-x-7 content-end mt-8">
-
-                        <a className="self-center space-x-2 flex justify-center" onClick={() => pickInFavorites()}>
-                            <h6 className="font-roboto text-mainText text-base inline self-center">
+                    <div className="text-sm col-span-1 flex flex-row justify-end content-end mt-8">
+                        <div className="self-center mr-5 flex justify-center" onClick={() => pickInFavorites()}>
+                            <h6 className="font-roboto mr-2 text-mainText text-base inline self-center">
                                 123
                             </h6>
-                            <svg width="27" height="25" viewBox="0 0 27 25" fill="none" xmlns="http://www.w3.org/2000/svg" className="inline">
-                                <path d="M2.74927 11.1875H8.37427V23.375H2.74927C2.50063 23.375 2.26217 23.2762 2.08635 23.1004C1.91054 22.9246 1.81177 22.6861 1.81177 22.4375V12.125C1.81177 11.8764 1.91054 11.6379 2.08635 11.4621C2.26217 11.2863 2.50063 11.1875 2.74927 11.1875V11.1875Z" stroke="#F2F2F2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                <path d="M8.37427 11.1875L13.0618 1.8125C13.5542 1.8125 14.0419 1.9095 14.4968 2.09795C14.9518 2.28641 15.3652 2.56263 15.7134 2.91085C16.0616 3.25907 16.3379 3.67247 16.5263 4.12744C16.7148 4.58241 16.8118 5.07004 16.8118 5.5625V8.375H24.0628C24.3287 8.375 24.5915 8.43154 24.8338 8.54087C25.0762 8.65019 25.2925 8.80981 25.4684 9.00912C25.6444 9.20843 25.7759 9.44288 25.8544 9.69692C25.9328 9.95095 25.9563 10.2188 25.9233 10.4826L24.5171 21.7326C24.4604 22.186 24.24 22.6032 23.8974 22.9056C23.5548 23.2081 23.1136 23.375 22.6566 23.375H8.37427" stroke="#F2F2F2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                        </a>
+                            <div className={`w-8 h-8 -mt-1.5`}>
+                            <ThumbsUp/>
+                            </div>
+                        </div>
 
                         <a className="self-center space-x-2 flex justify-center">
                             <h6 className="font-roboto text-mainText text-base inline self-center">
@@ -260,8 +260,7 @@ export default function Video(data) {
                         </a>
                     </div>
                 </div>
-            </div>
-
         </div>
+        </>
     )
 }

@@ -40,7 +40,7 @@ const CompilationSlider = ({setModalOpen, isSliderOpen, setIsSliderOpen, movies,
                 className={`w-full overflow-hidden transition-all duration-300 ease-out`}>
                 <Swiper
                     spaceBetween={20}
-                    slidesPerView={3.5}
+                    slidesPerView={2.5}
                     allowTouchMove={true}
                     navigation={{
                         nextEl: '#next' + 1,

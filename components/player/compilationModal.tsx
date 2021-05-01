@@ -5,7 +5,7 @@ import Tag from "../tag";
 
 const CompilationModal = ({setModalOpen, currentCompilationMovie}) => {
     return (
-    <div className={`mt-28 w-96`}>
+    <div className={`w-96`}>
         <div className={`text-h2-mobile font-medium mb-2`}>Сериал {currentCompilationMovie.title}</div>
         <div className="bg-cardBackground w-full relative ">
             <div className={`h-54 bg-cover relative bg-center`}> 
