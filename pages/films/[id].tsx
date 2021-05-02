@@ -10,7 +10,6 @@ import apiReq from "../../services/api-requests"
 import Head from "next/head"
 import { useEffect } from "react"
 
-
 const ApiReq = new apiReq()
 
 let comments = [
@@ -97,10 +96,10 @@ export default function IndexPage({ movie, playlist, movies }) {
           yearPolicity={movie.age}
           country={movie.contry}
           janr={movie.type}
-          director={movie.director}
-          operator={movie.producer}
-          producer={movie.producer}
-          screenwriter={movie.writers}
+          director={movie.directors}
+          operator={movie.operators}
+          producer={movie.producers}
+          screenwriter={movie.scenarists}
         />
 
         <div className="mx-6 sm:hidden">
@@ -176,8 +175,7 @@ export default function IndexPage({ movie, playlist, movies }) {
             ]}
           />
         </div>
-          <FilmComments comments={comments} movieId ={movie._id}/>
-
+        <FilmComments comments={comments} movieId={movie._id} />
 
         <div className="mt-8 mx-6 sm:mx-0">
           <FilmCategory

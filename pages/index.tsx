@@ -91,7 +91,7 @@ function IndexPage({ playlists, movies }) {
         <div className="w-full mx-auto sm:grid grid-cols-5 grid-rows-1 gap-7">
           <div className="lg:col-span-4 md:col-span-5 space-y-12 sm:space-y-16">
             <Slider cards={[aboutChillSlide, ...cards]} />
-            {/* {playlists.map((playlist, i) => {
+            {playlists.map((playlist, i) => {
               return (
                 <>
                   <FilmCategory
@@ -111,7 +111,7 @@ function IndexPage({ playlists, movies }) {
                   }
                 </>
               )
-            })} */}
+            })}
             {/* <PartnerSlider cards={partnerCards} cardToShow={3} sliderIndex={8} /> */}
           </div>
           <div className="hidden lg:col-span-1 md:-mr-7 lg:block">

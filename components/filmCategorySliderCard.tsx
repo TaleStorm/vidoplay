@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { useEffect } from 'react'
 import Tag from '../components/tag'
 
 import { FilmCategorySliderCardData } from '../interfaces'
@@ -7,6 +8,10 @@ import FilmCardLanguages from './filmCards/flimCardLanguages'
 type FilmCategorySliderCardProps = FilmCategorySliderCardData
 
 const FilmCategorySliderCard = (data: FilmCategorySliderCardProps) => {
+
+	useEffect(() => {
+		console.log(data.image)
+	},)
 
 	return (
 <a href={`/films/${data.stringName}`}>

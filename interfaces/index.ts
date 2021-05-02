@@ -165,12 +165,12 @@ export type FilmDescriptionData = {
     name: string
     description: string
     yearPolicity: string
-    country: string
+    country: Object
     janr: string
-    director: string
-    operator: string
-    screenwriter: string
-    producer: string
+    director: Object
+    operator: Object
+    screenwriter: Object
+    producer: Object
 }
 
 export type ScreenshotsData = {

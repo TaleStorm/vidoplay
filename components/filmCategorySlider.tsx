@@ -54,7 +54,7 @@ export default function FilmCategorySlider(data: FilmCategorySliderProps) {
                 }}
               >
                 {data.cards.map((card, i) => {    
-                  return <SwiperSlide key={i} className="">
+                  return (<SwiperSlide key={i} className="">
                     <FilmCategorySliderCard 
                       title={card.title} 
                       image={card.image}
@@ -75,7 +75,7 @@ export default function FilmCategorySlider(data: FilmCategorySliderProps) {
                       comments={30}
                       rating={7.8}
                     />
-                  </SwiperSlide>
+                  </SwiperSlide>)
                 })}
             </Swiper>
         <div  className={`${!rightActive && "opacity-25"} hidden -mr-2.5 z-10 sm:-mr-8 absolute inset-y-0 right-0 h-full sm:flex flex-wrap content-center`}  id={`next${data.sliderIndex}`}>
