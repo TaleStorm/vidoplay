@@ -1,4 +1,4 @@
-import Header from "../../components/header"
+import Header from "../../components/layout/header"
 import FilmDescription from "../../components/filmDescription"
 import Footer from "../../components/footer"
 import FilmComments from "../../components/filmComments"
@@ -40,6 +40,8 @@ let comments = [
 ]
 
 export default function IndexPage({ movie, playlist, movies }) {
+
+  console.log(movies)
   const series = []
   for (let season in movie.serial) {
     const seasonBuffer = []
@@ -86,7 +88,7 @@ export default function IndexPage({ movie, playlist, movies }) {
           </a>
         </nav>
 
-        <Video name={movie.title} series={series} movieId={movie._id} />
+      <Video name={movie.title} series={series} movieId = {movie._id} movies = {movies}/>
 
         <Series series={series} />
 

@@ -1,12 +1,16 @@
-import AuthWindow from '../components/authWindow'
+import AuthWindow from '../authWindow'
 import React, { MutableRefObject, useContext, useEffect, useRef, useState } from "react";
 import { useRouter } from 'next/router'
-import LoginContext from './context/loginContext';
-import SearchInput from './inputs/searchInput';
+import LoginContext from '../context/loginContext';
+import SearchInput from '../inputs/searchInput';
+import Sidebar from './sidebar';
+import MenuIcon from '../icons/menuIcon';
 
 export default function Header() {
   const [auth, changeAuth] = useState("hidden")
   const [authState, changeState] = useState("auth")
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [searchRequest, setSearchRequest] = useState("")
@@ -56,7 +60,18 @@ export default function Header() {
     searchInputRef.current.focus()
   }
 
+  useEffect(() => {
+    if (isSidebarOpen) {
+      document.getElementById("nav-icon2").classList.add("open")
+    }
+    else {
+      document.getElementById("nav-icon2").classList.remove("open")
+    }
+  },[isSidebarOpen])
+
   return (
+    <>
+    <Sidebar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} setAuth={setAuth}/>
     <header className="relative w-full md:px-16 px-6">
       <div className="w-full">
         <div className="w-full relative py-2">
@@ -150,18 +165,21 @@ export default function Header() {
                   <path d="M19.8218 19.8217L26.2501 26.25" stroke="white" strokeWidth="2" strokeMiterlimit="10" strokeLinecap="round" />
                 </svg>
               </a>
-              <a className={`${!loginContext.userToken ? "hidden" : ""} cursor-pointer text-base hover:text-gray-900 ml-5 w-6 h-6 sm:h-8 sm:w-8 text-orange`} href={`/user`}>
+              <a className={`${!loginContext.userToken ? "hidden" : ""} cursor-pointer text-base hover:text-gray-900  w-6 h-6 sm:h-8 sm:w-8 text-orange`} href={`/user`}>
                 <svg className={`w-full h-full stroke-current`} width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M15 18.75C19.1421 18.75 22.5 15.3921 22.5 11.25C22.5 7.10786 19.1421 3.75 15 3.75C10.8579 3.75 7.5 7.10786 7.5 11.25C7.5 15.3921 10.8579 18.75 15 18.75Z" strokeWidth="2" strokeMiterlimit="10" />
                   <path d="M3.63135 25.3114C4.78396 23.3164 6.44128 21.6598 8.43684 20.508C10.4324 19.3563 12.6959 18.75 15 18.75C17.304 18.75 19.5675 19.3564 21.563 20.5082C23.5586 21.6599 25.2159 23.3166 26.3684 25.3116" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </a>
-              <a className={`${loginContext.userToken ? "hidden" : ""} cursor-pointer text-base text-black-500 hover:text-gray-900 ml-5 w-6 h-6 sm:h-8 sm:w-8`} onClick={() => setAuth()}>
+              <a className={`${loginContext.userToken ? "hidden" : ""} cursor-pointer text-base text-black-500 hover:text-gray-900  w-6 h-6 sm:h-8 sm:w-8`} onClick={() => setAuth()}>
                 <svg className={`w-full h-full`} width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M15 18.75C19.1421 18.75 22.5 15.3921 22.5 11.25C22.5 7.10786 19.1421 3.75 15 3.75C10.8579 3.75 7.5 7.10786 7.5 11.25C7.5 15.3921 10.8579 18.75 15 18.75Z" stroke="white" strokeWidth="2" strokeMiterlimit="10" />
                   <path d="M3.63135 25.3114C4.78396 23.3164 6.44128 21.6598 8.43684 20.508C10.4324 19.3563 12.6959 18.75 15 18.75C17.304 18.75 19.5675 19.3564 21.563 20.5082C23.5586 21.6599 25.2159 23.3166 26.3684 25.3116" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </a>
+              <div onClick={() => {setIsSidebarOpen(!isSidebarOpen)}} className={`sm:hidden ml-5 w-6 h-6 sm:h-8 sm:w-8 cursor-pointer ${isSidebarOpen ? 'text-orange' : "text-mainText"}`}>
+              <MenuIcon/>
+              </div>
             </nav>
           </div>
         </div>
@@ -176,5 +194,6 @@ export default function Header() {
 
       </div>
     </header>
+    </>
   );
 }

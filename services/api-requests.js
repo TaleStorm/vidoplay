@@ -11,7 +11,7 @@ export default class NewsService {
   postResource = async (url, body) => {
     const response = await fetch(url, {
       method: "POST",
-      body,
+      body: JSON.stringify(body),
       headers: {
         "Content-Type": "application/json",
       },
@@ -37,6 +37,12 @@ export default class NewsService {
 
   getSingleEntity = (entity, id) => {
     return this.getResource(`${urlPrefix}/api/${entity}/${id}`)
+  }
+
+  getPlaylistMoves = (id) => {
+    return this.postResource(`http://localhost:3000/api/getMoviesFromPlaylist`, {
+      playlistId: id
+    })
   }
 
 

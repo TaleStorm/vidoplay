@@ -1,14 +1,12 @@
 import { MutableRefObject, useEffect, useRef, useState } from "react"
-import Header from "../components/header"
+import Header from "../components/layout/header"
 import Footer from "../components/footer"
 import Slider from "../components/slider"
 import Comments from "../components/comments"
 import FilmCategory from "../components/filmCategory"
 import apiReq from "../services/api-requests"
 import comments from "../data/comments";
-import PartnerSlider from "../components/partnerSlider"
 import { PartnerSliderCardData } from "../interfaces"
-import { ChillPromo } from "../components/chillPromo"
 import axios from "axios"
 
 const ApiReq = new apiReq()
@@ -106,7 +104,7 @@ function IndexPage({ playlists, movies }) {
                     <img
                       src={"/images/sosedi.jpg"}
                       alt="Picture of the film"
-                      className="rounded-lg"
+                      className={`w-full rounded-lg mt-10 mb-10`}
                     />
                   }
                 </>
@@ -123,26 +121,26 @@ function IndexPage({ playlists, movies }) {
 }
 
 export const getStaticProps = async (ctx) => {
-  const playlists = await ApiReq.getEntities("playlists")
-  let count = 1
   let time = new Date().getTime()/1000
+  const playlists = await ApiReq.getEntities("playlists")
+  console.log(new Date().getTime()/1000 - time)
+  let count = 1
   const movies = []
-  for (let playlist in playlists) {
-    const playlistMovies = []
-    for (let movie in playlists[playlist].movies) {
-      count++
-      console.log(new Date().getTime()/1000 - time)
-      const movieInfo = await ApiReq.getSingleEntity("movies", playlists[playlist].movies[movie]._id)
-      
-      playlistMovies.push(movieInfo)
+  for (let playlist of playlists) {
+    const result = await ApiReq.getPlaylistMoves(playlist._id)
+    movies.push(result.data)
+    count++
+    console.log(new Date().getTime()/1000 - time)
     }
-    movies.push(playlistMovies)
-  }
-  console.log(`MADE ${count} REQUESTS`)
+    // for (let movie in playlists[playlist].movies) {
+    //   count++
+    //   console.log(new Date().getTime()/1000 - time)
+    //   const movieInfo = await ApiReq.getSingleEntity("movies", playlists[playlist].movies[movie]._id)
+    //   playlistMovies.push(movieInfo)
+    // }
   return { 
     props: { playlists, movies },
     revalidate: 10
-  
   }
 }
 

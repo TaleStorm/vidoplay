@@ -4,7 +4,8 @@ import PlayerFilmCard from "../filmCards/playerFilmCard";
 
 const PlayerModalOverlay = ({ modalOpen, setModalOpen, classes="", children }) => {
     const modalOverlayRef = useRef() as MutableRefObject<HTMLDivElement>;
-    const modalWrap = useRef();
+    const modalWrap = useRef() as MutableRefObject<HTMLDivElement>;
+    const thirdWrap = useRef() as MutableRefObject<HTMLDivElement>;
 
 
     useEffect(() => {
@@ -23,7 +24,8 @@ const PlayerModalOverlay = ({ modalOpen, setModalOpen, classes="", children }) =
             onClick={(e) => {
                 if (
                     e.target === modalOverlayRef.current ||
-                    e.target === modalWrap.current
+                    e.target === modalWrap.current ||
+                    e.target === thirdWrap.current
                 ) {
                     setModalOpen();
                 }
@@ -33,13 +35,15 @@ const PlayerModalOverlay = ({ modalOpen, setModalOpen, classes="", children }) =
                 height: "0px",
             }}
             className={`${modalOpen ? "opacity-100" : "opacity-0"
-                } h-screen absolute top-0 left-0 z-40 bg-black bg-opacity-25 w-full overflow-y-auto flex justify-center transition-opacity duration-500`}
+                } h-full absolute top-0 left-0 z-40 bg-black bg-opacity-25 w-full overflow-y-auto flex justify-center transition-opacity duration-500`}
         >
             <div
                 ref={modalWrap}
-                className={`w-full h-0 flex justify-center ${classes}`}
+                className={`w-full h-auto flex justify-center ${classes}`}
             >
-                <div className={`h-auto flex justify-center w-full`}>
+                <div 
+                ref={thirdWrap} 
+                className={`h-auto flex justify-center items-center w-full`}>
                     {children}
                 </div>
                     
