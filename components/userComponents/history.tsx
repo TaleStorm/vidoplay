@@ -5,8 +5,8 @@ const History = ({films}) => {
     return (
         <div className={`w-full`}>
                     <div className={`grid gap-x-8 gap-y-6 lg:grid-cols-3`}>
-                    {films.map((film:FilmCategorySliderCardData, i:number) => (
-                            <MiniFilmCard key={`${film.title}${i}`} {...film} imageSize={"40"} />
+                    {films.map((film, i:number) => (
+                            <MiniFilmCard key={`${film}${i}`} filmId={film.movieId} imageSize={"40"} />
                         ))}
                     </div>
         </div>

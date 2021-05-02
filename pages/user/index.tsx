@@ -66,25 +66,26 @@ const IndexPage = () => {
     setUserPassword(data._password)
 
     setFavourites(data.list.favorites)
+    setHistory(data.list.favorites)
 
     setLoading(false)
     console.log(data)
   }
 
-  useEffect(() => {
-    if (display === "history" || display === "favourites") {
-      setFilmLoading(true)
-      if (display === "history") {
-        setHistory(doramas)
-      }
-      if (display === "favourites") {
-        // setFavourites(doramas)
-      }
-      setTimeout(() => {
-        setFilmLoading(false)
-      }, 1000)
-    }
-  }, [display])
+  // useEffect(() => {
+  //   if (display === "history" || display === "favourites") {
+  //     setFilmLoading(true)
+  //     if (display === "history") {
+  //       // setHistory(doramas)
+  //     }
+  //     if (display === "favourites") {
+  //       // setFavourites(doramas)
+  //     }
+  //     setTimeout(() => {
+  //       setFilmLoading(false)
+  //     }, 1000)
+  //   }
+  // }, [display])
 
   const updateUser = async () => {
     const userId = localStorage.getItem("_user")
