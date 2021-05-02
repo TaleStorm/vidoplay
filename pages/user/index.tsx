@@ -13,6 +13,7 @@ import axios from "axios"
 import Router from "next/router"
 import LoginContext from "../../components/context/loginContext"
 import getUser from "../api/getUser"
+import GoodToast from "../../components/goodtoast"
 
 const stageHeaders = {
   data: "Редактировать профиль",
@@ -26,7 +27,7 @@ const IndexPage = () => {
   const [loading, setLoading] = useState(true)
   const [filmLoading, setFilmLoading] = useState(false)
   const [display, setDisplay] = useState("")
-  const [isNewData, setIsNewData] = useState(false)
+  const [isNewData, setIsNewData] = useState(true)
 
   const [history, setHistory] = useState([])
   const [favourites, setFavourites] = useState([])
@@ -38,17 +39,15 @@ const IndexPage = () => {
   const [lastName, setLastName] = useState("Ангелинова")
   const [patronymic, setPatronymic] = useState("Ангелиновна")
 
-  const [currentPassword, setCurrentPassword] = useState(null)
-  const [newPassword, setNewPassword] = useState(null)
-  const [confrimPassword, setConfrimPassword] = useState(null)
+  const [userPassword, setUserPassword] = useState(undefined)
+  const [currentPassword, setCurrentPassword] = useState(undefined)
+  const [newPassword, setNewPassword] = useState(undefined)
+  const [confrimPassword, setConfrimPassword] = useState(undefined)
 
   const [exitModalOpen, setExitModalOpen] = useState(false)
 
   useEffect(() => {
     getUser()
-    setTimeout(() => {
-      setLoading(false)
-    }, 1000)
     if (window.innerWidth >= 640) {
       setDisplay("data")
     }
@@ -56,8 +55,20 @@ const IndexPage = () => {
 
   const getUser = async () => {
     const userId = localStorage.getItem("_user")
-    const res = await axios.post("/api/getUser", { userId })
-    console.log(res)
+    const { data } = await axios.post("/api/getUser", { userId })
+
+    setEmail(data.email)
+
+    setName(data.firstname)
+    setLastName(data.lastname)
+    setPatronymic(data.middleName)
+
+    setUserPassword(data._password)
+
+    setFavourites(data.list.favorites)
+
+    setLoading(false)
+    console.log(data)
   }
 
   useEffect(() => {
@@ -67,13 +78,30 @@ const IndexPage = () => {
         setHistory(doramas)
       }
       if (display === "favourites") {
-        setFavourites(doramas)
+        // setFavourites(doramas)
       }
       setTimeout(() => {
         setFilmLoading(false)
       }, 1000)
     }
   }, [display])
+
+  const updateUser = async () => {
+    const userId = localStorage.getItem("_user")
+    const res = await axios.post("/api/updateUser", {
+      _id: userId,
+      info: {
+        firstname: name,
+        email,
+        lastname: lastName,
+        middleName: patronymic,
+        _password: userPassword
+      }
+    })
+    if(res.status === 200)
+      GoodToast("Изменения сохранены")
+    console.log(res)
+  }
 
   return (
     <>
@@ -158,10 +186,10 @@ const IndexPage = () => {
                   </svg>
                   {display === "data" ? (
                     <button
+                      onClick={updateUser}
                       disabled={!isNewData}
-                      className={`p-2 w-48 ${
-                        isNewData ? "bg-orange" : "bg-black bg-opacity-20 text-white opacity-50"
-                      } rounded-md hidden sm:block`}
+                      className={`p-2 w-48 ${isNewData ? "bg-orange" : "bg-black bg-opacity-20 text-white opacity-50"
+                        } rounded-md hidden sm:block`}
                     >
                       Сохранить изменения
                     </button>
@@ -179,9 +207,8 @@ const IndexPage = () => {
                         onClick={() => {
                           setDisplay("data")
                         }}
-                        className={`p-2 w-full ${
-                          display ? "hidden" : ""
-                        } text-white rounded-md sm:hidden bg-user-button-gray mb-6`}
+                        className={`p-2 w-full ${display ? "hidden" : ""
+                          } text-white rounded-md sm:hidden bg-user-button-gray mb-6`}
                       >
                         Редактировать профиль
                       </button>
@@ -192,9 +219,8 @@ const IndexPage = () => {
                   onClick={() => {
                     setDisplay("history")
                   }}
-                  className={`px-5 py-6 ${
-                    display === "history" ? "bg-orange" : "bg-cardBackground"
-                  } mb-3 cursor-pointer transition-all duration-300 ${!display ? "" : "hidden sm:block"}`}
+                  className={`px-5 py-6 ${display === "history" ? "bg-orange" : "bg-cardBackground"
+                    } mb-3 cursor-pointer transition-all duration-300 ${!display ? "" : "hidden sm:block"}`}
                 >
                   <div className={`flex items-center text-h1-mobile font-medium`}>
                     <img src="/icons/notebook.svg" alt="" className={`flex-shrink-0 mr-4`} />
@@ -205,9 +231,8 @@ const IndexPage = () => {
                   onClick={() => {
                     setDisplay("favourites")
                   }}
-                  className={`px-5 py-6 ${
-                    display === "favourites" ? "bg-orange" : "bg-cardBackground"
-                  } mb-3 cursor-pointer transition-all duration-300 ${!display ? "block" : "hidden sm:block"}`}
+                  className={`px-5 py-6 ${display === "favourites" ? "bg-orange" : "bg-cardBackground"
+                    } mb-3 cursor-pointer transition-all duration-300 ${!display ? "block" : "hidden sm:block"}`}
                 >
                   <div className={`flex items-center text-h1-mobile font-medium`}>
                     <img src="/icons/thumbs-up.svg" alt="" className={`flex-shrink-0 mr-4`} />
@@ -253,6 +278,17 @@ const IndexPage = () => {
                     setLastName={setLastName}
                     patronymic={patronymic}
                     setPatronymic={setPatronymic}
+                    setConfrimPassword={setCurrentPassword}
+                    {...({
+                      password: userPassword,
+                      setPassword: setUserPassword,
+                      currentPassword,
+                      setCurrentPassword,
+                      setNewPassword,
+                      setConfrimPassword,
+                      newPassword,
+                      confrimPassword
+                    })}
                   />
                 ) : filmLoading ? (
                   <Loader />
