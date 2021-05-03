@@ -7,6 +7,7 @@ import Head from 'next/head'
 import { useEffect } from "react"
 import {LoginContextProvider} from "../components/context/loginContext"
 import Layout from "../components/layout/layout"
+import { AuthModalContextProvider } from "../components/context/authModalContext"
 
 function MyApp({ Component, pageProps }) {
   
@@ -23,6 +24,7 @@ function MyApp({ Component, pageProps }) {
   }, [])
 
   return (
+    <AuthModalContextProvider>
     <LoginContextProvider>
         <Head>
           <script src="//vk.com/js/api/openapi.js"></script>
@@ -31,6 +33,7 @@ function MyApp({ Component, pageProps }) {
       <Component {...pageProps} />
       </Layout>
     </LoginContextProvider>
+    </AuthModalContextProvider>
   )
 }
 

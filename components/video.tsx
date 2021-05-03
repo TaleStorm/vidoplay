@@ -5,19 +5,14 @@ import axios from "axios"
 import { VideoData } from '../interfaces'
 import StarIcon from "./icons/starIcon";
 import ThumbsUp from "./icons/thumbsUp";
+import ThumbsDown from "./icons/thumbsDown";
 
 type VideoProps = VideoData
 
 export default function Video(data) {
     const targetRef = useRef() as MutableRefObject<HTMLDivElement>
     const containRef = useRef() as MutableRefObject<HTMLDivElement>
-    const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-    console.log(data)
-    const [rating, setRating] = useState(null)
-    const [hoveredRating, setHoveredRating] = useState(0)
-    const stars = [1,2,3,4,5]
-
-
+    const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
 
     useEffect(() => {
         targetRef.current.style.height = (containRef.current.getBoundingClientRect().width * 9/16) + 120 + "px"
@@ -219,47 +214,7 @@ export default function Video(data) {
 
         </div>
         <div className = {`w-full`}>
-                            <div className="text-sm col-span-1 flex flex-row justify-end content-between mt-8 pb-2">
-                    <div className="text-sm col-span-1 flex items-center justify-end mt-8 mr-8">
-                        <h4 className="font-roboto font-medium text-mainText text-base inline self-center mr-5">
-                            {rating ? "Ваша оценка" : "Оцените сериал"}
-                        </h4>
-                        <div 
-                        onMouseLeave={() => {
-                                setHoveredRating(0)
-                            }}
-                        className={`flex items-center`}>
-                        {stars.map((star, i) => {
-                            return (
-                                <div className={`${i === stars.length - 1 ? "mr-0" : "mr-2"} w-8 h-8`}>
-                                    <StarIcon setRating={setRating} rating={rating} index={star} hoveredRating={hoveredRating} setHoveredRating={setHoveredRating}/>
-                                </div>
-                            )
 
-                        })}
-                        </div>
-                    </div>
-                    <div className="text-sm col-span-1 flex flex-row justify-end content-end mt-8">
-                        <div className="self-center mr-5 flex justify-center" onClick={() => pickInFavorites()}>
-                            <h6 className="font-roboto mr-2 text-mainText text-base inline self-center">
-                                123
-                            </h6>
-                            <div className={`w-8 h-8 -mt-1.5`}>
-                            <ThumbsUp/>
-                            </div>
-                        </div>
-
-                        <a className="self-center space-x-2 flex justify-center">
-                            <h6 className="font-roboto text-mainText text-base inline self-center">
-                                1
-                            </h6>
-                            <svg width="27" height="25" viewBox="0 0 27 25" fill="none" xmlns="http://www.w3.org/2000/svg" className="inline">
-                                <path d="M2.74927 1.625H8.37427V13.8125H2.74927C2.50063 13.8125 2.26217 13.7137 2.08635 13.5379C1.91054 13.3621 1.81177 13.1236 1.81177 12.875V2.5625C1.81177 2.31386 1.91054 2.0754 2.08635 1.89959C2.26217 1.72377 2.50063 1.625 2.74927 1.625V1.625Z" stroke="#F2F2F2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                <path d="M8.37427 13.8125L13.0618 23.1875C13.5542 23.1875 14.0419 23.0905 14.4968 22.902C14.9518 22.7136 15.3652 22.4374 15.7134 22.0891C16.0616 21.7409 16.3379 21.3275 16.5263 20.8726C16.7148 20.4176 16.8118 19.93 16.8118 19.4375V16.625H24.0628C24.3287 16.625 24.5915 16.5685 24.8338 16.4591C25.0762 16.3498 25.2925 16.1902 25.4684 15.9909C25.6444 15.7916 25.7759 15.5571 25.8544 15.3031C25.9328 15.0491 25.9563 14.7812 25.9233 14.5174L24.5171 3.26743C24.4604 2.81396 24.24 2.3968 23.8974 2.09435C23.5548 1.79191 23.1136 1.625 22.6566 1.625H8.37427" stroke="#F2F2F2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
         </div>
         </>
     )

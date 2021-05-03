@@ -13,6 +13,7 @@ export default async (req, res) => {
               'Content-Type': 'application/json'
             }
           })
+          console.log(response)
           response = await response.json()
           res.status(200).json(response)
           break
