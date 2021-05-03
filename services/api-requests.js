@@ -1,4 +1,3 @@
-require('dotenv').config()
 const urlPrefix  = process.env.API_DOMAIN
 
 export default class NewsService {

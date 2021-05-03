@@ -65,7 +65,7 @@ const partnerCards: PartnerSliderCardData[] = [
   },
 ]
 
-function IndexPage({ playlists, movies }) {
+function IndexPage({ playlists = [], movies }) {
 
   const [chillPromoOpen, setChillPromoOpen] = useState(false)
 
@@ -131,7 +131,10 @@ export const getStaticProps = async (ctx) => {
     //   playlistMovies.push(movieInfo)
     // }
   return { 
-    props: { playlists, movies },
+    props: { 
+      playlists, 
+      movies 
+    },
     revalidate: 10
   }
 }
