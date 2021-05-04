@@ -10,7 +10,10 @@ import Layout from "../components/layout/layout"
 import { AuthModalContextProvider } from "../components/context/authModalContext"
 import { UserDisplayContextProvider } from "../components/context/userDisplayContext"
 
+
 function MyApp({ Component, pageProps }) {
+
+ 
   
   useEffect(() => {
     const appHeight = () => {
@@ -29,7 +32,7 @@ function MyApp({ Component, pageProps }) {
     <AuthModalContextProvider>
     <LoginContextProvider>
         <Head>
-          <script src="//vk.com/js/api/openapi.js"></script>
+        <script src="//vk.com/js/api/openapi.js"></script>
         </Head>
       <Layout>
       <Component {...pageProps} />
