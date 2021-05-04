@@ -15,8 +15,9 @@ const FilmCategorySliderCard = (data) => {
 	const fullRef = useRef() as MutableRefObject<HTMLAnchorElement>
 	const imgRef = useRef() as MutableRefObject<HTMLDivElement>
 	return (
-	<Link href={`/films/${data.stringName}`}>
-  	<div 
+
+  	<a
+	  href={`/films/${data.stringName}`}
 	  className="bg-cardBackground cursor-pointer relative transform transition-all duration-400 hover:-translate-y-2.5 shadow-none hover:shadow-card-hover flex flex-col h-full">
 			<div ref={imgRef} className={`h-40 md:h-60 sm:h-${data.imageSize} bg-cover relative bg-center flex-shrink-0`}>
 				<Image
@@ -61,8 +62,7 @@ const FilmCategorySliderCard = (data) => {
 		</div>
 		</div>
 		</div>
-    </div>
-	</Link>
+    </a>
 	)
 }
 
