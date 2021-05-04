@@ -31,7 +31,13 @@ const TextInput = ({label, name, disabled, type="text", placeholder="", state, s
             <div className={`self-end flex-shrink-0 cursor-pointer w-8 h-8 absolute right-4 top-12 md:top-13 ${type !== "password" && "hidden"}`} onMouseDown={() => {
                 setRealType("text")
             }}
+            onTouchStart={() => {
+                setRealType("text")
+            }}
             onMouseUp={() => {
+                setRealType(type)
+            }}
+            onTouchEnd={() => {
                 setRealType(type)
             }}
             >

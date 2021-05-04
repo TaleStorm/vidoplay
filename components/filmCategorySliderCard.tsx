@@ -15,8 +15,9 @@ const FilmCategorySliderCard = (data) => {
 	const fullRef = useRef() as MutableRefObject<HTMLAnchorElement>
 	const imgRef = useRef() as MutableRefObject<HTMLDivElement>
 	return (
-	<Link href={`/films/${data.stringName}`}>
-  	<div 
+
+  	<a
+	  href={`/films/${data.stringName}`}
 	  className="bg-cardBackground cursor-pointer relative transform transition-all duration-400 hover:-translate-y-2.5 shadow-none hover:shadow-card-hover flex flex-col h-full">
 			<div ref={imgRef} className={`h-40 md:h-60 sm:h-${data.imageSize} bg-cover relative bg-center flex-shrink-0`}>
 				<Image
@@ -48,7 +49,7 @@ const FilmCategorySliderCard = (data) => {
 		<div className="flex flex-row justify-between flex-wrap">
 			<div className={`flex flex-row pb-7 sm:pb-0`}>
 			{data.tags.map((tag, i) => {    
-				return <Tag genre={tag.value} key={i} name={tag.name} color={tag.color}/>
+				return <Tag genre={tag.value} key={i} tag={tag}/>
 			})}
 			</div>
 			<div  className="bg-filmReviewBackground h-8 flex flex-wrap content-center sm:w-auto absolute sm:relative bottom-0 w-full justify-center sm:bg-filmInfoBackground -mx-2 sm:mx-0 px-2">
@@ -61,8 +62,7 @@ const FilmCategorySliderCard = (data) => {
 		</div>
 		</div>
 		</div>
-    </div>
-	</Link>
+    </a>
 	)
 }
 

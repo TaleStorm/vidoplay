@@ -21,7 +21,6 @@ const IndexPage = ({playlists, movies}) => {
 
 
     const moviesArr = movies.reduce((acc, arr) => acc = [...arr, ...acc])
-
     const postQueryMovies = () => {
         return moviesArr
     }
@@ -72,7 +71,7 @@ const IndexPage = ({playlists, movies}) => {
         isSeries,
     })
 
-    const debouncedSearchQuery = useDebounce(searchQuery, 500)
+    const debouncedSearchQuery = useDebounce(searchQuery, 1500)
 
     //Формируем поисковый запрос из стейтов
     useEffect(() => {
@@ -89,7 +88,7 @@ const IndexPage = ({playlists, movies}) => {
 
     //Подаем запрос при маунте компонента 
     useEffect(() => {
-        console.log(searchQuery)
+        console.log(debouncedSearchQuery)
     }, [debouncedSearchQuery])
 
 

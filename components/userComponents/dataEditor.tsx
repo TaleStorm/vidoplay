@@ -85,20 +85,20 @@ const DataEditor = ({ name, setName, lastName, setLastName, patronymic, setPatro
                             <TextInput
                                 error={erorrs.currentPassword.error}
                                 errorMessage={erorrs.currentPassword.message}
-                                label={`Текущий пароль`} name={`pasword`}
+                                label={`Текущий пароль`} name={`password`}
                                 state={currentPassword}
                                 setState={setCurrentPassword}
                                 type={`password`} />
                             <div />
                             <TextInput
-                                label={`Новый пароль`} name={`newPassword`}
+                                label={`Новый пароль`} name={`password`}
                                 state={newPassword}
                                 setState={setNewPassword}
                                 type={`password`} />
                             <TextInput
                                 error={erorrs.newPassword.error}
                                 errorMessage={erorrs.newPassword.message}
-                                label={`Повторите новый пароль`} name={`confrimPassword`}
+                                label={`Повторите новый пароль`} name={`password`}
                                 state={confrimPassword} setState={setConfrimPassword}
                                 type={`password`} />
                             <button
@@ -157,9 +157,9 @@ const DataEditor = ({ name, setName, lastName, setLastName, patronymic, setPatro
                     </button>
                         </div>
                         <div className={`w-full flex-shrink-0 grid grid-cols-1 gap-y-4`}>
-                            <TextInput label={`Текущий пароль`} name={`name`} state={name} setState={setName} type={`password`} />
-                            <TextInput label={`Новый пароль`} name={`name`} state={name} setState={setName} type={`password`} />
-                            <TextInput label={`Повторите новый пароль`} name={`name`} state={name} setState={setName} type={`password`} />
+                            <TextInput label={`Текущий пароль`} name={`name`} state={currentPassword} setState={setCurrentPassword} type={`password`} />
+                            <TextInput label={`Новый пароль`} name={`name`} state={newPassword} setState={setNewPassword} type={`password`} />
+                            <TextInput label={`Повторите новый пароль`} name={`name`} state={confrimPassword} setState={setConfrimPassword} type={`password`} />
                             <button onClick={() => {
                                 setModalOpen(!modalOpen);
                             }} className="mt-1 text-h2-mobile text-center text-white bg-orange p-3 duration-300 rounded-lg hover:bg-orange w-full ">
