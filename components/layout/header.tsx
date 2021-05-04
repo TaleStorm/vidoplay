@@ -168,8 +168,12 @@ export default function Header() {
   return (
     <>
     <Sidebar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} setAuth={setAuth}/>
-    <header className="top-0 left-0 w-full md:px-16 px-6 fixed z-30 bg-background h-22">
-      <div className="w-full h-full">
+    <header className="top-0 left-0 w-full  fixed z-30 bg-background h-22 flex justify-center">
+      <div 
+      style={{
+        maxWidth: "1440px"
+      }}
+      className="w-full h-full md:px-16 px-6">
         <div className="w-full relative py-2 h-full">
           <div className="sm:px-0 flex justify-between items-center">
             <div className={`absolute ${isSearchOpen ? "open" : ""} search-container z-10 top-0 left-0 pt-4 pb-6 sm:px-0 flex justify-between items-center bg-background w-full h-full`}>

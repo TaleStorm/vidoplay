@@ -109,6 +109,7 @@ export default function Player(data) {
   const[isFullScreen, setFullScreen] = useState(false);
   const[isMuted, setMute] = useState(false);
   const[currentQuality, setCurrentQuality] = useState("AUTO");
+
   const [isEndedModalOpen, setIsEndedModalOpen] = useState(false)
   const [isCompliationModalOpen, setIsCompliationModalOpen] = useState(false)
   const [currentCompilationMovie, setCurrentCompilationMovie] = useState(data.movies[0])
@@ -171,8 +172,6 @@ export default function Player(data) {
     //   setVideoPercentCurrent(percent.toFixed(1))
     // }})
   }
-
-  
 
   var removeFakeButton = () => {
     setPanel("visible");
@@ -300,7 +299,11 @@ export default function Player(data) {
       globalGplayerAPI.method({ name: "resize", params: {width: 960, height: 540} })
       setFullScreen(false)
     } else {
-      globalGplayerAPI.method({ name: "resize", params: userWindow })
+      globalGplayerAPI.method({ name: "resize", params: 
+    {
+      width: window.innerWidth,
+      height: window.innerHeight
+    } } )
       setFullScreen(true)
     }
   }
@@ -310,11 +313,16 @@ export default function Player(data) {
       (document as any).addEventListener('fullscreenchange', () => {
         if (isFullScreen) {
           gplayerAPI.method({ name: "resize", params: {width: 960, height: 540} });
+          data.setFullScreen(false)
           setFullScreen(false);
           (document as any).removeEventListener('fullscreenchange', () => setEventListener(gplayerAPI, userWindow, false));
           setEventListener(gplayerAPI, userWindow, false);
         } else {
-          gplayerAPI.method({ name: "resize", params: userWindow });
+          gplayerAPI.method({ name: "resize", params: {
+            width: window.innerWidth,
+            height: window.innerHeight
+          } });
+          data.setFullScreen(true)
           setFullScreen(true);
           (document as any).removeEventListener('fullscreenchange', () => setEventListener(gplayerAPI, userWindow, true));
           setEventListener(gplayerAPI, userWindow, true);
@@ -365,7 +373,7 @@ export default function Player(data) {
           />
         </div>
 
-        <div className={`absolute inset-0 w-full h-full ${buttonState} pointer-events-none`} >
+        <div className={`/absolute fixed inset-0 w-full h-full ${buttonState} pointer-events-none`} >
             <div className="flex justify-center flex-wrap content-center h-full">
               <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="playerButtons">
                 <path d="M0 8C0 3.58172 3.58172 0 8 0H92C96.4183 0 100 3.58172 100 8V92C100 96.4183 96.4183 100 92 100H8C3.58172 100 0 96.4183 0 92V8Z" fill="white" fillOpacity="0.2"/>
