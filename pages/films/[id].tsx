@@ -110,7 +110,7 @@ export default function IndexPage({ movie, playlist, movies }) {
           screenwriter={movie.scenarists}
         />
 
-        <div className="mx-6 sm:hidden">
+        <div className="sm:hidden">
           <ReviewsAndLikes _likes={movie._likes} _dislikes={movie._dislikes} rating={rating} setRating={setRating} />
         </div>
 
@@ -131,7 +131,7 @@ export default function IndexPage({ movie, playlist, movies }) {
         </div>
         <FilmComments comments={comments} movieId={movie._id} />
 
-        <div className="mt-8 mx-6 sm:mx-0 grid grid-cols-1">
+        <div className="mt-8 sm:mx-0 grid grid-cols-1">
           <FilmCategory
             name={playlist.name}
             stringName={playlist.stringName}

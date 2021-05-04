@@ -48,7 +48,7 @@ const FilmCategorySliderCard = (data) => {
 		<div className="flex flex-row justify-between flex-wrap">
 			<div className={`flex flex-row pb-7 sm:pb-0`}>
 			{data.tags.map((tag, i) => {    
-				return <Tag genre={tag.value} key={i} name={tag.name} color={tag.color}/>
+				return <Tag genre={tag.value} key={i} tag={tag}/>
 			})}
 			</div>
 			<div  className="bg-filmReviewBackground h-8 flex flex-wrap content-center sm:w-auto absolute sm:relative bottom-0 w-full justify-center sm:bg-filmInfoBackground -mx-2 sm:mx-0 px-2">
