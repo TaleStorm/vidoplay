@@ -14,7 +14,7 @@ const FilmCategory = (data: FilmCategoryProps) => {
 
             <nav className="hidden sm:flex justify-end md:inline  ">
                 <a href={`/${data.stringName}`} className="text-base hover:text-gray-900 ml-5">
-                    <h4 className="font-roboto text-orange font-normal text-base inline">
+                    <h4 className="font-roboto text-orange font-normal text-base inline mr-1">
                         Посмотреть все
                     </h4>
                     <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg" className="inline">

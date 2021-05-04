@@ -10,7 +10,7 @@ import { ScreenshotsSliderData } from '../interfaces'
 type ScreenshotsSliderProps = ScreenshotsSliderData
 
 const ScreenshotsSlider = (data: ScreenshotsSliderProps) => (
-      <div className="relative">
+      <div className="relative ">
         <Swiper
                 spaceBetween={15}
                 slidesPerView={5}

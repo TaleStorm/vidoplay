@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import Authorization from '../components/authorization'
 import Registration from '../components/registration'
 import ForgottenPass from '../components/forgottenPass'
 
 import { AuthWindowData } from '../interfaces'
+import AuthModalContext from "./context/authModalContext";
+import ModalOverlay from "./layout/modalOverlay";
+import CloseIcon from "./icons/closeIcon";
 
 type AuthWindowProps = AuthWindowData
 
 export default function AuthWindow(data: AuthWindowProps) {
+
+  const authModalContext = useContext(AuthModalContext)
 
   const stages = {
     auth: <Authorization
@@ -21,19 +26,18 @@ export default function AuthWindow(data: AuthWindowProps) {
       hideFunc={data.hideFunc}
       authFunc={data.authFunc}
     />,
-    passChange: <ForgottenPass hidden={data.hidden} hideFunc={data.hideFunc} />
+    passChange: <ForgottenPass hidden={data.hidden} hideFunc={data.hideFunc} authFunc={data.authFunc}/>
   }
 
   return (
-    <div className={`${data.hidden} fixed w-full h-screen px-6 top-0 left-0 z-50`}>
-      <div className="max-w-screen-xl w-full mx-auto sm:px-6 sm:grid grid-cols-5 gap-7">
-        <div className="relative flex justify-center col-span-5">
-          <div className="fixed inset-0 z-50 bg-shadow opacity-10" id="shadow" />
-          <div className="z-50 absolute top-3 sm:max-w-md sm:mx-auto bg-popupBackground w-full ">
+        <ModalOverlay classes={"px-4"} modalOpen={authModalContext.modalOpen} setModalOpen={authModalContext.setModalOpen}>
+          <div className={`w-full h-auto rounded-xl bg-popupBackground mt-14 flex flex-col items-center sm:px-12 px-8 pt-4 pb-8 max-w-lg mx-auto relative`}>
+            <div className={`w-8 h-8 cursor-pointer opacity-25 hover:opacity-100 text-mainText absolute top-5 right-5 transition-opacity duration-200 z-30`} onClick={() => {authModalContext.setModalOpen(false)}}>
+            <CloseIcon/>
+            </div>
             {stages[data.stage]}
           </div>
-        </div>
-      </div>
-    </div>
+        </ModalOverlay>
+
   )
 }

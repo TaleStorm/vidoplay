@@ -32,7 +32,7 @@ const CommentForm = ({modalOpen, setModalOpen, movieId}) => {
   return(
   <ModalOverlay modalOpen={modalOpen} setModalOpen={setModalOpen} classes={`px-4`}>
     <div className="w-full flex justify-center">
-    <div className="ml-7 max-w-screen-lg flex justify-center w-full flex-col h-screen">
+    <div className="ml-7 max-w-screen-lg flex justify-center w-full flex-col px-10 py-6 mt-20 bg-background">
       <div className="relative w-full mb-2 ">
         <h1 className="mx-auto text-center text-2xl">Оставить отзыв</h1>
         <svg

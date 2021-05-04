@@ -15,8 +15,8 @@ body,
   padding: 0;
   margin: 0;
   height: 100vh;
-  display: flex;
   justify-content: center;
+  display: flex;
   height: calc((var(--vh, 1vh) * 100));
   background-color: #15141f;
 }
@@ -25,16 +25,20 @@ body,
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  
   max-width: 1440px;
   color: #fffffd;
+}
+
+.swal2-popup {
+  box-shadow: none !important;
 }
 
 a {
   cursor: pointer;
 }
-.swiper-wrapper {
-  justify-items: center;
+
+.padding-containter {
+  padding-top: 10px !important;
 }
 
 html,
@@ -95,6 +99,10 @@ input[type="checkbox"]:checked + label:before {
 .playerButtons:hover > .svgStroke {
   stroke: white;
   stroke-opacity: 1;
+}
+
+.swiper-slide {
+  height: auto !important;
 }
 
 .playerButtons:hover > .svgFill {
@@ -194,9 +202,8 @@ input[type="checkbox"]:checked + label:before {
 #nav-icon2 span {
   display: block;
   position: absolute;
-  height: 3px;
+  height: 1.5px;
   width: 50%;
-  background: #d3531a;
   opacity: 1;
   -webkit-transform: rotate(0deg);
   -moz-transform: rotate(0deg);
@@ -219,15 +226,15 @@ input[type="checkbox"]:checked + label:before {
 }
 
 #nav-icon2 span:nth-child(1), #nav-icon2 span:nth-child(2) {
-  top: 1.5px;
+  top: 3px;
 }
 
 #nav-icon2 span:nth-child(3), #nav-icon2 span:nth-child(4) {
-  top: 10px;
+  top: 11.5px;
 }
 
 #nav-icon2 span:nth-child(5), #nav-icon2 span:nth-child(6) {
-  top: 19px;
+  top: 20px;
 }
 
 #nav-icon2.open span:nth-child(1),#nav-icon2.open span:nth-child(6) {

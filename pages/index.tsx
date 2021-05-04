@@ -77,12 +77,15 @@ function IndexPage({ playlists = [], movies }) {
 
   return (
       <div className="w-full">
-        <div className="w-full mx-auto sm:grid grid-cols-5 grid-rows-1 gap-7">
-          <div className="lg:col-span-4 md:col-span-5 space-y-12 sm:space-y-16">
+        <div className=" md:grid grid-cols-5 grid-rows-1 gap-7">
+          <div className="lg:col-span-4 md:col-span-5 grid grid-cols-1">
+            <div>
+            <div className={`mb-10`}>
             <Slider cards={[aboutChillSlide, ...cards]} />
+            </div>
             {playlists.map((playlist, i) => {
               return (
-                <>
+                <div className={`mb-10`}>
                   <FilmCategory
                     key={i}
                     name={playlist.name}
@@ -91,19 +94,16 @@ function IndexPage({ playlists = [], movies }) {
                     cardToShow={2}
                     sliderIndex={i}
                   />
-                  {i + 1 === Math.floor(playlists.length / 2) &&
-                    <img
-                      src={"/images/sosedi.jpg"}
-                      alt="Picture of the film"
-                      className={`w-full rounded-lg mt-10 mb-10`}
-                    />
-                  }
-                </>
+                  {/* {i + 1 === Math.floor(playlists.length / 2) &&
+                    ""
+                  } */}
+                </div>
               )
             })}
             {/* <PartnerSlider cards={partnerCards} cardToShow={3} sliderIndex={8} /> */}
           </div>
-          <div className="hidden lg:col-span-1 md:-mr-7 lg:block">
+          </div>
+          <div className="hidden lg:col-span-1 md:-mr-8 lg:block">
             <Comments comments={comments} />
           </div>
         </div>
@@ -124,12 +124,7 @@ export const getStaticProps = async (ctx) => {
     count++
     console.log(new Date().getTime()/1000 - time)
     }
-    // for (let movie in playlists[playlist].movies) {
-    //   count++
-    //   console.log(new Date().getTime()/1000 - time)
-    //   const movieInfo = await ApiReq.getSingleEntity("movies", playlists[playlist].movies[movie]._id)
-    //   playlistMovies.push(movieInfo)
-    // }
+
   return { 
     props: { 
       playlists, 

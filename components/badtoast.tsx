@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 
-const GoodToast = (title) => {
+const BadToast = (title) => {
     Swal.fire({
         position: "bottom",
         title: title,
@@ -21,9 +21,9 @@ const GoodToast = (title) => {
         showCloseButton: true,
         showConfirmButton: false,
         timer: 5000,
-        background: "#F8634A",
+        background: "#FF4343",
         toast: true,
       });
 }
 
-export default GoodToast
+export default BadToast
