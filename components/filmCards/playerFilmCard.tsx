@@ -3,7 +3,6 @@ import Tag from "../tag"
 import FilmCardLanguages from "./flimCardLanguages"
 
 const PlayerFilmCard = (data) => {
-    console.log(data)
     return (
         
         <div className="bg-cardBackground w-full relative ">

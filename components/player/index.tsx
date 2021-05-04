@@ -103,6 +103,7 @@ export default function Player(data) {
   const[durationTime, setVideoDuration] = useState(0);
   const[currentTime, setVideoCurrent] = useState(0);
   const[currentTimePercent, setVideoPercentCurrent] = useState("0");
+  const[currentTimeBuffer, setVideoPercentBuffer] = useState("0");
   const[currentVolume, setVolumeCurrent] = useState(100);
   const[bufferVolume, setVolumeBuffer] = useState(100);
   const[userWindow, setUserWindow] = useState({width: 0, height: 0});
@@ -134,12 +135,25 @@ export default function Player(data) {
           gplayerAPI.method({name: 'getDuration', params: {}, callback: (res) => {
             setVideoDuration(res)
             setIntervalVideo(setInterval(() => tick(res,gplayerAPI), 500));
+            gplayerAPI.on('progress', (data) => {
+              console.log(data)
+              const percent = 100 * data.current / res
+              setVideoPercentBuffer(percent.toFixed(1))
+              console.log(percent)
+            })
           }})
           setUserWindow({width: (window as any).innerWidth, height: (window as any).innerHeight})
         }
       }});
 
     })
+
+    // gplayerAPI.on('progress', (data) => {
+    //   console.log(data)
+    //   const percent = 100 * data.current / durationTime
+    //   setVideoPercentCurrent(percent.toFixed(1))
+    //   console.log(percent)
+    // })
 
     gplayerAPI.on('tracks', (info) => {
       console.log('[Event]', 'tracks')
@@ -401,7 +415,7 @@ export default function Player(data) {
 
           <ProgressBar 
             currentTimePercent={currentTimePercent} 
-            bufferTimePercent={""}
+            bufferTimePercent={currentTimeBuffer}
             getMousePos={getMousePos}
             setCurrentDuration={setCurrentDuration}
             setPlay={setPlay}
@@ -465,7 +479,7 @@ export default function Player(data) {
           </div>
           <ProgressBar 
             currentTimePercent={currentTimePercent} 
-            bufferTimePercent={""}
+            bufferTimePercent={currentTimeBuffer}
             getMousePos={getMousePos}
             setCurrentDuration={setCurrentDuration}
             setPlay={setPlay}
