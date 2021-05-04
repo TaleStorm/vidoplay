@@ -79,14 +79,14 @@ const DataEditor = ({ name, setName, lastName, setLastName, patronymic, setPatro
                         onClick={() => {
                             setStage(0)
                         }}
-                        className={`w-full flex justify-center items-center`}>
+                        className={`w-full flex justify-center items-center text-ui-text`}>
                         Личная информация
                 </div>
                     <div
                         onClick={() => {
                             setStage(1)
                         }}
-                        className={`w-full flex justify-center items-center`}>
+                        className={`w-full flex justify-center items-center text-ui-text`}>
                         Сменить пароль
                 </div>
                 </div>

@@ -74,7 +74,7 @@ export default function Registration(data: RegistrationProps) {
             </div>
           </form>
           <button
-            className="block text-center text-white bg-orange p-3 duration-300 rounded-lg hover:bg-orange w-full mt-5"
+            className="block text-center text-white bg-orange p-3 rounded-lg transition-colors duration-300 hover:bg-button-hover  w-full mt-5"
             onClick={async () => {
               doSignup()
             }}

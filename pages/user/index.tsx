@@ -13,6 +13,7 @@ import axios from "axios"
 import Router from "next/router"
 import LoginContext from "../../components/context/loginContext"
 import getUser from "../api/getUser"
+import UserDisplayContext from "../../components/context/userDisplayContext"
 
 const stageHeaders = {
   data: "Редактировать профиль",
@@ -25,7 +26,7 @@ const IndexPage = () => {
 
   const [loading, setLoading] = useState(true)
   const [filmLoading, setFilmLoading] = useState(false)
-  const [display, setDisplay] = useState("")
+  const {display, setDisplay} = useContext(UserDisplayContext)
   const [isNewData, setIsNewData] = useState(false)
 
   const [history, setHistory] = useState([])
@@ -49,9 +50,6 @@ const IndexPage = () => {
     setTimeout(() => {
       setLoading(false)
     }, 1000)
-    if (window.innerWidth >= 640) {
-      setDisplay("data")
-    }
   }, [])
 
   const getUser = async () => {
@@ -105,14 +103,13 @@ const IndexPage = () => {
           </h1>
         </div>
       </ModalOverlay>
-      <PseudoHeader display={display} setDisplay={setDisplay} />
       <div className="">
         <div className=" w-full mx-auto grid">
           <h2 className="font-roboto text-mainText mb-10 font-medium text-3xl hidden sm:block">Личное</h2>
           {loading ? (
             <Loader />
           ) : (
-            <div className={`sm:flex px-4 sm:px-0`}>
+            <div className={`sm:flex sm:px-0`}>
               <div className={`sm:w-72 w-full flex-shrink-0 flex flex-col mr-16`}>
                 <div className={`relative sm:py-4 w-full flex items-center flex-col sm:bg-cardBackground sm:mb-3`}>
                   <div

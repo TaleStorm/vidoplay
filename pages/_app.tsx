@@ -8,6 +8,7 @@ import { useEffect } from "react"
 import {LoginContextProvider} from "../components/context/loginContext"
 import Layout from "../components/layout/layout"
 import { AuthModalContextProvider } from "../components/context/authModalContext"
+import { UserDisplayContextProvider } from "../components/context/userDisplayContext"
 
 function MyApp({ Component, pageProps }) {
   
@@ -24,6 +25,7 @@ function MyApp({ Component, pageProps }) {
   }, [])
 
   return (
+    <UserDisplayContextProvider>
     <AuthModalContextProvider>
     <LoginContextProvider>
         <Head>
@@ -34,6 +36,7 @@ function MyApp({ Component, pageProps }) {
       </Layout>
     </LoginContextProvider>
     </AuthModalContextProvider>
+    </UserDisplayContextProvider>
   )
 }
 

@@ -7,6 +7,8 @@ SwiperCore.use([ Navigation]);
 
 import { FilmCategorySliderData } from '../interfaces'
 import ChevronDown from "./icons/chevronDown";
+import ChevronRight from "./icons/chevronRight";
+import ChevronLeft from "./icons/chevronLeft";
 
 type FilmCategorySliderProps = FilmCategorySliderData
 
@@ -19,8 +21,8 @@ export default function FilmCategorySlider(data) {
 
     return (
       <div className="relative">
-        <div  className={`hidden w-12 -ml-8 z-10 sm:-mr-8 absolute -left-2 h-full sm:flex flex-wrap content-center   transition-all duration-200 ${!leftActive ? "opacity-0" : "opacity-50 hover:opacity-100"} transform rotate-180 cursor-pointer`}  id={`prev${data.sliderIndex}`}>
-           <ChevronDown classname={`transform -rotate-90 w-full h-full`}/>
+        <div  className={`hidden w-12 z-10 sm:-mr-8 absolute -left-10 top-0 h-full sm:block transition-all duration-200 ${!leftActive ? "opacity-0" : "opacity-50 hover:opacity-100"} cursor-pointer`}  id={`prev${data.sliderIndex}`}>
+           <ChevronLeft classname={`w-full h-full`}/>
 				</div>
 
         <Swiper
@@ -74,8 +76,8 @@ export default function FilmCategorySlider(data) {
                   )
                 })}
             </Swiper>
-        <div  className={`${!rightActive ? "opacity-0" : "opacity-50 hover:opacity-100"} w-12 hidden z-10 sm:-mr-8 absolute -right-2 h-full sm:flex flex-wrap transition-all duration-200 cursor-pointer`}  id={`next${data.sliderIndex}`}>
-                <ChevronDown classname={`transform -rotate-90 w-full h-full`}/>
+        <div  className={`${!rightActive ? "opacity-0" : "opacity-50 hover:opacity-100"} w-12 hidden z-10 absolute -right-10 h-full sm:flex transition-all duration-200 cursor-pointer top-0 items-center`}  id={`next${data.sliderIndex}`}>
+                <ChevronRight classname={`  w-full h-full`}/>
 				</div>
       </div>
     );

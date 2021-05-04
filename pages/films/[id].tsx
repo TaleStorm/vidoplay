@@ -69,7 +69,7 @@ export default function IndexPage({ movie, playlist, movies }) {
       <Head>
         <script src="https://vplatform.gcdn.co/_players/v2.0.71/gplayerAPI.js"></script>
       </Head>
-      <div className="w-full">
+      <div className="w-full grid grid-cols-1">
         <nav className="hidden sm:flex justify-start md:inline">
           <a href="/" className="text-base">
             <svg
@@ -94,7 +94,7 @@ export default function IndexPage({ movie, playlist, movies }) {
 
       <Video name={movie.title} series={series} movieId = {movie._id} movies = {movies}/>
       <div className={`hidden sm:block`}>
-        <ReviewsAndLikes rating={rating} setRating={setRating} />
+        <ReviewsAndLikes _likes={movie._likes} _dislikes={movie._dislikes} rating={rating} setRating={setRating} />
       </div>
         <Series series={series} />
 
@@ -111,7 +111,7 @@ export default function IndexPage({ movie, playlist, movies }) {
         />
 
         <div className="mx-6 sm:hidden">
-          <ReviewsAndLikes rating={rating} setRating={setRating} />
+          <ReviewsAndLikes _likes={movie._likes} _dislikes={movie._dislikes} rating={rating} setRating={setRating} />
         </div>
 
         <div className="hidden sm:block ">

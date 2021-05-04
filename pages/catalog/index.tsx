@@ -158,7 +158,7 @@ const IndexPage = ({playlists, movies}) => {
                         </div>
                     </div>
                     <div className={`w-full mt-18 grid grid-cols-1`}>
-                    <div className={`grid grid-cols-3 gap-8`}>
+                    <div className={`grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8`}>
                     {displayedMovies.map(movie => {
                         return (
                             <div className={`h-full w-full`}>
