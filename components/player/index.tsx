@@ -108,6 +108,7 @@ export default function Player(data) {
   const[userWindow, setUserWindow] = useState({width: 0, height: 0});
   const[isFullScreen, setFullScreen] = useState(false);
   const[isMuted, setMute] = useState(false);
+  const[isDragged, setDrag] = useState(false);
   const[currentQuality, setCurrentQuality] = useState("AUTO");
   const [isEndedModalOpen, setIsEndedModalOpen] = useState(false)
   const [isCompliationModalOpen, setIsCompliationModalOpen] = useState(false)
@@ -268,6 +269,10 @@ export default function Player(data) {
 
   var getMousePos = (e) => {
     const target = e.target.getBoundingClientRect();
+    if (isDragged) {
+      const percent = 100 * (e.screenX - target.x) / e.target.parentElement.offsetWidth
+      globalGplayerAPI.method({ name: "seekPercentage", params: percent.toFixed(1) })
+    }
     // console.log(e.screenX - target.x, e.target.parentElement.offsetWidth)
   }
 
@@ -411,6 +416,7 @@ export default function Player(data) {
             currentVolume={currentVolume}
             changeCurrentLevel={changeCurrentLevel}
             currentQuality={currentQuality}
+            setDrag={setDrag}
           />
         </div>
 
@@ -474,6 +480,7 @@ export default function Player(data) {
             currentVolume={currentVolume}
             changeCurrentLevel={changeCurrentLevel}
             currentQuality={currentQuality}
+            setDrag={setDrag}
           />
         </div>
         </div>

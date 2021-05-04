@@ -32,6 +32,7 @@ export type ProgressBarData = {
     setFullScreen: () => void
     isMuted: boolean
     changeMute: () => void
+    setDrag: (boolean) => void
 }
 
 export type TopPlayerPanelData = {

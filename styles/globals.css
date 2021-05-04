@@ -122,7 +122,6 @@ input[type="checkbox"]:checked + label:before {
 }
 
 .styled-scroll::-webkit-scrollbar-button {
-  background-image:url('');
   background-repeat:no-repeat;
   width:5px;
   height:0px
@@ -143,7 +142,6 @@ input[type="checkbox"]:checked + label:before {
   }
   
   .styled-scroll::-webkit-resizer{
-  background-image:url('');
   background-repeat:no-repeat;
   width:4px;
   height:0px
@@ -186,9 +184,6 @@ input[type="checkbox"]:checked + label:before {
   -o-transition: .5s ease-in-out;
   transition: .5s ease-in-out;
   cursor: pointer;
-}
-
-#nav-icon2 {
 }
 
 #nav-icon2 span {

@@ -6,12 +6,12 @@ import { ProgressBarData } from '../../interfaces'
 type ProgressBarProps = ProgressBarData
 
 const qualities = [
-    "240",
-    "360",
-    "480",
-    "720",
-    "1080",
-    "AUTO"
+  "AUTO",
+  "1080",
+  "720",
+  "480",
+  "360",
+  "240",
 ]
 
 function classNames(...classes) {
@@ -61,8 +61,18 @@ export default function ProgressBar(data:ProgressBarProps) {
                 <path d="M16.5 10H12C11.4477 10 11 10.4477 11 11V31C11 31.5523 11.4477 32 12 32H16.5C17.0523 32 17.5 31.5523 17.5 31V11C17.5 10.4477 17.0523 10 16.5 10Z" fill="white"/>
             </svg>
         </div>
-        <div  className={`w-full mr-2`}>
-            <div  className={`relative w-full h-6 cursor-pointer mx-2`} onMouseMove= {(e) => data.getMousePos(e)}  onClick= {(e) => data.setCurrentDuration(e)} onMouseUp={(e) => data.setCurrentDuration(e)}>
+        <div  className={`w-full mr-2 `}>
+          <div  className={`mb-2 w-28 text-center absolute bottom-6`} style={{left:"500px"}}>
+            <svg width="110" height="45" viewBox="0 0 132 51" fill="none" xmlns="http://www.w3.org/2000/svg" className={`w-28`}>
+              <rect width="132" height="42" rx="8" fill="white" fill-opacity="0.4"/>
+              <path d="M57.5 42H74.5L66 51L57.5 42Z" fill="white" fill-opacity="0.4"/>
+            </svg>
+            <span className="-mt-9 pb-4 text-playerMain text-xs pointer-events-none block w-28" >
+              {currentTimeUser} | {durationTimeUser}
+            </span>  
+          </div>
+
+            <div  className={`relative w-full h-6 cursor-pointer mx-2`} onMouseMove= {(e) => data.getMousePos(e)}  onClick= {(e) => data.setCurrentDuration(e)} onMouseUp={() => data.setDrag(false)} onMouseDown={() => data.setDrag(true)}>
                 <div className="absolute bg-white top-0 opacity-20 w-full h-full z-30">
 
                 </div>
