@@ -10,7 +10,7 @@ const FilmComments = (data: FilmCommentsProps) => {
 
 
   return (
-    <div className="mx-6 sm:mx-0 sm:py-10">
+    <div className="sm:mx-0 sm:py-10 ">
       <div className="sm:hidden block w-full mt-8 space-x-6">
         <button className="bg-orange w-full hover:bg-orange text-mainText font-normal py-2 px-14 rounded-md text-lg">
           Оставить отзыв

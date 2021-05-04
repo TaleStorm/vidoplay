@@ -12,7 +12,7 @@ const IndexPage = ({ playlist, movies }) => {
     return (
         <>
             <div className="w-full ">
-                <div className=" w-full mx-auto grid grid-cols-5 grid-rows-1 gap-7 ">
+                <div className=" w-full mx-auto grid grid-cols-5 grid-rows-1 gap-10 ">
                     <div className="lg:col-span-4 md:col-span-5">
                     <nav className="inline-flex max-h-full h-min mb-5">
                         <Link href="/">
@@ -28,30 +28,21 @@ const IndexPage = ({ playlist, movies }) => {
                             {playlist.name}
                     </h2>
                     <div className={`grid gap-x-8 gap-y-6 grid-cols-3`}>
-                    {movies.map((movie, i) => (
+                    {movies.map((card, i) => (
                             // <FilmCategorySliderCard key={i} {...dorama} imageSize={"52"} />
+                            <div className={`h-full`}>
                             <FilmCategorySliderCard 
-                                key={i}
-                                title={movie.title} 
-                                image={movie.image}
-                                stringName={movie.stringName}
-                                imageSize={"52"}
-                                excerpt={movie.excerpt}
-                                languages={["EN","RU","KO"]}
-                                tags={[{
-                                        name:"#дорамы",
-                                        color:"#36A4C9",
-                                        genre: "Дорамы"
-                                    },
-                                    {
-                                        name:"#драма",
-                                        color:"#A036C9",
-                                        genre: "Драмы"
-                                    }
-                                ]}
-                                comments={30}
-                                rating={7.8}
+                    title={card.title} 
+                    image={card.image}
+                    stringName={card.stringName}
+                    imageSize={"40"}
+                    excerpt={card.excerpt}
+                    localization={card.localization}
+                    _comment={card._comment}
+                    rating={card.score}
+                    tags={card.tags}
                             />
+                            </div>
                         ))}
                     </div>
 

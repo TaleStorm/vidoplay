@@ -15,7 +15,7 @@ export default function Series(data: SeriesProps) {
     }
 
     return (
-        <div className="mx-6 sm:mx-0 sm:py-10">
+        <div className="sm:mx-0 sm:py-10">
             <ul className="list-reset flex sm:px-3 mb-3">
                 {data.series.map((serie, i) => {
                     return <li key={i} className={i == slider ? "flex active items-center p-2 mr-2 mb-2 border-b-2 border-orange md:inline w-16" : "flex items-center p-2 mr-2 mb-2 border-orange md:inline w-16"}>

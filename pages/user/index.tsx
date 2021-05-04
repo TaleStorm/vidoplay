@@ -1,19 +1,15 @@
 import { useContext, useEffect, useState } from "react"
-import Footer from "../../components/footer"
-import Header from "../../components/layout/header"
+
 import ModalOverlay from "../../components/layout/modalOverlay"
 import DataEditor from "../../components/userComponents/dataEditor"
 import Favourites from "../../components/userComponents/favourites"
 import History from "../../components/userComponents/history"
 import Loader from "../../components/userComponents/loader"
-import PseudoHeader from "../../components/userComponents/pseudoHeader"
-import doramas from "../../data/doramas"
 import axios from "axios"
-
-import Router from "next/router"
 import LoginContext from "../../components/context/loginContext"
 import getUser from "../api/getUser"
 import GoodToast from "../../components/goodtoast"
+import UserDisplayContext from "../../components/context/userDisplayContext"
 
 const stageHeaders = {
   data: "Редактировать профиль",
@@ -23,10 +19,10 @@ const stageHeaders = {
 
 const IndexPage = () => {
   const { logOut } = useContext(LoginContext)
-
+  const userDisplayContext = useContext(UserDisplayContext)
   const [loading, setLoading] = useState(true)
   const [filmLoading, setFilmLoading] = useState(false)
-  const [display, setDisplay] = useState("")
+  const {display, setDisplay} = useContext(UserDisplayContext)
   const [isNewData, setIsNewData] = useState(true)
 
   const [history, setHistory] = useState([])
@@ -48,15 +44,12 @@ const IndexPage = () => {
 
   useEffect(() => {
     getUser()
-    if (window.innerWidth >= 640) {
-      setDisplay("data")
-    }
   }, [])
 
   const getUser = async () => {
     const userId = localStorage.getItem("_user")
     const { data } = await axios.post("/api/getUser", { userId })
-
+    console.log(data)
     setEmail(data.email)
 
     setName(data.firstname)
@@ -64,7 +57,8 @@ const IndexPage = () => {
     setPatronymic(data.middleName)
 
     setUserPassword(data._password)
-
+    
+    //Подгружаем по запросу в будущем!!
     setFavourites(data.list.favorites)
     setHistory(data.list.favorites)
 
@@ -134,14 +128,13 @@ const IndexPage = () => {
           </h1>
         </div>
       </ModalOverlay>
-      <PseudoHeader display={display} setDisplay={setDisplay} />
       <div className="">
         <div className=" w-full mx-auto grid">
           <h2 className="font-roboto text-mainText mb-10 font-medium text-3xl hidden sm:block">Личное</h2>
           {loading ? (
             <Loader />
           ) : (
-            <div className={`sm:flex px-4 sm:px-0`}>
+            <div className={`sm:flex sm:px-0`}>
               <div className={`sm:w-72 w-full flex-shrink-0 flex flex-col mr-16`}>
                 <div className={`relative sm:py-4 w-full flex items-center flex-col sm:bg-cardBackground sm:mb-3`}>
                   <div
@@ -149,7 +142,7 @@ const IndexPage = () => {
                   >
                     <img src="/icons/default-avatar.svg" className={`w-25 h-25 mb-1 rounded-full`} />
                     <a className={`text-orange cursor-pointer mb-4 text-h2-mobile`}>Сменить аватар</a>
-                    <div className={`font-medium text-h1-mobile mb-1`}>{username}</div>
+                    <div className={`font-medium text-h1-mobile mb-1`}>{name}</div>
                     <div className={`sm:mb-4 mb-3 text-h2-mobile opacity-70`}>{email}</div>
                   </div>
                   <svg

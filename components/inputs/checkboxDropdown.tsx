@@ -34,7 +34,7 @@ const CheckboxDropdown = ({datas, state, setState, resetState}) => {
                       <Transition show={open} as={Fragment} enter="transition ease-out duration-100" enterFrom="transform opacity-0 scale-95" enterTo="transform opacity-100 scale-100" leave="transition ease-in duration-75" leaveFrom="transform opacity-100 scale-100" leaveTo="transform opacity-0 scale-95">
                         <Menu.Items
                         static
-                          className="origin-top-right absolute right-0 mt-2 w-full font-roboto rounded-lg shadow-lg bg-playerMain ring-1 ring-black ring-opacity-5"
+                          className="origin-top-right absolute right-0 mt-2 w-full font-roboto rounded-lg shadow-lg bg-playerMain ring-1 ring-black ring-opacity-5 z-20"
                         >
                           <div className="">
                           {datas.map((data, i) => {

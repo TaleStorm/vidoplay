@@ -7,8 +7,13 @@ import Head from 'next/head'
 import { useEffect } from "react"
 import {LoginContextProvider} from "../components/context/loginContext"
 import Layout from "../components/layout/layout"
+import { AuthModalContextProvider } from "../components/context/authModalContext"
+import { UserDisplayContextProvider } from "../components/context/userDisplayContext"
+
 
 function MyApp({ Component, pageProps }) {
+
+ 
   
   useEffect(() => {
     const appHeight = () => {
@@ -23,14 +28,18 @@ function MyApp({ Component, pageProps }) {
   }, [])
 
   return (
+    <UserDisplayContextProvider>
+    <AuthModalContextProvider>
     <LoginContextProvider>
         <Head>
-          <script src="//vk.com/js/api/openapi.js"></script>
+        <script src="//vk.com/js/api/openapi.js"></script>
         </Head>
       <Layout>
       <Component {...pageProps} />
       </Layout>
     </LoginContextProvider>
+    </AuthModalContextProvider>
+    </UserDisplayContextProvider>
   )
 }
 

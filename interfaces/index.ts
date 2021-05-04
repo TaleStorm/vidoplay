@@ -71,6 +71,7 @@ export type AuthWindowData = {
 export type ForgottenPassData = {
     hidden: string
     hideFunc: () => void
+    authFunc: () => void
 }
 
 export type AuthorizationData = {
