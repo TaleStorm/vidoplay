@@ -2,11 +2,20 @@ import { MutableRefObject, useEffect, useRef, useState } from "react"
 import ModalOverlay from "../layout/modalOverlay"
 import TextInput from "../inputs/textInput"
 
-const DataEditor = ({ name, setName, lastName, setLastName, patronymic, setPatronymic }) => {
+const DataEditor = ({ name, setName, lastName, setLastName, patronymic, setPatronymic, password, setPassword, currentPassword, setCurrentPassword, newPassword, setNewPassword, confrimPassword, setConfrimPassword }) => {
 
     const [stage, setStage] = useState(0)
     const sliderBody = useRef() as MutableRefObject<HTMLDivElement>
     const [modalOpen, setModalOpen] = useState(false)
+    const [erorrs, setErrors] = useState({
+        currentPassword: { error: false, message: "Введённый пароль должен совпадать с текущим" },
+        newPassword: { error: false, message: "Пароли должны совпадать" }
+    })
+
+    useEffect(() => {
+        console.log(erorrs);
+
+    })
 
     useEffect(() => {
         const resizeListener = () => {
@@ -17,6 +26,24 @@ const DataEditor = ({ name, setName, lastName, setLastName, patronymic, setPatro
         return () => { window.removeEventListener("resize", resizeListener) }
     }, [modalOpen])
 
+    const isPasswordsValid = () => {
+
+        const IsCurrentPasswordMatch = password === currentPassword
+        const IsNewPasswordMatch = newPassword === confrimPassword
+
+        console.log({ password, currentPassword, newPassword, confrimPassword, IsCurrentPasswordMatch, IsNewPasswordMatch })
+
+        setErrors({
+            currentPassword: { ...erorrs.currentPassword, error: !IsCurrentPasswordMatch },
+            newPassword: { ...erorrs.newPassword, error: !IsNewPasswordMatch }
+        })
+
+        if (IsCurrentPasswordMatch && IsNewPasswordMatch)
+            return true
+
+        return false
+    }
+
     return (
         <div className={`w-full`}>
             <ModalOverlay modalOpen={modalOpen} setModalOpen={setModalOpen} classes={`px-4`}>
@@ -25,7 +52,7 @@ const DataEditor = ({ name, setName, lastName, setLastName, patronymic, setPatro
                     <button
                         onClick={() => {
                             setModalOpen(!modalOpen);
-
+                            setPassword(newPassword)
                         }}
                         className="mb-3 text-center text-h2-mobile text-white bg-orange p-3 duration-300 rounded-lg hover:bg-orange w-full">
                         Сменить пароль
@@ -42,7 +69,7 @@ const DataEditor = ({ name, setName, lastName, setLastName, patronymic, setPatro
             </ModalOverlay>
             <div className={`w-full hidden sm:block`}>
                 <div className={`mb-12`}>
-                    
+
                     <div className={`grid lg:grid-cols-2 gap-x-14 gap-y-6`}>
                         <TextInput label={`Имя`} name={`name`} state={name} setState={setName} />
                         <TextInput label={`Фамилия`} name={`lastname`} state={lastName} setState={setLastName} />
@@ -55,14 +82,29 @@ const DataEditor = ({ name, setName, lastName, setLastName, patronymic, setPatro
                             Сменить пароль
                     </h3>
                         <div className={`grid lg:grid-cols-2 gap-x-14 gap-y-6`}>
-                            <TextInput label={`Текущий пароль`} name={`name`} state={name} setState={setName} type={`password`} />
+                            <TextInput
+                                error={erorrs.currentPassword.error}
+                                errorMessage={erorrs.currentPassword.message}
+                                label={`Текущий пароль`} name={`pasword`}
+                                state={currentPassword}
+                                setState={setCurrentPassword}
+                                type={`password`} />
                             <div />
-                            <TextInput label={`Новый пароль`} name={`name`} state={name} setState={setName} type={`password`} />
-                            <TextInput label={`Повторите новый пароль`} name={`name`} state={name} setState={setName} type={`password`} />
+                            <TextInput
+                                label={`Новый пароль`} name={`newPassword`}
+                                state={newPassword}
+                                setState={setNewPassword}
+                                type={`password`} />
+                            <TextInput
+                                error={erorrs.newPassword.error}
+                                errorMessage={erorrs.newPassword.message}
+                                label={`Повторите новый пароль`} name={`confrimPassword`}
+                                state={confrimPassword} setState={setConfrimPassword}
+                                type={`password`} />
                             <button
                                 onClick={() => {
-                                    setModalOpen(!modalOpen);
-
+                                    if (isPasswordsValid())
+                                        setModalOpen(!modalOpen);
                                 }}
                                 className="text-center text-h2-mobile text-white bg-orange p-3 duration-300 rounded-lg hover:bg-orange w-full ">
                                 Сменить пароль

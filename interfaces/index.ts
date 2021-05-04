@@ -229,6 +229,7 @@ export interface InputProps  {
     name: string,
     type?: string,
     placeholder?:string,
+    disabled?: boolean,
     state: string,
     validator?: Function,
     error?: boolean,

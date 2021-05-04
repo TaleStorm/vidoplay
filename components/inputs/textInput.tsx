@@ -4,7 +4,7 @@ import validator from "./validator"
 
 
 const sub = validator
-const TextInput = ({label, name, type="text", placeholder="", state, setState, validator=sub.true, error=false,setError=()=>{}, errorMessage="Ошибка!"}:InputProps) => {
+const TextInput = ({label, name, disabled, type="text", placeholder="", state, setState, validator=sub.true, error=false,setError=()=>{}, errorMessage="Ошибка!"}:InputProps) => {
 
     const inputRef = useRef() as MutableRefObject<HTMLInputElement>
 
@@ -17,7 +17,8 @@ const TextInput = ({label, name, type="text", placeholder="", state, setState, v
         <label className="block w-full font-medium">
             {label}
             <input type={type} name={name} className={`border-2  rounded-lg sm:px-8 py-4 px-4 sm:py-6 mt-3 focus:outline-none bg-popupBackground w-full text-ui-text ${error ? "border-error-red" : "focus:border-orange hover:border-orange border-popupBorder"}  transition-all duration-200 ease-out`} 
-            placeholder={placeholder} 
+            placeholder={placeholder}
+            disabled={disabled}
             value={state} 
             onChange={(e) => {
                 setState(e.target.value)
