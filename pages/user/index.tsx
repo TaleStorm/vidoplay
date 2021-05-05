@@ -10,7 +10,6 @@ import UserDisplayContext from '../../components/context/userDisplayContext'
 import LoginContext from "../../components/context/loginContext"
 import getUser from "../api/getUser"
 import GoodToast from "../../components/goodtoast"
-import UserDisplayContext from "../../components/context/userDisplayContext"
 
 const stageHeaders = {
   data: "Редактировать профиль",
@@ -20,7 +19,6 @@ const stageHeaders = {
 
 const IndexPage = () => {
   const { logOut } = useContext(LoginContext)
-  const userDisplayContext = useContext(UserDisplayContext)
   const [loading, setLoading] = useState(true)
   const [filmLoading, setFilmLoading] = useState(false)
   const {display, setDisplay} = useContext(UserDisplayContext)
