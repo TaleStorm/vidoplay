@@ -105,17 +105,17 @@ const Footer = (data:{onAboutChillClick?:Function}) => (
           </a>
           </div>
           <div className="mt-3">
-            <a href="https://about.chillvision.ru/use_rules" >
+            <a href="/rules" >
               Правила использования
           </a>
           </div>
           <div className="mt-3">
-            <a href="https://about.chillvision.ru/policy" >
+            <a href="/policy" >
               Политика конфиденциальности
           </a>
           </div>
           <div className="mt-3">
-            <a href="https://about.chillvision.ru/usl_raz" >
+            <a href="/condition" >
               Условия размещения контента пользователя в сервисе
           </a>
           </div>
