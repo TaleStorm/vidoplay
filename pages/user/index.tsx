@@ -9,6 +9,7 @@ import Loader from "../../components/userComponents/loader"
 import PseudoHeader from "../../components/userComponents/pseudoHeader"
 import doramas from "../../data/doramas"
 import axios from "axios"
+import UserDisplayContext from '../../components/context/userDisplayContext'
 
 import Router from "next/router"
 import LoginContext from "../../components/context/loginContext"

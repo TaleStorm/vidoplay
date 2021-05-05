@@ -5,12 +5,12 @@ import StarIcon from "./icons/starIcon"
 import ThumbsDown from "./icons/thumbsDown"
 import ThumbsUp from "./icons/thumbsUp"
 
-const ReviewsAndLikes = ({setRating, rating, _dislikes, _likes}) => {
+const ReviewsAndLikes = ({setscore, score, _dislikes, _likes}) => {
     const authModalContext = useContext(AuthModalContext)
     const loginContext = useContext(LoginContext)
     const [likes, setLikes] = useState(_likes)
     const [dislikes, setDislikes] = useState(_dislikes)
-    const [hoveredRating, setHoveredRating] = useState(0)
+    const [hoveredscore, setHoveredscore] = useState(0)
     const [like, setLike] = useState(null)
 
 
@@ -20,17 +20,17 @@ const ReviewsAndLikes = ({setRating, rating, _dislikes, _likes}) => {
         <div className="text-sm col-span-1 flex flex-row justify-end content-between mt-8 pb-2">
         <div className="text-sm col-span-1 flex items-center justify-end mt-8 mr-8">
             <h4 className="font-roboto font-medium text-mainText text-base inline self-center mr-5">
-                {rating ? "Ваша оценка" : "Оцените сериал"}
+                {score ? "Ваша оценка" : "Оцените сериал"}
             </h4>
             <div 
             onMouseLeave={() => {
-                    setHoveredRating(0)
+                    setHoveredscore(0)
                 }}
             className={`flex items-center`}>
             {stars.map((star, i) => {
                 return (
                     <div className={`${i === stars.length - 1 ? "mr-0" : "mr-2"} w-8 h-8`}>
-                        <StarIcon setRating={setRating} rating={rating} index={star} hoveredRating={hoveredRating} setHoveredRating={setHoveredRating}/>
+                        <StarIcon setscore={setscore} score={score} index={star} hoveredscore={hoveredscore} setHoveredscore={setHoveredscore}/>
                     </div>
                 )
 

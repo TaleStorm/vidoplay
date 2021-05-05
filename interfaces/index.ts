@@ -127,7 +127,7 @@ export type FilmCategoryData = {
             color: string
         }[]
         comments: number,
-        rating: number
+        score: number
     }[]
     cardToShow: number
     sliderIndex: number
@@ -199,7 +199,7 @@ export type FilmCategorySliderData = {
             color: string
         }[]
         comments: number,
-        rating: number
+        score: number
     }[]
     cardToShow: number
     sliderIndex: number
@@ -253,7 +253,7 @@ export type FilmCategorySliderCardData = {
     languages: string[],
     tags: TagData[]
     comments: number,
-    rating: number
+    score: number
 }
 
 export type TagData = {

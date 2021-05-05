@@ -42,10 +42,8 @@ let comments = [
 
 export default function IndexPage({ movie, playlist, movies }) {
 
-  const [rating, setRating] = useState(null)
+  const [score, setscore] = useState(null)
   
-
-  console.log(movies)
   const series = []
   for (let season in movie.serial) {
     const seasonBuffer = []
@@ -60,9 +58,6 @@ export default function IndexPage({ movie, playlist, movies }) {
     series.push(seasonBuffer)
   }
 
-  useEffect(() => {
-    console.log(movie._id)
-  }, [])
 
   return (
     <>
@@ -94,7 +89,7 @@ export default function IndexPage({ movie, playlist, movies }) {
 
       <Video name={movie.title} series={series} movieId = {movie._id} movies = {movies}/>
       <div className={`hidden sm:block`}>
-        <ReviewsAndLikes _likes={movie._likes} _dislikes={movie._dislikes} rating={rating} setRating={setRating} />
+        <ReviewsAndLikes _likes={movie._likes} _dislikes={movie._dislikes} score={score} setscore={setscore} />
       </div>
         <Series series={series} />
 
@@ -111,7 +106,7 @@ export default function IndexPage({ movie, playlist, movies }) {
         />
 
         <div className="mx-6 sm:hidden">
-          <ReviewsAndLikes _likes={movie._likes} _dislikes={movie._dislikes} rating={rating} setRating={setRating} />
+          <ReviewsAndLikes _likes={movie._likes} _dislikes={movie._dislikes} score={score} setscore={setscore} />
         </div>
 
         <div className="hidden sm:block ">
@@ -152,7 +147,6 @@ export const getServerSideProps = async (ctx) => {
   const movie = await ApiReq.getSingleEntity("movies", id)
   const movies = []
   for (let movie in playlist.movies) {
-
     const movieInfo = await ApiReq.getSingleEntity("movies", playlist.movies[movie]._id)
     movies.push(movieInfo)
   }

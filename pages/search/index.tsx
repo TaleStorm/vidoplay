@@ -11,7 +11,7 @@ export default function Search() {
       key={1}
       title="Test"
       tags={[{ color: "#33ff90", genre: "Tech", name: "Tech" }]}
-      rating={9.9}
+      score={9.9}
       stringName="Tehc test"
       excerpt={"kekich"} />
   )

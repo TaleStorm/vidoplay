@@ -16,7 +16,7 @@ const doramas = [
         }
     ],
         comments: 30,
-        rating: 7.8
+        score: 7.8
     },
     {
         name: "В яблочко! Парни - лучники",
@@ -35,7 +35,7 @@ const doramas = [
         }
     ],
         comments: 30,
-        rating: 7.8
+        score: 7.8
     },
     {
         name: "В яблочко! Парни - лучники",
@@ -54,7 +54,7 @@ const doramas = [
         }
     ],
         comments: 30,
-        rating: 7.8
+        score: 7.8
     },
     {
         name: "В яблочко! Парни - лучники",
@@ -73,7 +73,7 @@ const doramas = [
         }
     ],
         comments: 30,
-        rating: 7.8
+        score: 7.8
     },
     {
         name: "В яблочко! Парни - лучники",
@@ -92,7 +92,7 @@ const doramas = [
         }
     ],
         comments: 30,
-        rating: 7.8
+        score: 7.8
     },
     {
         name: "В яблочко! Парни - лучники",
@@ -111,7 +111,7 @@ const doramas = [
         }
     ],
         comments: 30,
-        rating: 7.8
+        score: 7.8
     },
 ]
 

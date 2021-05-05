@@ -39,7 +39,7 @@ const IndexPage = ({ playlist, movies }) => {
                     excerpt={card.excerpt}
                     localization={card.localization}
                     _comment={card._comment}
-                    rating={card.score}
+                    score={card.score}
                     tags={card.tags}
                             />
                             </div>

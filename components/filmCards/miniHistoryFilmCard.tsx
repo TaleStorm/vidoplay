@@ -25,7 +25,7 @@ const MiniHistoryFilmCard = ({ filmId, key, imageSize }) => {
         }
         ],
         comments: 30,
-        rating: 7.8,
+        score: 7.8,
         imageSize: 40,
         title: "12",
         stringName: "wq"
