@@ -160,7 +160,7 @@ const IndexPage = ({generCat, contryCat, localCat, yearCat }) => {
 export default IndexPage
 
 export async function getServerSideProps(ctx) {
-  const movies = await ApiReq.getEntities("movies")
+//   const movies = await ApiReq.getEntities("movies")
   const categoryes = await ApiReq.getEntities("categoryes")
   let yearCat = []
   let generCat = []
@@ -178,12 +178,7 @@ export async function getServerSideProps(ctx) {
     }
   })
 
-//   const movies = []
-//   for (let playlist of playlists) {
-//     const result = await ApiReq.getPlaylistMoves(playlist._id)
-//     movies.push(result.data)
-//   }
   return {
-    props: {movies, query: ctx.query, generCat, contryCat, localCat, yearCat },
+    props: { query: ctx.query, generCat, contryCat, localCat, yearCat },
   }
 }
