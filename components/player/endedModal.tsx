@@ -32,7 +32,6 @@ const EndedModal = ({setModalOpen, series, currentSeason, currentSerie, modalOpe
 
     const switchToNext = () => {
         setModalOpen(false)
-        console.log(next.serie)
         changeSerie(next.serie)
     }
 

@@ -318,12 +318,14 @@ export default function Player(data) {
       globalGplayerAPI.method({ name: "resize", params: {width: 960, height: 540} })
       setFullScreen(false)
     } else {
-      globalGplayerAPI.method({ name: "resize", params: 
-    {
-      width: window.innerWidth,
-      height: window.innerHeight
-    } } )
       setFullScreen(true)
+      setTimeout(() => {
+        globalGplayerAPI.method({ name: "resize", params: {
+          width: window.innerWidth,
+          height: window.innerHeight
+        }})
+      }, 1500);
+
     }
   }
   
