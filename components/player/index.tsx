@@ -373,7 +373,7 @@ export default function Player(data) {
           />
         </div>
 
-        <div className={`/absolute fixed inset-0 w-full h-full ${buttonState} pointer-events-none`} >
+        <div className={`absolute inset-0 w-full h-full ${buttonState} pointer-events-none`} >
             <div className="flex justify-center flex-wrap content-center h-full">
               <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="playerButtons">
                 <path d="M0 8C0 3.58172 3.58172 0 8 0H92C96.4183 0 100 3.58172 100 8V92C100 96.4183 96.4183 100 92 100H8C3.58172 100 0 96.4183 0 92V8Z" fill="white" fillOpacity="0.2"/>
