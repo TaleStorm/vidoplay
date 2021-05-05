@@ -56,7 +56,7 @@ const IndexPage = () => {
     setPatronymic(data.middleName)
 
     setUserPassword(data._password)
-    
+
     //Подгружаем по запросу в будущем!!
     setFavourites(data.list.favorites)
     setHistory(data.list.favorites)

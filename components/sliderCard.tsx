@@ -2,34 +2,22 @@ import { SliderCardData } from '../interfaces'
 import Image from 'next/image'
 import React, { Component } from "react";
 
-type SliderCardProps = SliderCardData
+const SliderCard = ({image, onClick, link}) => {
+	return (
+		<a 
+		href={link} className="h-full w-full grid">
 
-interface SliderCardState {
-}
-
-class SliderCard extends Component<SliderCardProps,SliderCardState> {
-	constructor(props: SliderCardProps) {
-		super(props);
-	}
-
-	
-
-	public render(): React.ReactElement<SliderCardProps> {
-	
-		return (
-			<div className="h-72">
+			<div  
+			className={`sm:h-72 h-40 w-full  bg-center bg-no-repeat`}>
 				<Image
-					src={this.props.image}
-					alt="Picture of the film"
-					layout="fill"
-					objectFit="cover"
-					className="z-40"
-					onClick={(e)=> this.props.onClick(e)}
+				src={image}
+				layout="fill"
+				objectFit="cover"
+				className="z-40"
 				/>
-				<h3 className="font-medium text-sm sm:text-3xl text-greySlider m-10 z-50 relative">{this.props.name}</h3>
 			</div>
-		)
-	}
+			</a>
+	)
 }
 
 export default SliderCard

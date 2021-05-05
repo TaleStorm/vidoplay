@@ -53,7 +53,6 @@ function MyApp({ Component, pageProps }) {
         <script src="//vk.com/js/api/openapi.js"></script>
         </Head>
       <Layout>
-
       <Component {...pageProps} />
       </Layout>
     </LoginContextProvider>

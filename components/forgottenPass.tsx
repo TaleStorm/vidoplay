@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { ForgottenPassData } from '../interfaces'
+import LoginContext from "./context/loginContext";
+import GoodToast from "./goodtoast";
 import ChevronLeft from "./icons/chevronLeft";
 import TextInput from "./inputs/textInput";
 
@@ -8,6 +10,7 @@ type ForgottenPassProps = ForgottenPassData
 
 export default function Registration(data:ForgottenPassProps) {
     const [email, setEmail] = useState("")
+    const loginContext = useContext(LoginContext)
     return (
         <>
           <div onClick={() => {data.authFunc()}} className={`w-12 h-12 absolute left-2 opacity-25 hover:opacity-100 transition-all duration-300 cursor-pointer`}>
@@ -26,6 +29,8 @@ export default function Registration(data:ForgottenPassProps) {
               <button
                className="block text-center text-white bg-orange p-3 rounded-lg transition-colors duration-300 hover:bg-button-hover  w-full mt-5"
                 onClick={async () => {
+                  await loginContext.passwordReset(email)
+                  GoodToast("Письмо отправлено!")
                   }}
                 >
                 Восстановить пароль

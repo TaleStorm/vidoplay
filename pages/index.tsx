@@ -1,6 +1,6 @@
 import { MutableRefObject, useEffect, useRef, useState } from "react"
 import Header from "../components/layout/header"
-import Footer from "../components/footer"
+import Footer from "../components/layout/footer"
 import Slider from "../components/slider"
 import Comments from "../components/comments"
 import FilmCategory from "../components/filmCategory"
@@ -64,7 +64,7 @@ const partnerCards: PartnerSliderCardData[] = [
   },
 ]
 
-function IndexPage({ playlists = [], movies, comments }) {
+function IndexPage({ playlists = [], movies, comments, banners }) {
 
   const [chillPromoOpen, setChillPromoOpen] = useState(false)
 
@@ -73,7 +73,7 @@ function IndexPage({ playlists = [], movies, comments }) {
     image: "/images/aboutChill.png",
     onClick: (e) => { setChillPromoOpen(true) }
   }
-
+  console.log()
 
   return (
       <div className="w-full">
@@ -81,7 +81,7 @@ function IndexPage({ playlists = [], movies, comments }) {
           <div className="lg:col-span-4 md:col-span-5 grid grid-cols-1">
             <div>
             <div className={`mb-10`}>
-            <Slider cards={[aboutChillSlide, ...cards]} />
+            <Slider cards={banners} />
             </div>
             {playlists.map((playlist, i) => {
               return (
@@ -94,7 +94,7 @@ function IndexPage({ playlists = [], movies, comments }) {
                     cardToShow={2}
                     sliderIndex={i}
                   />
-                  { i + 1 === Math.floor(playlists.length / 2) &&
+                  { i === 0 &&
                     <img className={`w-full mt-10`} src="/images/sosedi.jpg" alt=""/>
                   }
                 </div>
@@ -113,9 +113,16 @@ function IndexPage({ playlists = [], movies, comments }) {
 
 export const getStaticProps = async (ctx) => {
   let time = new Date().getTime()/1000
+  const data = await ApiReq.getTableFromAirtable("banner")
+  const banners = data.records.map(record => {
+      return {
+        link: record.fields.link,
+        image: record.fields.attachment[0].url,
+        visibility: record.fields.visibility
+      }
+  }).filter(a => a.visibility === "true")
   const playlists = await ApiReq.getEntities("playlists")
   const comments = await ApiReq.getEntities("comments")
-  console.log(comments)
   let count = 1
   const movies = []
   for (let playlist of playlists) {
@@ -129,7 +136,8 @@ export const getStaticProps = async (ctx) => {
     props: { 
       playlists, 
       movies,
-      comments
+      comments,
+      banners
     },
     revalidate: 10
   }
