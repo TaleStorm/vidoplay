@@ -2,13 +2,12 @@ import FilmCategorySliderCard from "../../components/filmCategorySliderCard"
 import Footer from "../../components/footer"
 import Link from 'next/link'
 import { ChevronLeftIcon } from "@heroicons/react/solid"
-import comments from "../../data/comments"
 import Comments from "../../components/comments"
 import apiReq from "../../services/api-requests"
 
 const ApiReq = new apiReq()
 
-const IndexPage = ({ playlist, movies }) => {
+const IndexPage = ({ playlist, movies, comments }) => {
     return (
         <>
             <div className="w-full ">
@@ -63,13 +62,14 @@ export const getServerSideProps = async (ctx) => {
     const { category } = ctx.query
 
     const playlist = await ApiReq.getSingleEntity("playlists",category)
+    const comments = await ApiReq.getEntities("comments")
     const movies = []
 
     for (let movie in playlist.movies) {
         const movieInfo = await ApiReq.getSingleEntity("movies",playlist.movies[movie]._id)
         movies.push(movieInfo)
     }
-    return({props: { playlist, movies }})
+    return({props: { playlist, movies, comments }})
 }
 
 export default IndexPage
