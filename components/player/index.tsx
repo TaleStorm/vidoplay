@@ -424,6 +424,7 @@ export default function Player(data) {
         <div className={`absolute inset-0 w-full h-full ${panelState}`} onClick = {(e) => showRealPanel(e)} id="playingPanel">
 
           <ProgressBar 
+            setDrag={setDrag}
             currentTimePercent={currentTimePercent} 
             bufferTimePercent={currentTimeBuffer}
             getMousePos={getMousePos}
@@ -440,7 +441,6 @@ export default function Player(data) {
             currentVolume={currentVolume}
             changeCurrentLevel={changeCurrentLevel}
             currentQuality={currentQuality}
-            setDrag={setDrag}
           />
         </div>
 
@@ -488,6 +488,7 @@ export default function Player(data) {
           </PlayerModalOverlay>
           </div>
           <ProgressBar 
+            setDrag={setDrag}
             currentTimePercent={currentTimePercent} 
             bufferTimePercent={currentTimeBuffer}
             getMousePos={getMousePos}
@@ -504,7 +505,6 @@ export default function Player(data) {
             currentVolume={currentVolume}
             changeCurrentLevel={changeCurrentLevel}
             currentQuality={currentQuality}
-            setDrag={setDrag}
           />
         </div>
         </div>
