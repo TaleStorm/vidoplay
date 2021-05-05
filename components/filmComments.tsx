@@ -1,12 +1,16 @@
 import { FilmCommentsData } from "../interfaces"
 import CommentForm from "../components/commentForm"
-import {useState} from 'react'
+import {useContext, useState} from 'react'
+import LoginContext from "./context/loginContext"
+import AuthModalContext from "./context/authModalContext"
 
 type FilmCommentsProps = FilmCommentsData
 
 const FilmComments = (data: FilmCommentsProps) => {
 
 	const [modalOpen, setModalOpen] = useState(false)
+  const loginContext = useContext(LoginContext)
+  const authModalContext = useContext(AuthModalContext)
 
 
   return (
@@ -36,7 +40,7 @@ const FilmComments = (data: FilmCommentsProps) => {
           </svg>
         </div>
       </div>
-      <div className="space-y-4">
+      <div className="grid grid-cols-1 gap-y-4">
         {data.comments.map((comment, i) => {
           return (
             <div
@@ -205,7 +209,15 @@ const FilmComments = (data: FilmCommentsProps) => {
       </div>
       <CommentForm modalOpen ={modalOpen} setModalOpen = {setModalOpen} movieId = {data.movieId}/>
       <div className="hidden sm:block mt-8 space-x-6">
-        <button className="bg-orange hover:bg-orange text-mainText font-normal py-3 px-14 rounded-md text-sm" onClick = {() => {setModalOpen(!modalOpen)}}>
+        <button className="bg-orange hover:bg-orange text-mainText font-normal py-3 px-14 rounded-md text-sm" onClick = {() => {
+          if (loginContext.userToken) {
+            setModalOpen(!modalOpen)
+          }
+          else {
+            authModalContext.setModalOpen(true)
+          }
+          
+          }}>
           Оставить отзыв
         </button>
       </div>

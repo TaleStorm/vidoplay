@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import FilmCategorySliderCard from '../components/filmCategorySliderCard'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation } from 'swiper';
@@ -12,19 +12,18 @@ import ChevronLeft from "./icons/chevronLeft";
 
 type FilmCategorySliderProps = FilmCategorySliderData
 
-const minWidth = 640
+
 
 export default function FilmCategorySlider(data) {
     const [swiperWidth,setSwiperWidth] = useState(1920)
     const [leftActive, setLeftActive] = useState(false)
     const [rightActive, setRightActive] =  useState(true)
-
+    const minWidth = 640
     return (
       <div className="relative">
         <div  className={`hidden w-12 z-10 sm:-mr-8 absolute -left-10 top-0 h-full sm:block transition-all duration-200 ${!leftActive ? "opacity-0" : "opacity-50 hover:opacity-100"} cursor-pointer`}  id={`prev${data.sliderIndex}`}>
            <ChevronLeft classname={`w-full h-full`}/>
 				</div>
-
         <Swiper
                 slidesPerGroup={swiperWidth < minWidth ? 1 : data.cardToShow}
                 spaceBetween={20}
@@ -36,6 +35,8 @@ export default function FilmCategorySlider(data) {
                 }}
                 className={`padding-containter`}
                 onInit={(swiper)=>{
+                  console.log(swiperWidth)
+                  console.log(minWidth)
                   setSwiperWidth(swiper.width)
                 }}
                 onResize={(swiper)=>{

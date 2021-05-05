@@ -10,7 +10,7 @@ import { SliderData } from '../interfaces'
 type SliderProps = SliderData
 
 const Slider = (data: SliderProps) => (
-  
+
 
       <div className="relative">
           <Swiper
@@ -18,9 +18,13 @@ const Slider = (data: SliderProps) => (
                 slidesPerView={1}
                 allowTouchMove= {true}
                 className=" h-40 sm:h-auto"
+                loop
                 navigation={{
                   nextEl: '#nextMainSlide',
                   prevEl: '#prevMainSlide',
+                }}
+                onInit={(swiper) => {
+                  setInterval(() => {swiper.slideNext()}, 3000)
                 }}
               >
                 {data.cards.map((card, i) => {    

@@ -3,7 +3,7 @@ import { FilmDescriptionData } from "../interfaces"
 
 type FilmDescriptionProps = FilmDescriptionData
 
-const FilmDescription = (data: FilmDescriptionProps) => {
+const FilmDescription = (data) => {
 
   useEffect(() => {
     console.log(data)
@@ -20,17 +20,17 @@ const FilmDescription = (data: FilmDescriptionProps) => {
           <h6 className="font-roboto text-mainText opacity-70 font-normal text-sm block mb-5">
             Возрастные ограничения: <b>{data.yearPolicity}</b>
             <br />
-            Страна: <b>{Object.values(data.country).map((item) => item + ', ')}</b>
+            Страна: <b>{data.country.map((item) => item + ', ')}</b>
             <br />
             Жанр: <b>{data.janr}</b>
             <br />
-            Режиссер: <b>{Object.values(data.director).map((item) => item + ', ')}</b>
+            Режиссер: <b>{data.director.map((item) => item + ', ')}</b>
             <br />
-            Оператор: <b>{Object.values(data.operator).map((item) => item + ', ')}</b>
+            Оператор: <b>{data.operator.map((item) => item + ', ')}</b>
             <br />
-            Автор сценария: <b>{Object.values(data.screenwriter).map((item) => item + ', ')}</b>
+            Автор сценария: <b>{data.screenwriter.map((item) => item + ', ')}</b>
             <br />
-            Продюсер: <b>{Object.values(data.producer).map((item) => item + ', ')}</b>
+            Продюсер: <b>{data.producer.map((item) => item + ', ')}</b>
           </h6>
         </div>
       </div>

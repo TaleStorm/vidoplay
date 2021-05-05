@@ -9,6 +9,7 @@ import {LoginContextProvider} from "../components/context/loginContext"
 import Layout from "../components/layout/layout"
 import { AuthModalContextProvider } from "../components/context/authModalContext"
 import { UserDisplayContextProvider } from "../components/context/userDisplayContext"
+import TagManager from 'react-gtm-module'
 
 
 function MyApp({ Component, pageProps }) {
@@ -26,6 +27,23 @@ function MyApp({ Component, pageProps }) {
       window.removeEventListener("resize", appHeight)
     }
   }, [])
+  useEffect(() => {
+    const tagManagerArgs = {
+      gtmId: 'GTM-WVRTJ4M'
+  }
+  TagManager.initialize(tagManagerArgs)
+  }, [])
+
+  
+  useEffect(() => {
+    const listener = () => {
+      window.dispatchEvent(new Event("resize"))
+    }
+    window.addEventListener("load", listener)
+    return () => {
+      window.removeEventListener("load", listener)
+    }
+  }, [])
 
   return (
     <UserDisplayContextProvider>
@@ -35,6 +53,7 @@ function MyApp({ Component, pageProps }) {
         <script src="//vk.com/js/api/openapi.js"></script>
         </Head>
       <Layout>
+
       <Component {...pageProps} />
       </Layout>
     </LoginContextProvider>

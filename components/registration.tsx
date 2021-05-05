@@ -66,7 +66,7 @@ export default function Registration(data: RegistrationProps) {
                   <Checkbox state={policy} setState={setPolicy}/>
                 </div>
                 <span className="opacity-80 mr-1">Я согласен на </span>
-                <a className="hover:text-orange" href="#">
+                <a className="hover:text-orange" href="/conditions">
                 обработку {" "}
                   персональных данных{" "} 
                 </a>

@@ -70,12 +70,12 @@ export default function Authorization(data: AuthorizationProps) {
                 </div>
                 <div>
                 <span className="opacity-80">Я ознакомлен с</span>
-                <a className="hover:text-orange" href="#">
+                <a className="hover:text-orange" href="/policy">
                   {" "}
                   политикой конфиденциальности{" "}
                 </a>
                 <span className="opacity-80">и</span>
-                <a className="hover:text-orange" href="#">
+                <a className="hover:text-orange" href="/rules">
                   {" "}
                   правилами пользования сервиса
                 </a>

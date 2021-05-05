@@ -17,7 +17,7 @@ const ReviewsAndLikes = ({setscore, score, _dislikes, _likes}) => {
 
     const stars = [1,2,3,4,5]
     return (
-        <div className="text-sm col-span-1 flex flex-row justify-end content-between mt-8 pb-2">
+        <div className="text-sm col-span-1 flex flex-col sm:flex-row justify-end content-between mt-8 pb-2">
         <div className="text-sm col-span-1 flex items-center justify-end mt-8 mr-8">
             <h4 className="font-roboto font-medium text-mainText text-base inline self-center mr-5">
                 {score ? "Ваша оценка" : "Оцените сериал"}
@@ -37,8 +37,8 @@ const ReviewsAndLikes = ({setscore, score, _dislikes, _likes}) => {
             })}
             </div>
         </div>
-        <div className="text-sm col-span-1 flex flex-row justify-end items-center content-end mt-8">
-            <div className="self-center mr-5 flex justify-center">
+        <div className="text-sm col-span-1 flex flex-row sm:justify-end justify-center items-center content-end mt-8 ">
+            <div className="self-center mr-5 flex justify-center w-full sm:w-auto bg-popupBackground sm:bg-transparent py-2 sm:py-0">
                 <h6 className="font-roboto mr-2 text-mainText text-base inline self-center">
                     {likes}
                 </h6>
@@ -57,12 +57,12 @@ const ReviewsAndLikes = ({setscore, score, _dislikes, _likes}) => {
                         authModalContext.setModalOpen(true)
                     }
                 }}
-                className={`w-8 h-8 mb-1 transition-all duration-200 cursor-pointer hover:text-white ${like === true ? "text-white" : "text-inactive"}`}>
+                className={`w-8  h-8 mb-1 transition-all duration-200 cursor-pointer hover:text-white ${like === true ? "text-white" : "text-inactive"}`}>
                 <ThumbsUp/>
                 </div>
             </div>
 
-            <a className="self-center flex justify-center">
+            <a className="self-center flex justify-center w-full sm:w-auto bg-popupBackground sm:bg-transparent py-2 sm:py-0">
                 <h6 className="font-roboto mr-2 text-mainText text-base self-center">
                     {dislikes}
                 </h6>

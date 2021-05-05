@@ -7,17 +7,17 @@ const DropdownWrapper = ({heading, children}) => {
     useEffect(() => {
         const listener = () => {
             if (isSliderOpen) {
-                sliderContainerRef.current.style.height = sliderContainerRef.current.scrollHeight + "px"
+                sliderContainerRef.current.style.maxHeight = sliderContainerRef.current.scrollHeight + "px"
             }
             else {
-                sliderContainerRef.current.style.height = "0px"
+                sliderContainerRef.current.style.maxHeight = "0px"
             }
         }
         if (isSliderOpen) {
-            sliderContainerRef.current.style.height = sliderContainerRef.current.scrollHeight + "px"
+            sliderContainerRef.current.style.maxHeight = sliderContainerRef.current.scrollHeight + "px"
         }
         else {
-            sliderContainerRef.current.style.height = "0px"
+            sliderContainerRef.current.style.maxHeight = "0px"
         }
         window.addEventListener("refreshDropdown", listener)
         window.addEventListener('autosize:resized', listener)
