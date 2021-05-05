@@ -6,11 +6,16 @@ const SliderCard = ({image, onClick, link}) => {
 	return (
 		<a 
 		href={link} className="h-full w-full grid">
+
 			<div  
-			style={{
-				backgroundImage: `url(${image})`
-			}}
-			className={`sm:h-72 h-40 w-full object-fill bg-center`}/>
+			className={`sm:h-72 h-40 w-full  bg-center bg-no-repeat`}>
+				<Image
+				src={image}
+				layout="fill"
+				objectFit="cover"
+				className="z-40"
+				/>
+			</div>
 			</a>
 	)
 }

@@ -10,7 +10,8 @@ const LoginContext = React.createContext({
     loginHandler: (data) => {return new Promise((() => true))},
     logOut: (data) => {},
     registerHandler: (data) => {return new Promise((() => true))},
-    VKLoginHandler: (data) => {return new Promise((() => true))}
+    VKLoginHandler: (data) => {return new Promise((() => true))},
+    passwordReset: (email) => {return new Promise((() => true))}
 });
 
 
@@ -103,6 +104,13 @@ const LoginContextProvider = ({ children }: Props) => {
     setUserToken(null)
   };
 
+  const passwordReset = async (email) => {
+    const resp = await authAxios.post('/api/passwordReset', {
+      email: email
+    })
+    return true
+  }
+
   useEffect(() => {
     const token = window.localStorage.getItem("_user");
     if (token) {
@@ -119,7 +127,8 @@ const LoginContextProvider = ({ children }: Props) => {
         logOut,
         loginHandler,
         registerHandler,
-        VKLoginHandler
+        VKLoginHandler,
+        passwordReset
       }}
     >
       {children}
