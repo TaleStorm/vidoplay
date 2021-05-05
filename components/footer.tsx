@@ -115,7 +115,7 @@ const Footer = (data:{onAboutChillClick?:Function}) => (
           </a>
           </div>
           <div className="mt-3">
-            <a href="/condition" >
+            <a href="/conditions" >
               Условия размещения контента пользователя в сервисе
           </a>
           </div>
