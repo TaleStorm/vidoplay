@@ -1,5 +1,5 @@
 import FilmCategorySliderCard from "../../components/filmCategorySliderCard"
-import Footer from "../../components/footer"
+import Footer from "../../components/layout/footer"
 import Link from 'next/link'
 import { ChevronLeftIcon } from "@heroicons/react/solid"
 import Comments from "../../components/comments"
@@ -12,7 +12,7 @@ const IndexPage = ({ playlist, movies, comments }) => {
         <>
             <div className="w-full ">
                 <div className=" w-full mx-auto grid grid-cols-5 grid-rows-1 gap-10 ">
-                    <div className="lg:col-span-4 md:col-span-5">
+                    <div className="lg:col-span-4 col-span-5">
                     <nav className="inline-flex max-h-full h-min mb-5">
                         <Link href="/">
                         <a className="text-base hover:text-gray-900 text-orange flex items-center">
@@ -26,7 +26,7 @@ const IndexPage = ({ playlist, movies, comments }) => {
                     <h2 className="font-roboto text-mainText mb-8  font-medium text-3xl">
                             {playlist.name}
                     </h2>
-                    <div className={`grid gap-x-8 gap-y-6 grid-cols-3`}>
+                    <div className={`grid gap-x-8 gap-y-6 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1`}>
                     {movies.map((card, i) => (
                             // <FilmCategorySliderCard key={i} {...dorama} imageSize={"52"} />
                             <div className={`h-full`}>
