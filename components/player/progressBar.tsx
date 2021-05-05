@@ -73,16 +73,16 @@ export default function ProgressBar(data:ProgressBarProps) {
           </div> */}
 
             <div  className={`relative w-full h-6 cursor-pointer mx-2`} onMouseMove= {(e) => data.getMousePos(e)}  onClick= {(e) => data.setCurrentDuration(e)} onMouseUp={() => data.setDrag(false)} onMouseDown={() => data.setDrag(true)}>
-                <div className="absolute bg-white top-0 opacity-20 w-full h-full z-20">
+                <div className="absolute bg-white top-0 opacity-20 w-full h-full z-10">
 
                 </div>
-                <div className="absolute bg-white top-0 opacity-30 w-34/100 h-full z-30" style={{width:String(data.bufferTimePercent)+"%"}}>
+                <div className="absolute bg-white top-0 opacity-30 w-34/100 h-full z-20" style={{width:String(data.bufferTimePercent)+"%"}}>
                 
                 </div>
-                <div className={`absolute bg-playerSecond top-0 h-full z-40`} style={{width:String(data.currentTimePercent)+"%"}}>
+                <div className={`absolute bg-playerSecond top-0 h-full z-20`} style={{width:String(data.currentTimePercent)+"%"}}>
                 
                 </div>
-                <span className="absolute inset-y-0 right-4 z-50 text-mainText text-sm pointer-events-none" >
+                <span className="absolute inset-y-0 right-4 z-20 text-mainText text-sm pointer-events-none" >
                     {currentTimeUser} | {durationTimeUser}
                 </span>     
             </div>
@@ -109,10 +109,10 @@ export default function ProgressBar(data:ProgressBarProps) {
                 </svg>
 
                 <div  className={`w-full h-4 cursor-pointer mx-2 flex flex-wrap`} onClick= {(e) => data.setCurrentVolume(e)}>
-                    <div className={`bg-playerSecond h-full z-40`} style={{width:String(data.currentVolume)+"%"}}>
+                    <div className={`bg-playerSecond h-full z-20`} style={{width:String(data.currentVolume)+"%"}}>
                     
                     </div>
-                    <div className="bg-white opacity-20 w-full h-full z-30" style={{width:String(100-data.currentVolume)+"%"}}>
+                    <div className="bg-white opacity-20 w-full h-full z-20" style={{width:String(100-data.currentVolume)+"%"}}>
 
                     </div>
                 </div>
