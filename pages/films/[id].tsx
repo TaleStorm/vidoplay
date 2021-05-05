@@ -43,9 +43,9 @@ let comments = [
 export default function IndexPage({ movie, playlist, movies }) {
 
   const [rating, setRating] = useState(null)
-  
 
-  console.log(movies)
+
+  console.log(movie)
   const series = []
   for (let season in movie.serial) {
     const seasonBuffer = []
@@ -129,7 +129,7 @@ export default function IndexPage({ movie, playlist, movies }) {
             ]}
           />
         </div>
-        <FilmComments comments={comments} movieId={movie._id} />
+        <FilmComments comments={movie._comment} movieId={movie._id} />
 
         <div className="mt-8 sm:mx-0 grid grid-cols-1">
           <FilmCategory

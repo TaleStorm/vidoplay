@@ -28,7 +28,7 @@ const FilmCategory = (data: FilmCategoryProps) => {
         <FilmCategorySlider cards={data.cards} cardToShow={data.cardToShow} sliderIndex={data.sliderIndex}/>
        
         <nav className="flex justify-start pt-3 sm:hidden">
-                <a href="#" className="text-base hover:text-gray-900">
+                <a href={`/${data.stringName}`} className="text-base hover:text-gray-900">
                     <h4 className="font-roboto text-orange font-normal text-base inline mr-1.5">
                         Посмотреть все
                     </h4>
