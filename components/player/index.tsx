@@ -111,6 +111,7 @@ export default function Player(data) {
   const[isMuted, setMute] = useState(false);
   const[isDragged, setDrag] = useState(false);
   const[currentQuality, setCurrentQuality] = useState("AUTO");
+
   const [isEndedModalOpen, setIsEndedModalOpen] = useState(false)
   const [isCompliationModalOpen, setIsCompliationModalOpen] = useState(false)
   const [currentCompilationMovie, setCurrentCompilationMovie] = useState(data.movies[0])
@@ -186,8 +187,6 @@ export default function Player(data) {
     //   setVideoPercentCurrent(percent.toFixed(1))
     // }})
   }
-
-  
 
   var removeFakeButton = () => {
     setPanel("visible");
@@ -319,7 +318,11 @@ export default function Player(data) {
       globalGplayerAPI.method({ name: "resize", params: {width: 960, height: 540} })
       setFullScreen(false)
     } else {
-      globalGplayerAPI.method({ name: "resize", params: userWindow })
+      globalGplayerAPI.method({ name: "resize", params: 
+    {
+      width: window.innerWidth,
+      height: window.innerHeight
+    } } )
       setFullScreen(true)
     }
   }
@@ -329,11 +332,16 @@ export default function Player(data) {
       (document as any).addEventListener('fullscreenchange', () => {
         if (isFullScreen) {
           gplayerAPI.method({ name: "resize", params: {width: 960, height: 540} });
+          data.setFullScreen(false)
           setFullScreen(false);
           (document as any).removeEventListener('fullscreenchange', () => setEventListener(gplayerAPI, userWindow, false));
           setEventListener(gplayerAPI, userWindow, false);
         } else {
-          gplayerAPI.method({ name: "resize", params: userWindow });
+          gplayerAPI.method({ name: "resize", params: {
+            width: window.innerWidth,
+            height: window.innerHeight
+          } });
+          data.setFullScreen(true)
           setFullScreen(true);
           (document as any).removeEventListener('fullscreenchange', () => setEventListener(gplayerAPI, userWindow, true));
           setEventListener(gplayerAPI, userWindow, true);

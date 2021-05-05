@@ -69,6 +69,7 @@ export default function FilmCategorySlider(data) {
                     _comment={card._comment}
                     rating={card.score}
                     tags={card.tags}
+                    score={card.score}
                   />
                 </SwiperSlide>
                 
