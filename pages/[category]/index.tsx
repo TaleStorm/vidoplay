@@ -1,5 +1,5 @@
 import FilmCategorySliderCard from "../../components/filmCategorySliderCard"
-import Footer from "../../components/footer"
+import Footer from "../../components/layout/footer"
 import Link from 'next/link'
 import { ChevronLeftIcon } from "@heroicons/react/solid"
 import Comments from "../../components/comments"

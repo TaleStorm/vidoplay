@@ -29,7 +29,7 @@ const PlayerFilmCard = (data) => {
         </div>
         <div className="flex flex-row justify-start flex-wrap mx-4 mb-2">
             {data.tags.map((tag, i) => {    
-                return <Tag genre={tag.value} key={i} name={tag.name} color={tag.color}/>
+                return <Tag genre={tag} key={i} name={tag} color={tag.color}/>
             })}
         </div>
     </div>

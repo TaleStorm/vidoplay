@@ -9,33 +9,35 @@ import { SliderData } from '../interfaces'
 
 type SliderProps = SliderData
 
-const Slider = (data: SliderProps) => (
+const Slider = (data) => (
 
 
-      <div className="relative">
+      <div className="relative sm:h-72 h-40">
           <Swiper
                 spaceBetween={0}
                 slidesPerView={1}
                 allowTouchMove= {true}
-                className=" h-40 sm:h-auto"
+                className=""
                 loop
                 navigation={{
                   nextEl: '#nextMainSlide',
                   prevEl: '#prevMainSlide',
                 }}
                 onInit={(swiper) => {
-                  setInterval(() => {swiper.slideNext()}, 3000)
+                  if (swiper) {
+                    setInterval(() => {swiper.slideNext()}, 3000)
+                  }
+                  
                 }}
               >
                 {data.cards.map((card, i) => {    
                   const sliderCardProps = {
                     key: i,
-                    name: card.name, 
-                    description: card.name, 
+                    link: card.link,
                     image: card.image,
                     onClick: card.onClick || (()=>{}),
                   }
-                  return <SwiperSlide key={i} className="">
+                  return <SwiperSlide key={i} className="h-full">
                     <SliderCard {...sliderCardProps} />
                 </SwiperSlide>
                 })}

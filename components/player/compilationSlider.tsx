@@ -8,7 +8,7 @@ import PlayerFilmCard from "../filmCards/playerFilmCard";
 SwiperCore.use([Navigation]);
 const minWidth = 640
 
-const CompilationSlider = ({setModalOpen, isSliderOpen, setIsSliderOpen, movies, setCurrentCompilationMovie}) => {
+const CompilationSlider = ({setModalOpen, isSliderOpen, setIsSliderOpen, movies, setCurrentCompilationMovie, isFullscreen}) => {
 
     const sliderContainerRef = useRef() as MutableRefObject<HTMLDivElement>
 
@@ -40,7 +40,7 @@ const CompilationSlider = ({setModalOpen, isSliderOpen, setIsSliderOpen, movies,
                 className={`w-full overflow-hidden transition-all duration-300 ease-out`}>
                 <Swiper
                     spaceBetween={20}
-                    slidesPerView={2.5}
+                    slidesPerView={isFullscreen ? 3.5 : 2.5}
                     allowTouchMove={true}
                     navigation={{
                         nextEl: '#next' + 1,

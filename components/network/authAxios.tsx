@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 axios.interceptors.request.use(function (config) {
-    const token = window.localStorage.getItem('_user')
+  let token = window?.localStorage?.getItem('_user')
     config.url = config.url + `?token=${token}`
     console.log(config);
     return config;

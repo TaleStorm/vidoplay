@@ -44,5 +44,15 @@ export default class NewsService {
     })
   }
 
+  getTableFromAirtable = async (table) => {
+    const result = await fetch(`https://api.airtable.com/v0/app5Hw3RVknO5eZ4P/${table}?view=Grid%20view`, {
+      headers: {
+        'Authorization': 'Bearer keyVIkP5eKsQsa5gA' 
+      }
+    })
+    const data = await result.json()
+    return data
+  }
+
 
 }
