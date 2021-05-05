@@ -39,7 +39,7 @@ export default class NewsService {
   }
 
   getPlaylistMoves = (id) => {
-    return this.postResource(`http://localhost:3000/api/getMoviesFromPlaylist`, {
+    return this.postResource(`${process.env.API_DOMAIN}/api/getPlaylistMovies`, {
       playlistId: id
     })
   }

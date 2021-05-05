@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import ReactFullscreen from 'react-easyfullscreen';
 import ProgressBar from './progressBar';
 import TopPlayerPanel from './topPlayerPanel';
-
 import { PlayerData } from '../../interfaces'
 import CompilationSlider from './compilationSlider';
 import CompilationModal from './compilationModal';
@@ -103,18 +102,22 @@ export default function Player(data) {
   const[durationTime, setVideoDuration] = useState(0);
   const[currentTime, setVideoCurrent] = useState(0);
   const[currentTimePercent, setVideoPercentCurrent] = useState("0");
+  const[currentTimeBuffer, setVideoPercentBuffer] = useState("0");
   const[currentVolume, setVolumeCurrent] = useState(100);
   const[bufferVolume, setVolumeBuffer] = useState(100);
   const[userWindow, setUserWindow] = useState({width: 0, height: 0});
   const[isFullScreen, setFullScreen] = useState(false);
   const[isMuted, setMute] = useState(false);
+  const[isDragged, setDrag] = useState(false);
   const[currentQuality, setCurrentQuality] = useState("AUTO");
-  const [isEndedModalOpen, setIsEndedModalOpen] = useState(false)
-  const [isCompliationModalOpen, setIsCompliationModalOpen] = useState(false)
-  const [currentCompilationMovie, setCurrentCompilationMovie] = useState(data.movies[0])
-  const [isSliderOpen, setIsSliderOpen] = useState(false)
-
+  const [isEndedModalOpen, setIsEndedModalOpen] = useState(false);
+  const [isCompliationModalOpen, setIsCompliationModalOpen] = useState(false);
+  const [currentCompilationMovie, setCurrentCompilationMovie] = useState(data.movies[0]);
+  const [isSliderOpen, setIsSliderOpen] = useState(false);
   const[globalGplayerAPI, setPlayer] = useState(undefined);
+  const[draggerPercent, setDraggerPercent] = useState("0");
+  const[draggerVisible, setDraggerVisible] = useState(false);
+  const[possibleDurationTime, setPossibleDurationTime] = useState(0);
 
   const getPlayer = async () => {
     clearInterval(interval);
@@ -133,6 +136,10 @@ export default function Player(data) {
           gplayerAPI.method({name: 'getDuration', params: {}, callback: (res) => {
             setVideoDuration(res)
             setIntervalVideo(setInterval(() => tick(res,gplayerAPI), 500));
+            gplayerAPI.on('progress', (data) => {
+              const percent = 100 * data.current / res
+              setVideoPercentBuffer(percent.toFixed(1))
+            })
           }})
           setUserWindow({width: (window as any).innerWidth, height: (window as any).innerHeight})
         }
@@ -140,16 +147,15 @@ export default function Player(data) {
 
     })
 
-    gplayerAPI.on('tracks', (info) => {
-      console.log('[Event]', 'tracks')
-      console.log(info)
-    })
+    // gplayerAPI.on('tracks', (info) => {
+    //   console.log('[Event]', 'tracks')
+    //   console.log(info)
+    // })
 
     gplayerAPI.on("ended", () => {
       gplayerAPI.method({name: "seekPercentage", params: 100});
       gplayerAPI.method({name: "pause"});
       setRealPanel("visible");
-      console.log(currentSerie , series[currentSeason].length-1)
       if (currentSerie < series[currentSeason].length-1) {
         setIsEndedModalOpen(true);
       }
@@ -164,15 +170,7 @@ export default function Player(data) {
       const percent = 100 * res / duration
       setVideoPercentCurrent(percent.toFixed(1))
     }})
-
-    // gplayerAPI.method({name: 'getCurrentTime', params: {}, callback: (res) => {
-    //   setVideoCurrent(res)
-    //   const percent = 100 * res / duration
-    //   setVideoPercentCurrent(percent.toFixed(1))
-    // }})
   }
-
-  
 
   var removeFakeButton = () => {
     setPanel("visible");
@@ -268,7 +266,22 @@ export default function Player(data) {
 
   var getMousePos = (e) => {
     const target = e.target.getBoundingClientRect();
-    // console.log(e.screenX - target.x, e.target.parentElement.offsetWidth)
+    const percent = 100 * (e.screenX - target.x) / e.target.parentElement.offsetWidth
+    if (isDragged) {
+      globalGplayerAPI.method({ name: "seekPercentage", params: percent.toFixed(1) })
+    }
+    setDraggerVisible(true)
+    console.log(percent, (percent * 60 / 100).toFixed(1))
+    setDraggerPercent((percent * 60 / 100).toFixed(1))
+    const time = durationTime * percent / 100
+    setPossibleDurationTime(time)
+  }
+
+  // x - 23
+  // durationTime - 100
+
+  var setMouseOver = () => {
+    setDraggerVisible(false)
   }
 
   var setCurrentDuration = (e) => {
@@ -300,8 +313,14 @@ export default function Player(data) {
       globalGplayerAPI.method({ name: "resize", params: {width: 960, height: 540} })
       setFullScreen(false)
     } else {
-      globalGplayerAPI.method({ name: "resize", params: userWindow })
       setFullScreen(true)
+      setTimeout(() => {
+        globalGplayerAPI.method({ name: "resize", params: {
+          width: window.innerWidth,
+          height: window.innerHeight
+        }})
+      }, 1500);
+
     }
   }
   
@@ -310,11 +329,16 @@ export default function Player(data) {
       (document as any).addEventListener('fullscreenchange', () => {
         if (isFullScreen) {
           gplayerAPI.method({ name: "resize", params: {width: 960, height: 540} });
+          data.setFullScreen(false)
           setFullScreen(false);
           (document as any).removeEventListener('fullscreenchange', () => setEventListener(gplayerAPI, userWindow, false));
           setEventListener(gplayerAPI, userWindow, false);
         } else {
-          gplayerAPI.method({ name: "resize", params: userWindow });
+          gplayerAPI.method({ name: "resize", params: {
+            width: window.innerWidth,
+            height: window.innerHeight
+          } });
+          data.setFullScreen(true)
           setFullScreen(true);
           (document as any).removeEventListener('fullscreenchange', () => setEventListener(gplayerAPI, userWindow, true));
           setEventListener(gplayerAPI, userWindow, true);
@@ -395,8 +419,13 @@ export default function Player(data) {
         <div className={`absolute inset-0 w-full h-full ${panelState}`} onClick = {(e) => showRealPanel(e)} id="playingPanel">
 
           <ProgressBar 
+            possibleDurationTime = {possibleDurationTime}
+            draggerPercent = {draggerPercent}
+            setMouseOver = {setMouseOver}
+            draggerVisible = {draggerVisible}
+            setDrag={setDrag}
             currentTimePercent={currentTimePercent} 
-            bufferTimePercent={""}
+            bufferTimePercent={currentTimeBuffer}
             getMousePos={getMousePos}
             setCurrentDuration={setCurrentDuration}
             setPlay={setPlay}
@@ -458,8 +487,13 @@ export default function Player(data) {
           </PlayerModalOverlay>
           </div>
           <ProgressBar 
+            possibleDurationTime = {possibleDurationTime}
+            setMouseOver = {setMouseOver}
+            draggerPercent = {draggerPercent}
+            draggerVisible = {draggerVisible}
+            setDrag={setDrag}
             currentTimePercent={currentTimePercent} 
-            bufferTimePercent={""}
+            bufferTimePercent={currentTimeBuffer}
             getMousePos={getMousePos}
             setCurrentDuration={setCurrentDuration}
             setPlay={setPlay}

@@ -2,30 +2,37 @@ import PLayer from "../components/player"
 import { useRef, useEffect, useState, MutableRefObject } from "react";
 import axios from "axios"
 
-import { VideoData } from '../interfaces'
 import StarIcon from "./icons/starIcon";
 import ThumbsUp from "./icons/thumbsUp";
 import ThumbsDown from "./icons/thumbsDown";
-
-type VideoProps = VideoData
 
 export default function Video(data) {
     const targetRef = useRef() as MutableRefObject<HTMLDivElement>
     const containRef = useRef() as MutableRefObject<HTMLDivElement>
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
+    const [isFullScreen, setFullScreen] = useState(false)
 
     useEffect(() => {
-        targetRef.current.style.height = (containRef.current.getBoundingClientRect().width * 9/16) + 120 + "px"
-    },[])
+        const body = document.querySelector("body")
+        if (isFullScreen) {
+            body.style.overflow = "hidden"
+        }
+        else {
+            body.style.overflow = ""
+        }
+    }, [isFullScreen])
+    useEffect(() => {
+        targetRef.current.style.height = isFullScreen ? window.innerHeight + "px" : (containRef.current.getBoundingClientRect().width * 9/16) + "px"
+    },[isFullScreen])
 
     useEffect(() => {
         if (targetRef.current) {
             setDimensions({
-                width: (targetRef.current as any).offsetWidth,
-                height: (targetRef.current as any).offsetHeight
+                width: targetRef.current.offsetWidth,
+                height: targetRef.current.offsetHeight
             });
         }
-    }, []);
+    }, [isFullScreen]);
 
     const pickInFavorites = async () => {
         console.log(JSON.stringify(localStorage.getItem('_user')))
@@ -40,23 +47,21 @@ export default function Video(data) {
 
     return (
         <>
-                <h4 className="hidden mt-6 font-roboto text-mainText font-normal text-3xl sm:block mb-4 col-span-1 w-full">
-                    {data.name}
-                </h4>
-        <div ref={containRef}  className=" md:mx-auto max-w-4xl  w-full">
+        <h4 className="hidden mt-6 font-roboto text-mainText font-normal text-3xl sm:block mb-4 col-span-1 w-full">
+            {data.name}
+        </h4>
+        <div ref={containRef}  className={`md:mx-auto ${isFullScreen ? "fixed max-h-screen top-0 left-0 z-50" : "max-w-4xl"}  w-full`}>
 
-            <div className="sm:grid grid-cols-2 grid-rows-1 gap-4 mb-6">
+            <div className="sm:grid grid-cols-2 grid-rows-1">
                 <div className="hidden text-sm col-span-1 sm:flex flex-row justify-end space-x-3">
                     <div className="hidden">
-
-                        <a href="/#" className="self-center" >
+                        <a href="" className="self-center" >
                             <h4 className="font-roboto text-mainText text-base inline self-center">
                                 Поделиться
                         </h4>
                         </a>
-
                         <a href="/#" className="self-center">
-                            {/* TG logo */}
+                            {/* TG logo !!Ребят, вынесите свгшки в отдельные иконки, если они модифицируются, или юзайте img, ато компонент нечитаблен!!*/}
                             <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" className="inline self-center">
                                 <path d="M15 30C23.2843 30 30 23.2843 30 15C30 6.71575 23.2843 0 15 0C6.71575 0 0 6.71575 0 15C0 23.2843 6.71575 30 15 30Z" fill="url(#paint0_linear)" />
                                 <path d="M5.58651 15.7337C7.34 14.7679 9.29738 13.9617 11.1263 13.1515C14.2726 11.8244 17.4315 10.5202 20.6222 9.30611C21.2431 9.09923 22.3585 8.89692 22.4679 9.81692C22.408 11.1192 22.1616 12.4138 21.9926 13.7084C21.5637 16.5554 21.0679 19.3927 20.5845 22.2303C20.4179 23.1755 19.2339 23.6648 18.4762 23.0599C16.6555 21.83 14.8207 20.6122 13.0233 19.3538C12.4344 18.7555 12.9804 17.8963 13.5063 17.469C15.0059 15.9912 16.5963 14.7355 18.0176 13.1813C18.4009 12.2555 17.2682 13.0357 16.8946 13.2748C14.8416 14.6895 12.8388 16.1907 10.6743 17.434C9.56869 18.0427 8.28006 17.5225 7.17494 17.1829C6.18405 16.7727 4.73204 16.3594 5.58641 15.7338L5.58651 15.7337Z" fill="white" />
@@ -127,6 +132,9 @@ export default function Video(data) {
                     height={String(dimensions.height)}
                     series={data.series}
                     name={data.name}
+                    parentRef={containRef}
+                    isFullScreen= {isFullScreen}
+                    setFullScreen= {setFullScreen}
                 />
             </div>
 

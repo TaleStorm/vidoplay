@@ -105,7 +105,7 @@ export default function IndexPage({ movie, playlist, movies }) {
           screenwriter={movie.scenarists}
         />
 
-        <div className="mx-6 sm:hidden">
+        <div className="sm:hidden">
           <ReviewsAndLikes _likes={movie._likes} _dislikes={movie._dislikes} score={score} setscore={setscore} />
         </div>
 
@@ -126,7 +126,7 @@ export default function IndexPage({ movie, playlist, movies }) {
         </div>
         <FilmComments comments={comments} movieId={movie._id} />
 
-        <div className="mt-8 mx-6 sm:mx-0 grid grid-cols-1">
+        <div className="mt-8 sm:mx-0 grid grid-cols-1">
           <FilmCategory
             name={playlist.name}
             stringName={playlist.stringName}
@@ -145,11 +145,8 @@ export const getServerSideProps = async (ctx) => {
   const playlists = await ApiReq.getEntities("playlists")
   const playlist = playlists[0]
   const movie = await ApiReq.getSingleEntity("movies", id)
-  const movies = []
-  for (let movie in playlist.movies) {
-    const movieInfo = await ApiReq.getSingleEntity("movies", playlist.movies[movie]._id)
-    movies.push(movieInfo)
-  }
+  const result = await ApiReq.getPlaylistMoves(playlist._id)
+  const movies = [...result.data]
   //console.log(await ApiReq.getPlaylistMoves(playlist._id))
   return { props: { movie, playlist, movies } }
 }

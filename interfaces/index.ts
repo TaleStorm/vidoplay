@@ -16,22 +16,27 @@ export type PlayerData = {
 }
 
 export type ProgressBarData = {
+    draggerVisible: boolean
+    draggerPercent: string
     currentTimePercent: string
     currentVolume: number
     bufferTimePercent: string
     currentQuality: string
     getMousePos: (e) => void
     setPlay: () => void
+    setMouseOver: () => void
     fullScreenFunc: () => void
     setCurrentDuration: (e) => void
     changeCurrentLevel: (quality) => void
     setCurrentVolume: (e) => void
     isPlaying: boolean
     durationTime: number
+    possibleDurationTime: number
     currentTime: number
     setFullScreen: () => void
     isMuted: boolean
     changeMute: () => void
+    setDrag: (boolean) => void
 }
 
 export type TopPlayerPanelData = {

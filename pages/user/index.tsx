@@ -1,20 +1,16 @@
 import { useContext, useEffect, useState } from "react"
-import Footer from "../../components/footer"
-import Header from "../../components/layout/header"
+
 import ModalOverlay from "../../components/layout/modalOverlay"
 import DataEditor from "../../components/userComponents/dataEditor"
 import Favourites from "../../components/userComponents/favourites"
 import History from "../../components/userComponents/history"
 import Loader from "../../components/userComponents/loader"
-import PseudoHeader from "../../components/userComponents/pseudoHeader"
-import doramas from "../../data/doramas"
 import axios from "axios"
 import UserDisplayContext from '../../components/context/userDisplayContext'
-
-import Router from "next/router"
 import LoginContext from "../../components/context/loginContext"
 import getUser from "../api/getUser"
 import GoodToast from "../../components/goodtoast"
+import UserDisplayContext from "../../components/context/userDisplayContext"
 
 const stageHeaders = {
   data: "Редактировать профиль",
@@ -24,7 +20,7 @@ const stageHeaders = {
 
 const IndexPage = () => {
   const { logOut } = useContext(LoginContext)
-
+  const userDisplayContext = useContext(UserDisplayContext)
   const [loading, setLoading] = useState(true)
   const [filmLoading, setFilmLoading] = useState(false)
   const {display, setDisplay} = useContext(UserDisplayContext)
@@ -54,7 +50,7 @@ const IndexPage = () => {
   const getUser = async () => {
     const userId = localStorage.getItem("_user")
     const { data } = await axios.post("/api/getUser", { userId })
-
+    console.log(data)
     setEmail(data.email)
 
     setName(data.firstname)
@@ -62,7 +58,8 @@ const IndexPage = () => {
     setPatronymic(data.middleName)
 
     setUserPassword(data._password)
-
+    
+    //Подгружаем по запросу в будущем!!
     setFavourites(data.list.favorites)
     setHistory(data.list.favorites)
 
@@ -146,7 +143,7 @@ const IndexPage = () => {
                   >
                     <img src="/icons/default-avatar.svg" className={`w-25 h-25 mb-1 rounded-full`} />
                     <a className={`text-orange cursor-pointer mb-4 text-h2-mobile`}>Сменить аватар</a>
-                    <div className={`font-medium text-h1-mobile mb-1`}>{username}</div>
+                    <div className={`font-medium text-h1-mobile mb-1`}>{name}</div>
                     <div className={`sm:mb-4 mb-3 text-h2-mobile opacity-70`}>{email}</div>
                   </div>
                   <svg

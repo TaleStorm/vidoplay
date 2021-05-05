@@ -114,8 +114,6 @@ function IndexPage({ playlists = [], movies }) {
 export const getStaticProps = async (ctx) => {
   let time = new Date().getTime()/1000
   const playlists = await ApiReq.getEntities("playlists")
-  console.log(playlists)
-  console.log(new Date().getTime()/1000 - time)
   let count = 1
   const movies = []
   for (let playlist of playlists) {
