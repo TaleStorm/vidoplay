@@ -50,8 +50,8 @@ export default function ProgressBar(data:ProgressBarProps) {
     }
 
     return(
-    <div  className={`absolute bottom-4 inset-x-0 mx-4 w-auto flex items-end `}>
-        <div  className={`relative cursor-pointer`}>
+    <div  className={`absolute md:bottom-4 bottom-0 inset-x-0 md:mx-4 w-auto flex items-end `}>
+        <div  className={`relative cursor-pointer hidden md:block`}>
             <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" className={`playerButtons cursor-pointer ${data.isPlaying? "hidden" : ""}`} onClick={() => data.setPlay()}>
                 <rect className="wrapper" width="42" height="42" rx="8" fill="white" fillOpacity="0.2"/>
                 <path d="M31.5693 19.7533L15.3695 10.1284C15.2331 10.0473 15.0769 10.0031 14.917 10.0002C14.7571 9.99724 14.5993 10.0358 14.4598 10.1118C14.3204 10.1879 14.2042 10.2987 14.1234 10.4328C14.0426 10.567 14 10.7196 14 10.8751V30.1249C14 30.2804 14.0426 30.433 14.1234 30.5672C14.2042 30.7013 14.3204 30.8121 14.4598 30.8882C14.5993 30.9642 14.7571 31.0028 14.917 30.9998C15.0769 30.9969 15.2331 30.9527 15.3695 30.8716L31.5693 21.2467C31.7008 21.1685 31.8095 21.0588 31.885 20.9281C31.9604 20.7973 32 20.6499 32 20.5C32 20.3501 31.9604 20.2027 31.885 20.0719C31.8095 19.9412 31.7008 19.8315 31.5693 19.7533Z" fill="white"/>
@@ -62,8 +62,8 @@ export default function ProgressBar(data:ProgressBarProps) {
                 <path d="M16.5 10H12C11.4477 10 11 10.4477 11 11V31C11 31.5523 11.4477 32 12 32H16.5C17.0523 32 17.5 31.5523 17.5 31V11C17.5 10.4477 17.0523 10 16.5 10Z" fill="white"/>
             </svg>
         </div>
-        <div  className={`w-full mr-2 `}>
-            <div  className={`mb-2 w-28 text-center absolute bottom-6 ${data.draggerVisible ? '':'hidden'}`} style={{ left:data.draggerPercent + "%" }}>
+        <div  className={`w-full md:mr-2 `}>
+            <div  className={`mb-2 w-28 text-center absolute bottom-6 hidden md:absolute ${data.draggerVisible ? '':'md:hidden'}`} style={{ left:data.draggerPercent + "%" }}>
               <svg width="110" height="45" viewBox="0 0 132 51" fill="none" xmlns="http://www.w3.org/2000/svg" className={`w-28`}>
                 <rect width="132" height="42" rx="8" fill="white" fill-opacity="0.4"/>
                 <path d="M57.5 42H74.5L66 51L57.5 42Z" fill="white" fill-opacity="0.4"/>
@@ -73,12 +73,13 @@ export default function ProgressBar(data:ProgressBarProps) {
               </span>  
             </div>
 
-            <div  className={`relative w-full h-6 cursor-pointer mx-2`} 
+            <div  className={`relative w-full h-3 md:h-6 cursor-pointer md:mx-2`} 
               onMouseMove= {(e) => data.getMousePos(e)}  
               onClick= {(e) => data.setCurrentDuration(e)} 
               onMouseUp={() => data.setDrag(false)} 
               onMouseDown={() => data.setDrag(true)}
               onMouseOut={() => data.setMouseOver()}
+              onTouchEnd = {(e) => data.setCurrentDuration(e)} 
             >
                 <div className="absolute bg-white top-0 opacity-20 w-full h-full z-10">
 
@@ -89,13 +90,13 @@ export default function ProgressBar(data:ProgressBarProps) {
                 <div className={`absolute bg-playerSecond top-0 h-full z-20`} style={{width:String(data.currentTimePercent)+"%"}}>
                 
                 </div>
-                <span className="absolute inset-y-0 right-4 z-20 text-mainText text-sm pointer-events-none" >
+                <span className="md:absolute inset-y-0 right-4 z-20 text-mainText text-sm pointer-events-none hidden" >
                     {currentTimeUser} | {durationTimeUser}
                 </span>     
             </div>
         </div>
 
-        <div  className={`relative mx-2`}>
+        <div  className={`relative mx-2 hidden md:block`}>
             <svg width="132" height="42" viewBox="0 0 132 42" fill="none" xmlns="http://www.w3.org/2000/svg" className="-mb-10.5">
                 <rect width="132" height="42" rx="8" fill="white" fillOpacity="0.2"/>
             </svg>
@@ -126,7 +127,7 @@ export default function ProgressBar(data:ProgressBarProps) {
             </div>
         </div>
 
-        <div className="cursor-pointer mr-2 text-white">
+        <div className="cursor-pointer mr-2 text-white hidden md:block">
             <Menu as="div" className="relative inline-block text-left h-10.5">
                 {({ open }) => (
                   <>
@@ -168,7 +169,7 @@ export default function ProgressBar(data:ProgressBarProps) {
               </Menu>
             </div>
             
-        <div  className={`cursor-pointer`}>
+        <div  className={`cursor-pointer hidden md:block`}>
             <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={() => setFullScreen()} className="playerButtons">
                 <rect className="wrapper" width="42" height="42" rx="8" fill="white" fillOpacity="0.2"/>
                 <path d="M25 12H30V17" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
@@ -176,6 +177,22 @@ export default function ProgressBar(data:ProgressBarProps) {
                 <path d="M30 25V30H25" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
                 <path d="M12 17V12H17" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
+        </div>
+
+        <div  className={`cursor-pointer absolute md:hidden right-0 bottom-2 `}>
+            <svg width="31" height="31" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={() => setFullScreen()} className="playerButtons">
+                <path d="M25 12H30V17" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M17 30H12V25" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M30 25V30H25" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M12 17V12H17" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+        </div>
+
+        
+        <div  className={` absolute md:hidden left-1 bottom-3 w-auto h-auto z-50`}>
+          <span className=" text-mainText text-xs pointer-events-none" >
+            {currentTimeUser} | {durationTimeUser}
+          </span>   
         </div>
         
       {/* <svg width="120" height="40" viewBox="0 0 132 51" fill="none" xmlns="http://www.w3.org/2000/svg">

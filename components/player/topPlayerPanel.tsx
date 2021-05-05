@@ -12,7 +12,7 @@ function classNames(...classes) {
 
 export default function TopPlayerPanel(data:TopPlayerPanelProps) {
     return(
-        <div  className="absolute top-4 left-4 flex flex-wrap content-center space-x-4">
+        <div  className="absolute top-4 left-4 md:flex flex-wrap content-center space-x-4 hidden">
         <div className="">
           <Menu as="div" className="relative inline-block text-left " onClick={() => data.changeSeasonState()}>
             {({ open }) => (
