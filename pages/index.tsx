@@ -5,7 +5,6 @@ import Slider from "../components/slider"
 import Comments from "../components/comments"
 import FilmCategory from "../components/filmCategory"
 import apiReq from "../services/api-requests"
-import comments from "../data/comments";
 import { PartnerSliderCardData } from "../interfaces"
 import axios from "axios"
 
@@ -65,7 +64,7 @@ const partnerCards: PartnerSliderCardData[] = [
   },
 ]
 
-function IndexPage({ playlists = [], movies }) {
+function IndexPage({ playlists = [], movies, comments }) {
 
   const [chillPromoOpen, setChillPromoOpen] = useState(false)
 
@@ -74,6 +73,7 @@ function IndexPage({ playlists = [], movies }) {
     image: "/images/aboutChill.png",
     onClick: (e) => { setChillPromoOpen(true) }
   }
+
 
   return (
       <div className="w-full">
@@ -94,9 +94,9 @@ function IndexPage({ playlists = [], movies }) {
                     cardToShow={2}
                     sliderIndex={i}
                   />
-                  {/* {i + 1 === Math.floor(playlists.length / 2) &&
-                    ""
-                  } */}
+                  { i + 1 === Math.floor(playlists.length / 2) &&
+                    <img className={`w-full mt-10`} src="/images/sosedi.jpg" alt=""/>
+                  }
                 </div>
               )
             })}
@@ -114,6 +114,8 @@ function IndexPage({ playlists = [], movies }) {
 export const getStaticProps = async (ctx) => {
   let time = new Date().getTime()/1000
   const playlists = await ApiReq.getEntities("playlists")
+  const comments = await ApiReq.getEntities("comments")
+  console.log(comments)
   let count = 1
   const movies = []
   for (let playlist of playlists) {
@@ -126,7 +128,8 @@ export const getStaticProps = async (ctx) => {
   return { 
     props: { 
       playlists, 
-      movies 
+      movies,
+      comments
     },
     revalidate: 10
   }

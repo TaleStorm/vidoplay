@@ -103,7 +103,7 @@ export default function IndexPage({ movie, playlist, movies }) {
           description={movie.excerpt}
           yearPolicity={movie.age}
           country={movie.contry}
-          janr={movie.type}
+          janr={movie.gener}
           director={movie.directors}
           operator={movie.operators}
           producer={movie.producers}

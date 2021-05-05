@@ -36,7 +36,7 @@ const FilmComments = (data: FilmCommentsProps) => {
           </svg>
         </div>
       </div>
-      <div className="space-y-4">
+      <div className="grid grid-cols-1 gap-y-4">
         {data.comments.map((comment, i) => {
           return (
             <div

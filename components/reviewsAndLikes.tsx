@@ -17,7 +17,7 @@ const ReviewsAndLikes = ({setRating, rating, _dislikes, _likes}) => {
 
     const stars = [1,2,3,4,5]
     return (
-        <div className="text-sm col-span-1 flex flex-row justify-end content-between mt-8 pb-2">
+        <div className="text-sm col-span-1 flex flex-col sm:flex-row justify-end content-between mt-8 pb-2">
         <div className="text-sm col-span-1 flex items-center justify-end mt-8 mr-8">
             <h4 className="font-roboto font-medium text-mainText text-base inline self-center mr-5">
                 {rating ? "Ваша оценка" : "Оцените сериал"}
@@ -37,7 +37,7 @@ const ReviewsAndLikes = ({setRating, rating, _dislikes, _likes}) => {
             })}
             </div>
         </div>
-        <div className="text-sm col-span-1 flex flex-row justify-end items-center content-end mt-8">
+        <div className="text-sm col-span-1 flex flex-row sm:justify-end justify-center items-center content-end mt-8">
             <div className="self-center mr-5 flex justify-center">
                 <h6 className="font-roboto mr-2 text-mainText text-base inline self-center">
                     {likes}

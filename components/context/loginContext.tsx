@@ -65,7 +65,7 @@ const LoginContextProvider = ({ children }: Props) => {
             const response = await authAxios.post("/api/login", tmp)
             logIn(response.data.data._user)
             setModalOpen(false)
-            GoodToast("Успешная авторищация")
+            GoodToast("Успешная авторизация")
           }
         )
       }, 272629760)

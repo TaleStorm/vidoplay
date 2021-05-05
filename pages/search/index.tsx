@@ -2,19 +2,7 @@ import FilmCategorySliderCard from "../../components/filmCategorySliderCard";
 
 export default function Search() {
 
-  const cards = Array(10).fill(
-    <FilmCategorySliderCard
-      comments={20}
-      image="/images/sosedi.jpg"
-      languages={["RU"]}
-      imageSize="72"
-      key={1}
-      title="Test"
-      tags={[{ color: "#33ff90", genre: "Tech", name: "Tech" }]}
-      rating={9.9}
-      stringName="Tehc test"
-      excerpt={"kekich"} />
-  )
+  const cards = []
 
   return (
     <div>

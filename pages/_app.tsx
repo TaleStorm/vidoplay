@@ -27,6 +27,17 @@ function MyApp({ Component, pageProps }) {
     }
   }, [])
 
+  
+  useEffect(() => {
+    const listener = () => {
+      window.dispatchEvent(new Event("resize"))
+    }
+    window.addEventListener("load", listener)
+    return () => {
+      window.removeEventListener("load", listener)
+    }
+  }, [])
+
   return (
     <UserDisplayContextProvider>
     <AuthModalContextProvider>

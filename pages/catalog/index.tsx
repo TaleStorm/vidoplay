@@ -26,13 +26,13 @@ const IndexPage = ({playlists, movies}) => {
     }
 
     const [displayedMovies, setDisplayedMovies] = useState(postQueryMovies())
-    
-    const fetchedCountries = moviesArr.map(movie => movie.contry.map(contry => contry.value)).reduce((acc, name) => [...acc, ...name] )
+    console.log(moviesArr)
+    const fetchedCountries = moviesArr.map(movie => movie.contry.map(contry => contry)).reduce((acc, name) => [...acc, ...name] )
     const countriesSet = new Set(fetchedCountries)
     const countries = ["Все страны", ...countriesSet]
     const [country, setCountry] = useState(countries[0])
 
-    const fetchedGenres = moviesArr.map(movie => movie.gener).reduce((acc, geners) => [...acc, ...geners]).map(gener => gener.value)
+    const fetchedGenres = moviesArr.map(movie => movie.gener).reduce((acc, geners) => [...acc, ...geners]).map(gener => gener)
     const genersSet = new Set(fetchedGenres)
     const genres = ["Любой", ...genersSet]
     const [genre, setGenre] = useState(genres[0])
