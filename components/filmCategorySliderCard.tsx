@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { MutableRefObject, useEffect, useRef } from 'react'
+import { MutableRefObject, useEffect, useRef, useState } from 'react'
 import Tag from '../components/tag'
 
 import { FilmCategorySliderCardData } from '../interfaces'
@@ -13,6 +13,13 @@ const FilmCategorySliderCard = (data) => {
 	const containRef = useRef() as MutableRefObject<HTMLDivElement>
 	const fullRef = useRef() as MutableRefObject<HTMLAnchorElement>
 	const imgRef = useRef() as MutableRefObject<HTMLDivElement>
+	const [sanitizedText, setSanitizedText] = useState("")
+	useEffect(() => {
+			const div = document.createElement("div");
+			div.innerHTML = data.excerpt
+			setSanitizedText(div.textContent || div.innerText || "") 
+	}, [])
+
 	return (
 
   	<a
@@ -41,7 +48,7 @@ const FilmCategorySliderCard = (data) => {
 				{data.title}
 			</p>
 			<p className="text-xs sm:text-sm font-roboto text-mainText opacity-70">
-				{data.excerpt ? (data.excerpt.length > 320 ? data.excerpt.substr(0, 317) + "..." : data.excerpt) : data.excerpt}
+				{sanitizedText ? (sanitizedText.length > 320 ? sanitizedText.substr(0, 317) + "..." : sanitizedText) : sanitizedText}
 			</p>
 		</div>
 		<div>

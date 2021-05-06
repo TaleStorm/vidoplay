@@ -15,12 +15,6 @@ const IndexPage = ({generCat, contryCat, localCat, yearCat }) => {
   const [years, setYears] = useState(["Любой"])
   const [year, setYear] = useState(yearCat[0])
 
-//   const postQueryMovies = () => {
-//     return moviesArr
-//   }
-
-  const [movies, setMovies] = useState([])
-
   const [displayedMovies, setDisplayedMovies] = useState([])
 
   const [country, setCountry] = useState(contryCat[0])
