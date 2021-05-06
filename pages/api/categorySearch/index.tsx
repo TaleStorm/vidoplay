@@ -7,7 +7,7 @@ export default async (req, res) => {
           break
         case "POST":
             // console.log(body) 192.168.1.163
-          let response = await fetch(`http://192.168.1.163:3001/api/categorySearch`, {
+          let response = await fetch(`${process.env.API_DOMAIN}/api/categorySearch`, {
             method: 'POST', // или 'PUT'
             body: JSON.stringify(body), // данные могут быть 'строкой' или {объектом}!192.168.1.163
             headers: {
