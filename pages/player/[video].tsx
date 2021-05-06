@@ -6,6 +6,7 @@ export default function Player(data) {
     // const router = useRouter()
     // const { video } = router.query
     const[globalGplayerAPI, setPlayer] = useState(undefined);
+    const[tracks, setTracks] = useState(undefined);
 
   const getPlayer = async () => {
 
@@ -15,17 +16,16 @@ export default function Player(data) {
 
 
     gplayerAPI.on('tracks', (info) => {
-      console.log('[Event]', 'tracks')
-      console.log(info)
+      setTracks(info)
     })
 
   }
 
-  var setAudio = async () => {
+  var setAudio = async (id) => {
     globalGplayerAPI.method({name: 'getPlugin', params: {
       pluginName: "audio_selector", 
       pluginMethod: "setIndexTrack",
-      pluginValue: 1
+      pluginValue: id
   }, callback: (e) => {
       // alert(`getPlugin  ${e}`)
       console.log(e)
@@ -50,21 +50,14 @@ export default function Player(data) {
             id="gplayer"
             >
         </iframe>
-        <button onClick= {() => setAudio()} >
+        {/* <button onClick= {() => setAudio()} >
     Click
-        </button>
-        {/* {movies.map((card, i) => {
-                        return <SwiperSlide key={i} className="">
-                            <a onClick={(e) => {
-                                e.preventDefault()
-                                setIsSliderOpen(false)
-                                setModalOpen(true)
-                                setCurrentCompilationMovie(card)
-                            }} className={`w-full relative z-20 cursor-pointer`}>
-                                <PlayerFilmCard {...card} imageSize={"45"} />
-                            </a>
-                        </SwiperSlide>
-                    })} */}
+        </button> */}
+        {tracks ? tracks.map((track, i) => {
+                        return <button key={i} onClick= {() => setAudio(track.id)} className="block">
+                        ID: {track.id}
+                            </button>
+                    }): ""}
     </div>
   )
 }
