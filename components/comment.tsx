@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { DetachedComment } from '../interfaces'
 import axios from 'axios'
+import Router from "next/router"
 
 type CommentProps = DetachedComment
 
@@ -24,9 +25,15 @@ const CommentBlock = (commentData: CommentProps) => {
        setUserName([data.firstname, data.lastname].join(" "))
    }
 
+   const gotoFilm = async () => {
+    console.log(commentData._movieId)
+    const {data} = await axios.post("/api/getMovie", {filmId: commentData._movieId})
+    Router.replace(`/films/${data.stringName}`)
+   }
+
   return (
     <div className="">
-      <a href={`${commentData.url}`} className="text-base block mt-5">
+      <a onClick = {() => {gotoFilm()}} className="text-base block mt-5">
         <div className={`flex items-center`}>
           <div className={`w-8 h-8 p-1 bg-user-bg rounded-full mr-2`}>
             <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">

@@ -13,7 +13,7 @@ const ApiReq = new apiReq()
 
 const IndexPage = ({generCat, contryCat, localCat, yearCat }) => {
   const [years, setYears] = useState(["Любой"])
-  const [year, setYear] = useState(yearCat[0])
+  const [released, setYear] = useState(yearCat[0])
 
   const [displayedMovies, setDisplayedMovies] = useState([])
 
@@ -38,7 +38,7 @@ const IndexPage = ({generCat, contryCat, localCat, yearCat }) => {
   const [isPacks, setIsPacks] = useState(false)
 
   const [searchQuery, setSearchQuery] = useState({
-    year,
+    released,
     genre,
     country,
     sort,
@@ -52,7 +52,7 @@ const IndexPage = ({generCat, contryCat, localCat, yearCat }) => {
   //Формируем поисковый запрос из стейтов
   useEffect(() => {
     setSearchQuery({
-      year,
+      released,
       genre,
       country,
       sort,
@@ -60,7 +60,7 @@ const IndexPage = ({generCat, contryCat, localCat, yearCat }) => {
       isFilms,
       isSeries,
     })
-  }, [year, country, sort, activeLanguages, genre, isFilms, isSeries])
+  }, [released, country, sort, activeLanguages, genre, isFilms, isSeries])
 
   const getMoviesFromCat = async () => {
 
@@ -68,7 +68,7 @@ const IndexPage = ({generCat, contryCat, localCat, yearCat }) => {
         localization: activeLanguages,
         country,
         genre,
-        year,
+        released,
         isFilms,
         isSeries,
     }
@@ -91,7 +91,7 @@ const IndexPage = ({generCat, contryCat, localCat, yearCat }) => {
         <div className={`w-auto md:flex flex-wrap grid grid-cols-2 gap-y-5 gap-x-4 md:gap-y-2 md:gap-x-0 mb-5`}>
           <div className={`mr-5 md:w-36 w-full`}>
             <div className={`mb-3`}>Год</div>
-            <Dropdown datas={yearCat} state={year} setState={setYear} />
+            <Dropdown datas={yearCat} state={released} setState={setYear} />
           </div>
           <div className={`md:w-44 w-full mr-5`}>
             <div className={`mb-3`}>Страна</div>
@@ -167,7 +167,7 @@ export async function getServerSideProps(ctx) {
       contryCat = ["Любой", ...element.category]
     } else if (element.title === "localization") {
       localCat = ["Любой", ...element.category]
-    } else if (element.title === "year") {
+    } else if (element.title === "released") {
       yearCat = ["Любой", ...element.category]
     }
   })
