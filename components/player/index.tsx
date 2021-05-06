@@ -66,10 +66,10 @@ export default function Player(data) {
 
     })
 
-    // gplayerAPI.on('tracks', (info) => {
-    //   console.log('[Event]', 'tracks')
-    //   console.log(info)
-    // })
+    gplayerAPI.on('tracks', (info) => {
+      console.log('[Event]', 'tracks')
+      console.log(info)
+    })
 
     gplayerAPI.on("ended", () => {
       gplayerAPI.method({name: "seekPercentage", params: 100});

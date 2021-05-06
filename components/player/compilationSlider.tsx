@@ -24,17 +24,17 @@ const CompilationSlider = ({setModalOpen, isSliderOpen, setIsSliderOpen, movies,
     }, [isSliderOpen])
 
     return (
-        <div className={`absolute bottom-18 inset-x-0 w-full items-end flex flex-col px-4 `}>
+        <div className={`absolute bottom-18 inset-x-0 w-full items-end flex flex-col px-4 z-10`}>
 
 
-            <div
+            {/* <div
                 onClick={() => {
                     setIsSliderOpen(!isSliderOpen)
                 }}
                 className={`w-auto text-h2-mobile mb-3 font-medium flex cursor-pointer`}>
                 <div className={`mr-1`}>Смотреть также</div>
                 <ChevronDown classname={`stroke-current w-6 h-6 transform transition-all duration-150 ease-out ${isSliderOpen ? "rotate-0" : "-rotate-90"}`} />
-            </div>
+            </div> */}
             <div
                 ref={sliderContainerRef}
                 className={`w-full overflow-hidden transition-all duration-300 ease-out`}>
