@@ -8,37 +8,10 @@ import Screenshots from "../../components/screenshots"
 import FilmCategory from "../../components/filmCategory"
 import apiReq from "../../services/api-requests"
 import Head from "next/head"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import ReviewsAndLikes from "../../components/reviewsAndLikes"
 
 const ApiReq = new apiReq()
-
-let comments = [
-  {
-    comment: "Хорошая версия, но мне ближе другая.",
-    film: "«Здравствуйте, я робот»",
-    username: "Виталий Иванович",
-    userImage: "",
-  },
-  {
-    comment: "Хорошая версия, но мне ближе другая.",
-    film: "«Здравствуйте, я робот»",
-    username: "Виталий Иванович",
-    userImage: "",
-  },
-  {
-    comment: "Хорошая версия, но мне ближе другая.",
-    film: "«Здравствуйте, я робот»",
-    username: "Виталий Иванович",
-    userImage: "",
-  },
-  {
-    comment: "Хорошая версия, но мне ближе другая.",
-    film: "«Здравствуйте, я робот»",
-    username: "Виталий Иванович",
-    userImage: "",
-  },
-]
 
 export default function IndexPage({ movie, playlist, movies }) {
 
@@ -50,15 +23,17 @@ export default function IndexPage({ movie, playlist, movies }) {
     const seasonBuffer = []
     for (let serie in movie.serial[season].series) {
       seasonBuffer.push({
-        videoId: movie.serial[season].series[serie].value,
+        videoId: movie.serial[season].series[serie][0].value,
         acting: "LostFilm",
         videoLength: "10",
-        image: movie.image,
+        image: movie.serial[season].series[serie][1].value,
       })
     }
     series.push(seasonBuffer)
   }
 
+  // const screenshots = []
+  // for i in 
 
   return (
     <>
@@ -113,16 +88,7 @@ export default function IndexPage({ movie, playlist, movies }) {
         <div className="hidden sm:block ">
           <Screenshots
             name={movie.title}
-            screenshots={[
-              movie.image,
-              movie.image,
-              movie.image,
-              movie.image,
-              movie.image,
-              movie.image,
-              movie.image,
-              movie.image,
-            ]}
+            screenshots={movie.screenshots}
           />
         </div>
         <FilmComments comments={movie._comment} movieId={movie._id} />
@@ -148,6 +114,5 @@ export const getServerSideProps = async (ctx) => {
   const movie = await ApiReq.getSingleEntity("movies", id)
   const result = await ApiReq.getPlaylistMoves(playlist._id)
   const movies = [...result.data]
-  //console.log(await ApiReq.getPlaylistMoves(playlist._id))
   return { props: { movie, playlist, movies } }
 }

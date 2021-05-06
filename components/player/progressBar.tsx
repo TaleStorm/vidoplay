@@ -90,7 +90,7 @@ export default function ProgressBar(data:ProgressBarProps) {
                 <div className={`absolute bg-playerSecond top-0 h-full z-20`} style={{width:String(data.currentTimePercent)+"%"}}>
                 
                 </div>
-                <span className="md:absolute inset-y-0 right-4 z-20 text-mainText text-sm pointer-events-none hidden" >
+                <span className="absolute md:block inset-y-0 right-4 z-20 text-mainText text-sm pointer-events-none hidden" >
                     {currentTimeUser} | {durationTimeUser}
                 </span>     
             </div>

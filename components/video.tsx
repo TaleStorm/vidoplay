@@ -2,10 +2,6 @@ import PLayer from "../components/player"
 import { useRef, useEffect, useState, MutableRefObject } from "react";
 import axios from "axios"
 
-import StarIcon from "./icons/starIcon";
-import ThumbsUp from "./icons/thumbsUp";
-import ThumbsDown from "./icons/thumbsDown";
-
 export default function Video(data) {
     const targetRef = useRef() as MutableRefObject<HTMLDivElement>
     const containRef = useRef() as MutableRefObject<HTMLDivElement>
