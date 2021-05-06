@@ -63,10 +63,10 @@ export default function ProgressBar(data:ProgressBarProps) {
             </svg>
         </div>
         <div  className={`w-full md:mr-2 `}>
-            <div  className={`mb-2 w-28 text-center absolute bottom-6 hidden md:absolute ${data.draggerVisible ? '':'md:hidden'}`} style={{ left:data.draggerPercent + "%" }}>
+            <div  className={`mb-2 w-28 text-center z-20 absolute bottom-6 hidden md:block ${data.draggerVisible ? '':'md:hidden'}`} style={{ left:data.draggerPercent + "%" }}>
               <svg width="110" height="45" viewBox="0 0 132 51" fill="none" xmlns="http://www.w3.org/2000/svg" className={`w-28`}>
-                <rect width="132" height="42" rx="8" fill="white" fill-opacity="0.4"/>
-                <path d="M57.5 42H74.5L66 51L57.5 42Z" fill="white" fill-opacity="0.4"/>
+                <rect width="132" height="42" rx="8" fill="white" fillOpacity="0.4"/>
+                <path d="M57.5 42H74.5L66 51L57.5 42Z" fill="white" fillOpacity="0.4"/>
               </svg>
               <span className="-mt-9 pb-4 text-playerMain text-xs pointer-events-none block w-28" >
                 {possibleDurationTimeUser} | {durationTimeUser}
@@ -127,7 +127,7 @@ export default function ProgressBar(data:ProgressBarProps) {
             </div>
         </div>
 
-        <div className="cursor-pointer mr-2 text-white hidden md:block">
+        <div className="cursor-pointer mr-2 text-white hidden md:block z-20">
             <Menu as="div" className="relative inline-block text-left h-10.5">
                 {({ open }) => (
                   <>
@@ -194,11 +194,6 @@ export default function ProgressBar(data:ProgressBarProps) {
             {currentTimeUser} | {durationTimeUser}
           </span>   
         </div>
-        
-      {/* <svg width="120" height="40" viewBox="0 0 132 51" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="132" height="42" rx="8" fill="red" fill-opacity="0.2"/>
-          <path d="M57.5 42H74.5L66 51L57.5 42Z" fill="red" fill-opacity="0.2"/>
-      </svg> */}
 
     </div>
     )

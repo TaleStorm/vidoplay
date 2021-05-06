@@ -2,7 +2,8 @@ const FilmCardLanguages = ({ data }) => {
   return (
     <div className="absolute bottom-0 left-0 h-8 sm:h-12 mx-auto w-auto grid grid-flow-col gap-2 flex-wrap">
       {data.localization.map((language, i) => (
-        <a
+        <a 
+          key={i}
           className={`relative z-10`}
           href={`/films/${data.stringName}?lang=${language ? language.toUpperCase() : ""}`}
         >

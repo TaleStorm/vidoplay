@@ -31,9 +31,6 @@ export default function IndexPage({ movie, playlist, movies }) {
       series.push(seasonBuffer)
     }
 
-  // const screenshots = []
-  // for i in 
-
   return (
     <>
       <Head>
