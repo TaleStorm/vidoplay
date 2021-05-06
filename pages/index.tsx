@@ -95,7 +95,9 @@ function IndexPage({ playlists = [], movies, comments, banners }) {
                     sliderIndex={i}
                   />
                   { i === 0 &&
-                    <img className={`w-full mt-10`} src="/images/sosedi.jpg" alt=""/>
+                  <a href="/piloty">
+                    <img  className={`w-full mt-10`} src="/images/Pilots.png" alt=""/>
+                  </a>
                   }
                 </div>
               )
