@@ -140,7 +140,7 @@ export default function Video(data) {
                     setFullScreen= {setFullScreen}
                 />):
                 (<div className="flex justify-center items-center w-full h-full">
-                    <h1 className="text-3xl">
+                    <h1 className="text-h1-mobile sm:text-3xl">
                         Извините, видео скоро появится
                     </h1>
                 </div>)}
