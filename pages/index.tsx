@@ -129,7 +129,6 @@ export const getStaticProps = async (ctx) => {
     image: '/images/Pilots.png',
     visibility: 'true'
   })
-  console.log(banners)
   const playlists = await ApiReq.getEntities("playlists")
   const comments = await ApiReq.getEntities("comments")
   let count = 1
