@@ -218,7 +218,14 @@ export type Comment = {
 
 export interface DetachedComment extends Comment {
     film: string,
-    url: string
+    url: string,
+    text: string,
+    rates: number,
+    date: string,
+    _movieId: string,
+    _user: string,
+    _dislikes: number,
+    _likes: number
 }
 
 export interface CommentsData  {

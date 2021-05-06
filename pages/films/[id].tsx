@@ -17,20 +17,23 @@ export default function IndexPage({ movie, playlist, movies }) {
 
   const [score, setscore] = useState(null)
 
-  console.log(movie)
+  console.log("movie",movie)
+
   const series = []
-  for (let season in movie.serial) {
-    const seasonBuffer = []
-    for (let serie in movie.serial[season].series) {
-      seasonBuffer.push({
-        videoId: movie.serial[season].series[serie][0].value,
-        acting: "LostFilm",
-        videoLength: "10",
-        image: movie.serial[season].series[serie][1].value,
-      })
+
+  if (movie.serial)
+    for (let season in movie.serial) {
+      const seasonBuffer = []
+      for (let serie in movie.serial[season].series) {
+        seasonBuffer.push({
+          videoId: movie.serial[season].series[serie][0].value,
+          acting: "LostFilm",
+          videoLength: "10",
+          image: movie.serial[season].series[serie][1].value,
+        })
+      }
+      series.push(seasonBuffer)
     }
-    series.push(seasonBuffer)
-  }
 
   // const screenshots = []
   // for i in 
@@ -63,10 +66,10 @@ export default function IndexPage({ movie, playlist, movies }) {
           </a>
         </nav>
 
-      <Video name={movie.title} series={series} movieId = {movie._id} movies = {movies}/>
-      <div className={`hidden sm:block`}>
-        <ReviewsAndLikes _likes={movie._likes} _dislikes={movie._dislikes} score={score} setscore={setscore} />
-      </div>
+        <Video name={movie.title} series={series} movieId = {movie._id} movies = {movies}/>
+        <div className={`hidden sm:block`}>
+          <ReviewsAndLikes _likes={movie._likes} _dislikes={movie._dislikes} score={score} setscore={setscore} />
+        </div>
         <Series series={series} />
 
         <FilmDescription
