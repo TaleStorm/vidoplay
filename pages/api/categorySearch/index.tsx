@@ -6,7 +6,6 @@ export default async (req, res) => {
           return res.status(404).json({ error: "Api not found." })
           break
         case "POST":
-            // console.log(body) 192.168.1.163
           let response = await fetch(`${process.env.API_DOMAIN}/api/categorySearch`, {
             method: 'POST', // или 'PUT'
             body: JSON.stringify(body), // данные могут быть 'строкой' или {объектом}!192.168.1.163

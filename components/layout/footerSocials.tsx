@@ -42,7 +42,7 @@ const FooterSocials = () => {
     return (
         <div className={`flex items-center w-full`}>
             {links.map((link,i) => (
-                <a href={link.link} className={`w-7 h-7 mt-3 flex-shrink-0 ${i + 1 !== links.length ? "mr-3" : ""}`} target="_blank" rel="noopener noreferrer">
+                <a key={i} href={link.link} className={`w-7 h-7 mt-3 flex-shrink-0 ${i + 1 !== links.length ? "mr-3" : ""}`} target="_blank" rel="noopener noreferrer">
                     <img src={link.image} className={`w-full h-full opacity-70 transition-opacity duration-200 hover:opacity-100`}/>
                 </a>
             ))}
