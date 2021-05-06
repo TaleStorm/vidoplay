@@ -124,7 +124,7 @@ module.exports = {
   variants: {
     extend: {
       animation: ['hover', 'focus'],
-
+      backgroundColor: ['active'],
     },
   },
   plugins: [],

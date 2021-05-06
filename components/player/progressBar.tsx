@@ -3,6 +3,7 @@ import { Fragment, MutableRefObject, useEffect, useRef } from "react";
 
 import { ProgressBarData } from '../../interfaces'
 import FullScreenIcon from '../playerIcons/fullScreen';
+import MuteIcon from '../playerIcons/muteIcon';
 import PlayIcon from '../playerIcons/playIcon';
 
 type ProgressBarProps = ProgressBarData
@@ -47,21 +48,9 @@ export default function ProgressBar(data) {
     const currentTimeUser = convertTime(data.currentTime)
     const durationTimeUser = convertTime(data.durationTime)
     const possibleDurationTimeUser = convertTime(data.possibleDurationTime)
-    const button = useRef(null) as MutableRefObject<HTMLDivElement>
-
-
-    useEffect(() => {
-      const listener = () => {
-        data.fullScreenFunc()
-      }
-      window.addEventListener("setFull", listener)
-      return (
-        window.removeEventListener("setFull", listener)
-      )
-    }, [])
 
     return(
-    <div  className={`absolute md:bottom-4 px-5 pb-5 md:px-0 md:pb-0 bottom-0 z-20 inset-x-0 md:mx-4 w-auto flex items-end `}>
+    <div  className={`absolute md:bottom-4 px-5 pb-5 md:px-0 md:pb-0 bottom-0 z-20 inset-x-0 md:mx-4 w-auto flex items-end`}>
         <div  className={`relative cursor-pointer hidden md:block`}>
             <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" className={`playerButtons cursor-pointer ${data.isPlaying? "hidden" : ""}`} onClick={() => data.setPlay()}>
                 <rect className="wrapper" width="42" height="42" rx="8" fill="white" fillOpacity="0.2"/>
@@ -75,25 +64,42 @@ export default function ProgressBar(data) {
         </div>
         <div 
         onClick={() => data.setPlay()}
-        className={`md:hidden w-9 h-9`}>
+        className={`md:hidden w-9 h-9 mr-4 flex-shrink-0`}>
         <PlayIcon/>
         </div>
         <div
-        className={`w-9 h-9 md:hidden`}
+        className={`w-9 h-9 md:hidden mr-4 flex-shrink-0`}
         >
-        
+        <MuteIcon/>
+        </div>
+        <div
+        className={`text-h2-mobile font-medium md:hidden flex-shrink-0 mr-3`}
+        >
+          {currentTimeUser}
         </div>
         <div  className={`w-full md:mr-2 `}>
             <div  className={`relative w-full md:h-6 cursor-pointer md:mx-2`} 
               onMouseMove= {(e) => data.getMousePos(e)}  
               onClick= {(e) => data.setCurrentDuration(e)} 
-              onMouseUp={() => data.setDrag(false)} 
-              onMouseDown={() => data.setDrag(true)}
+              onMouseUp={() => 
+                data.setDrag(false)} 
+              onMouseDown={() => 
+                data.setDrag(true)}
               onMouseOut={() => data.setMouseOver()}
-              onTouchEnd = {(e) => data.setCurrentDuration(e)} 
+              onTouchStart={(e) => {
+                data.setDrag(true)
+                data.getMousePos(e.touches[0])
+                }}
+              onTouchMove={(e) => data.getMousePos(e.touches[0])}
+              onTouchEnd = {(e) => {
+                  data.setCurrentDuration(e)
+                  data.setMouseOver()
+                  data.setDrag(false)  
+              }}
+                 
             >
                 <div className=" bg-white top-0 bg-opacity-20 w-full h-6 z-10">
-                  <div  className={`mb-2 w-1 overflow-visible text-center z-20 justify-center items-center absolute bottom-6 hidden md:flex ${data.draggerVisible ? '':'md:hidden'}`} style={{ left:data.draggerPercent + "%" }}>
+                  <div  className={`mb-2 w-1 overflow-visible text-center z-20 justify-center items-center absolute bottom-6 flex ${data.draggerVisible ? '':'hidden'}`} style={{ left:data.draggerPercent + "%" }}>
                       <div className={`absolute h-10 -top-12 w-36 bg-white bg-opacity-20 flex justify-center rounded-xl`}>
                       <span className="text-white text-sm pointer-events-none flex items-center font-medium" >
                       {possibleDurationTimeUser} | {durationTimeUser}

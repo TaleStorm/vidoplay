@@ -1,19 +1,19 @@
 import { useEffect } from "react"
 import { FilmDescriptionData } from "../interfaces"
+import useSanitize from "./hooks/useSanitize"
 
 type FilmDescriptionProps = FilmDescriptionData
 
 const FilmDescription = (data) => {
 
-  useEffect(() => {
-  },[])
+  const sanitizedText = useSanitize(data.description)
 
   return (
     <div className="sm:mx-0 sm:py-10">
       <h4 className="hidden font-roboto text-mainText font-normal text-3xl sm:block mb-5">{data.name}</h4>
       <div className="sm:grid grid-cols-2 grid-rows-1 gap-4 mb-6">
         <div className="col-span-1">
-          <h6 className="font-roboto text-mainText opacity-70 font-normal text-sm block mb-5">{data.description}</h6>
+          <h6 className="font-roboto text-mainText opacity-70 font-normal text-sm block mb-5">{sanitizedText}</h6>
         </div>
         <div className="col-span-1">
           <h6 className="font-roboto text-mainText opacity-70 font-normal text-sm block mb-5">
