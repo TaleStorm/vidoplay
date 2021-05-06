@@ -31,7 +31,8 @@ const nextConfig = {
       'avatars.mds.yandex.net',
       'kinopoisk-ru.clstorage.net',
       'www.film.ru',
-      "dl.airtable.com"
+      "dl.airtable.com",
+      'chillvision.ru'
     ],
   },
 }
