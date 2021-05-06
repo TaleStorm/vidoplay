@@ -116,13 +116,20 @@ function IndexPage({ playlists = [], movies, comments, banners }) {
 export const getStaticProps = async (ctx) => {
   let time = new Date().getTime()/1000
   const data = await ApiReq.getTableFromAirtable("banner")
-  const banners = data.records.map(record => {
+  let banners = data.records.map(record => {
       return {
         link: record.fields.link,
         image: record.fields.attachment[0].url,
         visibility: record.fields.visibility
       }
   }).filter(a => a.visibility === "true")
+
+  banners.push({
+    link: 'https://new.chillvision.ru/piloty',
+    image: '/images/Pilots.png',
+    visibility: 'true'
+  })
+  console.log(banners)
   const playlists = await ApiReq.getEntities("playlists")
   const comments = await ApiReq.getEntities("comments")
   let count = 1
