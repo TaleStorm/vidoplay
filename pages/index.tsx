@@ -1,68 +1,10 @@
-import { MutableRefObject, useEffect, useRef, useState } from "react"
-import Header from "../components/layout/header"
-import Footer from "../components/layout/footer"
+import { useState } from "react"
 import Slider from "../components/slider"
 import Comments from "../components/comments"
 import FilmCategory from "../components/filmCategory"
 import apiReq from "../services/api-requests"
-import { PartnerSliderCardData } from "../interfaces"
-import axios from "axios"
 
 const ApiReq = new apiReq()
-
-let cards = [
-  {
-    name: "",
-    image: "/images/Anomaly.jpg",
-  },
-  {
-    name: "",
-    image: "/images/CoolMoves.jpg",
-  },
-  {
-    name: "",
-    image: "/images/sosedi.jpg",
-  },
-]
-
-const partnerCards: PartnerSliderCardData[] = [
-  {
-    title: "Partner 1",
-    discription: "Hello",
-    image: "https://picsum.photos/400?random=1",
-    age: 6
-  },
-  {
-    title: "Partner 2",
-    discription: "Hello",
-    image: "https://picsum.photos/400?random=2",
-    age: 18
-  },
-  {
-    title: "Partner 3",
-    discription: "Hello",
-    image: "https://picsum.photos/400?random=3",
-    age: 15
-  },
-  {
-    title: "Partner 4",
-    discription: "Hello",
-    image: "https://picsum.photos/400?random=4",
-    age: 0
-  },
-  {
-    title: "Partner 5",
-    discription: "Hello",
-    image: "https://picsum.photos/400?random=5",
-    age: 21
-  },
-  {
-    title: "Partner 6",
-    discription: "Hello",
-    image: "https://picsum.photos/400?random=6",
-    age: 8
-  },
-]
 
 function IndexPage({ playlists = [], movies, comments, banners }) {
 
@@ -73,7 +15,6 @@ function IndexPage({ playlists = [], movies, comments, banners }) {
     image: "/images/aboutChill.png",
     onClick: (e) => { setChillPromoOpen(true) }
   }
-  console.log()
 
   return (
       <div className="w-full">
@@ -129,7 +70,6 @@ export const getStaticProps = async (ctx) => {
     image: '/images/Pilots.png',
     visibility: 'true'
   })
-  console.log(banners)
   const playlists = await ApiReq.getEntities("playlists")
   const comments = await ApiReq.getEntities("comments")
   let count = 1
@@ -138,7 +78,6 @@ export const getStaticProps = async (ctx) => {
     const result = await ApiReq.getPlaylistMoves(playlist._id)
     movies.push(result.data)
     count++
-    console.log(new Date().getTime()/1000 - time)
     }
 
   return { 

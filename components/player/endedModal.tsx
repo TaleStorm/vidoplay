@@ -36,11 +36,6 @@ const EndedModal = ({setModalOpen, series, currentSeason, currentSerie, modalOpe
     }
 
     useEffect(() => {
-        // if (modalOpen && currentSerie < series[currentSeason].length-1) {
-        //     console.log(currentSerie < series[currentSeason].length-1)
-        //     setIsEndedModalOpen(false)
-        //     return
-        // }
            const clear = setInterval(() => {
                 if (modalOpen) {
                     if (ticks === 0) {

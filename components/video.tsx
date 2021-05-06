@@ -8,8 +8,6 @@ export default function Video(data) {
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
     const [isFullScreen, setFullScreen] = useState(false)
 
-    console.log("video data:", data)
-
     useEffect(() => {
         const body = document.querySelector("body")
         if (isFullScreen) {
@@ -33,14 +31,11 @@ export default function Video(data) {
     }, [isFullScreen]);
 
     const pickInFavorites = async () => {
-        console.log(JSON.stringify(localStorage.getItem('_user')))
         let tmp = {
             movieId: data.movieId,
             _user: localStorage.getItem('_user')
         }
-        console.log(tmp)
         const resp = await axios.post("/api/favorites", tmp)
-        console.log(resp)
     }
 
     return (

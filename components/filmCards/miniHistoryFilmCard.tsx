@@ -1,5 +1,4 @@
 import Image from "next/image"
-import { FilmCategorySliderCardData } from "../../interfaces"
 import Tag from "../tag"
 import FilmCardLanguages from "./flimCardLanguages"
 import { useEffect, useState } from "react"
@@ -8,28 +7,6 @@ import axios from "axios"
 const MiniHistoryFilmCard = ({ filmId, key, imageSize }) => {
 
     const [filmData, setFilmData] = useState(null)
-    const data = {
-        name: "В яблочко! Парни - лучники",
-        description: "Хон Шин А — яркая и амбициозная девушка. Она рисует, причём очень даже неплохо. На данный момент девушка весь свой талант направляет на создание вебтунов, поэтому становиться членом команды по стрельбе из лука, в которой кстати говоря, одни парни",
-        image: "dorama",
-        languages: ["en", "ko", "ru"],
-        tags: [{
-            name: "#дорамы",
-            color: "#36A4C9",
-            genre: "Дорамы"
-        },
-        {
-            name: "#драма",
-            color: "#A036C9",
-            genre: "Драмы"
-        }
-        ],
-        comments: 30,
-        score: 7.8,
-        imageSize: 40,
-        title: "12",
-        stringName: "wq"
-    }
 
     useEffect(() => {
         getFilm()
@@ -37,7 +14,6 @@ const MiniHistoryFilmCard = ({ filmId, key, imageSize }) => {
 
     const getFilm = async () => {
         const { data } = await axios.post("/api/getMovie", { filmId })
-        console.log(data)
         setFilmData(data)
     }
 
@@ -45,7 +21,6 @@ const MiniHistoryFilmCard = ({ filmId, key, imageSize }) => {
         <div className="bg-cardBackground w-full relative">
             {filmData ?
                 <>
-                    {/* <a href={`/films/${data.stringName}`}> */}
                     <a href={`/films/`}>
                         <div className={`h-${imageSize} bg-cover relative bg-center`}>
                             <Image

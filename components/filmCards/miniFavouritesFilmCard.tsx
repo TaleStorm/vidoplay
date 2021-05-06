@@ -15,7 +15,6 @@ const MiniFavouritesFilmCard = ({ filmId, key, imageSize }) => {
 
     const getFilm = async () =>{
         const {data} = await axios.post("/api/getMovie", {filmId})
-        console.log(data)
         setFilmData(data)
     }
 
