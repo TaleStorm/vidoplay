@@ -6,7 +6,6 @@ type FilmDescriptionProps = FilmDescriptionData
 const FilmDescription = (data) => {
 
   useEffect(() => {
-    console.log(data)
   },[])
 
   return (
@@ -20,17 +19,17 @@ const FilmDescription = (data) => {
           <h6 className="font-roboto text-mainText opacity-70 font-normal text-sm block mb-5">
             Возрастные ограничения: <b>{data.yearPolicity}</b>
             <br />
-            Страна: <b>{data.country.map((item) => item + ', ')}</b>
+            Страна: <b>{data.country ? data.country.join(", ") : "Нет данных"}</b>
             <br />
             Жанр: <b>{data.janr}</b>
             <br />
-            Режиссер: <b>{data.director.map((item) => item + ', ')}</b>
+            Режиссер: <b>{data.director ? data.director.join(", ") : "Нет данных"}</b>
             <br />
-            Оператор: <b>{data.operator.map((item) => item + ', ')}</b>
+            Оператор: <b>{data.operator ? data.operator.join(", ") : "Нет данных"}</b>
             <br />
-            Автор сценария: <b>{data.screenwriter.map((item) => item + ', ')}</b>
+            Автор сценария: <b>{data.screenwriter ? data.screenwriter.join(", ") : "Нет данных"}</b>
             <br />
-            Продюсер: <b>{data.producer.map((item) => item + ', ')}</b>
+            Продюсер: <b>{data.producer ? data.producer.join(", ") : "Нет данных"}</b>
           </h6>
         </div>
       </div>

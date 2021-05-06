@@ -12,6 +12,8 @@ export default function Video(data) {
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
     const [isFullScreen, setFullScreen] = useState(false)
 
+    console.log("video data:", data)
+
     useEffect(() => {
         const body = document.querySelector("body")
         if (isFullScreen) {
@@ -126,6 +128,7 @@ export default function Video(data) {
             </div>
 
             <div className="relative h-64" ref={targetRef}>
+                {data.movies?.length > 0 && data.series?.length > 0 ? (
                 <PLayer
                     movies={data.movies}
                     width={String(dimensions.width)}
@@ -135,7 +138,12 @@ export default function Video(data) {
                     parentRef={containRef}
                     isFullScreen= {isFullScreen}
                     setFullScreen= {setFullScreen}
-                />
+                />):
+                (<div className="flex justify-center items-center w-full h-full">
+                    <h1 className="text-h1-mobile sm:text-3xl">
+                        Извините, видео скоро появится
+                    </h1>
+                </div>)}
             </div>
 
             <div className="text-sm sm:hidden mt-4 col-span-1 flex flex-wrap flex-row  items-center">
