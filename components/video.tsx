@@ -9,26 +9,24 @@ export default function Video(data) {
     const [isFullScreen, setFullScreen] = useState(false)
 
     useEffect(() => {
-        const body = document.querySelector("body")
-        if (isFullScreen) {
-            body.style.overflow = "hidden"
-        }
-        else {
-            body.style.overflow = ""
-        }
-    }, [isFullScreen])
-    useEffect(() => {
-        targetRef.current.style.height = isFullScreen ? window.innerHeight + "px" : (containRef.current.getBoundingClientRect().width * 9/16) + "px"
-    },[isFullScreen])
+        containRef.current.style.height = isFullScreen ? window.screen.height + "px": (containRef.current.getBoundingClientRect().width * 9/16) + "px"
+    },[isFullScreen, dimensions])
+ 
 
     useEffect(() => {
-        if (targetRef.current) {
+        const listener = () => {
+            console.log()
             setDimensions({
-                width: targetRef.current.offsetWidth,
-                height: targetRef.current.offsetHeight
+                width: containRef.current.getBoundingClientRect().width,
+                height: containRef.current.getBoundingClientRect().height
             });
         }
-    }, [isFullScreen]);
+        listener()
+        window.addEventListener("resize",listener)
+        return () => {
+            window.removeEventListener("resize", listener)
+        }
+      }, [isFullScreen])
 
     const pickInFavorites = async () => {
         let tmp = {
@@ -43,7 +41,7 @@ export default function Video(data) {
         <h4 className="hidden mt-6 font-roboto text-mainText font-normal text-3xl sm:block mb-4 col-span-1 w-full">
             {data.name}
         </h4>
-        <div ref={containRef}  className={`md:mx-auto ${isFullScreen ? "fixed max-h-screen top-0 left-0 z-50" : "max-w-4xl"}  w-full`}>
+        <div ref={containRef}  className={`md:mx-auto ${isFullScreen ? "fixed max-h-screen top-0 left-0 z-50" : "max-w-5xl"}  w-full`}>
 
             <div className="sm:grid grid-cols-2 grid-rows-1">
                 <div className="hidden text-sm col-span-1 sm:flex flex-row justify-end space-x-3">
@@ -118,7 +116,9 @@ export default function Video(data) {
                 </div>
             </div>
 
-            <div className="relative h-64" ref={targetRef}>
+            <div 
+
+            className="relative" ref={targetRef}>
                 {data.movies?.length > 0 && data.series?.length > 0 ? (
                 <PLayer
                     movies={data.movies}

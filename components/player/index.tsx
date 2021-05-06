@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ReactFullscreen from 'react-easyfullscreen';
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import ProgressBar from './progressBar';
 import TopPlayerPanel from './topPlayerPanel';
 import CompilationSlider from './compilationSlider';
@@ -80,6 +80,23 @@ export default function Player(data) {
       }
     })
 
+ 
+
+    //Вот тут хэндлится вся логика фуллскрина при нажатии на ESC
+  const fullScreenListener = () => {
+    if (window.innerWidth > 1000) {
+      if (!window.screenTop && !window.screenY) {
+        data.setFullScreen(false)
+        setFullScreen(false);
+      }
+      else {
+        data.setFullScreen(true)
+        setFullScreen(true);
+       }
+    }
+  }
+    window.addEventListener("fullscreenchange", fullScreenListener)
+
     return {gplayerAPI:gplayerAPI,userWindow:{width: (window).innerWidth, height: (window).innerHeight}}
   }
 
@@ -90,6 +107,31 @@ export default function Player(data) {
       setVideoPercentCurrent(percent.toFixed(1))
     }})
   }
+
+//   globalGplayerAPI.method({ name: "resize", params: {
+//     width: data.parentRef.current.getBoundingClientRect().width,
+//     height: data.parentRef.current.getBoundingClientRect().height} })
+// }
+
+  //Вот тут хэндлится вся логика фуллскрина
+  useEffect(() => {
+    console.log(isFullScreen)
+    if (globalGplayerAPI) {
+      if (!isFullScreen) {
+        globalGplayerAPI.method({ name: "resize", params: {
+          width: data.parentRef.current.getBoundingClientRect().width,
+          height: data.parentRef.current.getBoundingClientRect().height} })
+        }
+
+      else {
+        globalGplayerAPI.method({ name: "resize", params: {
+          width: window.screen.width,
+          height: window.screen.height} })
+      }
+    }
+  }, [isFullScreen, data.width])
+
+
 
   var removeFakeButton = () => {
     setPanel("visible");
@@ -175,6 +217,7 @@ export default function Player(data) {
       setMute(false);
       globalGplayerAPI.method({ name: "unmute"});
       setVolumeCurrent(bufferVolume);
+      
     } else {
       setMute(true);
       globalGplayerAPI.method({ name: "mute"});
@@ -184,13 +227,14 @@ export default function Player(data) {
   }
 
   var getMousePos = (e) => {
+    console.log(e)
     const target = e.target.getBoundingClientRect();
-    const percent = 100 * (e.screenX - target.x) / e.target.parentElement.offsetWidth
+    const percent = 100 * (e.clientX - target.x) / e.target.parentElement.offsetWidth
     if (isDragged) {
       globalGplayerAPI.method({ name: "seekPercentage", params: percent.toFixed(1) })
     }
     setDraggerVisible(true)
-    setDraggerPercent((percent * 60 / 100).toFixed(1))
+    setDraggerPercent((percent).toFixed(1))
     const time = durationTime * percent / 100
     setPossibleDurationTime(time)
   }
@@ -201,14 +245,15 @@ export default function Player(data) {
 
   var setCurrentDuration = (e) => {
     const target = e.target.getBoundingClientRect();
-    const percent = 100 * (e.screenX - target.x) / e.target.parentElement.offsetWidth
+    console.log(e)
+    const percent = 100 * (e.clientX - target.x) / e.target.parentElement.offsetWidth
     globalGplayerAPI.method({ name: "seekPercentage", params: percent.toFixed(1) })
   }
   
   var changeCurrentVolume = (e) => {
     setMute(false);
     const target = e.target.parentElement.getBoundingClientRect();
-    const percent = 100 * (e.screenX - target.x) / e.target.parentElement.offsetWidth
+    const percent = 100 * (e.clientX- target.x) / e.target.parentElement.offsetWidth
     globalGplayerAPI.method({ name: "setVolume", params: percent.toFixed(0) })
     setVolumeCurrent(Number(percent.toFixed(0)))
   }
@@ -223,59 +268,65 @@ export default function Player(data) {
     }})
   }
 
-  var fullScreenFunc = async () => {
+  const fullScreenFunc = async () => {
     if (isFullScreen) {
-      globalGplayerAPI.method({ name: "resize", params: {width: 960, height: 540} })
-      setFullScreen(false)
+      handle.exit()
+      data.setFullScreen(false)
+      setFullScreen(false);
+      return
     } else {
-      setFullScreen(true)
-      setTimeout(() => {
-        globalGplayerAPI.method({ name: "resize", params: {
-          width: window.innerWidth,
-          height: window.innerHeight
-        }})
-      }, 1500);
+      handle.enter()
+      data.setFullScreen(true)
+      setFullScreen(true);
+      return
+    }
+  }
 
-    }
-  }
+
   
-  const setEventListener = (gplayerAPI, userWindow, isFullScreen) => {
-    if (typeof window !== 'undefined') {
-      (document as any).addEventListener('fullscreenchange', () => {
-        if (isFullScreen) {
-          gplayerAPI.method({ name: "resize", params: {width: 960, height: 540} });
-          data.setFullScreen(false)
-          setFullScreen(false);
-          (document as any).removeEventListener('fullscreenchange', () => setEventListener(gplayerAPI, userWindow, false));
-          setEventListener(gplayerAPI, userWindow, false);
-        } else {
-          gplayerAPI.method({ name: "resize", params: {
-            width: window.innerWidth,
-            height: window.innerHeight
-          } });
-          data.setFullScreen(true)
-          setFullScreen(true);
-          (document as any).removeEventListener('fullscreenchange', () => setEventListener(gplayerAPI, userWindow, true));
-          setEventListener(gplayerAPI, userWindow, true);
-        }
-      });
-    }
-  }
+  // const setEventListener = (gplayerAPI, userWindow, isFullScreen) => {
+  //   console.log("Фуллскрин эвент")
+  //   if (typeof window !== 'undefined') {
+  //     (document as any).addEventListener('fullscreenchange', () => {
+  //       if (isFullScreen) {
+  //         gplayerAPI.method({ name: "resize", params: {width: 960, height: 540} });
+  //         data.setFullScreen(false)
+  //         setFullScreen(false);
+  //         (document as any).removeEventListener('fullscreenchange', () => setEventListener(gplayerAPI, userWindow, false));
+  //         setEventListener(gplayerAPI, userWindow, false);
+  //       } else {
+  //         gplayerAPI.method({ name: "resize", params: {
+  //           width: window.innerWidth,
+  //           height: window.innerHeight
+  //         } });
+  //         data.setFullScreen(true)
+  //         setFullScreen(true);
+  //        (document as any).removeEventListener('fullscreenchange', () => setEventListener(gplayerAPI, userWindow, true));
+  //         setEventListener(gplayerAPI, userWindow, true);
+  //       }
+  //     });
+  //   }
+  // }
 
   useEffect(  () => {
-    getPlayer().then(vars => {
-      setEventListener(vars.gplayerAPI, vars.userWindow, false);
-    })
+    getPlayer()
+    console.log("Mounted")
+    //getPlayer().then( vars => { })
   }, [])
+
+
+  const handle = useFullScreenHandle();
 
   return (
     <div>
-      <ReactFullscreen>
-        {({ ref, onRequest, onExit }) => (
-          <div
-            ref={ref}
-            className="relative inline-block"
-          >
+<FullScreen handle={handle}>
+<div
+style ={{
+  width: data.width + "px",
+  height: data.height + "px"
+}} 
+className={`relative inline-block`}
+>
         <iframe
           width={data.width}
           height={data.height}
@@ -283,6 +334,7 @@ export default function Player(data) {
           allowFullScreen
           frameBorder="0"
           id="gplayer"
+          
         >
         </iframe>
 
@@ -349,7 +401,9 @@ export default function Player(data) {
             isPlaying={realPanelState == "hidden"}
             durationTime = {durationTime}
             currentTime = {currentTime}
-            fullScreenFunc = {isFullScreen ? onExit : onRequest}
+            handle = {handle}
+            isFullScreen = {isFullScreen}
+            fullScreenFunc = {fullScreenFunc}
             setFullScreen = {fullScreenFunc}
             changeMute={changeMute}
             isMuted={isMuted}
@@ -417,8 +471,10 @@ export default function Player(data) {
             isPlaying={realPanelState == "hidden"}
             durationTime = {durationTime}
             currentTime = {currentTime}
-            fullScreenFunc = {onRequest}
-            setFullScreen = {isFullScreen ? onExit : onRequest}
+            handle = {handle}
+            isFullScreen = {isFullScreen}
+            fullScreenFunc = {fullScreenFunc}
+            setFullScreen = {fullScreenFunc}
             changeMute={changeMute}
             isMuted={isMuted}
             setCurrentVolume={changeCurrentVolume}
@@ -428,8 +484,7 @@ export default function Player(data) {
           />
         </div>
         </div>
-        )}
-      </ReactFullscreen>
+      </FullScreen>
     </div>
   )
 }
