@@ -31,7 +31,6 @@ const LoginContextProvider = ({ children }: Props) => {
   const loginHandler = async (data) => {
     const resp = await authAxios.post("/api/login", {email: data.email, _password: data._password, type: "base-login"})
     const respData = resp.data
-    console.log(respData)
     if ((respData.status === "ok") && (!respData.error)) {
         logIn(respData.data["_user"])
         return true
@@ -82,7 +81,6 @@ const LoginContextProvider = ({ children }: Props) => {
   const registerHandler = async (data) => {
       const resp = await authAxios.post('/api/register', data)
       const signupStatus = resp.data.status
-      console.log(signupStatus)
       if (signupStatus === "exist") {
          const bool = await loginHandler(data)
          return bool
@@ -94,7 +92,6 @@ const LoginContextProvider = ({ children }: Props) => {
   }
 
   const logIn = (token:string) => {
-    console.log("logged in " + token)
     window.localStorage.setItem("_user", token)
     setUserToken(token)
   }

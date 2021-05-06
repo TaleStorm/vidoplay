@@ -2,94 +2,12 @@ import { useEffect, useState } from "react";
 import ReactFullscreen from 'react-easyfullscreen';
 import ProgressBar from './progressBar';
 import TopPlayerPanel from './topPlayerPanel';
-import { PlayerData } from '../../interfaces'
 import CompilationSlider from './compilationSlider';
 import CompilationModal from './compilationModal';
 import PlayerModalOverlay from './playerModalOverlay';
 import EndedModal from './endedModal';
 
-type PlayerProps = PlayerData
-
-// let series = [
-//   [
-//     [
-//       {
-//         videoId: "18824_vxmu7DQnLXkQElz",
-//         acting: "LostFilm"
-//       },{
-//         videoId: "18824_vxmu7DQnLXkQElz",
-//         acting: "Озвучка 2"
-//       },{
-//         videoId: "18824_vxmu7DQnLXkQElz",
-//         acting: "Озвучка 3"
-//       },
-//     ],
-//     [
-//       {
-//         videoId: "18824_4BPkkGpdq56E6O6y",
-//         acting: "LostFilm"
-//       },{
-//         videoId: "18824_4BPkkGpdq56E6O6y",
-//         acting: "Озвучка 2"
-//       },{
-//         videoId: "18824_4BPkkGpdq56E6O6y",
-//         acting: "Озвучка 3"
-//       },
-//     ],
-//     [
-//       {
-//         videoId: "18824_ndApY31r6Q41aLG",
-//         acting: "LostFilm"
-//       },{
-//         videoId: "18824_ndApY31r6Q41aLG",
-//         acting: "Озвучка 2"
-//       },{
-//         videoId: "18824_ndApY31r6Q41aLG",
-//         acting: "Озвучка 3"
-//       },
-//     ],
-//   ],[
-//     [
-//       {
-//         videoId: "18824_q5gS3ArtjoivvkAH",
-//         acting: "LostFilm"
-//       },{
-//         videoId: "18824_q5gS3ArtjoivvkAH",
-//         acting: "Озвучка 2"
-//       },{
-//         videoId: "18824_q5gS3ArtjoivvkAH",
-//         acting: "Озвучка 3"
-//       },
-//     ],
-//     [
-//       {
-//         videoId: "18824_4BPkkGpdq56E6O6y",
-//         acting: "LostFilm"
-//       },{
-//         videoId: "18824_4BPkkGpdq56E6O6y",
-//         acting: "Озвучка 2"
-//       },{
-//         videoId: "18824_4BPkkGpdq56E6O6y",
-//         acting: "Озвучка 3"
-//       },
-//     ],
-//     [
-//       {
-//         videoId: "18824_ndApY31r6Q41aLG",
-//         acting: "LostFilm"
-//       },{
-//         videoId: "18824_ndApY31r6Q41aLG",
-//         acting: "Озвучка 2"
-//       },{
-//         videoId: "18824_ndApY31r6Q41aLG",
-//         acting: "Озвучка 3"
-//       },
-//     ],
-//   ]
-// ]
-
 export default function Player(data) {
-  console.log(data.series)
   const[buttonState, setButton] = useState("visible");
   const[panelState, setPanel] = useState("hidden");
   const[realPanelState, setRealPanel] = useState("hidden");
@@ -272,14 +190,10 @@ export default function Player(data) {
       globalGplayerAPI.method({ name: "seekPercentage", params: percent.toFixed(1) })
     }
     setDraggerVisible(true)
-    console.log(percent, (percent * 60 / 100).toFixed(1))
     setDraggerPercent((percent * 60 / 100).toFixed(1))
     const time = durationTime * percent / 100
     setPossibleDurationTime(time)
   }
-
-  // x - 23
-  // durationTime - 100
 
   var setMouseOver = () => {
     setDraggerVisible(false)

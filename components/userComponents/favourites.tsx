@@ -1,4 +1,3 @@
-import { FilmCategorySliderCardData } from "../../interfaces"
 import MiniFavouritesFilmCard from "../filmCards/miniFavouritesFilmCard"
 
 const Favourites = ({films}) => {

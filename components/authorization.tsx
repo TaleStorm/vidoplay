@@ -38,7 +38,6 @@ export default function Authorization(data: AuthorizationProps) {
       GoodToast("Успешная авторизация!")
     }
     else {
-      console.log("Not logged")
       BadToast("Нет такой пары email/пароль")
     }
 

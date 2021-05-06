@@ -13,7 +13,6 @@ const DataEditor = ({ name, setName, lastName, setLastName, patronymic, setPatro
     })
 
     useEffect(() => {
-        console.log(erorrs);
 
     })
 
@@ -30,8 +29,6 @@ const DataEditor = ({ name, setName, lastName, setLastName, patronymic, setPatro
 
         const IsCurrentPasswordMatch = password === currentPassword
         const IsNewPasswordMatch = newPassword === confrimPassword
-
-        console.log({ password, currentPassword, newPassword, confrimPassword, IsCurrentPasswordMatch, IsNewPasswordMatch })
 
         setErrors({
             currentPassword: { ...erorrs.currentPassword, error: !IsCurrentPasswordMatch },

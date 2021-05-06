@@ -35,8 +35,6 @@ export default function FilmCategorySlider(data) {
                 }}
                 className={`padding-containter`}
                 onInit={(swiper)=>{
-                  console.log(swiperWidth)
-                  console.log(minWidth)
                   setSwiperWidth(swiper.width)
                 }}
                 onResize={(swiper)=>{

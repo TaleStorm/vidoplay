@@ -1,6 +1,4 @@
-import Header from "../../components/layout/header"
 import FilmDescription from "../../components/filmDescription"
-import Footer from "../../components/layout/footer"
 import FilmComments from "../../components/filmComments"
 import Video from "../../components/video"
 import Series from "../../components/series"
@@ -16,8 +14,6 @@ const ApiReq = new apiReq()
 export default function IndexPage({ movie, playlist, movies }) {
 
   const [score, setscore] = useState(null)
-
-  console.log("movie",movie)
 
   const series = []
 

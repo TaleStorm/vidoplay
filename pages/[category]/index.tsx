@@ -1,5 +1,4 @@
 import FilmCategorySliderCard from "../../components/filmCategorySliderCard"
-import Footer from "../../components/layout/footer"
 import Link from 'next/link'
 import { ChevronLeftIcon } from "@heroicons/react/solid"
 import Comments from "../../components/comments"
@@ -53,7 +52,6 @@ const IndexPage = ({ playlist, movies, comments }) => {
 
                 </div>
             </div>
-            <Footer />
         </>
     )
 }
