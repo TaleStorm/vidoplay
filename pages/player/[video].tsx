@@ -3,8 +3,8 @@ import { useRouter } from 'next/router'
 
 
 export default function Player(data) {
-    // const router = useRouter()
-    // const { video } = router.query
+    const router = useRouter()
+    const { video } = router.query
     const[globalGplayerAPI, setPlayer] = useState(undefined);
     const[tracks, setTracks] = useState(undefined);
 
@@ -45,7 +45,7 @@ export default function Player(data) {
             width={700}
             height={500}
             // src={`https://chillvision.gcdn.co/videos/${video}?player_id=777`}
-            src={`https://chillvision.gcdn.co/videos/18824_QbtfXpKRWYhwL6z?player_id=777`}
+            src={`https://chillvision.gcdn.co/videos/${video}?player_id=777`}
             frameBorder="0"
             id="gplayer"
             >
