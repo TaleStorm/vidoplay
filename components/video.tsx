@@ -132,7 +132,7 @@ export default function Video(data) {
                 />):
                 (<div className="flex justify-center items-center w-full h-full">
                     <h1 className="text-h1-mobile sm:text-3xl">
-                        Извините, видео скоро появится
+                        Видео скоро появится
                     </h1>
                 </div>)}
             </div>
