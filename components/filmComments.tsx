@@ -23,7 +23,7 @@ const FilmComments = (data: FilmCommentsProps) => {
       <div className="flex justify-between">
         <h4 className="text-3xl font-roboto text-mainText font-normal block mt-4 mb-3 sm:mb-6">Отзывы</h4>
         <div className="flex items-center mt-2 sm:hidden">
-          <h6 className="text-md font-roboto text-maintext font-normal">{data.comments.length}</h6>
+          <h6 className="text-md font-roboto text-maintext font-normal">{data.comments?.length || 0}</h6>
           <svg
             width="25"
             height="25"
@@ -41,7 +41,7 @@ const FilmComments = (data: FilmCommentsProps) => {
         </div>
       </div>
       <div className="grid grid-cols-1 gap-y-4">
-        {data.comments.map((comment, i) => {
+        {data.comments?.map((comment, i) => {
           return (
             <div
               className="bg-cardBackground sm:grid grid-cols-12 grid-rows-1 grid-flow-column gap-4 pt-3 sm:pb-5"

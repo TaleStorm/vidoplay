@@ -44,7 +44,7 @@ export default function IndexPage({ movie, playlist, movies }) {
 
   const [score, setscore] = useState(null)
 
-  console.log(movie)
+  console.log("movie",movie)
 
   const series = []
 
