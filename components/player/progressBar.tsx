@@ -102,7 +102,7 @@ export default function ProgressBar(data) {
                   <div  className={`mb-2 w-1 overflow-visible text-center z-20 justify-center items-center absolute bottom-6 flex ${data.draggerVisible ? '':'hidden'}`} style={{ left:data.draggerPercent + "%" }}>
                       <div className={`absolute h-10 -top-12 w-36 bg-white bg-opacity-20 flex justify-center rounded-xl`}>
                       <span className="text-white text-sm pointer-events-none flex items-center font-medium" >
-                      {possibleDurationTimeUser} | {durationTimeUser}
+                        {possibleDurationTimeUser} | {durationTimeUser}
                       </span>  
                       </div>
                       <div 

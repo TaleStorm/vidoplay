@@ -17,6 +17,8 @@ export default function IndexPage({ movie, playlist, movies }) {
 
   const series = []
 
+  console.log(movie)
+
   if (movie.serial)
     for (let season in movie.serial) {
       const seasonBuffer = []
@@ -59,7 +61,7 @@ export default function IndexPage({ movie, playlist, movies }) {
           </a>
         </nav>
 
-        <Video name={movie.title} series={series} movieId = {movie._id} movies = {movies}/>
+        <Video name={movie.title} series={series} movieId = {movie._id} movies = {movies} langs={movie.localization}/>
         <div className={`hidden sm:block`}>
           <ReviewsAndLikes _likes={movie._likes} _dislikes={movie._dislikes} score={score} setscore={setscore} />
         </div>
