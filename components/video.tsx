@@ -15,15 +15,29 @@ export default function Video(data) {
 
     useEffect(() => {
         const listener = () => {
-            console.log()
             setDimensions({
                 width: containRef.current.getBoundingClientRect().width,
                 height: containRef.current.getBoundingClientRect().height
             });
+                containRef.current.style.height = isFullScreen ? window.screen.height + "px": (containRef.current.getBoundingClientRect().width * 9/16) + "px"
+                targetRef.current.style.height = isFullScreen ? window.screen.height + "px": (containRef.current.getBoundingClientRect().width * 9/16) + "px"
         }
         listener()
+        const changeListner = () => {
+            setDimensions({
+                width: containRef.current.getBoundingClientRect().width,
+                height: containRef.current.getBoundingClientRect().height
+            });
+                containRef.current.style.height = isFullScreen ? window.screen.height + "px": (containRef.current.getBoundingClientRect().width * 9/16) + "px"
+                targetRef.current.style.height = isFullScreen ? window.screen.height + "px": (containRef.current.getBoundingClientRect().width * 9/16) + "px"
+                setTimeout(() => {
+                    window.dispatchEvent(new Event("resize"))
+                }, 1000)
+        }
+        window.addEventListener("orientationchange", changeListner)
         window.addEventListener("resize",listener)
         return () => {
+            window.addEventListener("orientationchange", changeListner)
             window.removeEventListener("resize", listener)
         }
       }, [isFullScreen])
@@ -127,7 +141,7 @@ export default function Video(data) {
                     series={data.series}
                     langs={data.langs}
                     name={data.name}
-                    parentRef={containRef}
+                    parentRef={targetRef}
                     isFullScreen= {isFullScreen}
                     setFullScreen= {setFullScreen}
                 />):
