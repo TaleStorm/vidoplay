@@ -211,6 +211,13 @@ export default function Player(data) {
 
   var changeActing = async (newActing) => {
     setActing(newActing);
+    globalGplayerAPI.method({name: 'getPlugin', params: {
+      pluginName: "audio_selector", 
+      pluginMethod: "setIndexTrack",
+      pluginValue: newActing
+    }, callback: (e) => {
+        console.log(e);
+    }});
   }
 
   var changeSerieState = async () => {
@@ -311,8 +318,6 @@ export default function Player(data) {
     }
   }
 
-
-
   // const setEventListener = (gplayerAPI, userWindow, isFullScreen) => {
   //   console.log("Фуллскрин эвент")
   //   if (typeof window !== 'undefined') {
@@ -340,7 +345,6 @@ export default function Player(data) {
   useEffect(() => {
     getPlayer()
     console.log("Mounted")
-    //getPlayer().then( vars => { })
   }, [])
 
   const [mobileOverlayStage, setMobileOverlayStage] = useState(0)
@@ -418,6 +422,7 @@ export default function Player(data) {
               changeActing={changeActing}
               currentActing={currentActing}
               actingState={actingState}
+              langs={data.langs}
             />
           </div>
 
@@ -527,6 +532,7 @@ export default function Player(data) {
               changeActingState={changeActingState}
               changeActing={changeActing}
               currentActing={currentActing}
+              langs={data.langs}
               actingState={actingState}
             />
             <div className="hidden md:block">
