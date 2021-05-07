@@ -2,15 +2,12 @@ import { Fragment } from "react";
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon, ChevronUpIcon} from '@heroicons/react/solid';
 
-import { TopPlayerPanelData } from '../../interfaces'
-
-type TopPlayerPanelProps = TopPlayerPanelData
-
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
   }
 
-export default function TopPlayerPanel(data:TopPlayerPanelProps) {
+export default function TopPlayerPanel(data) {
+  console.log(data.langs.length == 0 ? "hidden" : "")
     return(
         <div  className="absolute top-4 left-4 md:flex flex-wrap content-center space-x-4 hidden">
         <div className="">
@@ -103,14 +100,14 @@ export default function TopPlayerPanel(data:TopPlayerPanelProps) {
             )}
           </Menu>
         </div>
-        {/* <div className="">
+        <div className={`${data.langs.length == 0 ? "hidden" : "" }`}>
           <Menu as="div" className="relative inline-block text-left " onClick={() => data.changeActingState()}>
             {({ open }) => (
               <>
                 <div>
                   <Menu.Button className={`inline-flex justify-center w-full rounded-md shadow-sm px-4 py-2 bg-playerMain text-sm font-roboto ${data.actingState == "open" ? "text-playerSecond" : "text-mainText" }`} >
                     <div onClick={() => data.changeActingState()} className="inline-flex">
-                      {data.data[data.currentSeason][data.currentSerie][data.currentActing].acting}
+                      {data.langs[data.currentActing]}
                       <ChevronDownIcon aria-hidden="true" className={`-mr-1 ml-2 h-5 w-5 ${data.actingState == "open" ? "hidden" : "" }`}/>
                       <ChevronUpIcon aria-hidden="true" className={`-mr-1 ml-2 h-5 w-5 ${data.actingState == "open" ? "" : "hidden" }`}/>
                     </div>
@@ -124,7 +121,7 @@ export default function TopPlayerPanel(data:TopPlayerPanelProps) {
                     className="origin-top-right absolute right-0 mt-2 w-full font-roboto rounded-md shadow-lg bg-playerMain ring-1 ring-black ring-opacity-5"
                   >
                     <div className="py-1">
-                    {data.data[data.currentSeason][data.currentSerie].map((acting, i) => {
+                    {data.langs.map((acting, i) => {
                         return (
                           <Menu.Item key={i}>
                             {({ active }) => (
@@ -135,7 +132,7 @@ export default function TopPlayerPanel(data:TopPlayerPanelProps) {
                                   )}
                                   onClick = {() => data.changeActing(i)}
                                 >
-                                  {acting.acting}
+                                  {acting}
                                 </button>
                             )}
                           </Menu.Item>
@@ -148,7 +145,7 @@ export default function TopPlayerPanel(data:TopPlayerPanelProps) {
             )}
           </Menu>
         </div>
-       */}
+      
       </div>
       
     )

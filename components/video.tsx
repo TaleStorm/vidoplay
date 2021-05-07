@@ -125,6 +125,7 @@ export default function Video(data) {
                     width={String(dimensions.width)}
                     height={String(dimensions.height)}
                     series={data.series}
+                    langs={data.langs}
                     name={data.name}
                     parentRef={containRef}
                     isFullScreen= {isFullScreen}
