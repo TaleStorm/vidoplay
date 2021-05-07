@@ -1,7 +1,10 @@
 import { Menu, Transition } from '@headlessui/react';
-import { Fragment } from "react";
+import { Fragment, MutableRefObject, useEffect, useRef } from "react";
 
 import { ProgressBarData } from '../../interfaces'
+import FullScreenIcon from '../playerIcons/fullScreen';
+import MuteIcon from '../playerIcons/muteIcon';
+import PlayIcon from '../playerIcons/playIcon';
 
 type ProgressBarProps = ProgressBarData
 
@@ -39,18 +42,15 @@ function convertTime(time) {
     return `${hoursStr}:${minutesStr}:${secondsStr}`
 }
 
-export default function ProgressBar(data:ProgressBarProps) {
+
+
+export default function ProgressBar(data) {
     const currentTimeUser = convertTime(data.currentTime)
     const durationTimeUser = convertTime(data.durationTime)
     const possibleDurationTimeUser = convertTime(data.possibleDurationTime)
 
-    var setFullScreen = async () => {
-        data.fullScreenFunc()
-        data.setFullScreen()
-    }
-
     return(
-    <div  className={`absolute md:bottom-4 bottom-0 inset-x-0 md:mx-4 w-auto flex items-end `}>
+    <div  className={`absolute md:bottom-4 px-5 pb-5 md:px-0 md:pb-0 bottom-0 z-20 inset-x-0 md:mx-4 w-auto flex items-end`}>
         <div  className={`relative cursor-pointer hidden md:block`}>
             <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" className={`playerButtons cursor-pointer ${data.isPlaying? "hidden" : ""}`} onClick={() => data.setPlay()}>
                 <rect className="wrapper" width="42" height="42" rx="8" fill="white" fillOpacity="0.2"/>
@@ -62,35 +62,59 @@ export default function ProgressBar(data:ProgressBarProps) {
                 <path d="M16.5 10H12C11.4477 10 11 10.4477 11 11V31C11 31.5523 11.4477 32 12 32H16.5C17.0523 32 17.5 31.5523 17.5 31V11C17.5 10.4477 17.0523 10 16.5 10Z" fill="white"/>
             </svg>
         </div>
+        <div 
+        onClick={() => data.setPlay()}
+        className={`md:hidden w-9 h-9 mr-4 flex-shrink-0`}>
+        <PlayIcon/>
+        </div>
+        <div
+        className={`w-9 h-9 md:hidden mr-4 flex-shrink-0`}
+        >
+        <MuteIcon/>
+        </div>
+        <div
+        className={`text-h2-mobile font-medium md:hidden flex-shrink-0 mr-3`}
+        >
+          {currentTimeUser}
+        </div>
         <div  className={`w-full md:mr-2 `}>
-            <div  className={`mb-2 w-28 text-center z-20 absolute bottom-6 hidden md:block ${data.draggerVisible ? '':'md:hidden'}`} style={{ left:data.draggerPercent + "%" }}>
-              <svg width="110" height="45" viewBox="0 0 132 51" fill="none" xmlns="http://www.w3.org/2000/svg" className={`w-28`}>
-                <rect width="132" height="42" rx="8" fill="white" fillOpacity="0.4"/>
-                <path d="M57.5 42H74.5L66 51L57.5 42Z" fill="white" fillOpacity="0.4"/>
-              </svg>
-              <span className="-mt-9 pb-4 text-playerMain text-xs pointer-events-none block w-28" >
-                {possibleDurationTimeUser} | {durationTimeUser}
-              </span>  
-            </div>
-
-            <div  className={`relative w-full h-3 md:h-6 cursor-pointer md:mx-2`} 
+            <div  className={`relative w-full md:h-6 cursor-pointer md:mx-2`} 
               onMouseMove= {(e) => data.getMousePos(e)}  
               onClick= {(e) => data.setCurrentDuration(e)} 
-              onMouseUp={() => data.setDrag(false)} 
-              onMouseDown={() => data.setDrag(true)}
+              onMouseUp={() => 
+                data.setDrag(false)} 
+              onMouseDown={() => 
+                data.setDrag(true)}
               onMouseOut={() => data.setMouseOver()}
-              onTouchEnd = {(e) => data.setCurrentDuration(e)} 
+              onTouchStart={(e) => {
+                data.setDrag(true)
+                data.getMousePos(e.touches[0])
+                }}
+              onTouchMove={(e) => data.getMousePos(e.touches[0])}
+              onTouchEnd = {(e) => {
+                  data.setCurrentDuration(e)
+                  data.setMouseOver()
+                  data.setDrag(false)  
+              }}
+                 
             >
-                <div className="absolute bg-white top-0 opacity-20 w-full h-full z-10">
-
+                <div className=" bg-white top-0 bg-opacity-20 w-full h-6 z-10">
+                  <div  className={`mb-2 w-1 overflow-visible text-center z-20 justify-center items-center absolute bottom-6 flex ${data.draggerVisible ? '':'hidden'}`} style={{ left:data.draggerPercent + "%" }}>
+                      <div className={`absolute h-10 -top-12 w-36 bg-white bg-opacity-20 flex justify-center rounded-xl`}>
+                      <span className="text-white text-sm pointer-events-none flex items-center font-medium" >
+                      {possibleDurationTimeUser} | {durationTimeUser}
+                      </span>  
+                      </div>
+                      <div 
+                      style={{
+                        clipPath: "polygon(50% 100%, 0 0, 100% 0)"
+                      }}
+                      className={`absolute h-4 w-7 -top-2 bg-white bg-opacity-20`}/>
+                  </div>
                 </div>
-                <div className="absolute bg-white top-0 opacity-30 w-34/100 h-full z-20" style={{width:String(data.bufferTimePercent)+"%"}}>
-                
-                </div>
-                <div className={`absolute bg-playerSecond top-0 h-full z-20`} style={{width:String(data.currentTimePercent)+"%"}}>
-                
-                </div>
-                <span className="absolute md:block inset-y-0 right-4 z-20 text-mainText text-sm pointer-events-none hidden" >
+                <div className="absolute bg-white top-0 opacity-30 w-34/100 h-full z-20" style={{width:String(data.bufferTimePercent)+"%"}}/>
+                <div className={`absolute bg-playerSecond top-0 h-full z-20`} style={{width:String(data.currentTimePercent)+"%"}}/>
+                <span className="absolute font-medium md:block inset-y-0 right-4 z-20 text-mainText text-sm pointer-events-none hidden" >
                     {currentTimeUser} | {durationTimeUser}
                 </span>     
             </div>
@@ -168,32 +192,26 @@ export default function ProgressBar(data:ProgressBarProps) {
                 )}
               </Menu>
             </div>
-            
-        <div  className={`cursor-pointer hidden md:block`}>
-            <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={() => setFullScreen()} className="playerButtons">
-                <rect className="wrapper" width="42" height="42" rx="8" fill="white" fillOpacity="0.2"/>
-                <path d="M25 12H30V17" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M17 30H12V25" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M30 25V30H25" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M12 17V12H17" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+        <div
+        className={`text-h2-mobile font-medium ml-3 md:hidden`}
+        >
+        {durationTimeUser}
         </div>
-
-        <div  className={`cursor-pointer absolute md:hidden right-0 bottom-2 `}>
-            <svg width="31" height="31" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={() => setFullScreen()} className="playerButtons">
-                <path d="M25 12H30V17" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M17 30H12V25" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M30 25V30H25" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M12 17V12H17" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+        <div 
+        onClick={(e) => {
+          data.fullScreenFunc()
+        }}
+        onTouchEnd={(e) => {
+          
+        }}
+        className={`cursor-pointer block ml-3 md:ml-0`}>
+          <div className={`w-9 h-9 md:h-11 md:w-11 md:p-1.5 md:bg-white md:bg-opacity-20 rounded-lg md:hover:bg-orange flex items-center`}>
+          <FullScreenIcon/>
+          </div>
         </div>
 
         
-        <div  className={` absolute md:hidden left-1 bottom-3 w-auto h-auto z-50`}>
-          <span className=" text-mainText text-xs pointer-events-none" >
-            {currentTimeUser} | {durationTimeUser}
-          </span>   
-        </div>
+
 
     </div>
     )
