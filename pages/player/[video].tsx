@@ -27,7 +27,6 @@ export default function Player(data) {
       pluginMethod: "setIndexTrack",
       pluginValue: id
   }, callback: (e) => {
-      // alert(`getPlugin  ${e}`)
       console.log(e)
   }})
   }

@@ -1,7 +1,4 @@
 import Image from "next/image";
-import doramas from "../../data/doramas";
-import FilmCardLanguages from "../filmCards/flimCardLanguages";
-import Tag from "../tag";
 
 const CompilationModal = ({setModalOpen, currentCompilationMovie}) => {
     return (

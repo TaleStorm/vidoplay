@@ -96,7 +96,6 @@ export default function ProgressBar(data) {
                   data.setMouseOver()
                   data.setDrag(false)  
               }}
-                 
             >
                 <div className=" bg-white top-0 bg-opacity-20 w-full h-6 z-10">
                   <div  className={`mb-2 w-1 overflow-visible text-center z-20 justify-center items-center absolute bottom-6 flex ${data.draggerVisible ? '':'hidden'}`} style={{ left:data.draggerPercent + "%" }}>

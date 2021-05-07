@@ -7,7 +7,6 @@ function classNames(...classes) {
   }
 
 export default function TopPlayerPanel(data) {
-  console.log(data.langs.length == 0 ? "hidden" : "")
     return(
         <div  className="absolute top-4 left-4 md:flex flex-wrap content-center space-x-4 hidden">
         <div className="">
