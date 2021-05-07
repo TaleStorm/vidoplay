@@ -9,6 +9,7 @@ import EndedModal from './endedModal';
 import PauseIcon from "../playerIcons/pauseIcon";
 import ChevronLeft from "../icons/chevronLeft";
 import PlayIcon from "../playerIcons/playIcon";
+import { Console } from "node:console";
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -77,10 +78,10 @@ export default function Player(data) {
 
     })
 
-    gplayerAPI.on('tracks', (info) => {
-      console.log('[Event]', 'tracks')
-      console.log(info)
-    })
+    // gplayerAPI.on('tracks', (info) => {
+    //   console.log('[Event]', 'tracks')
+    //   console.log(info)
+    // })
 
     gplayerAPI.on("ended", () => {
       gplayerAPI.method({ name: "seekPercentage", params: 100 });
@@ -134,7 +135,6 @@ export default function Player(data) {
 
   //Вот тут хэндлится вся логика фуллскрина
   useEffect(() => {
-    console.log(isFullScreen)
     if (globalGplayerAPI) {
       if (!isFullScreen) {
         globalGplayerAPI.method({
@@ -216,7 +216,6 @@ export default function Player(data) {
       pluginMethod: "setIndexTrack",
       pluginValue: newActing
     }, callback: (e) => {
-        console.log(e);
     }});
   }
 
@@ -259,7 +258,6 @@ export default function Player(data) {
   }
 
   var getMousePos = (e) => {
-    console.log(e)
     const target = e.target.getBoundingClientRect();
     const percent = 100 * (e.clientX - target.x) / e.target.parentElement.offsetWidth
     if (isDragged) {
@@ -277,7 +275,6 @@ export default function Player(data) {
 
   var setCurrentDuration = (e) => {
     const target = e.target.getBoundingClientRect();
-    console.log(e)
     const percent = 100 * (e.clientX - target.x) / e.target.parentElement.offsetWidth
     globalGplayerAPI.method({ name: "seekPercentage", params: percent.toFixed(1) })
   }
@@ -344,7 +341,6 @@ export default function Player(data) {
 
   useEffect(() => {
     getPlayer()
-    console.log("Mounted")
   }, [])
 
   const [mobileOverlayStage, setMobileOverlayStage] = useState(0)
@@ -404,8 +400,7 @@ export default function Player(data) {
             allowFullScreen
             frameBorder="0"
             id="gplayer"
-          >
-          </iframe>
+          ></iframe>
 
           <div className={`absolute  top-0 left-0 w-full h-auto ${buttonState}`} >
             <TopPlayerPanel
@@ -467,7 +462,14 @@ export default function Player(data) {
               await sleep(4000)
             }
           }}
-          id="playingPanel">
+          id="playingPanel"
+          onKeyDown ={(e) => {
+            e.preventDefault()
+            if (e.key == " ") {
+              setPlay()
+            }
+          }}
+          tabIndex={0}>
             <ProgressBar
               possibleDurationTime={possibleDurationTime}
               draggerPercent={draggerPercent}
@@ -495,8 +497,17 @@ export default function Player(data) {
             />
           </div>
 
-          <div className={`absolute inset-0 w-full h-full ${realPanelState}`} >
-            <div className="flex justify-between flex-wrap content-center h-full items-center px-4 ">
+          <div className={`absolute inset-0 w-full h-full ${realPanelState}`}  >
+            <div 
+              className="flex justify-between flex-wrap content-center h-full items-center px-4 "
+              onClick={(e) => {
+                const target = e.target as Element;
+                if (target.id == "realPanel") {
+                  setPlay()
+                }
+              }}
+              id="realPanel" 
+            >
               <div className="md:w-24 cursor-pointer w-8">
                 <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" className={`playerButtons ${currentSerie == 0 ? "hidden" : ""}`} onClick={() => changeVideo("prev")}>
                   <path className="wrapper" d="M0 8C0 3.58172 3.58172 0 8 0H52C56.4183 0 60 3.58172 60 8V52C60 56.4183 56.4183 60 52 60H8C3.58172 60 0 56.4183 0 52V8Z" fill="white" fillOpacity="0.2" />
