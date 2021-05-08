@@ -5,6 +5,7 @@ import { ProgressBarData } from '../../interfaces'
 import FullScreenIcon from '../playerIcons/fullScreen';
 import MuteIcon from '../playerIcons/muteIcon';
 import PlayIcon from '../playerIcons/playIcon';
+import { convertTime } from './utils';
 
 type ProgressBarProps = ProgressBarData
 
@@ -21,36 +22,18 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
   }
 
-function convertTime(time) {
-    time = Math.floor(time)
-    let minutes = Math.floor(time / 60);
-    let seconds = time - minutes * 60;
-    let hours = Math.floor(time / 3600);
-    let hoursStr = String(hours)
-    let minutesStr = String(minutes)
-    let secondsStr = String(seconds)
-    if (hours < 10) {
-        hoursStr = "0" + hours
-    }
-    if (minutes < 10) {
-        minutesStr = "0" + minutes
-    } 
-    if (seconds < 10) {
-        secondsStr = "0" + seconds
-    } 
-    time = time - hours * 3600;
-    return `${hoursStr}:${minutesStr}:${secondsStr}`
-}
 
 
 
-export default function ProgressBar(data) {
+
+export default function ProgressBar({isMobile, ...data}) {
     const currentTimeUser = convertTime(data.currentTime)
     const durationTimeUser = convertTime(data.durationTime)
     const possibleDurationTimeUser = convertTime(data.possibleDurationTime)
-
     return(
-    <div  className={`absolute md:bottom-4 px-5 pb-5 md:px-0 md:pb-0 bottom-0 z-20 inset-x-0 md:mx-4 w-auto flex items-end`}>
+    <div  className={`
+    ${isMobile ? "hidden" : "flex"}
+    absolute md:bottom-4 px-5 pb-5 md:px-0 md:pb-0 bottom-0 z-20 inset-x-0 md:mx-4 w-auto  items-end`}>
         <div  className={`relative cursor-pointer hidden md:block`}>
             <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" className={`playerButtons cursor-pointer ${data.isPlaying? "hidden" : ""}`} onClick={() => data.setPlay()}>
                 <rect className="wrapper" width="42" height="42" rx="8" fill="white" fillOpacity="0.2"/>

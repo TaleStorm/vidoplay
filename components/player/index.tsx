@@ -10,6 +10,9 @@ import PauseIcon from "../playerIcons/pauseIcon";
 import ChevronLeft from "../icons/chevronLeft";
 import PlayIcon from "../playerIcons/playIcon";
 import { Console } from "node:console";
+import MobileProgressBar from "./mobileProgressBar";
+import CompilationSliderMobile from "./compilationSliderMobile";
+import { useSwipeable } from "react-swipeable";
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -55,6 +58,7 @@ export default function Player(data) {
     setPlayer(gplayerAPI);
 
     gplayerAPI.on('play', () => {
+
       gplayerAPI.method({
         name: 'getCurrentTime', params: {}, callback: (res) => {
           if (res < 0.1) {
@@ -112,8 +116,8 @@ export default function Player(data) {
     const resizeListener = () => {
       gplayerAPI.method({
         name: "resize", params: {
-          width: data.parentRef.current.getBoundingClientRect().width,
-          height: data.parentRef.current.getBoundingClientRect().height
+          width: "100%",
+          height: "100%"
         }
       })
     }
@@ -137,21 +141,23 @@ export default function Player(data) {
   useEffect(() => {
     if (globalGplayerAPI) {
       if (!isFullScreen) {
-        globalGplayerAPI.method({
-          name: "resize", params: {
-            width: data.parentRef.current.getBoundingClientRect().width,
-            height: data.parentRef.current.getBoundingClientRect().height
-          }
-        })
-      }
-
-      else {
-        globalGplayerAPI.method({
+      globalGplayerAPI.method({
           name: "resize", params: {
             width: "100%",
             height: "100%"
           }
         })
+      }
+      else {
+        globalGplayerAPI.method({
+          name: "resize", params: {
+            width: window.screen.availWidth,
+            height: window.screen.availHeight
+            //            width: data.parentRef.current.getBoundingClientRect().width,
+            //            height: data.parentRef.current.getBoundingClientRect().height
+          }
+        })
+        window.dispatchEvent(new Event("resize"))
       }
     }
   }, [isFullScreen, data.width])
@@ -248,7 +254,6 @@ export default function Player(data) {
       setMute(false);
       globalGplayerAPI.method({ name: "unmute" });
       setVolumeCurrent(bufferVolume);
-
     } else {
       setMute(true);
       globalGplayerAPI.method({ name: "mute" });
@@ -287,6 +292,15 @@ export default function Player(data) {
     setVolumeCurrent(Number(percent.toFixed(0)))
   }
 
+  const changeCurrentVolumeY = (e, ref) => {
+    setMute(false);
+    const target = ref.current.parentElement.getBoundingClientRect();
+    const result = (((target.height - (e.changedTouches[0].clientY - target.y))/ target.height) * 100)
+    const percent = result < 100.1 ? result : 100
+    globalGplayerAPI.method({ name: "setVolume", params: percent.toFixed(0) })
+    setVolumeCurrent(Number(percent.toFixed(0)))
+  }
+
   var changeCurrentLevel = (quality) => {
     setCurrentQuality(quality);
     globalGplayerAPI.method({
@@ -299,7 +313,8 @@ export default function Player(data) {
     })
   }
 
-  
+  const handle = useFullScreenHandle();
+
 
   const fullScreenFunc = async () => {
     if (isFullScreen) {
@@ -315,84 +330,89 @@ export default function Player(data) {
     }
   }
 
-  // const setEventListener = (gplayerAPI, userWindow, isFullScreen) => {
-  //   console.log("Фуллскрин эвент")
-  //   if (typeof window !== 'undefined') {
-  //     (document as any).addEventListener('fullscreenchange', () => {
-  //       if (isFullScreen) {
-  //         gplayerAPI.method({ name: "resize", params: {width: 960, height: 540} });
-  //         data.setFullScreen(false)
-  //         setFullScreen(false);
-  //         (document as any).removeEventListener('fullscreenchange', () => setEventListener(gplayerAPI, userWindow, false));
-  //         setEventListener(gplayerAPI, userWindow, false);
-  //       } else {
-  //         gplayerAPI.method({ name: "resize", params: {
-  //           width: window.innerWidth,
-  //           height: window.innerHeight
-  //         } });
-  //         data.setFullScreen(true)
-  //         setFullScreen(true);
-  //        (document as any).removeEventListener('fullscreenchange', () => setEventListener(gplayerAPI, userWindow, true));
-  //         setEventListener(gplayerAPI, userWindow, true);
-  //       }
-  //     });
-  //   }
-  // }
+  
 
-  useEffect(() => {
-    getPlayer()
-  }, [])
 
   const [mobileOverlayStage, setMobileOverlayStage] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
+  const [isMobileSliderOpen, setIsMobileSliderOpen] = useState(false)
+  useEffect(() => {
+    getPlayer()
+    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+      // true for mobile device
+      setIsMobile(true)
+    }else{
+      // false for not mobile device
+      setIsMobile(false)
+    }
+  }, [])
+
+  const TouchListener = async (e) => {
+    const playingPanel = document.getElementById("playingPanel")
+    
+    if (e.target === playingPanel) {
+      e.preventDefault()
+      setMobileOverlayStage(1)
+
+    }
+  }
 
   useEffect(() => {
     const timer = setTimeout(() => {
       if (mobileOverlayStage === 1) {
-        setMobileOverlayStage(2)
+        setMobileOverlayStage(0)
       }
     }, 4000)
     return () => {clearTimeout(timer)}
   }, [mobileOverlayStage])
 
 
-  const handle = useFullScreenHandle();
+  const handlers = useSwipeable({
+    onSwipedUp: () => {
+      if (mobileOverlayStage > 0) {
+        setIsMobileSliderOpen(true)
+      }
+    },
+    onSwipedDown: () => {
+      setIsMobileSliderOpen(false)
+    }
+  })
+
+  // useEffect(() => {
+  //   const body = document.getElementsByClassName("fullscreen")[0]
+  //   const player = document.getElementById("mainframe")
+  //   if (handle.active) {
+  //     if (
+  //       screen.orientation.type === "portrait-primary"
+  //       || screen.orientation.type === "portrait-secondary"
+  //       ) {
+  //         body.classList.add("transform", "rotate-90")
+  //         player.classList.add("transform", "rotate-90")
+        
+  //       }
+  //       else {
+  //         body.classList.remove("transform", "rotate-90")
+  //         player.classList.remove("transform", "rotate-90")
+  //       }
+  //   }
+  //   else {
+  //     body.classList.remove("transform", "rotate-90")
+  //     player.classList.remove("transform", "rotate-90")
+  //   }
+  //   setTimeout(() => {window.dispatchEvent(new Event("resize"))}, 500)
+  // }, [handle.active])
+
+
+ 
 
   return (
     <div>
       <FullScreen handle={handle}>
-
         <div
-          style={{
-            width: data.width + "px",
-            height: data.height + "px"
-          }}
-          className={`relative inline-block`}
+        id="mainframe"
+          className={`relative inline-block w-full h-full`}
         >
-          <div className={`${mobileOverlayStage > 0 ? "absolute bg-opacity-50 h-full" : "bg-opacity-0 h-0 absolute"} transition-all duration-400 bg-black bottom-0 left-0 w-full z-10 flex items-center overflow-hidden `}>
-          <div className={`w-full flex justify-between items-center px-5`}>
-            <div className={`w-10 h-10 p-0.5 bg-opacity-20 bg-white  active:bg-orange  rounded-lg`}>
-              <ChevronLeft/>
-            </div>
-            <button 
-            onClick={() => {
-              if (mobileOverlayStage === 1) {
-                globalGplayerAPI.method({ name: "pause" })
-                setMobileOverlayStage(2)
-              } 
-              if (mobileOverlayStage === 2) {
-                globalGplayerAPI.method({ name: "play" })
-                setMobileOverlayStage(0)
-              }
-            }}
-            className={`flex-shrink-0 w-20 h-20 p-5 bg-opacity-20 bg-white  active:bg-orange rounded-lg`}>
-              {mobileOverlayStage === 1 && <PauseIcon/>}
-              {mobileOverlayStage === 2 && <PlayIcon/>}
-            </button>
-            <div className={`w-10 h-10 p-0.5 bg-opacity-20 bg-white  active:bg-orange  rounded-lg transform rotate-180`}>
-              <ChevronLeft/>
-            </div>
-          </div>
-          </div>
+
           <iframe
             width={data.width}
             height={data.height}
@@ -401,7 +421,7 @@ export default function Player(data) {
             frameBorder="0"
             id="gplayer"
           ></iframe>
-
+          
           <div className={`absolute  top-0 left-0 w-full h-auto ${buttonState}`} >
             <TopPlayerPanel
               data={data.series}
@@ -446,22 +466,20 @@ export default function Player(data) {
           </PlayerModalOverlay>
           <div className="hidden md:block">
             <div className={`${(buttonState === "hidden" || panelState === "hidden") && "opacity-0 "}`}>
-              <CompilationSlider setCurrentCompilationMovie={setCurrentCompilationMovie} movies={data.movies} setModalOpen={setIsCompliationModalOpen} isSliderOpen={isSliderOpen} setIsSliderOpen={setIsSliderOpen} isFullscreen={isFullScreen} />
+              <CompilationSlider setCurrentCompilationMovie={setCurrentCompilationMovie} movies={data.movies} setModalOpen={setIsMobileSliderOpen} isSliderOpen={isMobileSliderOpen} setIsSliderOpen={setIsSliderOpen} isFullscreen={isFullScreen} />
               <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
                 <CompilationModal currentCompilationMovie={currentCompilationMovie} setModalOpen={setIsCompliationModalOpen} />
               </PlayerModalOverlay>
             </div>
           </div>
+          
           <div className={`absolute inset-0 z-0 w-full h-full ${panelState}`} 
-          onClick={(e) => showRealPanel(e)} 
-          onTouchEnd={async (e) => {
-            const playingPanel = document.getElementById("playingPanel")
-            if (e.target === playingPanel) {
-              e.preventDefault()
-              setMobileOverlayStage(1)
-              await sleep(4000)
-            }
+          {...handlers}
+          style={{
+            touchAction: "none"
           }}
+          onClick={(e) => showRealPanel(e)} 
+          onTouchEnd={TouchListener}
           id="playingPanel"
           onKeyDown ={(e) => {
             e.preventDefault()
@@ -470,10 +488,62 @@ export default function Player(data) {
             }
           }}
           tabIndex={0}>
+                      <div className={`${mobileOverlayStage > 0 ? "absolute bg-opacity-50 h-full" : "bg-opacity-0 h-0 absolute"} transition-all duration-400 bg-black bottom-0 left-0 w-full z-10 flex items-center overflow-hidden `}>
+            <div className={`w-full flex justify-between items-center px-5`}>
+              <div className={`w-10 h-10 p-0.5 bg-opacity-20 bg-white  active:bg-orange  rounded-lg`}>
+                <ChevronLeft />
+              </div>
+              <button
+                onClick={() => {
+                  if (mobileOverlayStage === 1) {
+                    globalGplayerAPI.method({ name: "pause" })
+                    setMobileOverlayStage(2)
+                  }
+                  if (mobileOverlayStage === 2) {
+                    globalGplayerAPI.method({ name: "play" })
+                    setMobileOverlayStage(0)
+                  }
+                }}
+                className={`flex-shrink-0 w-20 h-20 p-5 bg-opacity-20 bg-white  active:bg-orange rounded-lg`}>
+                {mobileOverlayStage === 1 && <PauseIcon />}
+                {mobileOverlayStage === 2 && <PlayIcon />}
+              </button>
+              <div className={`w-10 h-10 p-0.5 bg-opacity-20 bg-white  active:bg-orange  rounded-lg transform rotate-180`}>
+                <ChevronLeft />
+              </div>
+            </div>
+          </div>
+          <CompilationSliderMobile 
+          isMobile={isMobile}
+          mobileOverlayStage={mobileOverlayStage} setCurrentCompilationMovie={setCurrentCompilationMovie} movies={data.movies} setModalOpen={setIsCompliationModalOpen} isSliderOpen={isMobileSliderOpen} setIsSliderOpen={setIsMobileSliderOpen} isFullScreen={isFullScreen}
+          
+          />
+          <MobileProgressBar 
+          isMobile={isMobile}
+          mobileOverlayStage={mobileOverlayStage}
+          setMobileOverlayStage={setMobileOverlayStage}
+          globalGplayerAPI = {globalGplayerAPI}
+          isFullScreen = {isFullScreen}
+          fullScreenFunc={fullScreenFunc}
+          possibleDurationTime={possibleDurationTime}
+          setMouseOver={setMouseOver}
+          draggerPercent={draggerPercent}
+          draggerVisible={draggerVisible}
+          setDrag={setDrag}
+          currentTimePercent={currentTimePercent}
+          bufferTimePercent={currentTimeBuffer}
+          getMousePos={getMousePos}
+          setCurrentDuration={setCurrentDuration}
+          durationTime={durationTime}
+          currentTime={currentTime}
+          setCurrentVolume={changeCurrentVolumeY}
+          currentVolume={currentVolume}
+          />
             <ProgressBar
+                            isMobile = {isMobile}
               possibleDurationTime={possibleDurationTime}
-              draggerPercent={draggerPercent}
               setMouseOver={setMouseOver}
+              draggerPercent={draggerPercent}
               draggerVisible={draggerVisible}
               setDrag={setDrag}
               currentTimePercent={currentTimePercent}
@@ -553,6 +623,7 @@ export default function Player(data) {
               </PlayerModalOverlay>
             </div>
             <ProgressBar
+              isMobile = {isMobile}
               possibleDurationTime={possibleDurationTime}
               setMouseOver={setMouseOver}
               draggerPercent={draggerPercent}
