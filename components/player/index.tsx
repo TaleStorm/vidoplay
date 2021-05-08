@@ -379,7 +379,7 @@ export default function Player(data) {
       }
       timeout = window.setTimeout(function () {
         setHidden(true)
-      }, 5000);
+      }, 3000);
     }
   }
 
@@ -444,12 +444,12 @@ export default function Player(data) {
             />
           </PlayerModalOverlay>
           <div className="hidden md:block">
-            <div className={`${(buttonState === "hidden" || panelState === "hidden") && "opacity-0 "}`}>
+          <div className={`${(buttonState === "hidden" || panelState === "hidden") && "opacity-0 "}`}>
               <CompilationSlider setCurrentCompilationMovie={setCurrentCompilationMovie} movies={data.movies} setModalOpen={setIsMobileSliderOpen} isSliderOpen={isMobileSliderOpen} setIsSliderOpen={setIsSliderOpen} isFullscreen={isFullScreen} />
-              <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
-                <CompilationModal currentCompilationMovie={currentCompilationMovie} setModalOpen={setIsCompliationModalOpen} />
-              </PlayerModalOverlay>
-            </div>
+                <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
+                  <CompilationModal currentCompilationMovie={currentCompilationMovie} setModalOpen={setIsCompliationModalOpen} />
+                </PlayerModalOverlay>
+              </div>
           </div>
           
           <div className={`absolute inset-0 z-0 w-full h-full ${panelState}`} 
