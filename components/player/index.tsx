@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { MutableRefObject, useEffect, useRef, useState } from "react";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import ProgressBar from './progressBar';
 import TopPlayerPanel from './topPlayerPanel';
@@ -328,6 +328,7 @@ export default function Player(data) {
   const [mobileOverlayStage, setMobileOverlayStage] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
   const [isMobileSliderOpen, setIsMobileSliderOpen] = useState(false)
+  const overlayRef = useRef(null) as MutableRefObject<HTMLDivElement>
   useEffect(() => {
     getPlayer()
     if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
@@ -359,13 +360,20 @@ export default function Player(data) {
 
 
   const handlers = useSwipeable({
-    onSwipedUp: () => {
+    onSwipedUp: (e) => {
+      console.log(e)
+      const mutePanel = document.getElementById("mutePanel")
+      if (e.event.target !== mutePanel) {
       if (mobileOverlayStage > 0) {
         setIsMobileSliderOpen(true)
       }
+    }
     },
-    onSwipedDown: () => {
+    onSwipedDown: (e) => {
+      const mutePanel = document.getElementById("mutePanel")
+      if (e.event.target !== mutePanel) {
       setIsMobileSliderOpen(false)
+    }
     }
   })
 
@@ -420,7 +428,7 @@ export default function Player(data) {
             />
           </div>
 
-          <div className={`absolute inset-0 w-full h-full ${buttonState} pointer-events-none`} >
+          <div ref={overlayRef} className={`absolute inset-0 w-full h-full ${buttonState} pointer-events-none`} >
             <div className="flex justify-center flex-wrap content-center h-full">
               <div className="md:w-24 flex justify-end cursor-pointer w-12">
                 <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="playerButtons cursor-pointer" onClick={() => setPlay()} >
