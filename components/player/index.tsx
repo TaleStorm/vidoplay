@@ -96,13 +96,12 @@ export default function Player(data) {
       }
     })
 
-
-
     //Вот тут хэндлится вся логика фуллскрина при нажатии на ESC
     const fullScreenListener = () => {
       if (window.innerWidth > 1000) {
         if (!window.screenTop && !window.screenY) {
-          data.setFullScreen(false)
+          setHidden(false);
+          data.setFullScreen(false);
           setFullScreen(false);
         }
         else {
@@ -141,7 +140,7 @@ export default function Player(data) {
   useEffect(() => {
     if (globalGplayerAPI) {
       if (!isFullScreen) {
-      globalGplayerAPI.method({
+        globalGplayerAPI.method({
           name: "resize", params: {
             width: "100%",
             height: "100%"
@@ -153,16 +152,12 @@ export default function Player(data) {
           name: "resize", params: {
             width: window.screen.availWidth,
             height: window.screen.availHeight
-            //            width: data.parentRef.current.getBoundingClientRect().width,
-            //            height: data.parentRef.current.getBoundingClientRect().height
           }
         })
         window.dispatchEvent(new Event("resize"))
       }
     }
   }, [isFullScreen, data.width])
-
-
 
   var removeFakeButton = () => {
     setPanel("visible");
@@ -315,11 +310,11 @@ export default function Player(data) {
 
   const handle = useFullScreenHandle();
 
-
   const fullScreenFunc = async () => {
     if (isFullScreen) {
-      handle.exit()
-      data.setFullScreen(false)
+      setHidden(false);
+      handle.exit();
+      data.setFullScreen(false);
       setFullScreen(false);
       return
     } else {
@@ -329,9 +324,6 @@ export default function Player(data) {
       return
     }
   }
-
-  
-
 
   const [mobileOverlayStage, setMobileOverlayStage] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
@@ -353,7 +345,6 @@ export default function Player(data) {
     if (e.target === playingPanel) {
       e.preventDefault()
       setMobileOverlayStage(1)
-
     }
   }
 
@@ -378,39 +369,27 @@ export default function Player(data) {
     }
   })
 
-  // useEffect(() => {
-  //   const body = document.getElementsByClassName("fullscreen")[0]
-  //   const player = document.getElementById("mainframe")
-  //   if (handle.active) {
-  //     if (
-  //       screen.orientation.type === "portrait-primary"
-  //       || screen.orientation.type === "portrait-secondary"
-  //       ) {
-  //         body.classList.add("transform", "rotate-90")
-  //         player.classList.add("transform", "rotate-90")
-        
-  //       }
-  //       else {
-  //         body.classList.remove("transform", "rotate-90")
-  //         player.classList.remove("transform", "rotate-90")
-  //       }
-  //   }
-  //   else {
-  //     body.classList.remove("transform", "rotate-90")
-  //     player.classList.remove("transform", "rotate-90")
-  //   }
-  //   setTimeout(() => {window.dispatchEvent(new Event("resize"))}, 500)
-  // }, [handle.active])
-
-
- 
+  const [isHidden, setHidden] = useState(false);
+  var timeout;
+  const hidePanelOnFS = async (event) => {
+    setHidden(false)
+    if (data.isFullScreen) {
+      if (timeout !== undefined) {
+        window.clearTimeout(timeout);
+      }
+      timeout = window.setTimeout(function () {
+        setHidden(true)
+      }, 3000);
+    }
+  }
 
   return (
     <div>
       <FullScreen handle={handle}>
         <div
-        id="mainframe"
+          id="mainframe"
           className={`relative inline-block w-full h-full`}
+          onMouseMove= {(e) => hidePanelOnFS(e)}  
         >
 
           <iframe
@@ -465,12 +444,12 @@ export default function Player(data) {
             />
           </PlayerModalOverlay>
           <div className="hidden md:block">
-            <div className={`${(buttonState === "hidden" || panelState === "hidden") && "opacity-0 "}`}>
+          <div className={`${(buttonState === "hidden" || panelState === "hidden") && "opacity-0 "}`}>
               <CompilationSlider setCurrentCompilationMovie={setCurrentCompilationMovie} movies={data.movies} setModalOpen={setIsMobileSliderOpen} isSliderOpen={isMobileSliderOpen} setIsSliderOpen={setIsSliderOpen} isFullscreen={isFullScreen} />
-              <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
-                <CompilationModal currentCompilationMovie={currentCompilationMovie} setModalOpen={setIsCompliationModalOpen} />
-              </PlayerModalOverlay>
-            </div>
+                <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
+                  <CompilationModal currentCompilationMovie={currentCompilationMovie} setModalOpen={setIsCompliationModalOpen} />
+                </PlayerModalOverlay>
+              </div>
           </div>
           
           <div className={`absolute inset-0 z-0 w-full h-full ${panelState}`} 
@@ -488,7 +467,7 @@ export default function Player(data) {
             }
           }}
           tabIndex={0}>
-                      <div className={`${mobileOverlayStage > 0 ? "absolute bg-opacity-50 h-full" : "bg-opacity-0 h-0 absolute"} transition-all duration-400 bg-black bottom-0 left-0 w-full z-10 flex items-center overflow-hidden `}>
+          <div className={`${mobileOverlayStage > 0 ? "absolute bg-opacity-50 h-full" : "bg-opacity-0 h-0 absolute"} transition-all duration-400 bg-black bottom-0 left-0 w-full z-10 flex items-center overflow-hidden `}>
             <div className={`w-full flex justify-between items-center px-5`}>
               <div className={`w-10 h-10 p-0.5 bg-opacity-20 bg-white  active:bg-orange  rounded-lg`}>
                 <ChevronLeft />
@@ -514,33 +493,34 @@ export default function Player(data) {
             </div>
           </div>
           <CompilationSliderMobile 
-          isMobile={isMobile}
-          mobileOverlayStage={mobileOverlayStage} setCurrentCompilationMovie={setCurrentCompilationMovie} movies={data.movies} setModalOpen={setIsCompliationModalOpen} isSliderOpen={isMobileSliderOpen} setIsSliderOpen={setIsMobileSliderOpen} isFullScreen={isFullScreen}
-          
+            isMobile={isMobile}
+            mobileOverlayStage={mobileOverlayStage} setCurrentCompilationMovie={setCurrentCompilationMovie} movies={data.movies} setModalOpen={setIsCompliationModalOpen} isSliderOpen={isMobileSliderOpen} setIsSliderOpen={setIsMobileSliderOpen} isFullScreen={isFullScreen}
           />
           <MobileProgressBar 
-          isMobile={isMobile}
-          mobileOverlayStage={mobileOverlayStage}
-          setMobileOverlayStage={setMobileOverlayStage}
-          globalGplayerAPI = {globalGplayerAPI}
-          isFullScreen = {isFullScreen}
-          fullScreenFunc={fullScreenFunc}
-          possibleDurationTime={possibleDurationTime}
-          setMouseOver={setMouseOver}
-          draggerPercent={draggerPercent}
-          draggerVisible={draggerVisible}
-          setDrag={setDrag}
-          currentTimePercent={currentTimePercent}
-          bufferTimePercent={currentTimeBuffer}
-          getMousePos={getMousePos}
-          setCurrentDuration={setCurrentDuration}
-          durationTime={durationTime}
-          currentTime={currentTime}
-          setCurrentVolume={changeCurrentVolumeY}
-          currentVolume={currentVolume}
+            isMobile={isMobile}
+            mobileOverlayStage={mobileOverlayStage}
+            setMobileOverlayStage={setMobileOverlayStage}
+            globalGplayerAPI = {globalGplayerAPI}
+            isFullScreen = {isFullScreen}
+            fullScreenFunc={fullScreenFunc}
+            possibleDurationTime={possibleDurationTime}
+            setMouseOver={setMouseOver}
+            draggerPercent={draggerPercent}
+            draggerVisible={draggerVisible}
+            setDrag={setDrag}
+            currentTimePercent={currentTimePercent}
+            bufferTimePercent={currentTimeBuffer}
+            getMousePos={getMousePos}
+            setCurrentDuration={setCurrentDuration}
+            durationTime={durationTime}
+            currentTime={currentTime}
+            setCurrentVolume={changeCurrentVolumeY}
+            currentVolume={currentVolume}
           />
             <ProgressBar
-                            isMobile = {isMobile}
+              isHidden={isHidden}
+              setHidden={setHidden}
+              isMobile = {isMobile}
               possibleDurationTime={possibleDurationTime}
               setMouseOver={setMouseOver}
               draggerPercent={draggerPercent}
@@ -623,6 +603,8 @@ export default function Player(data) {
               </PlayerModalOverlay>
             </div>
             <ProgressBar
+              isHidden={isHidden}
+              setHidden={setHidden}
               isMobile = {isMobile}
               possibleDurationTime={possibleDurationTime}
               setMouseOver={setMouseOver}
