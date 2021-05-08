@@ -24,6 +24,7 @@
     "react-easyfullscreen": "^1.1.1",
     "react-full-screen": "^1.0.2",
     "react-gtm-module": "^2.0.11",
+    "react-swipeable": "^6.1.0",
     "sass": "^1.32.11",
     "sweetalert2": "^10.16.6",
     "swiper": "^6.5.7",

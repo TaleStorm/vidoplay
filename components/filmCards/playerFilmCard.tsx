@@ -4,8 +4,8 @@ import Tag from "../tag"
 const PlayerFilmCard = (data) => {
     return (
         
-        <div className="bg-cardBackground w-full relative ">
-            <div className={`h-45 bg-cover relative bg-center`}> 
+        <div className="bg-cardBackground w-full relative h-full ">
+            <div className={`h-${data.imageSize} bg-cover relative bg-center `}> 
                 <Image
                     src={`${data.image}`}
                     alt="Picture of the film"
@@ -23,7 +23,7 @@ const PlayerFilmCard = (data) => {
             </div>
 
         <div className="my-4">
-            <p className="text-mainText mx-4 mb-4 text-h1-mobile font-medium">
+            <p className="text-mainText mx-4 mb-4 text-h1-mobile font-medium h-full">
                 {data.title}
             </p>
         </div>

@@ -8,24 +8,36 @@ import PlayerFilmCard from "../filmCards/playerFilmCard";
 SwiperCore.use([Navigation]);
 const minWidth = 640
 
-const CompilationSlider = ({setModalOpen, isSliderOpen, setIsSliderOpen, movies, setCurrentCompilationMovie, isFullscreen}) => {
+const CompilationSliderMobile = ({
+    setModalOpen, 
+    isSliderOpen, 
+    setIsSliderOpen,
+     movies, 
+    setCurrentCompilationMovie,
+     mobileOverlayStage,
+    isMobile,
+    isFullScreen
+}) => {
 
     const sliderContainerRef = useRef() as MutableRefObject<HTMLDivElement>
 
     useEffect(() => {
-        window.dispatchEvent(new Event('resize'));
-                    
+        window.dispatchEvent(new Event('resize'));        
         if (isSliderOpen) {
             sliderContainerRef.current.style.height = sliderContainerRef.current.scrollHeight + "px"
         }
         else {
-            sliderContainerRef.current.style.height = "0px"
+            sliderContainerRef.current.style.height = "8px"
         }
     }, [isSliderOpen])
 
-    return (
-        <div className={`absolute bottom-18 inset-x-0 w-full items-end flex flex-col px-4 z-10`}>
+    useEffect(() => {},[])
 
+    return (
+        <div className={` 
+        ${!isMobile && "hidden"}
+        ${isFullScreen &&  mobileOverlayStage < 1 ? "opacity-0 z-0" : "z-20 opacity-100"}
+        absolute w-full items-end flex flex-col px-4 z-30 bottom-2`}>
             {/* <div
                 onClick={() => {
                     setIsSliderOpen(!isSliderOpen)
@@ -36,10 +48,10 @@ const CompilationSlider = ({setModalOpen, isSliderOpen, setIsSliderOpen, movies,
             </div> */}
             <div
                 ref={sliderContainerRef}
-                className={`w-full overflow-hidden transition-all duration-300 ease-out`}>
+                className={`w-full  overflow-hidden transition-all duration-300 ease-out`}>
                 <Swiper
                     spaceBetween={20}
-                    slidesPerView={isFullscreen ? 3.5 : 2.5}
+                    slidesPerView={ 2.5}
                     allowTouchMove={true}
                     navigation={{
                         nextEl: '#next' + 1,
@@ -53,7 +65,7 @@ const CompilationSlider = ({setModalOpen, isSliderOpen, setIsSliderOpen, movies,
                                 setModalOpen(true)
                                 setCurrentCompilationMovie(card)
                             }} className={`w-full relative z-20 cursor-pointer`}>
-                                <PlayerFilmCard {...card} imageSize={"45"} />
+                                <PlayerFilmCard {...card} imageSize={"30"} />
                             </a>
                         </SwiperSlide>
                     })}
@@ -64,4 +76,4 @@ const CompilationSlider = ({setModalOpen, isSliderOpen, setIsSliderOpen, movies,
 
 }
 
-export default CompilationSlider
+export default CompilationSliderMobile
