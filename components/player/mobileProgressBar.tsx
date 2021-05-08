@@ -65,6 +65,7 @@ const MobileProgressBar = ({
 
           className={`bg-popupBackground rounded-lg p-3 w-auto h-32`}>
               <div 
+              id="mutePanel"
               style={{
                 touchAction: "none"
               }}
