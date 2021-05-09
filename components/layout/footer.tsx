@@ -31,7 +31,7 @@ const Footer = (data:{onAboutChillClick?:Function}) => (
           </div> */}
           {/* <div className="mt-3"> */}
           <div>
-            <a href="https://about.chillvision.ru" className="cursor-pointer" onClick={()=>data.onAboutChillClick()}>
+            <a href="/about-us" className="cursor-pointer" onClick={()=>data.onAboutChillClick()}>
               О CHILL
           </a>
           </div>
