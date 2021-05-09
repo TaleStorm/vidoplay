@@ -54,7 +54,7 @@ const FilmCategorySliderCard = (data) => {
 		<div>
 		<div className="flex flex-row justify-between flex-wrap">
 			<div className={`flex flex-row pb-7 sm:pb-0`}>
-			{data.tags.map((tag, i) => {    
+			{data.tags && data.tags.map((tag, i) => {    
 				return <Tag genre={tag} key={i} tag={tag}/>
 			})}
 			</div>

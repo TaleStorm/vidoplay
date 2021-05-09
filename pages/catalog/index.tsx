@@ -74,7 +74,7 @@ const IndexPage = ({generCat, contryCat, localCat, yearCat }) => {
     }
 
     const res = await axios.post('/api/categorySearch', tmp)
-
+    console.log(res.data.data)
     setDisplayedMovies(res.data.data)
   }
 

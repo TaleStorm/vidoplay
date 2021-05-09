@@ -6,11 +6,12 @@ const MenuWrapper = (
     {
     children,
     controller,
-    parentClass=""
+    parentClass="",
+    id
     }
 ) => {
     return ( 
-    <Menu className={`relative h-9 ${parentClass}`} as="div" >
+    <Menu className={`relative h-9 ${parentClass}`} as="div"  >
     {({ open }) => (
       <>
         <Transition show={open} as={Fragment} enter="transition ease-out duration-100" enterFrom="transform opacity-0 scale-95" enterTo="transform opacity-100 scale-100" leave="transition ease-in duration-75" leaveFrom="transform opacity-100 scale-100" leaveTo="transform opacity-0 scale-95">

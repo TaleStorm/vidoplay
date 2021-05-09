@@ -60,12 +60,12 @@ const MobileProgressBar = ({
         className={`md:hidden w-9 h-9 mr-4 flex-shrink-0`}>
             <PlayIcon/>
         </div>
-        <MenuWrapper controller={muteController}>
+        <MenuWrapper controller={muteController} id="">
           <div 
 
           className={`bg-popupBackground rounded-lg p-3 w-auto h-32`}>
               <div 
-              id="mutePanel"
+
               style={{
                 touchAction: "none"
               }}
@@ -89,6 +89,7 @@ const MobileProgressBar = ({
                 style={{
                     height: `${currentVolume}%`
                 }}
+                id={`mutePanel`}
                 className={`absolute bottom-0 h-full w-full bg-orange`}>
                 </div>
             </div>
