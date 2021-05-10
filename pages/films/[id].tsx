@@ -59,7 +59,14 @@ export default function IndexPage({ movie, playlist, movies }) {
           </a>
         </nav>
 
-        <Video name={movie.title} series={series} movieId = {movie._id} movies = {movies} langs={movie.localization}/>
+        <Video 
+          name={movie.title} 
+          series={series} 
+          movieId = {movie._id} 
+          movies = {movies} 
+          langs={movie.localization}
+          isSerial={movie.type == "Сериал"}
+        />
         <div className={`hidden sm:block`}>
           <ReviewsAndLikes _likes={movie._likes} _dislikes={movie._dislikes} score={score} setscore={setscore} />
         </div>

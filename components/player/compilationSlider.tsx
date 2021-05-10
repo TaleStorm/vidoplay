@@ -2,7 +2,6 @@ import { MutableRefObject, useEffect, useRef, useState } from "react"
 import ChevronDown from "../icons/chevronDown"
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation } from 'swiper';
-import doramas from "../../data/doramas";
 import PlayerFilmCard from "../filmCards/playerFilmCard";
 
 SwiperCore.use([Navigation]);
