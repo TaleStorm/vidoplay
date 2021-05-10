@@ -3,7 +3,9 @@ import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import ProgressBar from './progressBar';
 import TopPlayerPanel from './topPlayerPanel';
 import CompilationSlider from './compilationSlider';
+import CompilationSliderSerial from './compilationSliderSerial';
 import CompilationModal from './compilationModal';
+import CompilationModalSerial from './compilationModalSerial';
 import PlayerModalOverlay from './playerModalOverlay';
 import EndedModal from './endedModal';
 import PauseIcon from "../playerIcons/pauseIcon";
@@ -166,7 +168,6 @@ export default function Player(data) {
       const spaceListener = (e) => {
         e.preventDefault();
         if (e.key == " ") {
-          console.log(realPanelState)
           if (realPanelState == "hidden") {
             setRealPanel("visible");
             globalGplayerAPI.method({ name: "pause" });
@@ -357,7 +358,6 @@ export default function Player(data) {
 
   useEffect(() => {
     const body = document.querySelector('body')
-    console.log("cursor changed")
     if (fullScreenHide) {
       body.style.cursor = "none"
     }
@@ -440,7 +440,6 @@ export default function Player(data) {
 
   const handlers = useSwipeable({
     onSwipedUp: (e) => {
-      console.log(e)
       const mutePanel = document.getElementById("mutePanel")
       if (e.event.target !== mutePanel) {
       if (mobileOverlayStage > 0) {
@@ -531,12 +530,20 @@ export default function Player(data) {
             />
           </PlayerModalOverlay>
           <div className="hidden md:block">
-          <div className={`${(buttonState === "hidden" || panelState === "hidden") && "opacity-0 "}`}>
-              <CompilationSlider setCurrentCompilationMovie={setCurrentCompilationMovie} movies={data.movies} setModalOpen={setIsMobileSliderOpen} isSliderOpen={isMobileSliderOpen} setIsSliderOpen={setIsSliderOpen} isFullscreen={isFullScreen} />
+            <div className={`${(buttonState === "hidden" || panelState === "hidden") && "opacity-0 "}`}>
+              <div className={`hidden md:block ${data.isSerial ? "md:hidden":""}`}>
+                <CompilationSlider setCurrentCompilationMovie={setCurrentCompilationMovie} movies={data.movies} setModalOpen={setIsCompliationModalOpen} isSliderOpen={isSliderOpen} setIsSliderOpen={setIsSliderOpen} isFullscreen={isFullScreen} />
                 <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
-                  <CompilationModal currentCompilationMovie={currentCompilationMovie} setModalOpen={setIsCompliationModalOpen} />
+                  <CompilationModal currentCompilationMovie={currentCompilationMovie} setModalOpen={setIsCompliationModalOpen}/>
                 </PlayerModalOverlay>
               </div>
+              <div className={`hidden md:block ${data.isSerial ? "":"md:hidden"}`}>
+                <CompilationSliderSerial setCurrentCompilationMovie={setCurrentCompilationMovie} movies={data.series[currentSeason]} setModalOpen={setIsCompliationModalOpen} isSliderOpen={isSliderOpen} setIsSliderOpen={setIsSliderOpen} isFullscreen={isFullScreen} />
+                <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
+                  <CompilationModalSerial currentCompilationMovie={currentCompilationMovie} setModalOpen={setIsCompliationModalOpen} setSerie={setSerie}/>
+                </PlayerModalOverlay>
+              </div>
+            </div>
           </div>
           
           <div className={`absolute inset-0 z-0 w-full h-full ${panelState}`} 
@@ -685,10 +692,16 @@ export default function Player(data) {
               langs={data.langs}
               actingState={actingState}
             />
-            <div className="hidden md:block">
+            <div className={`hidden md:block ${data.isSerial ? "md:hidden":""}`}>
               <CompilationSlider setCurrentCompilationMovie={setCurrentCompilationMovie} movies={data.movies} setModalOpen={setIsCompliationModalOpen} isSliderOpen={isSliderOpen} setIsSliderOpen={setIsSliderOpen} isFullscreen={isFullScreen} />
               <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
                 <CompilationModal currentCompilationMovie={currentCompilationMovie} setModalOpen={setIsCompliationModalOpen} />
+              </PlayerModalOverlay>
+            </div>
+            <div className={`hidden md:block ${data.isSerial ? "":"md:hidden"}`}>
+              <CompilationSliderSerial setCurrentCompilationMovie={setCurrentCompilationMovie} movies={data.series[currentSeason]} setModalOpen={setIsCompliationModalOpen} isSliderOpen={isSliderOpen} setIsSliderOpen={setIsSliderOpen} isFullscreen={isFullScreen} />
+              <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
+                <CompilationModalSerial currentCompilationMovie={currentCompilationMovie} setModalOpen={setIsCompliationModalOpen} setSerie={setSerie}/>
               </PlayerModalOverlay>
             </div>
             <ProgressBar
