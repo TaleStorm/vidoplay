@@ -3,19 +3,16 @@ import "swiper/swiper.scss"
 import "swiper/components/scrollbar/scrollbar.scss"
 import "swiper/components/pagination/pagination.scss"
 import "swiper/components/effect-fade/effect-fade.scss"
-import Head from 'next/head'
+import Head from "next/head"
 import { useEffect } from "react"
-import {LoginContextProvider} from "../components/context/loginContext"
+import { LoginContextProvider } from "../components/context/loginContext"
 import Layout from "../components/layout/layout"
 import { AuthModalContextProvider } from "../components/context/authModalContext"
 import { UserDisplayContextProvider } from "../components/context/userDisplayContext"
-import TagManager from 'react-gtm-module'
-
+import { TextSearchContextProvider } from "../components/context/textSearchContetxt"
+import TagManager from "react-gtm-module"
 
 function MyApp({ Component, pageProps }) {
-
- 
-  
   useEffect(() => {
     const appHeight = () => {
       let vh = window.innerHeight * 0.01
@@ -29,12 +26,11 @@ function MyApp({ Component, pageProps }) {
   }, [])
   useEffect(() => {
     const tagManagerArgs = {
-      gtmId: 'GTM-WVRTJ4M'
-  }
-  TagManager.initialize(tagManagerArgs)
+      gtmId: "GTM-WVRTJ4M",
+    }
+    TagManager.initialize(tagManagerArgs)
   }, [])
 
-  
   useEffect(() => {
     const listener = () => {
       window.dispatchEvent(new Event("resize"))
@@ -47,16 +43,18 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <UserDisplayContextProvider>
-    <AuthModalContextProvider>
-    <LoginContextProvider>
-        <Head>
-        <script src="//vk.com/js/api/openapi.js"></script>
-        </Head>
-      <Layout>
-      <Component {...pageProps} />
-      </Layout>
-    </LoginContextProvider>
-    </AuthModalContextProvider>
+      <AuthModalContextProvider>
+        <LoginContextProvider>
+          <TextSearchContextProvider>
+            <Head>
+              <script src="//vk.com/js/api/openapi.js"></script>
+            </Head>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </TextSearchContextProvider>
+        </LoginContextProvider>
+      </AuthModalContextProvider>
     </UserDisplayContextProvider>
   )
 }

@@ -1,8 +1,28 @@
 import FilmCategorySliderCard from "../../components/filmCategorySliderCard";
+import TextSearchContext from "../../components/context/textSearchContetxt"
+import React, {useContext, useState, useEffect} from "react"
+import useDebounce from "../../components/hooks/useDebounce"
+import axios from "axios";
 
 export default function Search() {
 
-  const cards = []
+  const textSearch = useContext(TextSearchContext)
+  const [displayedMovies, setDisplayedMovies] = useState([])
+  const debouncedSearchQuery = useDebounce(textSearch.text, 3000)
+
+  const getResults  = async () => {
+    const body = {
+      text: textSearch.text
+    }
+    const res = await axios.post('/api/textSearch', body)
+    console.log(res.data.data)
+    setDisplayedMovies(res.data.data)
+  }
+
+
+  useEffect(() => {
+    getResults()
+  }, [debouncedSearchQuery])
 
   return (
     <div>
@@ -29,7 +49,13 @@ export default function Search() {
       </nav>
       <div className="grid gap-7 grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 xl:grid-cols-4">
 
-        {cards.map((card, i) => <div key={i} className="col-span-1">{card}</div>)}
+      {displayedMovies.map((movie) => {
+            return (
+              <div className={`h-full w-full`}>
+                <FilmCategorySliderCard {...movie} />
+              </div>
+            )
+          })}
       </div>
     </div>
   )
