@@ -706,7 +706,6 @@ export default function Player(data) {
               currentQuality={currentQuality}
             />
           </div>
-        </div>
       </FullScreen>
     </div>
   )
