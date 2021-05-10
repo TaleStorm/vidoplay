@@ -15,7 +15,6 @@ export default function Search() {
       text: textSearch.text
     }
     const res = await axios.post('/api/textSearch', body)
-    console.log(res.data.data)
     setDisplayedMovies(res.data.data)
   }
 

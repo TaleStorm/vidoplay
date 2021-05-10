@@ -6,9 +6,7 @@ export default async (req, res) => {
           return res.status(404).json({ error: "Api not found." })
           break
         case "POST":
-            console.log('11111')
-          console.log(body)
-          let response = await fetch(`http://192.168.1.163:3001/api/textSearch`, { 
+          let response = await fetch(`${process.env.API_DOMAIN}/api/textSearch`, { 
             method: 'POST', // или 'PUT'
             body: JSON.stringify(body), // данные могут быть 'строкой' или {объектом}!
             headers: {
