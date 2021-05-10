@@ -531,18 +531,18 @@ export default function Player(data) {
           </PlayerModalOverlay>
           <div className="hidden md:block">
             <div className={`${(buttonState === "hidden" || panelState === "hidden") && "opacity-0 "}`}>
-              {/* <div className={`hidden md:block ${data.isSerial ? "md:hidden":""}`}> */}
+              <div className={`hidden md:block ${data.isSerial ? "md:hidden":""}`}>
                 <CompilationSlider setCurrentCompilationMovie={setCurrentCompilationMovie} movies={data.movies} setModalOpen={setIsCompliationModalOpen} isSliderOpen={isSliderOpen} setIsSliderOpen={setIsSliderOpen} isFullscreen={isFullScreen} />
                 <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
                   <CompilationModal currentCompilationMovie={currentCompilationMovie} setModalOpen={setIsCompliationModalOpen}/>
                 </PlayerModalOverlay>
-              {/* </div>
+              </div>
               <div className={`hidden md:block ${data.isSerial ? "":"md:hidden"}`}>
                 <CompilationSliderSerial setCurrentCompilationMovie={setCurrentCompilationMovie} movies={data.series[currentSeason]} setModalOpen={setIsCompliationModalOpen} isSliderOpen={isSliderOpen} setIsSliderOpen={setIsSliderOpen} isFullscreen={isFullScreen} />
                 <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
                   <CompilationModalSerial currentCompilationMovie={currentCompilationMovie} setModalOpen={setIsCompliationModalOpen} setSerie={setSerie}/>
                 </PlayerModalOverlay>
-              </div> */}
+              </div>
             </div>
           </div>
           
@@ -692,18 +692,18 @@ export default function Player(data) {
               langs={data.langs}
               actingState={actingState}
             />
-            {/* <div className={`hidden md:block ${data.isSerial ? "md:hidden":""}`}> */}
+            <div className={`hidden md:block ${data.isSerial ? "md:hidden":""}`}>
               <CompilationSlider setCurrentCompilationMovie={setCurrentCompilationMovie} movies={data.movies} setModalOpen={setIsCompliationModalOpen} isSliderOpen={isSliderOpen} setIsSliderOpen={setIsSliderOpen} isFullscreen={isFullScreen} />
               <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
                 <CompilationModal currentCompilationMovie={currentCompilationMovie} setModalOpen={setIsCompliationModalOpen} />
               </PlayerModalOverlay>
-            {/* </div> */}
-            {/* <div className={`hidden md:block ${data.isSerial ? "":"md:hidden"}`}>
+            </div>
+            <div className={`hidden md:block ${data.isSerial ? "":"md:hidden"}`}>
               <CompilationSliderSerial setCurrentCompilationMovie={setCurrentCompilationMovie} movies={data.series[currentSeason]} setModalOpen={setIsCompliationModalOpen} isSliderOpen={isSliderOpen} setIsSliderOpen={setIsSliderOpen} isFullscreen={isFullScreen} />
               <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
                 <CompilationModalSerial currentCompilationMovie={currentCompilationMovie} setModalOpen={setIsCompliationModalOpen} setSerie={setSerie}/>
               </PlayerModalOverlay>
-            </div> */}
+            </div>
             <ProgressBar
               isHidden={isHidden}
               setHidden={setHidden}
