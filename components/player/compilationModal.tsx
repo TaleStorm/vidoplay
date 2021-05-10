@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 const CompilationModal = ({setModalOpen, currentCompilationMovie}) => {
+    console.log(currentCompilationMovie.stringName)
     return (
     <div className={`w-96`}>
         <div className={`text-h2-mobile font-medium mb-2`}>Сериал {currentCompilationMovie.title}</div>
@@ -43,11 +44,11 @@ const CompilationModal = ({setModalOpen, currentCompilationMovie}) => {
                         Отмена
                     </button>
 
-                    <button onClick={() => {
-                        setModalOpen(false);
-                    }} className=" text-h2-mobile text-center text-white bg-orange p-2 duration-300 rounded-lg hover:bg-orange w-full flex items-center justify-center">
+                    <a
+	                    href={`/films/${currentCompilationMovie.stringName}`}
+                        className=" text-h2-mobile text-center text-white bg-orange p-2 duration-300 rounded-lg hover:bg-orange w-full flex items-center justify-center">
                         Воспроизвести
-                    </button>
+                    </a>
             </div>
         </div>
     </div>
