@@ -6,6 +6,8 @@ import SwiperCore, { Navigation } from 'swiper';
 SwiperCore.use([ Navigation]);
 
 import { SliderData } from '../interfaces'
+import ChevronRight from "./icons/chevronRight";
+import ChevronLeft from "./icons/chevronLeft";
 
 type SliderProps = SliderData
 
@@ -43,16 +45,19 @@ const Slider = (data) => (
                 })}
             </Swiper>
 
-        <div  className="ml-5 absolute inset-y-0 left-0 h-full flex flex-wrap content-center z-20" id="prevMainSlide">
-          <svg width="20" height="38" viewBox="0 0 20 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M18.4375 35.875L1.5625 19L18.4375 2.125" stroke="rgba(255,255,255,0.5)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
+        <div  
+        style={{
+          background: "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.21922272326899506) 47%, rgba(0,0,0,0.5833683815323004) 100%)"
+          }}
+        className={`opacity-50 hover:opacity-100 w-16 hidden z-10 absolute right-0 h-full sm:flex transition-all duration-200 cursor-pointer top-0 items-center`}  id={"nextMainSlide"}>
+            <ChevronRight classname={`  w-full h-full`}/>
 				</div>
-          
-        <div  className="mr-5 absolute inset-y-0 right-0 h-full flex flex-wrap content-center z-20" id="nextMainSlide">
-          <svg width="20" height="38" viewBox="0 0 20 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M1.5625 2.125L18.4375 19L1.5625 35.875" stroke="rgba(255,255,255,0.5)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
+        <div  
+        style={{
+          background: "linear-gradient(270deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.21922272326899506) 47%, rgba(0,0,0,0.5833683815323004) 100%)"
+          }}
+        className={`hidden w-16 z-10 sm:-mr-8 absolute left-0 top-0 h-full sm:block transition-all duration-200 opacity-50 hover:opacity-100 cursor-pointer`}  id={"prevMainSlide"}>
+           <ChevronLeft classname={`w-full h-full`}/>
 				</div>
       </div>
     );

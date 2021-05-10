@@ -65,11 +65,6 @@ export const getStaticProps = async (ctx) => {
       }
   }).filter(a => a.visibility === "true")
 
-  banners.push({
-    link: 'https://new.chillvision.ru/piloty',
-    image: '/images/Pilots.png',
-    visibility: 'true'
-  })
   const playlists = await ApiReq.getEntities("playlists")
   const comments = await ApiReq.getEntities("comments")
   let count = 1

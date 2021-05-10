@@ -139,6 +139,8 @@ export default function Player(data) {
   //Вот тут хэндлится вся логика фуллскрина
   useEffect(() => {
     if (globalGplayerAPI) {
+      const fullscreenOverlay = document.getElementsByClassName("fullscreen")[0]
+      const mainframe = document.getElementById("mainframe")
       if (!isFullScreen) {
         globalGplayerAPI.method({
           name: "resize", params: {
@@ -148,6 +150,11 @@ export default function Player(data) {
         })
       }
       else {
+        if (
+          screen.orientation.type  === "portrait-secondary" ||
+          screen.orientation.type === "portrait-primary") {
+
+        }
         globalGplayerAPI.method({
           name: "resize", params: {
             width: window.screen.availWidth,
@@ -329,8 +336,66 @@ export default function Player(data) {
   const [isMobile, setIsMobile] = useState(false)
   const [isMobileSliderOpen, setIsMobileSliderOpen] = useState(false)
   const overlayRef = useRef(null) as MutableRefObject<HTMLDivElement>
+  const [fullScreenHide, setFullScreenHide] = useState(false)
+  const [isMouseMoving, setIsMouseMoving] = useState(true)
+
+  useEffect(() => {
+    const body = document.querySelector('body')
+    console.log("cursor changed")
+    if (fullScreenHide) {
+      body.style.cursor = "none"
+    }
+    else {
+      body.style.cursor = "auto"
+    }
+  }, [fullScreenHide])
+
+  useEffect(() => {
+    if (isFullScreen && isMouseMoving) {
+      setFullScreenHide(false)
+    }
+    const timer = setTimeout(() => {
+      if (isFullScreen) {
+        setFullScreenHide(true)
+      } 
+    }, 4000)
+    if (isMouseMoving && !isFullScreen) {
+      clearTimeout(timer)
+    }
+
+    return () => {clearTimeout(timer)}
+  }, [isMouseMoving, isFullScreen])
+
+  useEffect(() => {
+    const listener = () => {
+      if (isFullScreen) {
+        setIsMouseMoving(true)
+        setTimeout(() => {
+          setIsMouseMoving(false)
+      }, 4000)
+      }    
+    }
+    setFullScreenHide(false)
+    window.addEventListener("mousemove", listener)
+    const timer = setTimeout(() => {
+      setFullScreenHide(true)
+    }, 4000)
+    if (!isFullScreen) {
+      clearTimeout(timer)
+    }
+    return () => {
+      clearTimeout(timer)
+      window.removeEventListener("mousemove", listener)
+    }
+  }, [isFullScreen])
+
+
+
+
   useEffect(() => {
     getPlayer()
+
+    
     if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
       // true for mobile device
       setIsMobile(true)
@@ -338,11 +403,11 @@ export default function Player(data) {
       // false for not mobile device
       setIsMobile(false)
     }
+    return () => {}
   }, [])
 
   const TouchListener = async (e) => {
     const playingPanel = document.getElementById("playingPanel")
-    
     if (e.target === playingPanel) {
       e.preventDefault()
       setMobileOverlayStage(1)
@@ -554,6 +619,8 @@ export default function Player(data) {
               currentQuality={currentQuality}
             />
           </div>
+            
+          </div>
 
           <div className={`absolute inset-0 w-full h-full ${realPanelState}`}  >
             <div 
@@ -639,7 +706,6 @@ export default function Player(data) {
               currentQuality={currentQuality}
             />
           </div>
-        </div>
       </FullScreen>
     </div>
   )

@@ -220,7 +220,8 @@ export default function Header() {
               {/* >640px */}
               <HeadPC/>
             </div>
-            <nav className="flex justify-end mt-6 sm:mt-0 relative z-20">
+            <nav className={`
+            ${router.pathname.split("/")[1] === "search" ? "hidden" : "hidden sm:flex"}  justify-end mt-6 sm:mt-0 relative z-20`}>
               <a
                 href="/search"
                 onClick={openSearch} className="text-base text-black-500 hover:text-orange ml-5 w-6 h-6 sm:h-8 sm:w-8">
@@ -229,17 +230,24 @@ export default function Header() {
                   <path d="M19.8218 19.8217L26.2501 26.25" stroke="white" strokeWidth="1" strokeMiterlimit="10" strokeLinecap="round" />
                 </svg>
               </a>
-              <div onClick={() => {
+              <div 
+              onClick={() => {
                 if (loginContext.userToken) {
                   router.push("/user")
                 }
                 else {
                   authModalContext.setModalOpen(true)
-                }
-                }} className={`w-6 h-6 sm:h-8 sm:w-8 hidden sm:block ${!loginContext.userToken ? "text-mainText" : "text-orange"} cursor-pointer ml-6`}>
+                }}}
+                className={`w-6 h-6 sm:h-8 sm:w-8
+                ${router.pathname.split("/")[1] === "search" ? "hidden" : "hidden sm:block"}
+                ${!loginContext.userToken ? "text-mainText" : "text-orange"} cursor-pointer ml-6`}>
               <UserIcon/>
               </div>
-              <div onClick={() => {setIsSidebarOpen(!isSidebarOpen)}} className={`sm:hidden ml-5 w-6 h-6 sm:h-8 sm:w-8 cursor-pointer ${isSidebarOpen ? 'text-orange' : "text-mainText"}`}>
+              
+              <div 
+              onClick={() => {setIsSidebarOpen(!isSidebarOpen)}} 
+              className={`sm:hidden ml-5 w-6 h-6 sm:h-8 sm:w-8 cursor-pointer 
+              ${isSidebarOpen ? 'text-orange' : "text-mainText"}`}>
               <MenuIcon isSidebarOpen={!isSidebarOpen}/>
               </div>
             </nav>
