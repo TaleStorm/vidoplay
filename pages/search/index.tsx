@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import FilmCategorySliderCard from "../../components/filmCategorySliderCard";
 
 export default function Search() {
@@ -7,7 +8,7 @@ export default function Search() {
   return (
     <div>
       <nav className="hidden sm:block w-min mb-4">
-        <a href="/" className="text-base flex items-center">
+        <a onClick={() => {window.history.back()}} className="text-base flex items-center">
           <svg
             width="17"
             height="17"

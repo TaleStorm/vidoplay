@@ -32,7 +32,8 @@ const nextConfig = {
       'kinopoisk-ru.clstorage.net',
       'www.film.ru',
       "dl.airtable.com",
-      'chillvision.ru'
+      'chillvision.ru',
+      's-ed1.cloud.gcore.lu'
     ],
   },
 }

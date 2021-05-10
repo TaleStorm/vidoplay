@@ -8,6 +8,7 @@ export default function Video(data) {
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
     const [isFullScreen, setFullScreen] = useState(false)
 
+    
     useEffect(() => {
         containRef.current.style.height = isFullScreen ? window.screen.height + "px": (containRef.current.getBoundingClientRect().width * 9/16) + "px"
     },[isFullScreen, dimensions])
