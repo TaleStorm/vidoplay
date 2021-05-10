@@ -58,8 +58,10 @@ const IndexPage = () => {
     setUserPassword(data._password)
 
     //Подгружаем по запросу в будущем!!
-    setFavourites(data.list.favorites)
-    setHistory(data.list.favorites)
+    if (data.list) {
+      setFavourites(data.list.favorites)
+      setHistory(data.list.favorites)
+    }
 
     setLoading(false)
     console.log(data)
