@@ -79,13 +79,7 @@ export default function Player(data) {
           }
         }
       });
-
     })
-
-    // gplayerAPI.on('tracks', (info) => {
-    //   console.log('[Event]', 'tracks')
-    //   console.log(info)
-    // })
 
     gplayerAPI.on("ended", () => {
       gplayerAPI.method({ name: "seekPercentage", params: 100 });
@@ -166,6 +160,29 @@ export default function Player(data) {
     }
   }, [isFullScreen, data.width])
 
+  // логика паузы по пробелу
+  useEffect(() => {
+    if (globalGplayerAPI) {
+      const spaceListener = (e) => {
+        e.preventDefault();
+        if (e.key == " ") {
+          console.log(realPanelState)
+          if (realPanelState == "hidden") {
+            setRealPanel("visible");
+            globalGplayerAPI.method({ name: "pause" });
+            setIsSliderOpen(true);
+          } else {
+            setRealPanel("hidden");
+            globalGplayerAPI.method({ name: "play" });
+            setIsSliderOpen(false);
+          }   
+        }
+        window.removeEventListener("keydown", spaceListener);
+      }
+      window.addEventListener("keydown", spaceListener);
+    }
+  }, [realPanelState])
+
   var removeFakeButton = () => {
     setPanel("visible");
     setButton("hidden");
@@ -189,7 +206,6 @@ export default function Player(data) {
       globalGplayerAPI.method({ name: "play" })
       setIsSliderOpen(false)
     }
-
   };
 
   var changeVideo = async (direction) => {
@@ -389,13 +405,11 @@ export default function Player(data) {
     }
   }, [isFullScreen])
 
-
-
-
   useEffect(() => {
+    //set global player API
     getPlayer()
 
-    
+    //mobile check
     if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
       // true for mobile device
       setIsMobile(true)
