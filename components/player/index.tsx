@@ -1,4 +1,4 @@
-import { MutableRefObject, useEffect, useRef, useState } from "react";
+import { MutableRefObject, useContext, useEffect, useRef, useState } from "react";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import ProgressBar from './progressBar';
 import TopPlayerPanel from './topPlayerPanel';
@@ -14,6 +14,7 @@ import MobileProgressBar from "./mobileProgressBar";
 import CompilationSliderMobile from "./compilationSliderMobile";
 import { useSwipeable } from "react-swipeable";
 import usePredictor from "../hooks/usePredictor";
+import PlayerContext from "../context/playerContext";
 
 export default function Player(data) {
   const [buttonState, setButton] = useState("visible");
@@ -32,8 +33,6 @@ export default function Player(data) {
   const [currentTimeBuffer, setVideoPercentBuffer] = useState("0");
   const [currentVolume, setVolumeCurrent] = useState(100);
   const [bufferVolume, setVolumeBuffer] = useState(100);
-  const [userWindow, setUserWindow] = useState({ width: 0, height: 0 });
-  const [isFullScreen, setFullScreen] = useState(false);
   const [isMuted, setMute] = useState(false);
   const [isDragged, setDrag] = useState(false);
   const [currentQuality, setCurrentQuality] = useState("AUTO");
@@ -45,6 +44,7 @@ export default function Player(data) {
   const [draggerPercent, setDraggerPercent] = useState("0");
   const [draggerVisible, setDraggerVisible] = useState(false);
   const [possibleDurationTime, setPossibleDurationTime] = useState(0);
+  const {setApi, isFullScreen, setFullScreen} = useContext(PlayerContext)
 
   const getPlayer = async () => {
     clearInterval(interval);
@@ -52,7 +52,7 @@ export default function Player(data) {
 
     const GcorePlayer = (window as any).GcorePlayer.gplayerAPI;
     const gplayerAPI = new GcorePlayer(document.getElementById("gplayer"))
-    setPlayer(gplayerAPI);
+    
 
     gplayerAPI.on('play', () => {
 
@@ -72,7 +72,6 @@ export default function Player(data) {
                 })
               }
             })
-            setUserWindow({ width: (window as any).innerWidth, height: (window as any).innerHeight })
           }
         }
       });
@@ -120,9 +119,16 @@ export default function Player(data) {
     }
 
     window.addEventListener("resize", resizeListener)
+    setPlayer(gplayerAPI);
 
     return { gplayerAPI: gplayerAPI, userWindow: { width: (window).innerWidth, height: (window).innerHeight } }
   }
+
+  useEffect(() => {
+    if (globalGplayerAPI) {
+      setApi(globalGplayerAPI)
+    }
+  }, [globalGplayerAPI])
 
   var tick = (duration, gplayerAPI) => {
     gplayerAPI.method({
@@ -139,8 +145,6 @@ export default function Player(data) {
   //Вот тут хэндлится вся логика фуллскрина
   useEffect(() => {
     if (globalGplayerAPI) {
-      const fullscreenOverlay = document.getElementsByClassName("fullscreen")[0]
-      const mainframe = document.getElementById("mainframe")
       if (!isFullScreen) {
       globalGplayerAPI.method({
           name: "resize", params: {
@@ -159,14 +163,12 @@ export default function Player(data) {
           name: "resize", params: {
             width: window.screen.availWidth,
             height: window.screen.availHeight
-            //            width: data.parentRef.current.getBoundingClientRect().width,
-            //            height: data.parentRef.current.getBoundingClientRect().height
           }
         })
         window.dispatchEvent(new Event("resize"))
       }
     }
-  }, [isFullScreen, data.width])
+  }, [isFullScreen])
 
 
 

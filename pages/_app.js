@@ -9,7 +9,10 @@ import {LoginContextProvider} from "../components/context/loginContext"
 import Layout from "../components/layout/layout"
 import { AuthModalContextProvider } from "../components/context/authModalContext"
 import { UserDisplayContextProvider } from "../components/context/userDisplayContext"
+import {UserContextProvider} from "../components/context/userContext"
 import TagManager from 'react-gtm-module'
+import { MovieContextProvider } from "../components/context/movieContext"
+import { PlayerContextProvider} from "../components/context/playerContext"
 
 
 function MyApp({ Component, pageProps }) {
@@ -27,6 +30,7 @@ function MyApp({ Component, pageProps }) {
       window.removeEventListener("resize", appHeight)
     }
   }, [])
+
   useEffect(() => {
     const tagManagerArgs = {
       gtmId: 'GTM-WVRTJ4M'
@@ -46,8 +50,11 @@ function MyApp({ Component, pageProps }) {
   }, [])
 
   return (
+    <MovieContextProvider>
+    <UserContextProvider>
     <UserDisplayContextProvider>
     <AuthModalContextProvider>
+    <PlayerContextProvider>
     <LoginContextProvider>
         <Head>
         <script src="//vk.com/js/api/openapi.js"></script>
@@ -56,8 +63,11 @@ function MyApp({ Component, pageProps }) {
       <Component {...pageProps} />
       </Layout>
     </LoginContextProvider>
+    </PlayerContextProvider>
     </AuthModalContextProvider>
     </UserDisplayContextProvider>
+    </UserContextProvider>
+    </MovieContextProvider>
   )
 }
 

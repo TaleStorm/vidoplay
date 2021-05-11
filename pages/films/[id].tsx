@@ -1,4 +1,4 @@
-import FilmDescription from "../../components/filmDescription"
+import FilmDescription from "../../components/movieComponents/filmDescription"
 import FilmComments from "../../components/filmComments"
 import Video from "../../components/video"
 import Series from "../../components/series"
@@ -6,12 +6,19 @@ import Screenshots from "../../components/screenshots"
 import FilmCategory from "../../components/filmCategory"
 import apiReq from "../../services/api-requests"
 import Head from "next/head"
-import { useState } from "react"
-import ReviewsAndLikes from "../../components/reviewsAndLikes"
+import { useContext, useEffect, useState } from "react"
+import ReviewsAndLikes from "../../components/movieComponents/reviewsAndLikes"
+import MovieContext from "../../components/context/movieContext"
 
 const ApiReq = new apiReq()
 
 export default function IndexPage({ movie, playlist, movies }) {
+
+  const movieContext = useContext(MovieContext)
+
+  useEffect(() => {
+    movieContext.setMovie(movie)
+  }, [])
 
   const [score, setscore] = useState(null)
 
@@ -61,24 +68,14 @@ export default function IndexPage({ movie, playlist, movies }) {
 
         <Video name={movie.title} series={series} movieId = {movie._id} movies = {movies} langs={movie.localization}/>
         <div className={`hidden sm:block`}>
-          <ReviewsAndLikes _likes={movie._likes} _dislikes={movie._dislikes} score={score} setscore={setscore} />
+          <ReviewsAndLikes score={score} setscore={setscore} />
         </div>
         <Series series={series} />
 
-        <FilmDescription
-          name={movie.title}
-          description={movie.excerpt}
-          yearPolicity={movie.age}
-          country={movie.contry}
-          janr={movie.gener}
-          director={movie.directors}
-          operator={movie.operators}
-          producer={movie.producers}
-          screenwriter={movie.scenarists}
-        />
+        <FilmDescription/>
 
         <div className="sm:hidden">
-          <ReviewsAndLikes _likes={movie._likes} _dislikes={movie._dislikes} score={score} setscore={setscore} />
+          <ReviewsAndLikes score={score} setscore={setscore} />
         </div>
 
         <div className="hidden sm:block ">
