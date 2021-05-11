@@ -40,11 +40,12 @@ const CompilationModal = ({
                         Отмена
                     </button>
 
-                    <a
-	                    href={`/films/${currentCompilationMovie.stringName}`}
+                    <button onClick={() => {
+                        setModalOpen(false);
                         changeSerie(currentCompilationMovie.serie - 1)
+                    }} className=" text-h2-mobile text-center text-white bg-orange p-2 duration-300 rounded-lg hover:bg-orange w-full flex items-center justify-center">
                         Воспроизвести
-                    </a>
+                    </button>
             </div>
         </div>
     </div>
