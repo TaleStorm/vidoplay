@@ -9,7 +9,6 @@ import EndedModal from './endedModal';
 import PauseIcon from "../playerIcons/pauseIcon";
 import ChevronLeft from "../icons/chevronLeft";
 import PlayIcon from "../playerIcons/playIcon";
-import { Console } from "node:console";
 import MobileProgressBar from "./mobileProgressBar";
 import CompilationSliderMobile from "./compilationSliderMobile";
 import { useSwipeable } from "react-swipeable";

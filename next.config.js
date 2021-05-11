@@ -22,6 +22,7 @@ const nextConfig = {
   },
   env: {
     URLPREFIX: urlPrefix,
+    ROOT: __dirname,
   },
   publicRuntimeConfig: {
     urlPrefix: urlPrefix,
