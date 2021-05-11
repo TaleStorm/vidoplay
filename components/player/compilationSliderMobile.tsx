@@ -16,7 +16,11 @@ const CompilationSliderMobile = ({
     setCurrentCompilationMovie,
      mobileOverlayStage,
     isMobile,
-    isFullScreen
+    isFullScreen, 
+    isMovie, 
+    title,
+    currentSerie,
+    changeSerie
 }) => {
 
     const sliderContainerRef = useRef() as MutableRefObject<HTMLDivElement>
@@ -51,7 +55,7 @@ const CompilationSliderMobile = ({
                 className={`w-full  overflow-hidden transition-all duration-300 ease-out`}>
                 <Swiper
                     spaceBetween={20}
-                    slidesPerView={ 2.5}
+                    slidesPerView={2.5}
                     allowTouchMove={true}
                     navigation={{
                         nextEl: '#next' + 1,
@@ -63,9 +67,20 @@ const CompilationSliderMobile = ({
                                 e.preventDefault()
                                 setIsSliderOpen(false)
                                 setModalOpen(true)
-                                setCurrentCompilationMovie(card)
+                                changeSerie(i)
+                                setCurrentCompilationMovie({
+                                    title: isMovie ? card.title : title,
+                                    image: card.image,
+                                    isMovie: isMovie,
+                                    serie: i + 1,
+                                })
                             }} className={`w-full relative z-20 cursor-pointer`}>
-                                <PlayerFilmCard {...card} imageSize={"30"} />
+                                <PlayerFilmCard 
+                                serie={i + 1}
+                                title = {isMovie ? card.title : title}
+                                isMovie = {isMovie}
+                                image={card.image}
+                                imageSize={"45"} />
                             </a>
                         </SwiperSlide>
                     })}

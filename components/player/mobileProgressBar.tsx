@@ -28,7 +28,7 @@ const MobileProgressBar = ({
 }) => {
 
     const muteController = (        
-    <div className={`w-9 h-9 md:hidden mr-4 flex-shrink-0`}>
+    <div className={`w-9 h-9 mr-4 flex-shrink-0`}>
             <MuteIcon/>
         </div>)
 
@@ -42,7 +42,7 @@ const MobileProgressBar = ({
         <div 
         className={`
         ${!isMobile && "hidden"}
-        ${isFullScreen &&  mobileOverlayStage < 1 ? "opacity-0 z-0" : "z-20 opacity-100"}
+        ${isFullScreen &&  mobileOverlayStage < 1 ? "hidden" : "z-20 opacity-100"}
         absolute bottom-8 flex px-5 transition-all duration-300 items-end w-full left-0
         `}
         >
@@ -57,7 +57,7 @@ const MobileProgressBar = ({
               setMobileOverlayStage(0)
             }
           }}
-        className={`md:hidden w-9 h-9 mr-4 flex-shrink-0`}>
+        className={`w-9 h-9 mr-4 flex-shrink-0`}>
             <PlayIcon/>
         </div>
         <MenuWrapper controller={muteController} id="">
@@ -102,7 +102,7 @@ const MobileProgressBar = ({
 
         <div className={`flex w-full h-6 items-center`}>
         <div
-        className={`text-h2-mobile font-medium md:hidden flex-shrink-0 mr-3`}
+        className={`text-h2-mobile font-medium flex-shrink-0 mr-3`}
         >
           {currentTimeUser}
         </div>
@@ -142,12 +142,12 @@ const MobileProgressBar = ({
                     <div className={`absolute bg-playerSecond top-0 h-full z-20`} style={{width:String(currentTimePercent)+"%"}}/>
                 </div>
                     
-                <span className="absolute font-medium md:block z-20 text-mainText text-sm pointer-events-none hidden" >
+                <span className="absolute font-medium z-20 text-mainText text-sm pointer-events-none hidden" >
                     {currentTimeUser} | {durationTimeUser}
                 </span>     
             </div>
             <div
-        className={`text-h2-mobile font-medium ml-3 md:hidden`}
+        className={`text-h2-mobile font-medium ml-3 `}
         >
         {durationTimeUser}
         </div>
