@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import FilmCategorySliderCard from "../../components/filmCategorySliderCard";
 import TextSearchContext from "../../components/context/textSearchContetxt"
 import React, {useContext, useState, useEffect} from "react"
