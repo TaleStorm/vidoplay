@@ -681,8 +681,6 @@ export default function Player(data) {
               currentQuality={currentQuality}
             />
           </div>
-            
-          </div>
 
           <div className={`absolute inset-0 w-full h-full ${realPanelState}`}  >
             <div 
