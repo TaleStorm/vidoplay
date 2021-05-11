@@ -59,8 +59,6 @@ export default function Player(data) {
     setIsPlaying,
     realPanelState,
     setRealPanel,
-    isMouseMoving,
-    setIsMouseMoving
   } = useContext(PlayerContext)
 
   const getPlayer = async () => {
@@ -75,6 +73,7 @@ export default function Player(data) {
             clearInterval(interval)
             setVideoPercentCurrent("0");
             removeFakeButton();
+            setIsPlaying(true)
             gplayerAPI.method({
               name: 'getDuration', params: {}, callback: (res) => {
                 setVideoDuration(res)
@@ -118,7 +117,7 @@ export default function Player(data) {
         }
       }
     }
-    
+
     window.addEventListener("fullscreenchange", fullScreenListener)
     setPlayer(gplayerAPI);
     window.addEventListener("click", (e) => {console.log(e.target)})

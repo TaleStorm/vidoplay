@@ -87,7 +87,6 @@ const MovieContextProvider = ({ children }: Props) => {
 const [predictions, setPredictions] = useState([])
 const isSeries = movie.type === "Сериал"
  
-
   useEffect(() => {
     const fetchPredicitons = async (id) => {
         const result = await axios.post("/api/predictions", {
