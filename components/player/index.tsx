@@ -15,11 +15,11 @@ import CompilationSliderMobile from "./compilationSliderMobile";
 import { useSwipeable } from "react-swipeable";
 import usePredictor from "../hooks/usePredictor";
 import PlayerContext from "../context/playerContext";
+import MovieContext from "../context/movieContext";
 
 export default function Player(data) {
   const [buttonState, setButton] = useState("visible");
   const [panelState, setPanel] = useState("hidden");
-  const [realPanelState, setRealPanel] = useState("hidden");
   const [currentSerie, setSerie] = useState(0);
   const [serieState, setSerieState] = useState("closed");
   const [currentSeason, setSeason] = useState(0);
@@ -39,23 +39,36 @@ export default function Player(data) {
   const [isEndedModalOpen, setIsEndedModalOpen] = useState(false);
   const [isCompliationModalOpen, setIsCompliationModalOpen] = useState(false);
   const [currentCompilationMovie, setCurrentCompilationMovie] = useState(data.movies[0]);
-  const [isSliderOpen, setIsSliderOpen] = useState(false);
   const [globalGplayerAPI, setPlayer] = useState(undefined);
   const [draggerPercent, setDraggerPercent] = useState("0");
   const [draggerVisible, setDraggerVisible] = useState(false);
   const [possibleDurationTime, setPossibleDurationTime] = useState(0);
-  const {setApi, isFullScreen, setFullScreen} = useContext(PlayerContext)
+  //Контекст, в идеале запихнуть в него всю функциональную часть плеера, здесь оставив лишь декорации
+  const {
+    setApi, 
+    isFullScreen, 
+    setFullScreen, 
+    isMobile, 
+    mobileOverlayStage, 
+    setMobileOverlayStage,
+    fullScreenHide,
+    setFullScreenHide,
+    isSliderOpen,
+    setIsSliderOpen,
+    isPlaying,
+    setIsPlaying,
+    realPanelState,
+    setRealPanel,
+    isMouseMoving,
+    setIsMouseMoving
+  } = useContext(PlayerContext)
 
   const getPlayer = async () => {
     clearInterval(interval);
     setVideoPercentCurrent("0");
-
     const GcorePlayer = (window as any).GcorePlayer.gplayerAPI;
     const gplayerAPI = new GcorePlayer(document.getElementById("gplayer"))
-    
-
     gplayerAPI.on('play', () => {
-
       gplayerAPI.method({
         name: 'getCurrentTime', params: {}, callback: (res) => {
           if (res < 0.1) {
@@ -92,8 +105,6 @@ export default function Player(data) {
       setIsEndedModalOpen(true);
     })
 
-
-
     //Вот тут хэндлится вся логика фуллскрина при нажатии на ESC
     const fullScreenListener = () => {
       if (window.innerWidth > 1000) {
@@ -107,20 +118,10 @@ export default function Player(data) {
         }
       }
     }
+    
     window.addEventListener("fullscreenchange", fullScreenListener)
-
-    const resizeListener = () => {
-      gplayerAPI.method({
-        name: "resize", params: {
-          width: "100%",
-          height: "100%"
-        }
-      })
-    }
-
-    window.addEventListener("resize", resizeListener)
     setPlayer(gplayerAPI);
-
+    window.addEventListener("click", (e) => {console.log(e.target)})
     return { gplayerAPI: gplayerAPI, userWindow: { width: (window).innerWidth, height: (window).innerHeight } }
   }
 
@@ -140,62 +141,14 @@ export default function Player(data) {
     })
   }
 
-
-
-  //Вот тут хэндлится вся логика фуллскрина
-  useEffect(() => {
-    if (globalGplayerAPI) {
-      if (!isFullScreen) {
-      globalGplayerAPI.method({
-          name: "resize", params: {
-            width: "100%",
-            height: "100%"
-          }
-        })
-      }
-      else {
-        if (
-          screen.orientation.type  === "portrait-secondary" ||
-          screen.orientation.type === "portrait-primary") {
-
-        }
-        globalGplayerAPI.method({
-          name: "resize", params: {
-            width: window.screen.availWidth,
-            height: window.screen.availHeight
-          }
-        })
-        window.dispatchEvent(new Event("resize"))
-      }
-    }
-  }, [isFullScreen])
-
-
-
   var removeFakeButton = () => {
     setPanel("visible");
     setButton("hidden");
   }
 
-  var showRealPanel = async (e) => {
-    if (e.target.id == "playingPanel") {
-      setRealPanel("visible");
-      setIsSliderOpen(true)
-      globalGplayerAPI.method({ name: "pause" });
-    }
-  }
 
   var setPlay = () => {
-    if (realPanelState == "hidden") {
-      setRealPanel("visible");
-      globalGplayerAPI.method({ name: "pause" })
-      setIsSliderOpen(true)
-    } else {
-      setRealPanel("hidden");
-      globalGplayerAPI.method({ name: "play" })
-      setIsSliderOpen(false)
-    }
-
+    setIsPlaying(!isPlaying)
   };
 
   var changeVideo = async (direction) => {
@@ -341,81 +294,12 @@ export default function Player(data) {
   
 
   //////////////////////////////////////////////////////////////////////
-
-  const [mobileOverlayStage, setMobileOverlayStage] = useState(0)
-  const [isMobile, setIsMobile] = useState(false)
   const [isMobileSliderOpen, setIsMobileSliderOpen] = useState(false)
   const overlayRef = useRef(null) as MutableRefObject<HTMLDivElement>
-  const [fullScreenHide, setFullScreenHide] = useState(false)
-  const [isMouseMoving, setIsMouseMoving] = useState(true)
-
-  const predictions = usePredictor("")
-
-  useEffect(() => {
-    const body = document.querySelector('body')
-    console.log("cursor changed")
-    if (fullScreenHide) {
-      body.style.cursor = "none"
-    }
-    else {
-      body.style.cursor = "auto"
-    }
-  }, [fullScreenHide])
-
-  useEffect(() => {
-    if (isFullScreen && isMouseMoving) {
-      setFullScreenHide(false)
-    }
-
-    const timer = setTimeout(() => {
-      if (isFullScreen) {
-        setFullScreenHide(true)
-      } 
-    }, 4000)
-
-    if (isMouseMoving && !isFullScreen) {
-      clearTimeout(timer)
-    }
-
-    return () => {clearTimeout(timer)}
-  }, [isMouseMoving, isFullScreen])
-
-  useEffect(() => {
-    const listener = () => {
-      if (isFullScreen) {
-        setIsMouseMoving(true)
-        setTimeout(() => {
-          setIsMouseMoving(false)
-      }, 4000)
-      }    
-    }
-    setFullScreenHide(false)
-    window.addEventListener("mousemove", listener)
-    const timer = setTimeout(() => {
-      setFullScreenHide(true)
-    }, 4000)
-    if (!isFullScreen) {
-      clearTimeout(timer)
-    }
-    return () => {
-      clearTimeout(timer)
-      window.removeEventListener("mousemove", listener)
-    }
-  }, [isFullScreen])
-
-
-
+  const predictions = useContext(MovieContext)
 
   useEffect(() => {
     getPlayer()
-
-    // Определяем, мобильное ли устройство
-    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
-      setIsMobile(true)
-    }
-    else{
-      setIsMobile(false)
-    }
     return () => {}
   }, [])
 
@@ -427,16 +311,6 @@ export default function Player(data) {
       setMobileOverlayStage(1)
     }
   }
-
-  //Таймаут для мобильного оверлея
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (mobileOverlayStage === 1) {
-        setMobileOverlayStage(0)
-      }
-    }, 4000)
-    return () => {clearTimeout(timer)}
-  }, [mobileOverlayStage])
 
 
   // Хэндлеры для свайпера на мобиле
@@ -544,7 +418,7 @@ export default function Player(data) {
           style={{
             touchAction: "none"
           }}
-          onClick={(e) => showRealPanel(e)} 
+          onClick={(e) => { if (e.target === document.getElementById("playingPanel")) {setPlay()}}}
           onTouchEnd={TouchListener}
           id="playingPanel"
           onKeyDown ={(e) => {
