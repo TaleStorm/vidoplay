@@ -20,7 +20,6 @@ export default function IndexPage({ movie, playlist, movies }) {
     const div = document.createElement("div");
     div.innerHTML = movie.excerpt
     const sanitizedText = div.textContent || div.innerText || ""
-
     movieContext.setMovie({...movie,excerpt:sanitizedText})
   }, [])
 
