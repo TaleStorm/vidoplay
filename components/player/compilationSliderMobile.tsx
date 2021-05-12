@@ -1,9 +1,10 @@
-import { MutableRefObject, useEffect, useRef, useState } from "react"
+import { MutableRefObject, useContext, useEffect, useRef, useState } from "react"
 import ChevronDown from "../icons/chevronDown"
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation } from 'swiper';
 import doramas from "../../data/doramas";
 import PlayerFilmCard from "../filmCards/playerFilmCard";
+import PlayerContext from "../context/playerContext";
 
 SwiperCore.use([Navigation]);
 const minWidth = 640
@@ -24,7 +25,7 @@ const CompilationSliderMobile = ({
 }) => {
 
     const sliderContainerRef = useRef() as MutableRefObject<HTMLDivElement>
-
+    const {isLandscape, setMobileOverlayStage} = useContext(PlayerContext)
     useEffect(() => {
         window.dispatchEvent(new Event('resize'));        
         if (isSliderOpen) {
@@ -40,6 +41,7 @@ const CompilationSliderMobile = ({
     return (
         <div className={` 
         ${!isMobile && "hidden"}
+        ${!isLandscape && "hidden"}
         ${isFullScreen &&  mobileOverlayStage < 1 ? "opacity-0 z-0" : "z-20 opacity-100"}
         absolute w-full items-end flex flex-col px-4 z-30 bottom-2`}>
             {/* <div
@@ -64,10 +66,9 @@ const CompilationSliderMobile = ({
                     {movies.map((card, i) => {
                         return <SwiperSlide key={i} className="">
                             <a onClick={(e) => {
-                                e.preventDefault()
-                                setIsSliderOpen(false)
-                                setModalOpen(true)
                                 changeSerie(i)
+                                setMobileOverlayStage(2)
+                                setIsSliderOpen(false)
                                 setCurrentCompilationMovie({
                                     title: isMovie ? card.title : title,
                                     image: card.image,

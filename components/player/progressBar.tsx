@@ -1,7 +1,8 @@
 import { Menu, Transition } from '@headlessui/react';
-import { Fragment, useState } from "react";
+import { Fragment, useContext, useState } from "react";
 
 import { ProgressBarData } from '../../interfaces'
+import PlayerContext from '../context/playerContext';
 import FullScreenIcon from '../playerIcons/fullScreen';
 import MuteIcon from '../playerIcons/muteIcon';
 import PlayIcon from '../playerIcons/playIcon';
@@ -26,12 +27,14 @@ export default function ProgressBar({isMobile, ...data}) {
     const currentTimeUser = convertTime(data.currentTime);
     const durationTimeUser = convertTime(data.durationTime);
     const possibleDurationTimeUser = convertTime(data.possibleDurationTime);
+    const {fullScreenHide} = useContext(PlayerContext)
 
     return(
       <div  
         className={`
           ${isMobile ? "hidden" : "flex"}
           ${data.isHidden ? "hidden" : ""}
+          ${fullScreenHide && "hidden"}
           absolute md:bottom-4 px-5 pb-5 md:px-0 md:pb-0 bottom-0 z-20 inset-x-0 md:mx-4 w-auto  items-end`
         }
         onMouseOver={(e) => data.setHidden(false)}

@@ -51,11 +51,11 @@ const LoginContextProvider = ({ children }: Props) => {
   };
 
   
-  // useEffect(() => {
-  //   (window as any).VK.init({
-  //     apiId: 7838936,
-  //   })
-  // }, [])
+  useEffect(() => {
+  (window as any).VK.init({
+      apiId: 7838936,
+    })
+ }, [])
 
   const VKLoginHandler = async (data) => {
     try {

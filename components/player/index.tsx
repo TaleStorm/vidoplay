@@ -44,6 +44,7 @@ export default function Player(data) {
   const [draggerPercent, setDraggerPercent] = useState("0");
   const [draggerVisible, setDraggerVisible] = useState(false);
   const [possibleDurationTime, setPossibleDurationTime] = useState(0);
+
   //Контекст, в идеале запихнуть в него всю функциональную часть плеера, здесь оставив лишь декорации
   const {
     setApi, 
@@ -67,14 +68,16 @@ export default function Player(data) {
     setVideoPercentCurrent("0");
     const GcorePlayer = (window as any).GcorePlayer.gplayerAPI;
     const gplayerAPI = new GcorePlayer(document.getElementById("gplayer"))
+
+
     gplayerAPI.on('play', () => {
       gplayerAPI.method({
         name: 'getCurrentTime', params: {}, callback: (res) => {
           if (res < 0.1) {
             clearInterval(interval)
             setVideoPercentCurrent("0");
-            removeFakeButton();
             setIsPlaying(true)
+            removeFakeButton();
             gplayerAPI.method({
               name: 'getDuration', params: {}, callback: (res) => {
                 setVideoDuration(res)
@@ -116,7 +119,6 @@ export default function Player(data) {
 
     window.addEventListener("fullscreenchange", fullScreenListener)
     setPlayer(gplayerAPI);
-    window.addEventListener("click", (e) => {console.log(e.target)})
     return { gplayerAPI: gplayerAPI, userWindow: { width: (window).innerWidth, height: (window).innerHeight } }
   }
 
@@ -125,6 +127,12 @@ export default function Player(data) {
       setApi(globalGplayerAPI)
     }
   }, [globalGplayerAPI])
+
+  useEffect(() => {
+    if (globalGplayerAPI) {
+    globalGplayerAPI.method({name: "stop"})
+    }
+  }, [currentSerie])
 
   var tick = (duration, gplayerAPI) => {
     gplayerAPI.method({
@@ -156,6 +164,7 @@ export default function Player(data) {
       window.addEventListener("keydown", spaceListener);
     }
   }, [realPanelState])
+
   var removeFakeButton = () => {
     setPanel("visible");
     setButton("hidden");
@@ -164,6 +173,9 @@ export default function Player(data) {
 
   var setPlay = () => {
     setIsPlaying(!isPlaying)
+    if (isPlaying) {
+      setIsSliderOpen(true)
+    }
   };
 
   var changeVideo = async (direction) => {
@@ -183,12 +195,15 @@ export default function Player(data) {
   }
 
   var changeSerie = async (newSerie) => {
+    setIsPlaying(false)
+    setMobileOverlayStage(0)
     if (isEndedModalOpen) {
       setIsEndedModalOpen(false);
     }
     clearInterval(interval);
-    setSerie(newSerie);
     setVideoPercentCurrent("0");
+    setSerie(newSerie);
+
   }
 
   var changeActing = async (newActing) => {
@@ -371,6 +386,7 @@ export default function Player(data) {
             height={data.height}
             src={`${data.series[currentSeason][currentSerie].videoId}?player_id=777`}
             allowFullScreen
+            allow='autoplay'
             frameBorder="0"
             id="gplayer"
           ></iframe>
@@ -439,7 +455,7 @@ export default function Player(data) {
               <div className={`hidden md:block ${data.isSerial ? "":"md:hidden"}`}>
                 <CompilationSliderSerial setCurrentCompilationMovie={setCurrentCompilationMovie} movies={data.series[currentSeason]} setModalOpen={setIsCompliationModalOpen} isSliderOpen={isSliderOpen} setIsSliderOpen={setIsSliderOpen} isFullscreen={isFullScreen} />
                 <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
-                  <CompilationModalSerial currentCompilationMovie={currentCompilationMovie} setModalOpen={setIsCompliationModalOpen} setSerie={setSerie}/>
+                  <CompilationModalSerial currentCompilationMovie={currentCompilationMovie} setModalOpen={setIsCompliationModalOpen} setSerie={changeSerie}/>
                 </PlayerModalOverlay>
               </div>
             </div>
@@ -462,7 +478,10 @@ export default function Player(data) {
             tabIndex={0}
           >
             
-          <div 
+          <div
+            onClick={(e) => {
+              setPlay()
+            }}
             style={{
               background: "linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%)"
             }}
@@ -470,14 +489,17 @@ export default function Player(data) {
             ${isFullScreen? "opacity-0 z-0" : "z-10 opacity-100"}
             ${fullScreenHide ? "opacity-0 z-0" : "z-10 opacity-100"}
             ${realPanelState === "visible" && "z-10 opacity-100"}
-            transition-all duration-400
+            ${isMobile && "hidden"}
+            transition-all duration-700 ease-out
             pointer-events-none absolute w-full h-full top-0 left-0`}
           >
 
 
           </div>
           
-          <div className={`${mobileOverlayStage > 0 ? "absolute bg-opacity-50 h-full" : "bg-opacity-0 h-0 absolute"} transition-all duration-400 bg-black bottom-0 left-0 w-full z-10 flex items-center overflow-hidden `}>
+          <div className={`${mobileOverlayStage > 0 ? "absolute bg-opacity-50 h-full" : "bg-opacity-0 h-0 absolute"} 
+          ${!isMobile && "hidden"}
+          transition-all duration-400 bg-black bottom-0 left-0 w-full z-10 flex items-center overflow-hidden `}>
             <div className={`w-full flex justify-between items-center px-5`}>
               <div className={`w-10 h-10 p-0.5 bg-opacity-20 bg-white  active:bg-orange  rounded-lg`}>
                 <ChevronLeft />
@@ -501,12 +523,10 @@ export default function Player(data) {
               <button
                 onClick={() => {
                   if (mobileOverlayStage === 1) {
-                    globalGplayerAPI.method({ name: "pause" })
-                    setMobileOverlayStage(2)
+                    setIsPlaying(false)
                   }
                   if (mobileOverlayStage === 2) {
-                    globalGplayerAPI.method({ name: "play" })
-                    setMobileOverlayStage(0)
+                    setIsPlaying(true)
                   }
                 }}
                 className={`flex-shrink-0 w-20 h-20 p-5 bg-opacity-20 bg-white  active:bg-orange rounded-lg`}>
@@ -524,7 +544,7 @@ export default function Player(data) {
           currentSerie={currentSerie}
           title={data.name}
           isMovie={!data.series.length}
-            isMobile={isMobile}
+          isMobile={isMobile}
           mobileOverlayStage={mobileOverlayStage} 
           setCurrentCompilationMovie={setCurrentCompilationMovie} 
           movies={data.series ? data.series[currentSeason] : predictions} 
@@ -657,7 +677,7 @@ export default function Player(data) {
             <div className={`hidden md:block ${data.isSerial ? "":"md:hidden"}`}>
               <CompilationSliderSerial setCurrentCompilationMovie={setCurrentCompilationMovie} movies={data.series[currentSeason]} setModalOpen={setIsCompliationModalOpen} isSliderOpen={isSliderOpen} setIsSliderOpen={setIsSliderOpen} isFullscreen={isFullScreen} />
               <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
-                <CompilationModalSerial currentCompilationMovie={currentCompilationMovie} setModalOpen={setIsCompliationModalOpen} setSerie={setSerie}/>
+                <CompilationModalSerial currentCompilationMovie={currentCompilationMovie} setModalOpen={setIsCompliationModalOpen} setSerie={changeSerie}/>
               </PlayerModalOverlay>
             </div>
             <ProgressBar

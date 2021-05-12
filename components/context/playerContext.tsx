@@ -17,7 +17,8 @@ const PlayerContext = React.createContext({
     isPlaying: false,
     setIsPlaying: (arg:boolean) => {},
     isMouseMoving: true,
-    setIsMouseMoving: (arg:boolean) => {}
+    setIsMouseMoving: (arg:boolean) => {},
+    isLandscape: true
 });
 
 interface Props {
@@ -34,7 +35,26 @@ const PlayerContextProvider = ({ children }: Props) => {
   const [isSliderOpen, setIsSliderOpen] = useState(false);
   const [realPanelState, setRealPanel] = useState("hidden");
   const [isMouseMoving, setIsMouseMoving] = useState(true)
+  const [isLandscape, setIsLandscape] = useState(true)
+  const [hasBeenPlayed, setHasBeenPlayed] = useState(false)
   
+
+// Определяем ориентацию (устройства)
+  useEffect(() => {
+    console.log(screen.orientation.angle)
+    const listener = () => {
+      if (screen.orientation.angle === 0) {
+        setIsLandscape(false)
+      }
+      else {
+        setIsLandscape(true)
+      }
+    }
+    listener()
+    window.addEventListener("orientationchange", listener)
+    
+    return () => {window.removeEventListener("orientationchange", listener)}
+  },[])
 
 //Определяем, мобильное ли устройство при маунте
   useEffect(() => {
@@ -51,17 +71,21 @@ const PlayerContextProvider = ({ children }: Props) => {
   useEffect(() => {
       if (api) {
         if (isPlaying) {
-            setRealPanel("hidden");
-            api.method({ name: "play" })
+            console.log("Вызван плей")
+            setMobileOverlayStage(0)
+            api.method({ name: "play", params: {}, callback: (res) => {
+              console.log(res)
+             }})
             setIsSliderOpen(false)
+            setHasBeenPlayed(true)
         }
         else {
-            setRealPanel("visible");
-            api.method({ name: "pause" })
-            setIsSliderOpen(true)
+            console.log('Вызван пауз')
+            setMobileOverlayStage(2)
+            api.method({ name: "pause" })   
         }
       }
-  }, [isPlaying])
+  }, [isPlaying, api])
 
 
 //Таймаут для мобильного оверлея
@@ -130,7 +154,7 @@ const PlayerContextProvider = ({ children }: Props) => {
     }
 
     return () => {clearTimeout(timer)}
-  }, [isMouseMoving, isFullScreen])
+  }, [isMouseMoving, isFullScreen, api])
 
   useEffect(() => {
     const listener = () => {
@@ -185,7 +209,8 @@ const PlayerContextProvider = ({ children }: Props) => {
         isPlaying,
         setIsPlaying,
         isMouseMoving,
-        setIsMouseMoving
+        setIsMouseMoving,
+        isLandscape
     }}
     >
       {children}
