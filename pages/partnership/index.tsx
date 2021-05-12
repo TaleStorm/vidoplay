@@ -7,6 +7,7 @@ import PartnershipHeroBlock from "../../components/partnershipHeroBlock";
 import ResizableTextInput from "../../components/inputs/resizableTextInput";
 import ImageInput from "../../components/inputs/imageInput";
 import Checkbox from "../../components/inputs/checkbox";
+import axios from "axios";
 
 
 const Partnership = () => {
@@ -48,6 +49,58 @@ const Partnership = () => {
     const [festivalInfo, setFestivalInfo] = useState("")
 
     const [conditions, setConditions] = useState("")
+    
+    const [images, setImages] = useState([])
+    const [poster, setPoster] = useState([]) 
+
+    const sendApplication = async () => {
+        const seriesImages = []
+        const posters = []
+        for (let image of images) {
+            const formData = new FormData();
+            formData.append("image", image, image.name)
+            formData.append("email", email)
+            const resp = await axios.post("/api/uploadPicture", formData, {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                }})
+            const url = "https://new.chillvision.ru/" + resp.data.url
+            seriesImages.push(url)
+        }
+        for (let singlePoster of poster) {
+            const formData = new FormData();
+            formData.append("image", singlePoster, singlePoster.name)
+            formData.append("email", email)
+            const resp = await axios.post("/api/uploadPicture", formData, {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                }})
+            const url = "https://new.chillvision.ru/" + resp.data.url
+            posters.push(url)
+        }
+        const airtableData = {
+            records: [
+                {
+                    "fields": {
+                        "name": name,
+                        "email": email,
+                        "series": seriesImages.map(a => ({url: a})),
+                        "posters": posters.map(a => ({url: a}))
+                    }
+                }
+            ]
+        }
+        const result = await fetch(`https://api.airtable.com/v0/app5Hw3RVknO5eZ4P/applications`, {
+        headers: {
+            'Authorization': 'Bearer keyVIkP5eKsQsa5gA', 
+            "Content-Type" : "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify(airtableData)
+        })
+        const data = await result.json()
+        console.log(data)
+    }
 
     return (
 <>
@@ -165,12 +218,16 @@ const Partnership = () => {
             />
 
             <ImageInput
+            images={poster}
+            setImages={setPoster}
             header={"Постер"}
             buttonText={`Прикрепить постер`}
             notice={`*  Постер — 400*520px`}
             multiple={false}
             />
-                        <ImageInput
+            <ImageInput
+            images={images}
+            setImages={setImages}
             header={"Обложки серий"}
             buttonText={`Прикрепить обложки`}
             notice={`*  Обложки серий — 400*400px и 1280*720px`}
@@ -227,6 +284,9 @@ const Partnership = () => {
         </div>
         </label>
         <button 
+        onClick={
+            sendApplication
+        }
         className="mt-10 text-h2-mobile text-center text-white bg-orange p-3 duration-300 rounded-lg hover:bg-orange w-full md:w-64">
                 Отправить
         </button>

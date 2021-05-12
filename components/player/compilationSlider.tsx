@@ -7,7 +7,17 @@ import PlayerFilmCard from "../filmCards/playerFilmCard";
 SwiperCore.use([Navigation]);
 const minWidth = 640
 
-const CompilationSlider = ({setModalOpen, isSliderOpen, setIsSliderOpen, movies, setCurrentCompilationMovie, isFullscreen}) => {
+const CompilationSlider = ({
+    setModalOpen, 
+    isSliderOpen, 
+    setIsSliderOpen, 
+    movies, 
+    setCurrentCompilationMovie, 
+    isFullscreen,
+    isMovie,
+    title,
+    currentSerie
+}) => {
 
     const sliderContainerRef = useRef() as MutableRefObject<HTMLDivElement>
 
@@ -45,14 +55,27 @@ const CompilationSlider = ({setModalOpen, isSliderOpen, setIsSliderOpen, movies,
                     }}
                 >
                     {movies.map((card, i) => {
+                        if (i === currentSerie) {
+                            return
+                        }
                         return <SwiperSlide key={i} className="">
                             <a onClick={(e) => {
                                 e.preventDefault()
                                 setIsSliderOpen(false)
                                 setModalOpen(true)
-                                setCurrentCompilationMovie(card)
+                                setCurrentCompilationMovie({
+                                    title: isMovie ? card.title : title,
+                                    image: card.image,
+                                    isMovie: isMovie,
+                                    serie: i + 1,
+                                })
                             }} className={`w-full relative z-20 cursor-pointer`}>
-                                <PlayerFilmCard {...card} imageSize={"45"} />
+                                <PlayerFilmCard 
+                                serie={i + 1}
+                                title = {isMovie ? card.title : title}
+                                isMovie = {isMovie}
+                                image={card.image}
+                                imageSize={"45"} />
                             </a>
                         </SwiperSlide>
                     })}

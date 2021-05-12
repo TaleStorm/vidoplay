@@ -1,21 +1,21 @@
 import { useContext, useState } from "react"
-import AuthModalContext from "./context/authModalContext"
-import LoginContext from "./context/loginContext"
-import StarIcon from "./icons/starIcon"
-import ThumbsDown from "./icons/thumbsDown"
-import ThumbsUp from "./icons/thumbsUp"
+import AuthModalContext from "../context/authModalContext"
+import LoginContext from "../context/loginContext"
+import MovieContext from "../context/movieContext"
+import StarIcon from "../icons/starIcon"
+import ThumbsDown from "../icons/thumbsDown"
+import ThumbsUp from "../icons/thumbsUp"
 
-const ReviewsAndLikes = ({setscore, score, _dislikes, _likes}) => {
+const ReviewsAndLikes = ({setscore, score}) => {
     const authModalContext = useContext(AuthModalContext)
     const loginContext = useContext(LoginContext)
-    const [likes, setLikes] = useState(_likes)
-    const [dislikes, setDislikes] = useState(_dislikes)
+    const {movie} = useContext(MovieContext)
+    const [likes, setLikes] = useState(movie._likes)
+    const [dislikes, setDislikes] = useState(movie._dislikes)
     const [hoveredscore, setHoveredscore] = useState(0)
     const [like, setLike] = useState(null)
-
-
-
     const stars = [1,2,3,4,5]
+
     return (
         <div className="text-sm col-span-1 flex flex-col sm:flex-row justify-end content-between mt-8 pb-2">
         <div className="text-sm col-span-1 flex items-center justify-end mt-8 mr-8">

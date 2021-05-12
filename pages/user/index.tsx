@@ -10,6 +10,8 @@ import UserDisplayContext from '../../components/context/userDisplayContext'
 import LoginContext from "../../components/context/loginContext"
 import getUser from "../api/getUser"
 import GoodToast from "../../components/goodtoast"
+import UserContext from "../../components/context/userContext"
+import { useRouter } from "next/router"
 
 const stageHeaders = {
   data: "Редактировать профиль",
@@ -19,6 +21,9 @@ const stageHeaders = {
 
 const IndexPage = () => {
   const { logOut } = useContext(LoginContext)
+  const { user, setUser } = useContext(UserContext)
+
+
   const [loading, setLoading] = useState(true)
   const [filmLoading, setFilmLoading] = useState(false)
   const {display, setDisplay} = useContext(UserDisplayContext)
@@ -28,7 +33,6 @@ const IndexPage = () => {
   const [favourites, setFavourites] = useState([])
 
   const [email, setEmail] = useState("anhelinas@yandex.ru")
-  const [username, setUsername] = useState("Angelina1414")
 
   const [name, setName] = useState("Ангелина")
   const [lastName, setLastName] = useState("Ангелинова")
@@ -38,34 +42,25 @@ const IndexPage = () => {
   const [currentPassword, setCurrentPassword] = useState(undefined)
   const [newPassword, setNewPassword] = useState(undefined)
   const [confrimPassword, setConfrimPassword] = useState(undefined)
-
+  const router = useRouter()
   const [exitModalOpen, setExitModalOpen] = useState(false)
 
   useEffect(() => {
     getUser()
-  }, [])
+  }, [user])
 
   const getUser = async () => {
-    const userId = localStorage.getItem("_user")
-    const { data } = await axios.post("/api/getUser", { userId })
-    console.log(data)
-    setEmail(data.email)
-
-    setName(data.firstname)
-    setLastName(data.lastname)
-    setPatronymic(data.middleName)
-
-    setUserPassword(data._password)
+    setEmail(user.email)
+    setName(user.firstname)
+    setLastName(user.lastname)
+    setPatronymic(user.middleName)
+    setUserPassword(user._password)
 
     //Подгружаем по запросу в будущем!!
-    if (data.list) {
-      setFavourites(data.list.favorites)
-      setHistory(data.list.favorites)
-    }
-
+    setFavourites(user.list.favorites)
+    setHistory(user.list.favorites)
     setLoading(false)
-    console.log(data)
-  }
+    }
 
   // useEffect(() => {
   //   if (display === "history" || display === "favourites") {
@@ -94,8 +89,17 @@ const IndexPage = () => {
         _password: userPassword
       }
     })
-    if(res.status === 200)
+    if (res.status === 200) {
+      setUser({
+        ...user,
+        firstname: name,
+        lastname: lastName,
+        middleName: patronymic,
+        _password: userPassword
+      })
       GoodToast("Изменения сохранены")
+    }
+      
     console.log(res)
   }
 
@@ -109,10 +113,12 @@ const IndexPage = () => {
             <div className={`text-h2-mobile mb-5`}> Вы точно хотите выйти?</div>
             <button
               onClick={() => {
+                setExitModalOpen(false)
+                router.push("/")
                 localStorage.removeItem("_user")
                 logOut("")
-                setExitModalOpen(false)
-                window.location.href = "/"
+                
+                
               }}
               className="mb-3 text-center text-h2-mobile text-white bg-orange p-3 duration-300 rounded-lg hover:bg-orange w-full"
             >
@@ -143,8 +149,8 @@ const IndexPage = () => {
                   >
                     <img src="/icons/default-avatar.svg" className={`w-25 h-25 mb-1 rounded-full`} />
                     <a className={`text-orange cursor-pointer mb-4 text-h2-mobile`}>Сменить аватар</a>
-                    <div className={`font-medium text-h1-mobile mb-1`}>{name}</div>
-                    <div className={`sm:mb-4 mb-3 text-h2-mobile opacity-70`}>{email}</div>
+                    <div className={`font-medium text-h1-mobile mb-1`}>{user.firstname}</div>
+                    <div className={`sm:mb-4 mb-3 text-h2-mobile opacity-70`}>{user.email}</div>
                   </div>
                   <svg
                     className="absolute top-0 right-0 sm:hidden"

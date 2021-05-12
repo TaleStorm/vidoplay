@@ -22,6 +22,7 @@ const nextConfig = {
   },
   env: {
     URLPREFIX: urlPrefix,
+    ROOT: __dirname,
   },
   publicRuntimeConfig: {
     urlPrefix: urlPrefix,
@@ -33,7 +34,8 @@ const nextConfig = {
       'www.film.ru',
       "dl.airtable.com",
       'chillvision.ru',
-      "hsto.org"
+      "hsto.org",
+      's-ed1.cloud.gcore.lu'
     ],
   },
 }
