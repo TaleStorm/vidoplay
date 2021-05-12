@@ -446,37 +446,58 @@ export default function Player(data) {
           </div>
           
           <div className={`absolute inset-0 z-0 w-full h-full ${panelState}`} 
-          {...handlers}
-          style={{
-            touchAction: "none"
-          }}
-          onClick={(e) => { if (e.target === document.getElementById("playingPanel")) {setPlay()}}}
-          onTouchEnd={TouchListener}
-          id="playingPanel"
-          onKeyDown ={(e) => {
-            e.preventDefault()
-            if (e.key == " ") {
-              setPlay()
-            }
-          }}
-          tabIndex={0}>
+            {...handlers}
+            style={{
+              touchAction: "none"
+            }}
+            onClick={(e) => { if (e.target === document.getElementById("playingPanel")) {setPlay()}}}
+            onTouchEnd={TouchListener}
+            id="playingPanel"
+            onKeyDown ={(e) => {
+              e.preventDefault()
+              if (e.key == " ") {
+                setPlay()
+              }
+            }}
+            tabIndex={0}
+          >
+            
           <div 
-          style={{
-            background: "linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%)"
-          }}
-          className={`
-          ${isFullScreen? "opacity-0 z-0" : "z-10 opacity-100"}
-          ${fullScreenHide ? "opacity-0 z-0" : "z-10 opacity-100"}
-          ${realPanelState === "visible" && "z-10 opacity-100"}
-          transition-all duration-400
-          pointer-events-none absolute w-full h-full top-0 left-0`}>
+            style={{
+              background: "linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%)"
+            }}
+            className={`
+            ${isFullScreen? "opacity-0 z-0" : "z-10 opacity-100"}
+            ${fullScreenHide ? "opacity-0 z-0" : "z-10 opacity-100"}
+            ${realPanelState === "visible" && "z-10 opacity-100"}
+            transition-all duration-400
+            pointer-events-none absolute w-full h-full top-0 left-0`}
+          >
+
 
           </div>
+          
           <div className={`${mobileOverlayStage > 0 ? "absolute bg-opacity-50 h-full" : "bg-opacity-0 h-0 absolute"} transition-all duration-400 bg-black bottom-0 left-0 w-full z-10 flex items-center overflow-hidden `}>
             <div className={`w-full flex justify-between items-center px-5`}>
               <div className={`w-10 h-10 p-0.5 bg-opacity-20 bg-white  active:bg-orange  rounded-lg`}>
                 <ChevronLeft />
               </div>
+              <TopPlayerPanel
+              data={data.series}
+              changeSeasonState={changeSeasonState}
+              changeSeason={changeSeason}
+              currentSeason={currentSeason}
+              seasonState={seasonState}
+              changeSerieState={changeSerieState}
+              changeSerie={changeSerie}
+              currentSerie={currentSerie}
+              serieState={serieState}
+              changeActingState={changeActingState}
+              changeActing={changeActing}
+              currentActing={currentActing}
+              actingState={actingState}
+              langs={data.langs}
+            />
               <button
                 onClick={() => {
                   if (mobileOverlayStage === 1) {
