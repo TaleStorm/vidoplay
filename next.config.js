@@ -35,7 +35,8 @@ const nextConfig = {
       "dl.airtable.com",
       'chillvision.ru',
       "hsto.org",
-      's-ed1.cloud.gcore.lu'
+      's-ed1.cloud.gcore.lu',
+      "habrastorage.org"
     ],
   },
 }
