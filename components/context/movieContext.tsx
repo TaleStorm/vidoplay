@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { ReactNode, useEffect, useState } from "react";
+import useSanitize from "../hooks/useSanitize";
 
 const MovieContext = React.createContext({
     setMovie: (arg:Object) => {},

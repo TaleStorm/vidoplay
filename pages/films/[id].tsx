@@ -17,7 +17,11 @@ export default function IndexPage({ movie, playlist, movies }) {
   const movieContext = useContext(MovieContext)
 
   useEffect(() => {
-    movieContext.setMovie(movie)
+    const div = document.createElement("div");
+    div.innerHTML = movie.excerpt
+    const sanitizedText = div.textContent || div.innerText || ""
+
+    movieContext.setMovie({...movie,excerpt:sanitizedText})
   }, [])
 
   const [score, setscore] = useState(null)
@@ -85,12 +89,13 @@ export default function IndexPage({ movie, playlist, movies }) {
           <ReviewsAndLikes score={score} setscore={setscore} />
         </div>
 
-        <div className="hidden sm:block ">
+        {/* <div className="hidden sm:block ">
           <Screenshots
             name={movie.title}
             screenshots={movie.screenshots}
           />
-        </div>
+        </div> */}
+
         <FilmComments comments={movie._comment} movieId={movie._id} />
 
         <div className="mt-8 sm:mx-0 grid grid-cols-1">
