@@ -24,7 +24,7 @@ const FilmCategorySliderCard = (data) => {
 
   	<a
 	  href={`/films/${data.stringName}`}
-	  className="bg-cardBackground cursor-pointer relative transform transition-all duration-400 hover:-translate-y-2.5 shadow-none hover:shadow-card-hover flex flex-col h-full">
+	  className="bg-cardBackground cursor-pointer relative transform transition-all duration-400 lg:hover:-translate-y-2.5 shadow-none lg:hover:shadow-card-hover flex flex-col h-full">
 			<div ref={imgRef} className={`h-40 md:h-60 sm:h-${data.imageSize} bg-cover relative bg-center flex-shrink-0`}>
 				<Image
 					src={data.image}
