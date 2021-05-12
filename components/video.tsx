@@ -145,6 +145,7 @@ export default function Video(data) {
                     parentRef={targetRef}
                     isFullScreen= {isFullScreen}
                     setFullScreen= {setFullScreen}
+                    isSerial={data.isSerial}
                 />):
                 (<div className="flex justify-center items-center w-full h-full">
                     <h1 className="text-h1-mobile sm:text-3xl">

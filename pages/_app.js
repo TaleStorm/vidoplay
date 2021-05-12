@@ -3,22 +3,19 @@ import "swiper/swiper.scss"
 import "swiper/components/scrollbar/scrollbar.scss"
 import "swiper/components/pagination/pagination.scss"
 import "swiper/components/effect-fade/effect-fade.scss"
-import Head from 'next/head'
+import Head from "next/head"
 import { useEffect } from "react"
-import {LoginContextProvider} from "../components/context/loginContext"
+import { LoginContextProvider } from "../components/context/loginContext"
 import Layout from "../components/layout/layout"
 import { AuthModalContextProvider } from "../components/context/authModalContext"
 import { UserDisplayContextProvider } from "../components/context/userDisplayContext"
 import {UserContextProvider} from "../components/context/userContext"
-import TagManager from 'react-gtm-module'
+import TagManager from "react-gtm-module"
 import { MovieContextProvider } from "../components/context/movieContext"
 import { PlayerContextProvider} from "../components/context/playerContext"
-
+import { TextSearchContextProvider} from "../components/context/textSearchContetxt"
 
 function MyApp({ Component, pageProps }) {
-
- 
-  
   useEffect(() => {
     const appHeight = () => {
       let vh = window.innerHeight * 0.01
@@ -33,12 +30,11 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
     const tagManagerArgs = {
-      gtmId: 'GTM-WVRTJ4M'
-  }
-  TagManager.initialize(tagManagerArgs)
+      gtmId: "GTM-WVRTJ4M",
+    }
+    TagManager.initialize(tagManagerArgs)
   }, [])
 
-  
   useEffect(() => {
     const listener = () => {
       window.dispatchEvent(new Event("resize"))
@@ -53,18 +49,20 @@ function MyApp({ Component, pageProps }) {
     <MovieContextProvider>
     <UserContextProvider>
     <UserDisplayContextProvider>
-    <AuthModalContextProvider>
+      <AuthModalContextProvider>
     <PlayerContextProvider>
-    <LoginContextProvider>
-        <Head>
-        <script src="//vk.com/js/api/openapi.js"></script>
-        </Head>
-      <Layout>
-      <Component {...pageProps} />
-      </Layout>
-    </LoginContextProvider>
+        <LoginContextProvider>
+          <TextSearchContextProvider>
+            <Head>
+              <script src="//vk.com/js/api/openapi.js"></script>
+            </Head>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </TextSearchContextProvider>
+        </LoginContextProvider>
     </PlayerContextProvider>
-    </AuthModalContextProvider>
+      </AuthModalContextProvider>
     </UserDisplayContextProvider>
     </UserContextProvider>
     </MovieContextProvider>

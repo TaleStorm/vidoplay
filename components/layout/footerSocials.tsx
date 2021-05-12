@@ -1,7 +1,7 @@
 const FooterSocials = () => {
     const vkLink = "https://vk.com/chill.online"
     const okLink = "https://ok.ru/group/58370962686133"
-    const instagramLink = "https://www.instagram.com/accounts/login/"
+    const instagramLink =  'https://www.instagram.com/itschillonline/'
     const facebookLink = "https://www.facebook.com/itschillonline"
     const telegramLink = "https://t.me/chill_online"
     const youtubeLink = "https://www.youtube.com/channel/UC8uFUbZc0ozz4DpDJlbfL-g?view_as=subscriber"

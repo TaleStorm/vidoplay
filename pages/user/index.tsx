@@ -59,9 +59,8 @@ const IndexPage = () => {
     //Подгружаем по запросу в будущем!!
     setFavourites(user.list.favorites)
     setHistory(user.list.favorites)
-
     setLoading(false)
-  }
+    }
 
   // useEffect(() => {
   //   if (display === "history" || display === "favourites") {
