@@ -34,7 +34,8 @@ const nextConfig = {
       'www.film.ru',
       "dl.airtable.com",
       'chillvision.ru',
-      's-ed1.cloud.gcore.lu'
+      's-ed1.cloud.gcore.lu',
+      'habrastorage.org'
     ],
   },
 }

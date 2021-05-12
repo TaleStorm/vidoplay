@@ -10,6 +10,7 @@ import AuthModalContext from '../context/authModalContext';
 import ChevronLeft from '../icons/chevronLeft';
 import UserDisplayContext from '../context/userDisplayContext';
 
+
 const HeadNav = ({pathname, context}) => {
   const path = pathname.split("/")
   console.log(path[1] )
