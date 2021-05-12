@@ -13,6 +13,7 @@ import {UserContextProvider} from "../components/context/userContext"
 import TagManager from "react-gtm-module"
 import { MovieContextProvider } from "../components/context/movieContext"
 import { PlayerContextProvider} from "../components/context/playerContext"
+import { TextSearchContextProvider} from "../components/context/textSearchContetxt"
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
