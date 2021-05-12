@@ -5,8 +5,8 @@ import SwiperCore, { Navigation } from 'swiper';
 
 SwiperCore.use([ Navigation]);
 
-const ImageInput = ({buttonText, notice, header, multiple=true}) => {
-    const [images, SetImages] = useState([])
+const ImageInput = ({buttonText, notice, header, multiple=true, images, setImages}) => {
+    
     const leftRef = useRef(null) as MutableRefObject<HTMLDivElement>
     const rightRef = useRef() as MutableRefObject<HTMLDivElement>
     const alt = "bg-black bg-opacity-50 rounded-full right-0 absolute"
@@ -34,7 +34,7 @@ const ImageInput = ({buttonText, notice, header, multiple=true}) => {
             </div>
             <input type="file" multiple={multiple} className={`hidden`} onChange={(e) => {
                 const images = Array.from(e.target.files).filter(file => file.type.split("/")[0] === "image")
-                SetImages(images)
+                setImages(images)
                 e.target.files = null
             }}/>
             </label>
@@ -54,7 +54,7 @@ const ImageInput = ({buttonText, notice, header, multiple=true}) => {
                         }}
                         className={`bg-center ${multiple ? `hidden` : `h-56 mx-auto w-96` }  bg-cover`}>
                             <img src="/icons/close.svg" className={`ml-auto`} alt="" onClick={() => {
-                                SetImages(images.filter(file => image.name !== file.name))
+                                setImages(images.filter(file => image.name !== file.name))
                             }}/>
                         </div>) 
                        
@@ -78,7 +78,7 @@ const ImageInput = ({buttonText, notice, header, multiple=true}) => {
                         }}
                         className={`bg-center ${multiple ? `w-12 h-12 lg:w-18 lg:h-18` : `w-40 h-56` }  bg-cover`}>
                             <img src="/icons/close.svg" className={`ml-auto`} alt="" onClick={() => {
-                                SetImages(images.filter(file => image.name !== file.name))
+                                setImages(images.filter(file => image.name !== file.name))
                             }}/>
                         </div>
                         </SwiperSlide>

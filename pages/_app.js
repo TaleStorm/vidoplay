@@ -9,8 +9,10 @@ import { LoginContextProvider } from "../components/context/loginContext"
 import Layout from "../components/layout/layout"
 import { AuthModalContextProvider } from "../components/context/authModalContext"
 import { UserDisplayContextProvider } from "../components/context/userDisplayContext"
-import { TextSearchContextProvider } from "../components/context/textSearchContetxt"
+import {UserContextProvider} from "../components/context/userContext"
 import TagManager from "react-gtm-module"
+import { MovieContextProvider } from "../components/context/movieContext"
+import { PlayerContextProvider} from "../components/context/playerContext"
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
@@ -24,6 +26,7 @@ function MyApp({ Component, pageProps }) {
       window.removeEventListener("resize", appHeight)
     }
   }, [])
+
   useEffect(() => {
     const tagManagerArgs = {
       gtmId: "GTM-WVRTJ4M",
@@ -42,8 +45,11 @@ function MyApp({ Component, pageProps }) {
   }, [])
 
   return (
+    <MovieContextProvider>
+    <UserContextProvider>
     <UserDisplayContextProvider>
       <AuthModalContextProvider>
+    <PlayerContextProvider>
         <LoginContextProvider>
           <TextSearchContextProvider>
             <Head>
@@ -54,8 +60,11 @@ function MyApp({ Component, pageProps }) {
             </Layout>
           </TextSearchContextProvider>
         </LoginContextProvider>
+    </PlayerContextProvider>
       </AuthModalContextProvider>
     </UserDisplayContextProvider>
+    </UserContextProvider>
+    </MovieContextProvider>
   )
 }
 

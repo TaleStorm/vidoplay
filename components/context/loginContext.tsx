@@ -4,6 +4,7 @@ import BadToast from "../badtoast";
 import GoodToast from "../goodtoast";
 import authAxios from "../network/authAxios";
 import AuthModalContext from "./authModalContext";
+import UserContext from "./userContext";
 
 const LoginContext = React.createContext({
     userToken: null,
@@ -27,6 +28,7 @@ interface Props {
 const LoginContextProvider = ({ children }: Props) => {
   const [userToken, setUserToken] = useState(null);
   const {setModalOpen} = useContext(AuthModalContext)
+  const {setUser, setDefaultUser} = useContext(UserContext)
 
   const loginHandler = async (data) => {
     const resp = await authAxios.post("/api/login", {email: data.email, _password: data._password, type: "base-login"})
@@ -91,14 +93,17 @@ const LoginContextProvider = ({ children }: Props) => {
       
   }
 
-  const logIn = (token:string) => {
+  const logIn = async (token:string) => {
     window.localStorage.setItem("_user", token)
     setUserToken(token)
+    const userRes = await axios.post("/api/getUser", { userId: token })
+    setUser(userRes.data)
   }
 
   const logOut = () => {
     window.localStorage.removeItem("_user")
     setUserToken(null)
+    setDefaultUser()
   };
 
   const passwordReset = async (email) => {

@@ -17,7 +17,7 @@ const EndedModal = ({
 }) => {
 
     const [isLast, setIsLast] = useState(false)
-    const [next, setNext] = useState(series[currentSeason][currentSerie])
+    const [next, setNext] = useState(series.length ? series[currentSeason][currentSerie] : {})
     const [nextNumbers, setNextNumbers] = useState({season: 0, serie: 0,})
     const router = useRouter()
 
@@ -94,7 +94,7 @@ const EndedModal = ({
         <div className="bg-cardBackground w-full relative ">
             <div className={`md:h-54 h-24 bg-cover relative bg-center md:block hidden`}> 
                 <Image
-                    src={`${next.image}`}
+                    src={`${next?.image ? next.image : "https://chillvision.ru/media/lent_poster/383/49e20b8766c85b92858bdf473be281af.SW_400H_520CF_1.jpg"}`}
                     alt="Picture of the film"
                     layout="fill"
                     objectFit="cover"
@@ -103,7 +103,7 @@ const EndedModal = ({
             <div className={`p-3`}>
             <div className="flex justify-between items-center mb-1">
                 <p className="text-mainText text-xs md:text-h1-mobile font-medium">
-                    {isLast ? next.title : name}
+                    {isLast ? next?.title ? next.title : "" : name}
                 </p>
                 <p className={`opacity-70 text-xs md:text-h2-mobile`}>
                     30 мин.
