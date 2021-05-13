@@ -21,7 +21,7 @@ export default function FilmCategorySlider(data) {
     const minWidth = 640
     return (
       <div className="relative">
-        <div  className={`hidden w-12 z-10 sm:-mr-8 absolute -left-10 top-0 h-full sm:block transition-all duration-200 ${!leftActive ? "opacity-0" : "opacity-50 hover:opacity-100"} cursor-pointer`}  id={`prev${data.sliderIndex}`}>
+        <div  className={`hidden w-12 z-10 sm:-mr-8 absolute -left-10 top-0 h-full lg:block transition-all duration-200 ${!leftActive ? "opacity-0" : "opacity-50 hover:opacity-100"} cursor-pointer`}  id={`prev${data.sliderIndex}`}>
            <ChevronLeft classname={`w-full h-full`}/>
 				</div>
         <Swiper
@@ -75,7 +75,7 @@ export default function FilmCategorySlider(data) {
                   )
                 })}
             </Swiper>
-        <div  className={`${!rightActive ? "opacity-0" : "opacity-50 hover:opacity-100"} w-12 hidden z-10 absolute -right-10 h-full sm:flex transition-all duration-200 cursor-pointer top-0 items-center`}  id={`next${data.sliderIndex}`}>
+        <div  className={`${!rightActive ? "opacity-0" : "opacity-50 hover:opacity-100"} w-12 hidden z-10 absolute -right-10 h-full lg:block transition-all duration-200 cursor-pointer top-0 items-center`}  id={`next${data.sliderIndex}`}>
                 <ChevronRight classname={`  w-full h-full`}/>
 				</div>
       </div>

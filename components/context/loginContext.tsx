@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { ReactNode, useContext, useEffect, useState } from "react";
+import { useGoogleLogin } from "react-google-login";
 import BadToast from "../badtoast";
 import GoodToast from "../goodtoast";
 import authAxios from "../network/authAxios";
@@ -12,13 +13,12 @@ const LoginContext = React.createContext({
     logOut: (data) => {},
     registerHandler: (data) => {return new Promise((() => true))},
     VKLoginHandler: (data) => {return new Promise((() => true))},
-    passwordReset: (email) => {return new Promise((() => true))}
+    passwordReset: (email) => {return new Promise((() => true))},
+    googleLoginHandler: () => {}
+    
 });
 
-
-   const vkLogin = () => {
-
-   }
+const clientId = "549411935973-lhuu4ddmi0fi39kkuk06ak22bbpr80lg.apps.googleusercontent.com"
 
 
 interface Props {
@@ -29,6 +29,14 @@ const LoginContextProvider = ({ children }: Props) => {
   const [userToken, setUserToken] = useState(null);
   const {setModalOpen} = useContext(AuthModalContext)
   const {setUser, setDefaultUser} = useContext(UserContext)
+  
+  const onSuccess = (res) => {
+    console.log(res)
+  }
+
+  const onFailure = () => {
+    
+  }
 
   const loginHandler = async (data) => {
     const resp = await authAxios.post("/api/login", {email: data.email, _password: data._password, type: "base-login"})
@@ -43,11 +51,11 @@ const LoginContextProvider = ({ children }: Props) => {
   };
 
   
-  // useEffect(() => {
-  //   (window as any).VK.init({
-  //     apiId: 7838936,
-  //   })
-  // }, [])
+  useEffect(() => {
+  (window as any).VK.init({
+      apiId: 7838936,
+    })
+ }, [])
 
   const VKLoginHandler = async (data) => {
     try {
@@ -122,6 +130,17 @@ const LoginContextProvider = ({ children }: Props) => {
     }
   }, []);
 
+  const {signIn} = useGoogleLogin({
+    onSuccess,
+    onFailure,
+    clientId,
+    
+  })
+
+  const googleLoginHandler = async () => {
+    signIn()
+  }
+
   return (
     <LoginContext.Provider
       value={{
@@ -130,7 +149,8 @@ const LoginContextProvider = ({ children }: Props) => {
         loginHandler,
         registerHandler,
         VKLoginHandler,
-        passwordReset
+        passwordReset,
+        googleLoginHandler
       }}
     >
       {children}

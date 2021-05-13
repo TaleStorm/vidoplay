@@ -11,7 +11,8 @@ import ChevronLeft from "../icons/chevronLeft"
 import UserDisplayContext from "../context/userDisplayContext"
 import TextSearchContext from "../context/textSearchContetxt"
 
-const HeadNav = ({ pathname, context }) => {
+
+const HeadNav = ({pathname, context}) => {
   const path = pathname.split("/")
   console.log(path[1])
   const navDisplayed = () => {

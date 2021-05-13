@@ -5,6 +5,13 @@ import Router from "next/router"
 
 type CommentProps = DetachedComment
 
+const activeLinks = [
+  "https://chillvision.ru/films/holostye-papashi",
+  "https://chillvision.ru/films/kogda-ya-vyrastu",
+  "https://chillvision.ru/films/kristall",
+  "https://chillvision.ru/films/dnevniki-yunoy-lesbiyanki"
+]
+
 const CommentBlock = (commentData: CommentProps) => {
 
   const [userName,setUserName] = useState("loading")
@@ -33,7 +40,10 @@ const CommentBlock = (commentData: CommentProps) => {
 
   return (
     <div className="">
-      <a onClick = {() => {gotoFilm()}} className="text-base block mt-5">
+      <a 
+      href={activeLinks[Math.floor(Math.random()*activeLinks.length)]}
+      onClick = {() => {gotoFilm()}} 
+      className="text-base block mt-5">
         <div className={`flex items-center`}>
           <div className={`w-8 h-8 p-1 bg-user-bg rounded-full mr-2`}>
             <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">

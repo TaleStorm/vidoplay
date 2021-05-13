@@ -5,7 +5,7 @@ import { SeriesSliderCardData } from '../interfaces'
 type SeriesSliderCardProps = SeriesSliderCardData
 
 const SeriesSliderCard = (data: SeriesSliderCardProps) => (
-  	<div className="bg-cardBackground w-full relative">
+  	<div className="bg-cardBackground w-full relative rounded-lg transform transition-all duration-400 lg:hover:-translate-y-2.5 shadow-none lg:hover:shadow-card-hover">
 		<a href="#">
 			<div className={`h-24 sm:h-32 bg-cover bg-center relative`}> 
 				<Image
@@ -13,6 +13,7 @@ const SeriesSliderCard = (data: SeriesSliderCardProps) => (
 					alt="Picture of the film"
 					layout="fill"
 					objectFit="cover"
+					className={`bg-center rounded-t-lg`}
 				/>
 			</div>
 		</a>

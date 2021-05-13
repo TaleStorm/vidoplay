@@ -26,7 +26,7 @@ export default function Series(data: SeriesProps) {
                     </li>
                 })}
             </ul>
-            <div className="content mt-10">
+            <div className="content">
                 {data.series.map((serie, i) => {
                     return <div key={i} className={i == slider ? "" : "hidden"} >
                         <SeriesSlider series={serie} index={i} sliderInfo={settings} />

@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react"
+import { useContext, useEffect,createElement } from "react"
 import { FilmDescriptionData } from "../../interfaces"
 import MovieContext from "../context/movieContext"
 import useSanitize from "../hooks/useSanitize"
@@ -8,7 +8,6 @@ type FilmDescriptionProps = FilmDescriptionData
 const FilmDescription = () => {
 
   const {movie} = useContext(MovieContext)
-
   const sanitizedText = useSanitize(movie.excerpt)
 
   return (

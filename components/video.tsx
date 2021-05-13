@@ -154,6 +154,7 @@ export default function Video(data) {
                 </div>)}
             </div>
 
+
             <div className="text-sm sm:hidden mt-4 col-span-1 flex flex-wrap flex-row  items-center">
                 <div className="hidden">
                     <a href="/#" className="mt-2 self-center mr-3" >
@@ -220,9 +221,7 @@ export default function Video(data) {
                 </div>
             </div>
 
-            <h4 className="mt-6 font-roboto text-mainText font-normal text-xl sm:hidden block sm:mb-5 col-span-1">
-                {data.name}
-            </h4>
+
 
             <div className="hidden grid-cols-2 grid-rows-1 gap-4 mb-6">
                 <div className="hidden mt-10 space-x-6 col-span-1 sm:flex flex-wrap content-end">
@@ -238,7 +237,9 @@ export default function Video(data) {
 
         </div>
         <div className = {`w-full`}>
-
+        <h4 className="mt-6 font-roboto text-mainText font-normal text-xl sm:hidden block sm:mb-5 col-span-1">
+                {data.name}
+            </h4>
         </div>
         </>
     )

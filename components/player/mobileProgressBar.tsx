@@ -1,4 +1,5 @@
-import { MutableRefObject, useRef, useState } from "react"
+import { MutableRefObject, useContext, useRef, useState } from "react"
+import PlayerContext from "../context/playerContext"
 import MenuWrapper from "../layout/menuDropdownWrapper"
 import FullScreenIcon from "../playerIcons/fullScreen"
 import MuteIcon from "../playerIcons/muteIcon"
@@ -27,23 +28,28 @@ const MobileProgressBar = ({
     setCurrentVolume
 }) => {
 
-    const muteController = (        
-    <div className={`w-9 h-9 mr-4 flex-shrink-0`}>
-            <MuteIcon/>
-        </div>)
+
 
     const currentTimeUser = convertTime(currentTime)
     const durationTimeUser = convertTime(durationTime)
     const possibleDurationTimeUser = convertTime(possibleDurationTime)
     const volumeRef = useRef(null) as MutableRefObject<HTMLDivElement>
-    const [isMoving, setIsMoving] = useState(false)
+    const {isLandscape} = useContext(PlayerContext)
 
+
+    const muteController = (        
+      <div className={`w-9 h-9 mr-4 flex-shrink-0
+      ${!isLandscape ? "absolute left-0 -top-8" : "relative"}
+      `}>
+              <MuteIcon/>
+          </div>)
     return (
         <div 
         className={`
         ${!isMobile && "hidden"}
+        ${!isLandscape ? "px-2 bottom-0" : "px-5 bottom-8"}
         ${isFullScreen &&  mobileOverlayStage < 1 ? "hidden" : "z-20 opacity-100"}
-        absolute bottom-8 flex px-5 transition-all duration-300 items-end w-full left-0
+        absolute  flex  transition-all duration-300 items-end w-full left-0
         `}
         >
         <div 
@@ -57,7 +63,9 @@ const MobileProgressBar = ({
               setMobileOverlayStage(0)
             }
           }}
-        className={`w-9 h-9 mr-4 flex-shrink-0`}>
+        className={`w-9 h-9 mr-4 flex-shrink-0
+        ${!isLandscape && "hidden"}
+        `}>
             <PlayIcon/>
         </div>
         <MenuWrapper controller={muteController}>
@@ -65,7 +73,6 @@ const MobileProgressBar = ({
 
           className={`bg-popupBackground rounded-lg p-3 w-auto h-32`}>
               <div 
-
               style={{
                 touchAction: "none"
               }}
@@ -83,7 +90,8 @@ const MobileProgressBar = ({
                         setCurrentVolume(e, volumeRef)
                          }}
               className={`bg-white bg-opacity-40
-               w-7 h-full relative`}>
+               w-7 h-full relative
+               `}>
                 <div 
 
                 style={{
@@ -102,7 +110,7 @@ const MobileProgressBar = ({
 
         <div className={`flex w-full h-6 items-center`}>
         <div
-        className={`text-h2-mobile font-medium flex-shrink-0 mr-3`}
+        className={`text-h2-mobile font-medium flex-shrink-0 mr-3 ${!isLandscape && "hidden"}`}
         >
           {currentTimeUser}
         </div>
@@ -125,7 +133,10 @@ const MobileProgressBar = ({
                   setDrag(false)  
               }}
             >
-                <div className="relative bg-white top-0 bg-opacity-20 w-full h-6 z-10">
+                <div className={`relative bg-white top-0 bg-opacity-20 w-full
+                 ${!isLandscape ? "h-3" : "h-6"}
+                 z-10
+                `}>
                   <div  className={`mb-2 w-1 overflow-visible text-center z-20 justify-center items-center absolute bottom-6 flex ${draggerVisible ? '':'hidden'}`} style={{ left:draggerPercent + "%" }}>
                       <div className={`absolute h-10 -top-12 w-36 bg-white bg-opacity-20 flex justify-center rounded-xl`}>
                       <span className="text-white text-sm pointer-events-none flex items-center mb-1 font-medium" >
@@ -147,7 +158,7 @@ const MobileProgressBar = ({
                 </span>     
             </div>
             <div
-        className={`text-h2-mobile font-medium ml-3 `}
+        className={`text-h2-mobile font-medium ml-3 ${!isLandscape && "hidden"} `}
         >
         {durationTimeUser}
         </div>
@@ -157,7 +168,9 @@ const MobileProgressBar = ({
                 onClick={() => {
                     fullScreenFunc()
                   }}
-        className={`w-9 h-9 flex-shrink-0 ml-3`}>
+        className={`w-9 h-9 flex-shrink-0 ml-3
+        ${!isLandscape ? "absolute right-1 -top-8" : "relative"}
+        `}>
           <FullScreenIcon isFullScreen={isFullScreen}/>
         </div>
         </div>
