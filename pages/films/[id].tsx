@@ -17,10 +17,7 @@ export default function IndexPage({ movie, playlist, movies }) {
   const movieContext = useContext(MovieContext)
 
   useEffect(() => {
-    const div = document.createElement("div");
-    div.innerHTML = movie.excerpt
-    const sanitizedText = div.textContent || div.innerText || ""
-    movieContext.setMovie({...movie,excerpt:sanitizedText})
+    movieContext.setMovie({...movie})
   }, [])
 
   const [score, setscore] = useState(null)

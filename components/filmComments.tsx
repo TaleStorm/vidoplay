@@ -44,7 +44,7 @@ const FilmComments = (data: FilmCommentsProps) => {
         {data.comments?.map((comment, i) => {
           return (
             <div
-              className="bg-cardBackground sm:grid grid-cols-12 grid-rows-1 grid-flow-column gap-4 pt-3 sm:pb-5"
+              className="bg-cardBackground sm:grid grid-cols-12 grid-rows-1 grid-flow-column gap-4 pt-3 sm:pb-5 rounded-lg"
               key={i}
             >
               <div className="col-span-10 grid mx-7 sm:mx-0 justify-items-start">

@@ -8,13 +8,14 @@ type FilmDescriptionProps = FilmDescriptionData
 const FilmDescription = () => {
 
   const {movie} = useContext(MovieContext)
+  const sanitizedText = useSanitize(movie.excerpt)
 
   return (
     <div className="sm:mx-0 sm:py-10">
       <h4 className="hidden font-roboto text-mainText font-normal text-3xl sm:block mb-5">{movie.title}</h4>
       <div className="sm:grid grid-cols-2 grid-rows-1 gap-4 mb-6">
         <div className="col-span-1">
-          <h6 className="font-roboto text-mainText opacity-70 font-normal text-sm block mb-5">{movie.excerpt}</h6>
+          <h6 className="font-roboto text-mainText opacity-70 font-normal text-sm block mb-5">{sanitizedText}</h6>
         </div>
         <div className="col-span-1">
           <h6 className="font-roboto text-mainText opacity-70 font-normal text-sm block mb-5">

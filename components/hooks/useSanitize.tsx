@@ -7,7 +7,7 @@ const useSanitize = text => {
 			console.log(text)
 			div.innerHTML = text
 			setSanitizedText(div.textContent || div.innerText || "") 
-	}, [])
+	}, [text])
     return sanitizedText
 }
 

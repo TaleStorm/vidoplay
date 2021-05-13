@@ -143,7 +143,7 @@ const IndexPage = () => {
           ) : (
             <div className={`sm:flex sm:px-0`}>
               <div className={`sm:w-72 w-full flex-shrink-0 flex flex-col mr-16`}>
-                <div className={`relative sm:py-4 w-full flex items-center flex-col sm:bg-cardBackground sm:mb-3`}>
+                <div className={`relative sm:py-4 w-full flex items-center flex-col sm:bg-cardBackground sm:mb-3 rounded-lg`}>
                   <div
                     className={`flex items-center flex-col ${display && display !== "data" ? "hidden sm:flex" : ""}`}
                   >
@@ -221,7 +221,7 @@ const IndexPage = () => {
                     setDisplay("history")
                   }}
                   className={`px-5 py-6 ${display === "history" ? "bg-orange" : "bg-cardBackground"
-                    } mb-3 cursor-pointer transition-all duration-300 ${!display ? "" : "hidden sm:block"}`}
+                    } mb-3 cursor-pointer transition-all duration-300 ${!display ? "" : "hidden sm:block"} rounded-lg`}
                 >
                   <div className={`flex items-center text-h1-mobile font-medium`}>
                     <img src="/icons/notebook.svg" alt="" className={`flex-shrink-0 mr-4`} />
@@ -233,7 +233,7 @@ const IndexPage = () => {
                     setDisplay("favourites")
                   }}
                   className={`px-5 py-6 ${display === "favourites" ? "bg-orange" : "bg-cardBackground"
-                    } mb-3 cursor-pointer transition-all duration-300 ${!display ? "block" : "hidden sm:block"}`}
+                    } mb-3 cursor-pointer transition-all duration-300 ${!display ? "block" : "hidden sm:block"} rounded-lg`}
                 >
                   <div className={`flex items-center text-h1-mobile font-medium`}>
                     <img src="/icons/thumbs-up.svg" alt="" className={`flex-shrink-0 mr-4`} />

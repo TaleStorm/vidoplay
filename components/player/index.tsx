@@ -106,7 +106,6 @@ export default function Player(data) {
     const fullScreenListener = () => {
       if (window.innerWidth > 1000) {
         if (!window.screenTop && !window.screenY) {
-          setHidden(false);
           data.setFullScreen(false);
           setFullScreen(false);
         }
@@ -308,7 +307,6 @@ export default function Player(data) {
 
   const fullScreenFunc = async () => {
     if (isFullScreen) {
-      setHidden(false);
       handle.exit();
       data.setFullScreen(false);
       setFullScreen(false);
@@ -358,19 +356,6 @@ export default function Player(data) {
     }
   })
 
-  const [isHidden, setHidden] = useState(false);
-  var timeout;
-  const hidePanelOnFS = async (event) => {
-    setHidden(false)
-    if (data.isFullScreen) {
-      if (timeout !== undefined) {
-        window.clearTimeout(timeout);
-      }
-      timeout = window.setTimeout(function () {
-        setHidden(true)
-      }, 3000);
-    }
-  }
 
   return (
     <div>
@@ -378,7 +363,6 @@ export default function Player(data) {
         <div
           id="mainframe"
           className={`relative inline-block w-full h-full`}
-          onMouseMove= {(e) => hidePanelOnFS(e)}  
         >
 
           <iframe
@@ -577,8 +561,6 @@ export default function Player(data) {
             currentVolume={currentVolume}
           />
             <ProgressBar
-              isHidden={isHidden}
-              setHidden={setHidden}
               isMobile = {isMobile}
               possibleDurationTime={possibleDurationTime}
               setMouseOver={setMouseOver}
@@ -681,8 +663,6 @@ export default function Player(data) {
               </PlayerModalOverlay>
             </div>
             <ProgressBar
-              isHidden={isHidden}
-              setHidden={setHidden}
               isMobile = {isMobile}
               possibleDurationTime={possibleDurationTime}
               setMouseOver={setMouseOver}

@@ -25,11 +25,9 @@ const ImageInput = ({buttonText, notice, header, multiple=true, images, setImage
             </div>
             
             <div className={`md:w-72 w-full bg-orange flex justify-center items-center py-4 cursor-pointer rounded-lg hover:bg-opacity-80 transition-all duration-200 ease-out`}>
-                <div className={`flex items-center`}>
-                    <div className={`mr-4 text-h1-mobile`}>
+                <div className={`flex items-center text-h2-mobile`}>
                     {buttonText}
-                    </div>
-                    <img src="/icons/clip.svg" className={`flex-shrink-0 w-7 h-7 `}/>
+                    <img src="/icons/clip.svg" className={`ml-4 flex-shrink-0 w-5 h-5 `}/>
                 </div>                
             </div>
             <input type="file" multiple={multiple} className={`hidden`} onChange={(e) => {

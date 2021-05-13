@@ -33,11 +33,9 @@ export default function ProgressBar({isMobile, ...data}) {
       <div  
         className={`
           ${isMobile ? "hidden" : "flex"}
-          ${data.isHidden ? "hidden" : ""}
           ${fullScreenHide && "hidden"}
           absolute md:bottom-4 px-5 pb-5 md:px-0 md:pb-0 bottom-0 z-20 inset-x-0 md:mx-4 w-auto  items-end`
         }
-        onMouseOver={(e) => data.setHidden(false)}
       > 
         <div  className={`relative cursor-pointer hidden md:block`}>
             <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" className={`playerButtons cursor-pointer ${data.isPlaying? "hidden" : ""}`} onClick={() => data.setPlay()}>

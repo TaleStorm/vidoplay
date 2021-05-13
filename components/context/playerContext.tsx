@@ -177,7 +177,7 @@ const PlayerContextProvider = ({ children }: Props) => {
       clearTimeout(timer)
       window.removeEventListener("mousemove", listener)
     }
-  }, [isFullScreen])
+  }, [isFullScreen, api])
 
 //Прячем курсор когда надо, а когда не надо, не прячем)
   useEffect(() => {

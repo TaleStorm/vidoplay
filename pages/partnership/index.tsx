@@ -287,7 +287,7 @@ const Partnership = () => {
         onClick={
             sendApplication
         }
-        className="mt-10 text-h2-mobile text-center text-white bg-orange p-3 duration-300 rounded-lg hover:bg-orange w-full md:w-64">
+        className="mt-10 text-h2-mobile text-center text-white bg-orange p-4 duration-300 rounded-lg hover:bg-orange w-full md:w-64">
                 Отправить
         </button>
         </div>
