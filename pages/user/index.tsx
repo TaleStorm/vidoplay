@@ -56,9 +56,13 @@ const IndexPage = () => {
     setPatronymic(user.middleName)
     setUserPassword(user._password)
 
-    //Подгружаем по запросу в будущем!!
-    setFavourites(user.list.favorites)
-    setHistory(user.list.favorites)
+    //Проверку не убирать! Если отсутствуют данные, то страница крашится!
+    if (user.list) {
+      //Подгружаем по запросу в будущем!!
+      setFavourites(user.list.favorites)
+      setHistory(user.list.favorites)
+    }
+    
     setLoading(false)
     }
 

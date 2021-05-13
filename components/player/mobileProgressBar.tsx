@@ -60,7 +60,7 @@ const MobileProgressBar = ({
         className={`w-9 h-9 mr-4 flex-shrink-0`}>
             <PlayIcon/>
         </div>
-        <MenuWrapper controller={muteController} id="">
+        <MenuWrapper controller={muteController}>
           <div 
 
           className={`bg-popupBackground rounded-lg p-3 w-auto h-32`}>
@@ -158,7 +158,7 @@ const MobileProgressBar = ({
                     fullScreenFunc()
                   }}
         className={`w-9 h-9 flex-shrink-0 ml-3`}>
-          <FullScreenIcon/>
+          <FullScreenIcon isFullScreen={isFullScreen}/>
         </div>
         </div>
     )

@@ -1,13 +1,9 @@
 import { Menu, Transition } from '@headlessui/react';
-import { Fragment, useState } from "react";
-
-import { ProgressBarData } from '../../interfaces'
+import { Fragment } from "react";
 import FullScreenIcon from '../playerIcons/fullScreen';
 import MuteIcon from '../playerIcons/muteIcon';
 import PlayIcon from '../playerIcons/playIcon';
 import { convertTime } from './utils';
-
-type ProgressBarProps = ProgressBarData
 
 const qualities = [
   "AUTO",
@@ -190,7 +186,7 @@ export default function ProgressBar({isMobile, ...data}) {
         }}
         className={`cursor-pointer block ml-3 md:ml-0`}>
           <div className={`w-9 h-9 md:h-11 md:w-11 md:p-1.5 md:bg-white md:bg-opacity-20 rounded-lg md:hover:bg-orange flex items-center`}>
-          <FullScreenIcon/>
+            <FullScreenIcon isFullScreen={data.isFullScreen}/>
           </div>
         </div>
 
