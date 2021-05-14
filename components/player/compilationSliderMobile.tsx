@@ -64,7 +64,7 @@ const CompilationSliderMobile = ({
                     }}
                 >
                     {movies.map((card, i) => {
-                        return <SwiperSlide key={i} className="">
+                        if (i !== currentSerie) return <SwiperSlide key={i} className="">
                             <a onClick={(e) => {
                                 changeSerie(i)
                                 setMobileOverlayStage(2)

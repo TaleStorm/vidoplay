@@ -7,7 +7,7 @@ const MenuWrapper = (
     children,
     controller,
     parentClass="",
-    id
+    id=""
     }
 ) => {
     return ( 
