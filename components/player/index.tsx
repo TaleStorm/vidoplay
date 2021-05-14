@@ -17,11 +17,11 @@ import { useSwipeable } from "react-swipeable";
 import usePredictor from "../hooks/usePredictor";
 import PlayerContext from "../context/playerContext";
 import MovieContext from "../context/movieContext";
+import AgeWarning from "./ageWarning";
 
 export default function Player(data) {
   const [buttonState, setButton] = useState("visible");
   const [panelState, setPanel] = useState("hidden");
-  const [currentSerie, setSerie] = useState(0);
   const [serieState, setSerieState] = useState("closed");
   const [currentSeason, setSeason] = useState(0);
   const [seasonState, setSeasonState] = useState("closed");
@@ -61,6 +61,10 @@ export default function Player(data) {
     setIsPlaying,
     realPanelState,
     setRealPanel,
+    currentSerie,
+    setSerie,
+    setIsWarningVisible
+    
   } = useContext(PlayerContext)
 
   const getPlayer = async () => {
@@ -69,14 +73,13 @@ export default function Player(data) {
     const GcorePlayer = (window as any).GcorePlayer.gplayerAPI;
     const gplayerAPI = new GcorePlayer(document.getElementById("gplayer"))
 
-
     gplayerAPI.on('play', () => {
+      setIsPlaying(true)
       gplayerAPI.method({
         name: 'getCurrentTime', params: {}, callback: (res) => {
           if (res < 0.1) {
             clearInterval(interval)
             setVideoPercentCurrent("0");
-            setIsPlaying(true)
             removeFakeButton();
             gplayerAPI.method({
               name: 'getDuration', params: {}, callback: (res) => {
@@ -93,14 +96,19 @@ export default function Player(data) {
       });
     })
 
+    gplayerAPI.on("pause", () => {
+      setIsPlaying(false)
+    })
+
 
     gplayerAPI.on("ended", () => {
       console.log("Sirie ended")
       gplayerAPI.method({ name: "seekPercentage", params: 100 });
       gplayerAPI.method({ name: "pause" });
-      setRealPanel("visible");
       setIsEndedModalOpen(true);
     })
+
+
 
     //Вот тут хэндлится вся логика фуллскрина при нажатии на ESC
     const fullScreenListener = () => {
@@ -129,7 +137,7 @@ export default function Player(data) {
 
   useEffect(() => {
     if (globalGplayerAPI) {
-    globalGplayerAPI.method({name: "stop"})
+    globalGplayerAPI.method({name: "pause"})
     }
   }, [currentSerie])
 
@@ -171,9 +179,12 @@ export default function Player(data) {
 
 
   var setPlay = () => {
-    setIsPlaying(!isPlaying)
     if (isPlaying) {
       setIsSliderOpen(true)
+      globalGplayerAPI.method({name: "pause"})
+    }
+    else {
+      globalGplayerAPI.method({name: "play"})
     }
   };
 
@@ -194,6 +205,7 @@ export default function Player(data) {
   }
 
   var changeSerie = async (newSerie) => {
+    setIsWarningVisible(true)
     setIsPlaying(false)
     setMobileOverlayStage(0)
     if (isEndedModalOpen) {
@@ -328,7 +340,6 @@ export default function Player(data) {
     return () => {}
   }, [])
 
-
   const TouchListener = async (e) => {
     const playingPanel = document.getElementById("playingPanel")
     if (e.target === playingPanel) {
@@ -370,7 +381,7 @@ export default function Player(data) {
             height={data.height}
             src={`${data.series[currentSeason][currentSerie].videoId}?player_id=777`}
             allowFullScreen
-            allow='autoplay'
+            //allow='autoplay'
             frameBorder="0"
             id="gplayer"
           ></iframe>
@@ -393,6 +404,8 @@ export default function Player(data) {
               langs={data.langs}
             />
           </div>
+
+          <AgeWarning/>
 
           <div ref={overlayRef} className={`absolute inset-0 w-full h-full ${buttonState} pointer-events-none`} >
             <div className="flex justify-center flex-wrap content-center h-full">
@@ -485,7 +498,11 @@ export default function Player(data) {
           ${!isMobile && "hidden"}
           transition-all duration-400 bg-black bottom-0 left-0 w-full z-10 flex items-center overflow-hidden `}>
             <div className={`w-full flex justify-between items-center px-5`}>
-              <div className={`w-10 h-10 p-0.5 bg-opacity-20 bg-white  active:bg-orange  rounded-lg`}>
+              <div 
+               onClick={() => {
+                
+                changeSerie(currentSerie - 1)}}
+              className={`w-10 h-10 p-0.5 bg-opacity-20 bg-white  active:bg-orange  rounded-lg`}>
                 <ChevronLeft />
               </div>
               <TopPlayerPanel
@@ -505,19 +522,14 @@ export default function Player(data) {
               langs={data.langs}
             />
               <button
-                onClick={() => {
-                  if (mobileOverlayStage === 1) {
-                    setIsPlaying(false)
-                  }
-                  if (mobileOverlayStage === 2) {
-                    setIsPlaying(true)
-                  }
-                }}
+                onClick={setPlay}
                 className={`flex-shrink-0 w-20 h-20 p-5 bg-opacity-20 bg-white  active:bg-orange rounded-lg`}>
                 {mobileOverlayStage === 1 && <PauseIcon />}
                 {mobileOverlayStage === 2 && <PlayIcon />}
               </button>
-              <div className={`w-10 h-10 p-0.5 bg-opacity-20 bg-white  active:bg-orange  rounded-lg transform rotate-180`}>
+              <div 
+              onClick={() => {changeSerie(currentSerie + 1)}}
+              className={`w-10 h-10 p-0.5 bg-opacity-20 bg-white  active:bg-orange  rounded-lg transform rotate-180`}>
                 <ChevronLeft />
               </div>
             </div>
@@ -620,74 +632,6 @@ export default function Player(data) {
               </div>
 
             </div>
-
-            <TopPlayerPanel
-              data={data.series}
-              changeSeasonState={changeSeasonState}
-              changeSeason={changeSeason}
-              currentSeason={currentSeason}
-              seasonState={seasonState}
-              changeSerieState={changeSerieState}
-              changeSerie={changeSerie}
-              currentSerie={currentSerie}
-              serieState={serieState}
-              changeActingState={changeActingState}
-              changeActing={changeActing}
-              currentActing={currentActing}
-              langs={data.langs}
-              actingState={actingState}
-            />
-            <div className={`hidden md:block ${data.isSerial ? "md:hidden":""}`}>
-              <CompilationSlider
-              currentSerie={currentSerie}
-              title={data.name}
-              setCurrentCompilationMovie={setCurrentCompilationMovie} 
-              movies={data.series ? data.series[currentSeason] : predictions}
-              setModalOpen={setIsCompliationModalOpen} 
-              isSliderOpen={isSliderOpen} 
-              setIsSliderOpen={setIsSliderOpen} 
-              isFullscreen={isFullScreen} 
-              isMovie={!data.series.length}
-
-              />
-              <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
-                <CompilationModal 
-                changeSerie={changeSerie}
-                currentCompilationMovie={currentCompilationMovie} setModalOpen={setIsCompliationModalOpen} />
-              </PlayerModalOverlay>
-            </div>
-            <div className={`hidden md:block ${data.isSerial ? "":"md:hidden"}`}>
-              <CompilationSliderSerial setCurrentCompilationMovie={setCurrentCompilationMovie} movies={data.series[currentSeason]} setModalOpen={setIsCompliationModalOpen} isSliderOpen={isSliderOpen} setIsSliderOpen={setIsSliderOpen} isFullscreen={isFullScreen} />
-              <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
-                <CompilationModalSerial currentCompilationMovie={currentCompilationMovie} setModalOpen={setIsCompliationModalOpen} setSerie={changeSerie}/>
-              </PlayerModalOverlay>
-            </div>
-            <ProgressBar
-              isMobile = {isMobile}
-              possibleDurationTime={possibleDurationTime}
-              setMouseOver={setMouseOver}
-              draggerPercent={draggerPercent}
-              draggerVisible={draggerVisible}
-              setDrag={setDrag}
-              currentTimePercent={currentTimePercent}
-              bufferTimePercent={currentTimeBuffer}
-              getMousePos={getMousePos}
-              setCurrentDuration={setCurrentDuration}
-              setPlay={setPlay}
-              isPlaying={realPanelState == "hidden"}
-              durationTime={durationTime}
-              currentTime={currentTime}
-              handle={handle}
-              isFullScreen={isFullScreen}
-              fullScreenFunc={fullScreenFunc}
-              setFullScreen={fullScreenFunc}
-              changeMute={changeMute}
-              isMuted={isMuted}
-              setCurrentVolume={changeCurrentVolume}
-              currentVolume={currentVolume}
-              changeCurrentLevel={changeCurrentLevel}
-              currentQuality={currentQuality}
-            />
           </div>
       </FullScreen>
     </div>
