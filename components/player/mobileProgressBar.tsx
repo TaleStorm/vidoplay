@@ -114,20 +114,17 @@ const MobileProgressBar = ({
         >
           {currentTimeUser}
         </div>
-        <div  className={`w-full h-6 cursor-pointer md:mx-2`} 
-              onMouseMove= {(e) => getMousePos(e)}  
-              onClick= {(e) => setCurrentDuration(e)} 
-              onMouseUp={() => 
-                setDrag(false)} 
-              onMouseDown={() => 
-                setDrag(true)}
-              onMouseOut={() => setMouseOver()}
+        <div  className={`w-full h-6 cursor-pointer md:mx-2 select-none`} 
               onTouchStart={(e) => {
+                console.log(e)
                 setDrag(true)
                 getMousePos(e.touches[0])
+                
                 }}
               onTouchMove={(e) => getMousePos(e.touches[0])}
               onTouchEnd = {(e) => {
+                  console.log(e)
+                  getMousePos(e.changedTouches[0])
                   setCurrentDuration(e)
                   setMouseOver()
                   setDrag(false)  

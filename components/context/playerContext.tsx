@@ -18,7 +18,12 @@ const PlayerContext = React.createContext({
     setIsPlaying: (arg:boolean) => {},
     isMouseMoving: true,
     setIsMouseMoving: (arg:boolean) => {},
-    isLandscape: true
+    isLandscape: true,
+    currentSerie: 0,
+    setSerie: (arg:number) => {},
+    isWarningVisible: true,
+    setIsWarningVisible: (arg:boolean) => {},
+    warningDuration: 4
 });
 
 interface Props {
@@ -29,6 +34,7 @@ const PlayerContextProvider = ({ children }: Props) => {
   const [isFullScreen, setFullScreen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [mobileOverlayStage, setMobileOverlayStage] = useState(0)
+  const [currentSerie, setSerie] = useState(0);
   const [fullScreenHide, setFullScreenHide] = useState(false)
   const [api, setApi] = useState(null)
   const [isPlaying , setIsPlaying] = useState(false)
@@ -37,6 +43,8 @@ const PlayerContextProvider = ({ children }: Props) => {
   const [isMouseMoving, setIsMouseMoving] = useState(true)
   const [isLandscape, setIsLandscape] = useState(true)
   const [hasBeenPlayed, setHasBeenPlayed] = useState(false)
+  const [isWarningVisible, setIsWarningVisible] = useState(true)
+  const warningDuration = 4
   
 
 // Определяем ориентацию (устройства)
@@ -52,7 +60,6 @@ const PlayerContextProvider = ({ children }: Props) => {
     }
     listener()
     window.addEventListener("orientationchange", listener)
-    
     return () => {window.removeEventListener("orientationchange", listener)}
   },[])
 
@@ -74,10 +81,14 @@ const PlayerContextProvider = ({ children }: Props) => {
             setRealPanel("hidden")
             console.log("Вызван плей")
             setMobileOverlayStage(0)
-            api.method({ name: "play" })   
+            // api.method({ name: "play" })   
             // api.method({ name: "play", params: {}, callback: (res) => {
             //   console.log(res)
             //  }})
+            setHasBeenPlayed(true)
+            if  (!hasBeenPlayed) {
+              setIsWarningVisible(true)
+            }
             setIsSliderOpen(false)
             setHasBeenPlayed(true)
         }
@@ -139,10 +150,14 @@ const PlayerContextProvider = ({ children }: Props) => {
               }
             })
           }
-      
+          if (hasBeenPlayed) {
+            api.on("ready", () => {
+              api.method({name: "play"})
+            })
+          } 
         window.addEventListener("resize", resizeListener)
     }
-  }, [api])
+  }, [api, hasBeenPlayed])
 
   
 
@@ -217,7 +232,12 @@ const PlayerContextProvider = ({ children }: Props) => {
         setIsPlaying,
         isMouseMoving,
         setIsMouseMoving,
-        isLandscape
+        isLandscape,
+        currentSerie,
+        setSerie,
+        isWarningVisible,
+        setIsWarningVisible,
+        warningDuration
     }}
     >
       {children}

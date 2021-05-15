@@ -1,7 +1,7 @@
 const FullScreenIcon = ({isFullScreen}) => {
     if (isFullScreen) {
         return (
-            <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="36" height="36" viewBox="0 0 36 36" className={`w-full h-full`} fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M29.25 13.5H22.5V6.75" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M6.75 22.5H13.5V29.25" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M22.5 29.25V22.5H29.25" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
