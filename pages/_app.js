@@ -9,11 +9,11 @@ import { LoginContextProvider } from "../components/context/loginContext"
 import Layout from "../components/layout/layout"
 import { AuthModalContextProvider } from "../components/context/authModalContext"
 import { UserDisplayContextProvider } from "../components/context/userDisplayContext"
-import {UserContextProvider} from "../components/context/userContext"
+import { UserContextProvider } from "../components/context/userContext"
 import TagManager from "react-gtm-module"
 import { MovieContextProvider } from "../components/context/movieContext"
-import { PlayerContextProvider} from "../components/context/playerContext"
-import { TextSearchContextProvider} from "../components/context/textSearchContetxt"
+import { PlayerContextProvider } from "../components/context/playerContext"
+import { TextSearchContextProvider } from "../components/context/textSearchContetxt"
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
@@ -47,24 +47,26 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <MovieContextProvider>
-    <UserContextProvider>
-    <UserDisplayContextProvider>
-      <AuthModalContextProvider>
-    <PlayerContextProvider>
-        <LoginContextProvider>
-          <TextSearchContextProvider>
-            <Head>
-              <script src="//vk.com/js/api/openapi.js"></script>
-            </Head>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </TextSearchContextProvider>
-        </LoginContextProvider>
-    </PlayerContextProvider>
-      </AuthModalContextProvider>
-    </UserDisplayContextProvider>
-    </UserContextProvider>
+      <UserContextProvider>
+        <UserDisplayContextProvider>
+          <AuthModalContextProvider>
+            <PlayerContextProvider>
+              <LoginContextProvider>
+                <TextSearchContextProvider>
+                  <Head>
+                    <script src="//vk.com/js/api/openapi.js"></script>
+                    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
+                    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
+                  </Head>
+                  <Layout>
+                    <Component {...pageProps} />
+                  </Layout>
+                </TextSearchContextProvider>
+              </LoginContextProvider>
+            </PlayerContextProvider>
+          </AuthModalContextProvider>
+        </UserDisplayContextProvider>
+      </UserContextProvider>
     </MovieContextProvider>
   )
 }

@@ -20,6 +20,9 @@ module.exports = {
       cardBackground: "#232230",
       filmInfoBackground: "rgba(28, 27, 38, 0.5)",
       filmReviewBackground: "#313043",
+
+      "voice-button-voted": "#363548",
+      "voice-button-voted-hover": "#333243",
       "user-bg": "#6B6B70",
       orange:"#F8634A",
       white: "#fff",
