@@ -45,6 +45,9 @@ export default function Player(data) {
   const [draggerVisible, setDraggerVisible] = useState(false);
   const [possibleDurationTime, setPossibleDurationTime] = useState(0);
 
+  // Интро
+  const [isIntro, setIntro] = useState(false);
+
   //Контекст, в идеале запихнуть в него всю функциональную часть плеера, здесь оставив лишь декорации
   const {
     setApi, 
@@ -63,6 +66,8 @@ export default function Player(data) {
     setRealPanel,
   } = useContext(PlayerContext)
 
+  const intro = "https://chillvision.gcdn.co/videos/18824_73D1CCWxB499h8xa"
+
   const getPlayer = async () => {
     clearInterval(interval);
     setVideoPercentCurrent("0");
@@ -73,21 +78,26 @@ export default function Player(data) {
     gplayerAPI.on('play', () => {
       gplayerAPI.method({
         name: 'getCurrentTime', params: {}, callback: (res) => {
-          if (res < 0.1) {
-            clearInterval(interval)
-            setVideoPercentCurrent("0");
-            setIsPlaying(true)
-            removeFakeButton();
-            gplayerAPI.method({
-              name: 'getDuration', params: {}, callback: (res) => {
-                setVideoDuration(res)
-                setIntervalVideo(setInterval(() => tick(res, gplayerAPI), 500));
-                gplayerAPI.on('progress', (data) => {
-                  const percent = 100 * data.current / res
-                  setVideoPercentBuffer(percent.toFixed(1))
-                })
-              }
-            })
+          if (res < 0.05) {
+            // setIntro(true);
+            // const timer = setTimeout(() => {
+              setIntro(false);
+              clearInterval(interval)
+              setVideoPercentCurrent("0");
+              setIsPlaying(true)
+              removeFakeButton();
+              gplayerAPI.method({
+                name: 'getDuration', params: {}, callback: (res) => {
+                  setVideoDuration(res)
+                  setIntervalVideo(setInterval(() => tick(res, gplayerAPI), 500));
+                  gplayerAPI.on('progress', (data) => {
+                    const percent = 100 * data.current / res
+                    setVideoPercentBuffer(percent.toFixed(1))
+                  })
+                }
+              })
+              // clearTimeout(timer);
+            // }, 5000)
           }
         }
       });
@@ -368,7 +378,9 @@ export default function Player(data) {
           <iframe
             width={data.width}
             height={data.height}
+            // src={isIntro ? `${intro}?player_id=777` : `${data.series[currentSeason][currentSerie].videoId}?player_id=777`}
             src={`${data.series[currentSeason][currentSerie].videoId}?player_id=777`}
+            // src={`${intro}?player_id=777`}
             allowFullScreen
             allow='autoplay'
             frameBorder="0"

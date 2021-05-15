@@ -16,10 +16,7 @@ const FilmCategorySliderCard = (data) => {
 	const sanitizedText = useSanitize(data.excerpt)
 
 	const [isImageFailed, setIsImageFailed] = useState(false)
-
-
 	return (
-
   	<a
 	  href={`/films/${data.stringName}`}
 	  className="bg-cardBackground cursor-pointer relative transform transition-all duration-400 lg:hover:-translate-y-2.5 shadow-none lg:hover:shadow-card-hover flex flex-col h-full rounded-lg">

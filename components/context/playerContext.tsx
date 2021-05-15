@@ -71,15 +71,22 @@ const PlayerContextProvider = ({ children }: Props) => {
   useEffect(() => {
       if (api) {
         if (isPlaying) {
+            setRealPanel("hidden")
             console.log("Вызван плей")
             setMobileOverlayStage(0)
-            api.method({ name: "play", params: {}, callback: (res) => {
-              console.log(res)
-             }})
+            api.method({ name: "play" })   
+            // api.method({ name: "play", params: {}, callback: (res) => {
+            //   console.log(res)
+            //  }})
             setIsSliderOpen(false)
             setHasBeenPlayed(true)
         }
         else {
+            api.method({name: 'isPlaying', params: {}, callback: (res) => {
+              if (res) {
+                setRealPanel("visible")
+              }
+            }})
             console.log('Вызван пауз')
             setMobileOverlayStage(2)
             api.method({ name: "pause" })   
