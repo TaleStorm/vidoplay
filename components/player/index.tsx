@@ -97,7 +97,7 @@ export default function Player(data) {
       const timerforPanel = setTimeout(() => {
         removeFakeButton();
         clearTimeout(timerforPanel);
-      }, 9000)
+      }, 8000)
       setVideoPercentCurrent("0");
       gplayerAPI.method({
         name: 'getDuration', params: {}, callback: (res) => {
@@ -116,7 +116,6 @@ export default function Player(data) {
 
 
     gplayerAPI.on("ended", () => {
-      console.log("Sirie ended")
       gplayerAPI.method({ name: "seekPercentage", params: 100 });
       gplayerAPI.method({ name: "pause" });
       setIsEndedModalOpen(true);
@@ -148,7 +147,6 @@ export default function Player(data) {
           setVideoCurrent(res)
           setIntervalVideo(setInterval(() => tick(), 500));
           const percent = 100 * res / durationTime
-          console.log(percent)
           setVideoPercentCurrent(percent.toFixed(1))
         }
       })
@@ -173,7 +171,6 @@ export default function Player(data) {
         name: 'getCurrentTime', params: {}, callback: (res) => {
           setVideoCurrent(res)
           const percent = 100 * res / durationTime
-          console.log(res, durationTime)
           setVideoPercentCurrent(percent.toFixed(1))
         }
       })
@@ -410,7 +407,6 @@ export default function Player(data) {
             id="mainframe"
             className={`relative inline-block w-full h-full`}
           >
-
             <iframe
               width={data.width}
               height={data.height}
@@ -454,6 +450,7 @@ export default function Player(data) {
                 </div>
               </div>
             </div>
+
             <PlayerModalOverlay setModalOpen={setIsEndedModalOpen} modalOpen={isEndedModalOpen}>
               <EndedModal
                 name={data.name}
@@ -467,51 +464,74 @@ export default function Player(data) {
                 prediction={predictions[0]}
               />
             </PlayerModalOverlay>
+
             <div className="hidden md:block">
+              <div className={`${isPlaying ? "hidden" :"visible"}`}>
+                <TopPlayerPanel
+                  data={data.series}
+                  changeSeasonState={changeSeasonState}
+                  changeSeason={changeSeason}
+                  currentSeason={currentSeason}
+                  seasonState={seasonState}
+                  changeSerieState={changeSerieState}
+                  changeSerie={changeSerie}
+                  currentSerie={currentSerie}
+                  serieState={serieState}
+                  changeActingState={changeActingState}
+                  changeActing={changeActing}
+                  currentActing={currentActing}
+                  actingState={actingState}
+                  langs={data.langs}
+                />
+              </div>
               <div className={`${(buttonState === "hidden" || panelState === "hidden") && "opacity-0 "}`}>
+                
                 <CompilationSlider 
-                currentSerie={currentSerie}
-                title={data.name}
-                isMovie={!data.series.length}
-                setCurrentCompilationMovie={setCurrentCompilationMovie} 
-                movies={data.series ? data.series[currentSeason] : predictions} 
-                setModalOpen={setIsMobileSliderOpen} 
-                isSliderOpen={isMobileSliderOpen} 
-                setIsSliderOpen={setIsSliderOpen} 
-                isFullscreen={isFullScreen} />
-                  <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
+                  currentSerie={currentSerie}
+                  title={data.name}
+                  isMovie={!data.series.length}
+                  setCurrentCompilationMovie={setCurrentCompilationMovie} 
+                  movies={data.series ? data.series[currentSeason] : predictions} 
+                  setModalOpen={setIsMobileSliderOpen} 
+                  isSliderOpen={isMobileSliderOpen} 
+                  setIsSliderOpen={setIsSliderOpen} 
+                  isFullscreen={isFullScreen} 
+                />
+                <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
                   <CompilationModal 
                   changeSerie={changeSerie}
                   currentCompilationMovie={currentCompilationMovie} 
-                  setModalOpen={setIsCompliationModalOpen} />
-                  </PlayerModalOverlay>
-                </div>
-                <div className={`hidden md:block ${data.isSerial ? "":"md:hidden"}`}>
-                  <CompilationSliderSerial setCurrentCompilationMovie={setCurrentCompilationMovie} movies={data.series[currentSeason]} setModalOpen={setIsCompliationModalOpen} isSliderOpen={isSliderOpen} setIsSliderOpen={setIsSliderOpen} isFullscreen={isFullScreen} />
-                  <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
-                    <CompilationModalSerial currentCompilationMovie={currentCompilationMovie} setModalOpen={setIsCompliationModalOpen} setSerie={changeSerie}/>
-                  </PlayerModalOverlay>
-                </div>
+                  setModalOpen={setIsCompliationModalOpen} 
+                />
+                </PlayerModalOverlay>
               </div>
-            </div>
-            
-            <div className={`absolute inset-0 z-0 w-full h-full ${panelState}`} 
-              {...handlers}
-              style={{
-                touchAction: "none"
-              }}
-              onClick={(e) => { if (e.target === document.getElementById("playingPanel")) {setPlay()}}}
-              onTouchEnd={TouchListener}
-              id="playingPanel"
-              onKeyDown ={(e) => {
-                e.preventDefault()
-                if (e.key == " ") {
-                  setPlay()
-                }
-              }}
-              tabIndex={0}
-            >
               
+              <div className={`hidden md:block ${data.isSerial ? "":"md:hidden"}`}>
+                
+                <CompilationSliderSerial setCurrentCompilationMovie={setCurrentCompilationMovie} movies={data.series[currentSeason]} setModalOpen={setIsCompliationModalOpen} isSliderOpen={isSliderOpen} setIsSliderOpen={setIsSliderOpen} isFullscreen={isFullScreen} />
+                <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
+                  <CompilationModalSerial currentCompilationMovie={currentCompilationMovie} setModalOpen={setIsCompliationModalOpen} setSerie={changeSerie}/>
+                </PlayerModalOverlay>
+              </div>
+              </div>
+          </div>
+            
+          <div className={`absolute inset-0 z-0 w-full h-full ${panelState}`} 
+            {...handlers}
+            style={{
+              touchAction: "none"
+            }}
+            onClick={(e) => { if (e.target === document.getElementById("playingPanel")) {setPlay()}}}
+            onTouchEnd={TouchListener}
+            id="playingPanel"
+            onKeyDown ={(e) => {
+              e.preventDefault()
+              if (e.key == " ") {
+                setPlay()
+              }
+            }}
+            tabIndex={0}
+          >
             <div
               onClick={(e) => {
                 setPlay()
@@ -543,21 +563,21 @@ export default function Player(data) {
                   <ChevronLeft />
                 </div>
                 <TopPlayerPanel
-                data={data.series}
-                changeSeasonState={changeSeasonState}
-                changeSeason={changeSeason}
-                currentSeason={currentSeason}
-                seasonState={seasonState}
-                changeSerieState={changeSerieState}
-                changeSerie={changeSerie}
-                currentSerie={currentSerie}
-                serieState={serieState}
-                changeActingState={changeActingState}
-                changeActing={changeActing}
-                currentActing={currentActing}
-                actingState={actingState}
-                langs={data.langs}
-              />
+                  data={data.series}
+                  changeSeasonState={changeSeasonState}
+                  changeSeason={changeSeason}
+                  currentSeason={currentSeason}
+                  seasonState={seasonState}
+                  changeSerieState={changeSerieState}
+                  changeSerie={changeSerie}
+                  currentSerie={currentSerie}
+                  serieState={serieState}
+                  changeActingState={changeActingState}
+                  changeActing={changeActing}
+                  currentActing={currentActing}
+                  actingState={actingState}
+                  langs={data.langs}
+                />
                 <button
                   onClick={setPlay}
                   className={`flex-shrink-0 w-20 h-20 p-5 bg-opacity-20 bg-white  active:bg-orange rounded-lg`}>
@@ -573,18 +593,18 @@ export default function Player(data) {
             </div>
             <div className={` ${isFullScreen &&  mobileOverlayStage < 1 ? "hidden" : "z-20 opacity-100"}`}>
             <CompilationSliderMobile 
-            changeSerie={changeSerie}
-            currentSerie={currentSerie}
-            title={data.name}
-            isMovie={!data.series.length}
-            isMobile={isMobile}
-            mobileOverlayStage={mobileOverlayStage} 
-            setCurrentCompilationMovie={setCurrentCompilationMovie} 
-            movies={data.series ? data.series[currentSeason] : predictions} 
-            setModalOpen={setIsCompliationModalOpen} 
-            isSliderOpen={isMobileSliderOpen} 
-            setIsSliderOpen={setIsMobileSliderOpen} 
-            isFullScreen={isFullScreen}
+              changeSerie={changeSerie}
+              currentSerie={currentSerie}
+              title={data.name}
+              isMovie={!data.series.length}
+              isMobile={isMobile}
+              mobileOverlayStage={mobileOverlayStage} 
+              setCurrentCompilationMovie={setCurrentCompilationMovie} 
+              movies={data.series ? data.series[currentSeason] : predictions} 
+              setModalOpen={setIsCompliationModalOpen} 
+              isSliderOpen={isMobileSliderOpen} 
+              setIsSliderOpen={setIsMobileSliderOpen} 
+              isFullScreen={isFullScreen}
             />
             </div>
 
