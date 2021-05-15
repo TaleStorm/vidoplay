@@ -57,6 +57,7 @@ function MyApp({ Component, pageProps }) {
                     <script src="//vk.com/js/api/openapi.js"></script>
                     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
                     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
+                    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v10.0" nonce="SUBXHY9c"></script>
                   </Head>
                   <Layout>
                     <Component {...pageProps} />
