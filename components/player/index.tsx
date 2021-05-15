@@ -28,6 +28,7 @@ export default function Player(data) {
   const [currentActing, setActing] = useState(0);
   const [actingState, setActingState] = useState("closed");
   const [interval, setIntervalVideo] = useState(undefined);
+  const [realInterval, setRealInterval] = useState(0);
   const [durationTime, setVideoDuration] = useState(0);
   const [currentTime, setVideoCurrent] = useState(0);
   const [currentTimePercent, setVideoPercentCurrent] = useState("0");
@@ -44,6 +45,13 @@ export default function Player(data) {
   const [draggerPercent, setDraggerPercent] = useState("0");
   const [draggerVisible, setDraggerVisible] = useState(false);
   const [possibleDurationTime, setPossibleDurationTime] = useState(0);
+
+  // Интро
+  const [isIntro, setIntro] = useState(true);
+
+  //скелет
+  const [isLoaded, setisLoaded] = useState(true);
+
 
   //Контекст, в идеале запихнуть в него всю функциональную часть плеера, здесь оставив лишь декорации
   const {
@@ -67,34 +75,40 @@ export default function Player(data) {
     
   } = useContext(PlayerContext)
 
+  const intro = "https://chillvision.gcdn.co/videos/18824_73D1CCWxB499h8xa"
+
   const getPlayer = async () => {
-    clearInterval(interval);
     setVideoPercentCurrent("0");
     const GcorePlayer = (window as any).GcorePlayer.gplayerAPI;
     const gplayerAPI = new GcorePlayer(document.getElementById("gplayer"))
 
-    gplayerAPI.on('play', () => {
-      setIsPlaying(true)
-      gplayerAPI.method({
-        name: 'getCurrentTime', params: {}, callback: (res) => {
-          if (res < 0.1) {
-            clearInterval(interval)
-            setVideoPercentCurrent("0");
-            removeFakeButton();
-            gplayerAPI.method({
-              name: 'getDuration', params: {}, callback: (res) => {
-                setVideoDuration(res)
-                setIntervalVideo(setInterval(() => tick(res, gplayerAPI), 500));
-                gplayerAPI.on('progress', (data) => {
-                  const percent = 100 * data.current / res
-                  setVideoPercentBuffer(percent.toFixed(1))
-                })
-              }
-            })
-          }
-        }
-      });
+    gplayerAPI.on("ready", () => {
+      gplayerAPI.method({name: "play"});
     })
+
+    gplayerAPI.on('play', () => {
+      setButton("hidden");
+      setVideoPercentCurrent("0");
+      setIsPlaying(true);
+      const timer = setTimeout(() => {
+        setIntro(false);
+        clearTimeout(timer);
+      }, 5000)
+      const timerforPanel = setTimeout(() => {
+        removeFakeButton();
+        clearTimeout(timerforPanel);
+      }, 9000)
+      setVideoPercentCurrent("0");
+      gplayerAPI.method({
+        name: 'getDuration', params: {}, callback: (res) => {
+          setVideoDuration(res);
+          gplayerAPI.on('progress', (data) => {
+            const percent = 100 * data.current / res
+            setVideoPercentBuffer(percent.toFixed(1))
+          })
+        }
+      })
+  })
 
     gplayerAPI.on("pause", () => {
       setIsPlaying(false)
@@ -107,8 +121,6 @@ export default function Player(data) {
       gplayerAPI.method({ name: "pause" });
       setIsEndedModalOpen(true);
     })
-
-
 
     //Вот тут хэндлится вся логика фуллскрина при нажатии на ESC
     const fullScreenListener = () => {
@@ -131,6 +143,20 @@ export default function Player(data) {
 
   useEffect(() => {
     if (globalGplayerAPI) {
+      globalGplayerAPI.method({
+        name: 'getCurrentTime', params: {}, callback: (res) => {
+          setVideoCurrent(res)
+          setIntervalVideo(setInterval(() => tick(), 500));
+          const percent = 100 * res / durationTime
+          console.log(percent)
+          setVideoPercentCurrent(percent.toFixed(1))
+        }
+      })
+    }
+  }, [durationTime,globalGplayerAPI])
+
+  useEffect(() => {
+    if (globalGplayerAPI) {
       setApi(globalGplayerAPI)
     }
   }, [globalGplayerAPI])
@@ -141,14 +167,24 @@ export default function Player(data) {
     }
   }, [currentSerie])
 
-  var tick = (duration, gplayerAPI) => {
-    gplayerAPI.method({
-      name: 'getCurrentTime', params: {}, callback: (res) => {
-        setVideoCurrent(res)
-        const percent = 100 * res / duration
-        setVideoPercentCurrent(percent.toFixed(1))
-      }
-    })
+  useEffect(() => {
+    if (globalGplayerAPI) {
+      globalGplayerAPI.method({
+        name: 'getCurrentTime', params: {}, callback: (res) => {
+          setVideoCurrent(res)
+          const percent = 100 * res / durationTime
+          console.log(res, durationTime)
+          setVideoPercentCurrent(percent.toFixed(1))
+        }
+      })
+    }
+  }, [realInterval,durationTime])
+
+  var tick = () => {
+    if (realInterval > 60) {
+      setRealInterval(0);
+    };
+    setRealInterval(realInterval+1);
   }
 
   useEffect(() => {
@@ -189,7 +225,6 @@ export default function Player(data) {
   };
 
   var changeVideo = async (direction) => {
-    clearInterval(interval);
     if (direction == "prev") {
       setSerie(currentSerie - 1);
     } else {
@@ -199,22 +234,21 @@ export default function Player(data) {
   }
 
   var changeSeason = async (newSeason) => {
-    clearInterval(interval);
     setSeason(newSeason);
     setVideoPercentCurrent("0");
   }
 
   var changeSerie = async (newSerie) => {
+    setPanel("hidden");
+    setIntro(true);
     setIsWarningVisible(true)
     setIsPlaying(false)
     setMobileOverlayStage(0)
     if (isEndedModalOpen) {
       setIsEndedModalOpen(false);
     }
-    clearInterval(interval);
     setVideoPercentCurrent("0");
     setSerie(newSerie);
-
   }
 
   var changeActing = async (newActing) => {
@@ -370,210 +404,197 @@ export default function Player(data) {
 
   return (
     <div>
-      <FullScreen handle={handle}>
-        <div
-          id="mainframe"
-          className={`relative inline-block w-full h-full`}
-        >
-
-          <iframe
-            width={data.width}
-            height={data.height}
-            src={`${data.series[currentSeason][currentSerie].videoId}?player_id=777`}
-            allowFullScreen
-            //allow='autoplay'
-            frameBorder="0"
-            id="gplayer"
-          ></iframe>
-          
-          <div className={`absolute  top-0 left-0 w-full h-auto ${buttonState}`} >
-            <TopPlayerPanel
-              data={data.series}
-              changeSeasonState={changeSeasonState}
-              changeSeason={changeSeason}
-              currentSeason={currentSeason}
-              seasonState={seasonState}
-              changeSerieState={changeSerieState}
-              changeSerie={changeSerie}
-              currentSerie={currentSerie}
-              serieState={serieState}
-              changeActingState={changeActingState}
-              changeActing={changeActing}
-              currentActing={currentActing}
-              actingState={actingState}
-              langs={data.langs}
-            />
-          </div>
-
-          <AgeWarning/>
-
-          <div ref={overlayRef} className={`absolute inset-0 w-full h-full ${buttonState} pointer-events-none`} >
-            <div className="flex justify-center flex-wrap content-center h-full">
-              <div className="md:w-24 flex justify-end cursor-pointer w-12">
-                <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="playerButtons cursor-pointer" onClick={() => setPlay()} >
-                    <path  className="wrapper" d="M0 8C0 3.58172 3.58172 0 8 0H92C96.4183 0 100 3.58172 100 8V92C100 96.4183 96.4183 100 92 100H8C3.58172 100 0 96.4183 0 92V8Z" fill="white" fillOpacity="0.2"/>
-                    <path className="svgFill" d="M75.6968 48.3804L36.3282 24.321C35.9966 24.1183 35.617 24.0077 35.2285 24.0004C34.8399 23.9931 34.4564 24.0895 34.1175 24.2796C33.7785 24.4697 33.4963 24.7466 33.2999 25.0819C33.1035 25.4173 33 25.7989 33 26.1875V74.3063C33 74.6949 33.1035 75.0765 33.2999 75.4118C33.4963 75.7472 33.7785 76.0241 34.1175 76.2142C34.4564 76.4043 34.8399 76.5007 35.2285 76.4934C35.617 76.4861 35.9966 76.3755 36.3282 76.1728L75.6968 52.1134C76.0165 51.918 76.2807 51.6437 76.464 51.3169C76.6473 50.9901 76.7436 50.6216 76.7436 50.2469C76.7436 49.8722 76.6473 49.5037 76.464 49.1769C76.2807 48.85 76.0165 48.5758 75.6968 48.3804Z" fill="white"/>
-                </svg>
-              </div>
-            </div>
-          </div>
-          <PlayerModalOverlay setModalOpen={setIsEndedModalOpen} modalOpen={isEndedModalOpen}>
-            <EndedModal
-              name={data.name}
-              setModalOpen={setIsEndedModalOpen}
-              series={data.series}
-              currentSeason={currentSeason}
-              currentSerie={currentSerie}
-              modalOpen={isEndedModalOpen}
-              changeSerie={changeSerie}
-              setIsEndedModalOpen={setIsEndedModalOpen}
-              prediction={predictions[0]}
-            />
-          </PlayerModalOverlay>
-          <div className="hidden md:block">
-            <div className={`${(buttonState === "hidden" || panelState === "hidden") && "opacity-0 "}`}>
-              <CompilationSlider 
-              currentSerie={currentSerie}
-              title={data.name}
-              isMovie={!data.series.length}
-              setCurrentCompilationMovie={setCurrentCompilationMovie} 
-              movies={data.series ? data.series[currentSeason] : predictions} 
-              setModalOpen={setIsMobileSliderOpen} 
-              isSliderOpen={isMobileSliderOpen} 
-              setIsSliderOpen={setIsSliderOpen} 
-              isFullscreen={isFullScreen} />
-                <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
-                <CompilationModal 
-                changeSerie={changeSerie}
-                currentCompilationMovie={currentCompilationMovie} 
-                setModalOpen={setIsCompliationModalOpen} />
-                </PlayerModalOverlay>
-              </div>
-              <div className={`hidden md:block ${data.isSerial ? "":"md:hidden"}`}>
-                <CompilationSliderSerial setCurrentCompilationMovie={setCurrentCompilationMovie} movies={data.series[currentSeason]} setModalOpen={setIsCompliationModalOpen} isSliderOpen={isSliderOpen} setIsSliderOpen={setIsSliderOpen} isFullscreen={isFullScreen} />
-                <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
-                  <CompilationModalSerial currentCompilationMovie={currentCompilationMovie} setModalOpen={setIsCompliationModalOpen} setSerie={changeSerie}/>
-                </PlayerModalOverlay>
-              </div>
-            </div>
-          </div>
-          
-          <div className={`absolute inset-0 z-0 w-full h-full ${panelState}`} 
-            {...handlers}
-            style={{
-              touchAction: "none"
-            }}
-            onClick={(e) => { if (e.target === document.getElementById("playingPanel")) {setPlay()}}}
-            onTouchEnd={TouchListener}
-            id="playingPanel"
-            onKeyDown ={(e) => {
-              e.preventDefault()
-              if (e.key == " ") {
-                setPlay()
-              }
-            }}
-            tabIndex={0}
-          >
-            
+      <div className={`${isLoaded ? "visible" : "hidden"}`}>
+        <FullScreen handle={handle}>
           <div
-            onClick={(e) => {
-              setPlay()
-            }}
-            style={{
-              background: "linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%)"
-            }}
-            className={`
-            ${isFullScreen? "opacity-0 z-0" : "z-10 opacity-100"}
-            ${fullScreenHide ? "opacity-0 z-0" : "z-10 opacity-100"}
-            ${realPanelState === "visible" && "z-10 opacity-100"}
-            ${isMobile && "hidden"}
-            transition-all duration-700 ease-out
-            pointer-events-none absolute w-full h-full top-0 left-0`}
+            id="mainframe"
+            className={`relative inline-block w-full h-full`}
           >
 
-
-          </div>
-          
-          <div className={`${mobileOverlayStage > 0 ? "absolute bg-opacity-50 h-full" : "bg-opacity-0 h-0 absolute"} 
-          ${!isMobile && "hidden"}
-          transition-all duration-400 bg-black bottom-0 left-0 w-full z-10 flex items-center overflow-hidden `}>
-            <div className={`w-full flex justify-between items-center px-5`}>
-              <div 
-               onClick={() => {
-                
-                changeSerie(currentSerie - 1)}}
-              className={`w-10 h-10 p-0.5 bg-opacity-20 bg-white  active:bg-orange  rounded-lg`}>
-                <ChevronLeft />
-              </div>
+            <iframe
+              width={data.width}
+              height={data.height}
+              src={isIntro ? `${intro}?player_id=777` : `${data.series[currentSeason][currentSerie].videoId}?player_id=777`}
+              // src={`${data.series[currentSeason][currentSerie].videoId}?player_id=777`}
+              // src={`${intro}?player_id=777`}
+              allowFullScreen
+              //allow='autoplay' 
+              frameBorder="0"
+              id="gplayer"
+            ></iframe>
+            
+            <div className={`absolute  top-0 left-0 w-full h-auto ${buttonState}`} >
               <TopPlayerPanel
-              data={data.series}
-              changeSeasonState={changeSeasonState}
-              changeSeason={changeSeason}
-              currentSeason={currentSeason}
-              seasonState={seasonState}
-              changeSerieState={changeSerieState}
-              changeSerie={changeSerie}
-              currentSerie={currentSerie}
-              serieState={serieState}
-              changeActingState={changeActingState}
-              changeActing={changeActing}
-              currentActing={currentActing}
-              actingState={actingState}
-              langs={data.langs}
-            />
-              <button
-                onClick={setPlay}
-                className={`flex-shrink-0 w-20 h-20 p-5 bg-opacity-20 bg-white  active:bg-orange rounded-lg`}>
-                {mobileOverlayStage === 1 && <PauseIcon />}
-                {mobileOverlayStage === 2 && <PlayIcon />}
-              </button>
-              <div 
-              onClick={() => {changeSerie(currentSerie + 1)}}
-              className={`w-10 h-10 p-0.5 bg-opacity-20 bg-white  active:bg-orange  rounded-lg transform rotate-180`}>
-                <ChevronLeft />
+                data={data.series}
+                changeSeasonState={changeSeasonState}
+                changeSeason={changeSeason}
+                currentSeason={currentSeason}
+                seasonState={seasonState}
+                changeSerieState={changeSerieState}
+                changeSerie={changeSerie}
+                currentSerie={currentSerie}
+                serieState={serieState}
+                changeActingState={changeActingState}
+                changeActing={changeActing}
+                currentActing={currentActing}
+                actingState={actingState}
+                langs={data.langs}
+              />
+            </div>
+
+            <AgeWarning/>
+
+            <div ref={overlayRef} className={`absolute inset-0 w-full h-full ${buttonState} pointer-events-none`} >
+              <div className="flex justify-center flex-wrap content-center h-full">
+                <div className="md:w-24 flex justify-end cursor-pointer w-12">
+                  <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="playerButtons cursor-pointer" onClick={() => setPlay()} >
+                      <path  className="wrapper" d="M0 8C0 3.58172 3.58172 0 8 0H92C96.4183 0 100 3.58172 100 8V92C100 96.4183 96.4183 100 92 100H8C3.58172 100 0 96.4183 0 92V8Z" fill="white" fillOpacity="0.2"/>
+                      <path className="svgFill" d="M75.6968 48.3804L36.3282 24.321C35.9966 24.1183 35.617 24.0077 35.2285 24.0004C34.8399 23.9931 34.4564 24.0895 34.1175 24.2796C33.7785 24.4697 33.4963 24.7466 33.2999 25.0819C33.1035 25.4173 33 25.7989 33 26.1875V74.3063C33 74.6949 33.1035 75.0765 33.2999 75.4118C33.4963 75.7472 33.7785 76.0241 34.1175 76.2142C34.4564 76.4043 34.8399 76.5007 35.2285 76.4934C35.617 76.4861 35.9966 76.3755 36.3282 76.1728L75.6968 52.1134C76.0165 51.918 76.2807 51.6437 76.464 51.3169C76.6473 50.9901 76.7436 50.6216 76.7436 50.2469C76.7436 49.8722 76.6473 49.5037 76.464 49.1769C76.2807 48.85 76.0165 48.5758 75.6968 48.3804Z" fill="white"/>
+                  </svg>
+                </div>
               </div>
             </div>
-          </div>
-          <div className={` ${isFullScreen &&  mobileOverlayStage < 1 ? "hidden" : "z-20 opacity-100"}`}>
-          <CompilationSliderMobile 
-          changeSerie={changeSerie}
-          currentSerie={currentSerie}
-          title={data.name}
-          isMovie={!data.series.length}
-          isMobile={isMobile}
-          mobileOverlayStage={mobileOverlayStage} 
-          setCurrentCompilationMovie={setCurrentCompilationMovie} 
-          movies={data.series ? data.series[currentSeason] : predictions} 
-          setModalOpen={setIsCompliationModalOpen} 
-          isSliderOpen={isMobileSliderOpen} 
-          setIsSliderOpen={setIsMobileSliderOpen} 
-          isFullScreen={isFullScreen}
-          />
-          </div>
+            <PlayerModalOverlay setModalOpen={setIsEndedModalOpen} modalOpen={isEndedModalOpen}>
+              <EndedModal
+                name={data.name}
+                setModalOpen={setIsEndedModalOpen}
+                series={data.series}
+                currentSeason={currentSeason}
+                currentSerie={currentSerie}
+                modalOpen={isEndedModalOpen}
+                changeSerie={changeSerie}
+                setIsEndedModalOpen={setIsEndedModalOpen}
+                prediction={predictions[0]}
+              />
+            </PlayerModalOverlay>
+            <div className="hidden md:block">
+              <div className={`${(buttonState === "hidden" || panelState === "hidden") && "opacity-0 "}`}>
+                <CompilationSlider 
+                currentSerie={currentSerie}
+                title={data.name}
+                isMovie={!data.series.length}
+                setCurrentCompilationMovie={setCurrentCompilationMovie} 
+                movies={data.series ? data.series[currentSeason] : predictions} 
+                setModalOpen={setIsMobileSliderOpen} 
+                isSliderOpen={isMobileSliderOpen} 
+                setIsSliderOpen={setIsSliderOpen} 
+                isFullscreen={isFullScreen} />
+                  <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
+                  <CompilationModal 
+                  changeSerie={changeSerie}
+                  currentCompilationMovie={currentCompilationMovie} 
+                  setModalOpen={setIsCompliationModalOpen} />
+                  </PlayerModalOverlay>
+                </div>
+                <div className={`hidden md:block ${data.isSerial ? "":"md:hidden"}`}>
+                  <CompilationSliderSerial setCurrentCompilationMovie={setCurrentCompilationMovie} movies={data.series[currentSeason]} setModalOpen={setIsCompliationModalOpen} isSliderOpen={isSliderOpen} setIsSliderOpen={setIsSliderOpen} isFullscreen={isFullScreen} />
+                  <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
+                    <CompilationModalSerial currentCompilationMovie={currentCompilationMovie} setModalOpen={setIsCompliationModalOpen} setSerie={changeSerie}/>
+                  </PlayerModalOverlay>
+                </div>
+              </div>
+            </div>
+            
+            <div className={`absolute inset-0 z-0 w-full h-full ${panelState}`} 
+              {...handlers}
+              style={{
+                touchAction: "none"
+              }}
+              onClick={(e) => { if (e.target === document.getElementById("playingPanel")) {setPlay()}}}
+              onTouchEnd={TouchListener}
+              id="playingPanel"
+              onKeyDown ={(e) => {
+                e.preventDefault()
+                if (e.key == " ") {
+                  setPlay()
+                }
+              }}
+              tabIndex={0}
+            >
+              
+            <div
+              onClick={(e) => {
+                setPlay()
+              }}
+              style={{
+                background: "linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%)"
+              }}
+              className={`
+              ${isFullScreen? "opacity-0 z-0" : "z-10 opacity-100"}
+              ${fullScreenHide ? "opacity-0 z-0" : "z-10 opacity-100"}
+              ${realPanelState === "visible" && "z-10 opacity-100"}
+              ${isMobile && "hidden"}
+              transition-all duration-700 ease-out
+              pointer-events-none absolute w-full h-full top-0 left-0`}
+            >
 
-          <MobileProgressBar 
+
+            </div>
+            
+            <div className={`${mobileOverlayStage > 0 ? "absolute bg-opacity-50 h-full" : "bg-opacity-0 h-0 absolute"} 
+            ${!isMobile && "hidden"}
+            transition-all duration-400 bg-black bottom-0 left-0 w-full z-10 flex items-center overflow-hidden `}>
+              <div className={`w-full flex justify-between items-center px-5`}>
+                <div 
+                onClick={() => {
+                  
+                  changeSerie(currentSerie - 1)}}
+                className={`w-10 h-10 p-0.5 bg-opacity-20 bg-white  active:bg-orange  rounded-lg`}>
+                  <ChevronLeft />
+                </div>
+                <TopPlayerPanel
+                data={data.series}
+                changeSeasonState={changeSeasonState}
+                changeSeason={changeSeason}
+                currentSeason={currentSeason}
+                seasonState={seasonState}
+                changeSerieState={changeSerieState}
+                changeSerie={changeSerie}
+                currentSerie={currentSerie}
+                serieState={serieState}
+                changeActingState={changeActingState}
+                changeActing={changeActing}
+                currentActing={currentActing}
+                actingState={actingState}
+                langs={data.langs}
+              />
+                <button
+                  onClick={setPlay}
+                  className={`flex-shrink-0 w-20 h-20 p-5 bg-opacity-20 bg-white  active:bg-orange rounded-lg`}>
+                  {mobileOverlayStage === 1 && <PauseIcon />}
+                  {mobileOverlayStage === 2 && <PlayIcon />}
+                </button>
+                <div 
+                onClick={() => {changeSerie(currentSerie + 1)}}
+                className={`w-10 h-10 p-0.5 bg-opacity-20 bg-white  active:bg-orange  rounded-lg transform rotate-180`}>
+                  <ChevronLeft />
+                </div>
+              </div>
+            </div>
+            <div className={` ${isFullScreen &&  mobileOverlayStage < 1 ? "hidden" : "z-20 opacity-100"}`}>
+            <CompilationSliderMobile 
+            changeSerie={changeSerie}
+            currentSerie={currentSerie}
+            title={data.name}
+            isMovie={!data.series.length}
             isMobile={isMobile}
-            mobileOverlayStage={mobileOverlayStage}
-            setMobileOverlayStage={setMobileOverlayStage}
-            globalGplayerAPI = {globalGplayerAPI}
-            isFullScreen = {isFullScreen}
-            fullScreenFunc={fullScreenFunc}
-            possibleDurationTime={possibleDurationTime}
-            setMouseOver={setMouseOver}
-            draggerPercent={draggerPercent}
-            draggerVisible={draggerVisible}
-            setDrag={setDrag}
-            currentTimePercent={currentTimePercent}
-            bufferTimePercent={currentTimeBuffer}
-            getMousePos={getMousePos}
-            setCurrentDuration={setCurrentDuration}
-            durationTime={durationTime}
-            currentTime={currentTime}
-            setCurrentVolume={changeCurrentVolumeY}
-            currentVolume={currentVolume}
-          />
-            <ProgressBar
-              isMobile = {isMobile}
+            mobileOverlayStage={mobileOverlayStage} 
+            setCurrentCompilationMovie={setCurrentCompilationMovie} 
+            movies={data.series ? data.series[currentSeason] : predictions} 
+            setModalOpen={setIsCompliationModalOpen} 
+            isSliderOpen={isMobileSliderOpen} 
+            setIsSliderOpen={setIsMobileSliderOpen} 
+            isFullScreen={isFullScreen}
+            />
+            </div>
+
+            <MobileProgressBar 
+              isMobile={isMobile}
+              mobileOverlayStage={mobileOverlayStage}
+              setMobileOverlayStage={setMobileOverlayStage}
+              globalGplayerAPI = {globalGplayerAPI}
+              isFullScreen = {isFullScreen}
+              fullScreenFunc={fullScreenFunc}
               possibleDurationTime={possibleDurationTime}
               setMouseOver={setMouseOver}
               draggerPercent={draggerPercent}
@@ -583,57 +604,78 @@ export default function Player(data) {
               bufferTimePercent={currentTimeBuffer}
               getMousePos={getMousePos}
               setCurrentDuration={setCurrentDuration}
-              setPlay={setPlay}
-              isPlaying={realPanelState == "hidden"}
               durationTime={durationTime}
               currentTime={currentTime}
-              handle={handle}
-              isFullScreen={isFullScreen}
-              fullScreenFunc={fullScreenFunc}
-              setFullScreen={fullScreenFunc}
-              changeMute={changeMute}
-              isMuted={isMuted}
-              setCurrentVolume={changeCurrentVolume}
+              setCurrentVolume={changeCurrentVolumeY}
               currentVolume={currentVolume}
-              changeCurrentLevel={changeCurrentLevel}
-              currentQuality={currentQuality}
             />
-          </div>
-
-          <div className={`absolute inset-0 w-full h-full ${realPanelState}`}  >
-            <div 
-              className="flex justify-between flex-wrap content-center h-full items-center px-4 "
-              onClick={(e) => {
-                const target = e.target as Element;
-                if (target.id == "realPanel") {
-                  setPlay()
-                }
-              }}
-              id="realPanel" 
-            >
-              <div className="md:w-24 cursor-pointer w-8">
-                <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" className={`playerButtons ${currentSerie == 0 ? "hidden" : ""}`} onClick={() => changeVideo("prev")}>
-                  <path className="wrapper" d="M0 8C0 3.58172 3.58172 0 8 0H52C56.4183 0 60 3.58172 60 8V52C60 56.4183 56.4183 60 52 60H8C3.58172 60 0 56.4183 0 52V8Z" fill="white" fillOpacity="0.2" />
-                  <path className="svgStroke" d="M36 44L22 30.5L36 17" stroke="white" strokeOpacity="0.5" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </div>
-
-              <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="playerButtons cursor-pointer" onClick={() => {
-                setPlay()
-              }} >
-                <path className="wrapper" d="M0 8C0 3.58172 3.58172 0 8 0H92C96.4183 0 100 3.58172 100 8V92C100 96.4183 96.4183 100 92 100H8C3.58172 100 0 96.4183 0 92V8Z" fill="white" fillOpacity="0.2" />
-                <path className="svgFill" d="M75.6968 48.3804L36.3282 24.321C35.9966 24.1183 35.617 24.0077 35.2285 24.0004C34.8399 23.9931 34.4564 24.0895 34.1175 24.2796C33.7785 24.4697 33.4963 24.7466 33.2999 25.0819C33.1035 25.4173 33 25.7989 33 26.1875V74.3063C33 74.6949 33.1035 75.0765 33.2999 75.4118C33.4963 75.7472 33.7785 76.0241 34.1175 76.2142C34.4564 76.4043 34.8399 76.5007 35.2285 76.4934C35.617 76.4861 35.9966 76.3755 36.3282 76.1728L75.6968 52.1134C76.0165 51.918 76.2807 51.6437 76.464 51.3169C76.6473 50.9901 76.7436 50.6216 76.7436 50.2469C76.7436 49.8722 76.6473 49.5037 76.464 49.1769C76.2807 48.85 76.0165 48.5758 75.6968 48.3804Z" fill="white" />
-              </svg>
-              <div className="md:w-24 flex justify-end cursor-pointer w-8">
-                <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" className={`playerButtons ${currentSerie == data.series[0].length - 1 ? "hidden" : ""}`} onClick={() => changeVideo("next")}>
-                  <path className="wrapper" d="M0 8C0 3.58172 3.58172 0 8 0H52C56.4183 0 60 3.58172 60 8V52C60 56.4183 56.4183 60 52 60H8C3.58172 60 0 56.4183 0 52V8Z" fill="white" fillOpacity="0.2" />
-                  <path className="svgStroke" d="M22 17L36 30.5L22 44" stroke="white" strokeOpacity="0.5" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </div>
-
+              <ProgressBar
+                isMobile = {isMobile}
+                possibleDurationTime={possibleDurationTime}
+                setMouseOver={setMouseOver}
+                draggerPercent={draggerPercent}
+                draggerVisible={draggerVisible}
+                setDrag={setDrag}
+                currentTimePercent={currentTimePercent}
+                bufferTimePercent={currentTimeBuffer}
+                getMousePos={getMousePos}
+                setCurrentDuration={setCurrentDuration}
+                setPlay={setPlay}
+                isPlaying={realPanelState == "hidden"}
+                durationTime={durationTime}
+                currentTime={currentTime}
+                handle={handle}
+                isFullScreen={isFullScreen}
+                fullScreenFunc={fullScreenFunc}
+                setFullScreen={fullScreenFunc}
+                changeMute={changeMute}
+                isMuted={isMuted}
+                setCurrentVolume={changeCurrentVolume}
+                currentVolume={currentVolume}
+                changeCurrentLevel={changeCurrentLevel}
+                currentQuality={currentQuality}
+              />
             </div>
-          </div>
-      </FullScreen>
+
+            <div className={`absolute inset-0 w-full h-full ${realPanelState}`}  >
+              <div 
+                className="flex justify-between flex-wrap content-center h-full items-center px-4 "
+                onClick={(e) => {
+                  const target = e.target as Element;
+                  if (target.id == "realPanel") {
+                    setPlay()
+                  }
+                }}
+                id="realPanel" 
+              >
+                <div className="md:w-24 cursor-pointer w-8">
+                  <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" className={`playerButtons ${currentSerie == 0 ? "hidden" : ""}`} onClick={() => changeVideo("prev")}>
+                    <path className="wrapper" d="M0 8C0 3.58172 3.58172 0 8 0H52C56.4183 0 60 3.58172 60 8V52C60 56.4183 56.4183 60 52 60H8C3.58172 60 0 56.4183 0 52V8Z" fill="white" fillOpacity="0.2" />
+                    <path className="svgStroke" d="M36 44L22 30.5L36 17" stroke="white" strokeOpacity="0.5" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </div>
+
+                <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="playerButtons cursor-pointer" onClick={() => {
+                  setPlay()
+                }} >
+                  <path className="wrapper" d="M0 8C0 3.58172 3.58172 0 8 0H92C96.4183 0 100 3.58172 100 8V92C100 96.4183 96.4183 100 92 100H8C3.58172 100 0 96.4183 0 92V8Z" fill="white" fillOpacity="0.2" />
+                  <path className="svgFill" d="M75.6968 48.3804L36.3282 24.321C35.9966 24.1183 35.617 24.0077 35.2285 24.0004C34.8399 23.9931 34.4564 24.0895 34.1175 24.2796C33.7785 24.4697 33.4963 24.7466 33.2999 25.0819C33.1035 25.4173 33 25.7989 33 26.1875V74.3063C33 74.6949 33.1035 75.0765 33.2999 75.4118C33.4963 75.7472 33.7785 76.0241 34.1175 76.2142C34.4564 76.4043 34.8399 76.5007 35.2285 76.4934C35.617 76.4861 35.9966 76.3755 36.3282 76.1728L75.6968 52.1134C76.0165 51.918 76.2807 51.6437 76.464 51.3169C76.6473 50.9901 76.7436 50.6216 76.7436 50.2469C76.7436 49.8722 76.6473 49.5037 76.464 49.1769C76.2807 48.85 76.0165 48.5758 75.6968 48.3804Z" fill="white" />
+                </svg>
+                <div className="md:w-24 flex justify-end cursor-pointer w-8">
+                  <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" className={`playerButtons ${currentSerie == data.series[0].length - 1 ? "hidden" : ""}`} onClick={() => changeVideo("next")}>
+                    <path className="wrapper" d="M0 8C0 3.58172 3.58172 0 8 0H52C56.4183 0 60 3.58172 60 8V52C60 56.4183 56.4183 60 52 60H8C3.58172 60 0 56.4183 0 52V8Z" fill="white" fillOpacity="0.2" />
+                    <path className="svgStroke" d="M22 17L36 30.5L22 44" stroke="white" strokeOpacity="0.5" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </div>
+
+              </div>
+            </div>
+        </FullScreen>
+      </div>
+      {/* <div className={`${isLoaded ? "hidden" : "visible"} bg-cardBackground relative inline-block w-full h-full`}>
+        <div className={`bg-cardBackground relative inline-block h-12 w-12`}>
+        </div>
+      </div> */}
     </div>
   )
 }

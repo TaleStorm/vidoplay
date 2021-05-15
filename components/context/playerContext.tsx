@@ -78,8 +78,10 @@ const PlayerContextProvider = ({ children }: Props) => {
   useEffect(() => {
       if (api) {
         if (isPlaying) {
+            setRealPanel("hidden")
             console.log("Вызван плей")
             setMobileOverlayStage(0)
+            api.method({ name: "play" })   
             setHasBeenPlayed(true)
             if  (!hasBeenPlayed) {
               setIsWarningVisible(true)
@@ -88,13 +90,17 @@ const PlayerContextProvider = ({ children }: Props) => {
             setHasBeenPlayed(true)
         }
         else {
+            api.method({name: 'isPlaying', params: {}, callback: (res) => {
+              if (res) {
+                setRealPanel("visible")
+              }
+            }})
             console.log('Вызван пауз')
             setMobileOverlayStage(2)
             api.method({ name: "pause" })   
         }
       }
   }, [isPlaying, api])
-
 
 //Таймаут для мобильного оверлея
     useEffect(() => {
@@ -105,7 +111,6 @@ const PlayerContextProvider = ({ children }: Props) => {
         }, 4000)
         return () => {clearTimeout(timer)}
       }, [mobileOverlayStage])
-
 
 //Хэндлим фуллскрин
   useEffect(() => {
