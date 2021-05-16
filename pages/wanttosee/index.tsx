@@ -33,8 +33,10 @@ const stub: mockupType = {
   serias: "3 сезона (30 серий)"
 }
 
+const amount = 20
+
 export default function IndexPage({ }) {
-  const films = new Array(20).fill(stub, 0, 20)
+  const films = new Array(amount).fill(stub, 0, amount)
 
   return (
     <div className="w-full">

@@ -74,6 +74,7 @@ export default function IndexPage({ movie, playlist, movies, comments }) {
           langs={movie.localization}
           isSerial={movie.type == "Сериал"}
         />
+        
         <div className={`hidden sm:block`}>
           <ReviewsAndLikes score={score} setscore={setscore} />
         </div>
