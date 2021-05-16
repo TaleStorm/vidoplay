@@ -3,7 +3,7 @@ import { useState } from "react"
 export default function ShareButtons(data: { wrap?: boolean, title?: string, image?: string, text?: string, url: string }) {
 
   const links = {
-    tg: `https://t.me/share/url?url=${data.url}&text=${data.text} ${data.title}`,
+    tg: `https://t.me/share/url?url=${data.url}&text=${data.text} - ${data.title}`,
     vk: `https://vk.com/share.php?url=${data.url}&title=${data.title}&image=${data.image}`,
     fb: `https://www.facebook.com/sharer/sharer.php?u=${data.url}&amp;src=sdkpreparse`,
     t : `https://twitter.com/intent/tweet?url=${data.url}&text=${data.text} - ${data.title}%0A`,

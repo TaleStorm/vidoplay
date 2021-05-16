@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 type mockupType = {
   image: string,
@@ -10,10 +10,37 @@ type mockupType = {
   serias: string
 }
 
+const maxLength = 170
 
 export default function WantToSeeCard(data: mockupType) {
 
   const [voiceIsCounted, setVoiceIsCounted] = useState<boolean>(false)
+
+  const [openDiscription, setOpenDiscription] = useState<boolean>(false)
+  const [isDiscriptionLong, setIsDiscriptionLong] = useState<boolean>(false)
+
+  const [butt, setbuut] = useState(<></>)
+
+  const disriptionRef = useRef()
+
+  const toggleOpen = () => setOpenDiscription(!openDiscription)
+
+  const isOverFlowed = (element: HTMLElement) => {
+    return element.scrollWidth > element.offsetWidth || element.scrollHeight > element.offsetHeight;
+  }
+
+  useEffect(() => {
+    setIsDiscriptionLong(isOverFlowed(disriptionRef.current))
+    window.addEventListener("resize", () => {
+      setIsDiscriptionLong((prev) => isOverFlowed(disriptionRef.current))
+    })
+  }, [])
+
+  useEffect(() => {
+    console.info("Changed, is dis long?", isDiscriptionLong);
+    if(!isDiscriptionLong)
+      setOpenDiscription(false)
+  }, [isDiscriptionLong])
 
   return (
     <div className=" mb-4 rounded-lg p-4 bg-cardBackground">
@@ -31,9 +58,17 @@ export default function WantToSeeCard(data: mockupType) {
             </h1>
           </div>
           <div className="text-secondaryText hidden sm:block">
-            <div className="col-span-10 overflow-hidden" style={{ maxHeight: 100 }}>
-              {data.description}            
+            <div ref={disriptionRef} className="col-span-10 overflow-hidden"
+              style={openDiscription ? {} : { maxHeight: 100 }}
+            >
+              {data.description}
+              {/* {!openDiscription && isDiscriptionLong ? data.description + " " : data.description.slice(0, maxLength) + "... "} */}
             </div>
+            {butt}
+            {isDiscriptionLong &&
+              <p onClick={toggleOpen} className="text-orange cursor-pointer hover:text-button-hover">
+                {openDiscription ? 'Скрыть' : 'Подробнее'}
+              </p>}
           </div>
           <div className="row-span-1 flex sm:datas-end w-full justify-between">
             <div className="text-sm sm:text-lg font-medium">
@@ -69,7 +104,6 @@ export default function WantToSeeCard(data: mockupType) {
                   onClick={() => { setVoiceIsCounted(!voiceIsCounted) }}
                 >
                   <div className="flex items-center">
-
                     <p className="mr-1 whitespace-nowrap">
                       Хочу увидеть на Chill
                       </p>
