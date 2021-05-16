@@ -4,9 +4,9 @@ import { useState } from "react"
 import ModalOverlay from "./layout/modalOverlay"
 import axios from 'axios'
 
-const CommentForm = ({modalOpen, setModalOpen, movieId}) => {
-
+const CommentForm = ({modalOpen, setModalOpen, movieId, addComment}) => {
   const [comentData, setCommentData] = useState({text: ''})
+  const [date, setDate] = useState(new Date())
 
   const getCommentText = (e) => {
     setCommentData({...comentData, [e.target.name]: e.target.value})
@@ -15,16 +15,24 @@ const CommentForm = ({modalOpen, setModalOpen, movieId}) => {
   const sendComment = async () => {
     const userId = localStorage.getItem('_user')
     if(userId && comentData.text !== ''){
-      const data = {
+      let data = {
         text: comentData.text,
         date: new Date(),
+        dateString: "",
         _userId: userId,
-        _movieId: movieId
+        _movieId: movieId,
+        _likes: 0,
+        _dislikes: 0,
       }
 
-      const res  = await axios.post('/api/sendComment', data)
-      setModalOpen(!modalOpen)
-      setCommentData({...comentData, ['text']: ''})
+      const res  = await axios.post('/api/sendComment', data);
+
+      const dateArray = String(date.toLocaleString()).split(",")[0].split(".");
+      data.dateString = `${dateArray[0]} ${dateArray[1]} ${dateArray[2]}`
+      addComment(data);
+
+      setModalOpen(!modalOpen);
+      setCommentData({...comentData, ['text']: ''});
     }
 
   }

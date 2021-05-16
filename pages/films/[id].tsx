@@ -12,7 +12,7 @@ import MovieContext from "../../components/context/movieContext"
 
 const ApiReq = new apiReq()
 
-export default function IndexPage({ movie, playlist, movies }) {
+export default function IndexPage({ movie, playlist, movies, comments }) {
 
   const movieContext = useContext(MovieContext)
 
@@ -92,7 +92,7 @@ export default function IndexPage({ movie, playlist, movies }) {
           />
         </div> */}
 
-        <FilmComments comments={movie._comment} movieId={movie._id} />
+        <FilmComments comments={comments} movieId={movie._id} />
 
         <div className="mt-8 sm:mx-0 grid grid-cols-1">
           <FilmCategory
@@ -115,5 +115,6 @@ export const getServerSideProps = async (ctx) => {
   const movie = await ApiReq.getSingleEntity("movies", id)
   const result = await ApiReq.getPlaylistMoves(playlist._id)
   const movies = [...result.data]
-  return { props: { movie, playlist, movies } }
+  const comments = await ApiReq.getComments(movie._id)
+  return { props: { movie, playlist, movies, comments } }
 }

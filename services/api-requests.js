@@ -39,7 +39,7 @@ export default class NewsService {
   }
 
   getPlaylistMoves = (id) => {
-    return this.postResource(`${process.env.API_DOMAIN}/api/getPlaylistMovies`, {
+    return this.postResource(`${urlPrefix}/api/getPlaylistMovies`, {
       playlistId: id
     })
   }
@@ -54,5 +54,7 @@ export default class NewsService {
     return data
   }
 
-
+  getComments = async (movieId) => {
+    return this.getResource(`${urlPrefix}/api/getComments/${movieId}`)
+  }
 }
