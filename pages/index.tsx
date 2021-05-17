@@ -37,7 +37,7 @@ function IndexPage({ playlists = [], movies, comments, banners }) {
                   />
                   { i === 0 &&
                   <a href="/piloty">
-                    <img  className={`w-full mt-10`} src="/images/Pilots.png" alt=""/>
+                    <img  className={`rounded-lg w-full mt-10`} src="/images/Pilots.png" alt=""/>
                   </a>
                   }
                 </div>
