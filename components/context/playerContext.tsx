@@ -48,20 +48,20 @@ const PlayerContextProvider = ({ children }: Props) => {
   
 
 // Определяем ориентацию (устройства)
-  useEffect(() => {
-    console.log(screen.orientation.angle)
-    const listener = () => {
-      if (screen.orientation.angle === 0) {
-        setIsLandscape(false)
-      }
-      else {
-        setIsLandscape(true)
-      }
-    }
-    listener()
-    window.addEventListener("orientationchange", listener)
-    return () => {window.removeEventListener("orientationchange", listener)}
-  },[])
+  // useEffect(() => {
+  //   console.log(screen.orientation.angle)
+  //   const listener = () => {
+  //     if (screen.orientation.angle === 0) {
+  //       setIsLandscape(false)
+  //     }
+  //     else {
+  //       setIsLandscape(true)
+  //     }
+  //   }
+  //   listener()
+  //   window.addEventListener("orientationchange", listener)
+  //   return () => {window.removeEventListener("orientationchange", listener)}
+  // },[])
 
 //Определяем, мобильное ли устройство при маунте
   useEffect(() => {

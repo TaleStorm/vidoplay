@@ -61,7 +61,7 @@ export default function Video(data) {
 
     return (
         <>
-            <div className="flex items-center">
+            <div className="mb-6 flex items-center">
                 <h4 className="hidden mt-6 font-roboto text-mainText font-normal text-3xl sm:block mb-4 col-span-1 w-full">
                     {data.name}
                 </h4>
@@ -71,7 +71,6 @@ export default function Video(data) {
             </div>
             <div ref={containRef} className={`md:mx-auto ${isFullScreen ? "fixed max-h-screen top-0 left-0 z-50" : "max-w-5xl"}  w-full`}>
                 <div
-
                     className="relative" ref={targetRef}>
                     {data.movies?.length > 0 && data.series?.length > 0 ? (
                         <PLayer
