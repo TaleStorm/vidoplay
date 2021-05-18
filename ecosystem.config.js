@@ -8,14 +8,14 @@ module.exports = {
     max_memory_restart: '1G',
     env_production: {
       NODE_ENV: 'production',
-      PORT: 3001,
+      PORT: 3000,
     },
   }],
 
   deploy : {
-    development: {
-      user : 'dev',
-      host : 'chill.cinema.ldtc.space',
+    production: {
+      user : 'chill',
+      host : '77.247.242.226',
       ref  : 'origin/master',
       repo : 'git@gitlab.com:cinema9/chill.git',
       path : '/opt/chill',
@@ -23,9 +23,9 @@ module.exports = {
       'post-deploy' : 'npm install && npm run build && pm2 startOrRestart ecosystem.config.js --env production',
       'pre-setup': '',
     },
-    production: {
-      user : 'chill',
-      host : 'chillvision.ru',
+    development: {
+      user : 'dev',
+      host : 'chill.cinema.ldtc.space',
       ref  : 'origin/master',
       repo : 'git@gitlab.com:cinema9/chill.git',
       path : '/opt/chill',
