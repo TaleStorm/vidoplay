@@ -13,9 +13,19 @@ module.exports = {
   }],
 
   deploy : {
-    production : {
+    development: {
       user : 'dev',
       host : 'chill.cinema.ldtc.space',
+      ref  : 'origin/master',
+      repo : 'git@gitlab.com:cinema9/chill.git',
+      path : '/opt/chill',
+      'pre-deploy-local' : '',
+      'post-deploy' : 'npm install && npm run build && pm2 startOrRestart ecosystem.config.js --env production',
+      'pre-setup': '',
+    },
+    production: {
+      user : 'chill',
+      host : 'chillvision.ru',
       ref  : 'origin/master',
       repo : 'git@gitlab.com:cinema9/chill.git',
       path : '/opt/chill',
