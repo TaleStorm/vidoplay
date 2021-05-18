@@ -27,7 +27,7 @@ export default function Registration(data: RegistrationProps) {
       firstname,
       _password: password
     }
-    const status = await loginContext.registerHandler(fieldsData) 
+    const status = await loginContext.registerHandler(fieldsData)
     if (status) {
       authModalContext.setModalOpen(false)
       GoodToast("Успешная регистрация и авторизация")
@@ -41,38 +41,37 @@ export default function Registration(data: RegistrationProps) {
 
 
   return (
-      <>
-        <div className="w-full">
-          <div>
-            <h5 className="mt-3 text-center text-lg sm:text-3xl font-roboto text-mainText font-medium">Регистрация</h5>
+    <>
+      <div className="w-full">
+        <div>
+          <h5 className="mt-3 text-center text-lg sm:text-3xl font-roboto text-mainText font-medium">Регистрация</h5>
+        </div>
+        <form onSubmit={(e) => {
+          e.preventDefault()
+          doSignup()
+        }} className="mt-3 sm:mt-6">
+          <div className={`w-full mb-6`}>
+            <TextInput label={"Имя"} placeholder={`Введите имя`} state={firstname} setState={setFirstname} name={"firstname"} type={"text"} />
           </div>
-          <form onSubmit={(e) => {
-            e.preventDefault()
-            doSignup()
-          }} className="mt-3 sm:mt-6">
-              <div className={`w-full mb-6`}>
-                <TextInput label={"Имя"} placeholder={`Введите имя`} state={firstname} setState={setFirstname} name={"firstname"} type={"text"}/>
-              </div>
-              <div className={`w-full mb-6`}>
-                <TextInput label={"Email"} name={"email"} type={`email`} placeholder={"Введите email"} state={email} setState={setEmail}/>
-              </div>
-              <div className={`w-full`}>
-                <TextInput label={"Пароль"} name={"password"} type={`password`} placeholder={"Введите пароль"} state={password} setState={setPassword}/>
-              </div>
+          <div className={`w-full mb-6`}>
+            <TextInput label={"Email"} name={"email"} type={`email`} placeholder={"Введите email"} state={email} setState={setEmail} />
+          </div>
+          <div className={`w-full`}>
+            <TextInput label={"Пароль"} name={"password"} type={`password`} placeholder={"Введите пароль"} state={password} setState={setPassword} />
+          </div>
 
-            <div className="text-sm relative sm:mt-3 mb-2 pt-4">
-              <label className="flex text-mainText -py-2">
-                <div className={`w-6 h-6 flex-shrink-0 mr-3`}>
-                  <Checkbox state={policy} setState={setPolicy}/>
-                </div>
-                <span className="opacity-80 mr-1">Я согласен на </span>
-                <a className="hover:text-orange" href="/conditions">
+          <div className="text-sm relative sm:mt-3 mb-2 pt-4">
+            <label className="flex text-mainText -py-2">
+              <div className={`w-6 h-6 flex-shrink-0 mr-3`}>
+                <Checkbox state={policy} setState={setPolicy} />
+              </div>
+              <span className="opacity-80 mr-1">Я согласен на </span>
+              <a className="hover:text-orange" href="/conditions">
                 обработку {" "}
-                  персональных данных{" "} 
-                </a>
-              </label>
-            </div>
-          </form>
+                  персональных данных{" "}
+              </a>
+            </label>
+          </div>
           <button
             className="block text-center text-white bg-orange p-3 rounded-lg transition-colors duration-300 hover:bg-button-hover  w-full mt-5"
             onClick={async () => {
@@ -81,14 +80,15 @@ export default function Registration(data: RegistrationProps) {
           >
             Зарегестрироваться
           </button>
+        </form>
 
-          <h3 className="text-mainText mt-5 text-center font-roboto text-base">
-            <span>У меня уже есть </span>
-            <a className="text-orange hover:text-orange underline text-base" onClick={data.authFunc}>
-              аккаунт
+        <h3 className="text-mainText mt-5 text-center font-roboto text-base">
+          <span>У меня уже есть </span>
+          <a className="text-orange hover:text-orange underline text-base" onClick={data.authFunc}>
+            аккаунт
             </a>
-          </h3>
-        </div>
-      </>
+        </h3>
+      </div>
+    </>
   )
 }

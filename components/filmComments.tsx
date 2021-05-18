@@ -89,8 +89,8 @@ const FilmComments = (data) => {
                 </h4>
               </div>
               <div className="hidden col-span-2 sm:grid justify-items-end mr-8">
-                <h6 className="font-roboto text-mainText text-sm inline self-end opacity-70">{comment.dateString}</h6>
-                <div className="text-sm col-span-1 flex flex-row justify-end space-x-7 content-end mt-8">
+                <h6 className="font-roboto text-mainText text-sm inline opacity-70">{comment.dateString}</h6>
+                {/* <div className="text-sm col-span-1 flex flex-row justify-end space-x-7 content-end mt-8">
                   <a className="cursor-pointer self-center space-x-2 flex justify-center">
                     <h6 className="font-roboto text-mainText text-base inline self-center">{comment._likes}</h6>
                     <svg
@@ -144,10 +144,10 @@ const FilmComments = (data) => {
                       />
                     </svg>
                   </a>
-                </div>
+                </div> */}
               </div>
               <div className="sm:hidden col-span-2 grid gap-x-0.5 grid-cols-2 ">
-                <div className="text-sm col-span-1 flex flex-row py-2 justify-center space-x-7 content-end bg-filmReviewBackground">
+                {/* <div className="text-sm col-span-1 flex flex-row py-2 justify-center space-x-7 content-end bg-filmReviewBackground">
                   <a className="cursor-pointer self-center space-x-2">
                     <h6 className="font-roboto text-mainText text-base inline self-center">{comment._likes}</h6>
                     <svg
@@ -174,8 +174,8 @@ const FilmComments = (data) => {
                       />
                     </svg>
                   </a>
-                </div>
-                <div className="text-sm col-span-1 flex flex-row py-2 justify-center space-x-7 content-end bg-filmReviewBackground">
+                </div> */}
+                {/* <div className="text-sm col-span-1 flex flex-row py-2 justify-center space-x-7 content-end bg-filmReviewBackground">
                   <a className="cursor-pointer self-center space-x-2">
                     <h6 className="font-roboto text-mainText text-base inline self-center">{comment._dislikes}</h6>
                     <svg
@@ -202,7 +202,7 @@ const FilmComments = (data) => {
                       />
                     </svg>
                   </a>
-                </div>
+                </div> */}
               </div>
             </div>
           )

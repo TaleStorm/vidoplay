@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { MutableRefObject, useContext, useEffect, useRef, useState } from "react"
 
 import { AuthorizationData } from "../interfaces"
 import BadToast from "./badtoast"
@@ -15,9 +15,9 @@ export default function Authorization(data: AuthorizationProps) {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [policy, setPolicy] = useState(false)
+
   const authModalContext = useContext(AuthModalContext)
   const loginContext = useContext(LoginContext)
-
 
   const responseFacebook = (response) => {
     console.log(response);
@@ -27,13 +27,12 @@ export default function Authorization(data: AuthorizationProps) {
     loginContext.VKLoginHandler("")
   }
 
-
-
   const baseLogin = async () => {
     let tmp = {
       email,
       _password: password
     }
+
     tmp["type"] = "base-login"
 
     const loginStatus = await loginContext.loginHandler(tmp)
@@ -44,10 +43,7 @@ export default function Authorization(data: AuthorizationProps) {
     else {
       BadToast("Нет такой пары email/пароль")
     }
-
   }
-
-
 
   return (
     <
@@ -61,10 +57,24 @@ export default function Authorization(data: AuthorizationProps) {
           baseLogin()
         }} className="mt-3 sm:mt-6">
           <div className={`w-full mb-6`}>
-            <TextInput label={"Email"} name={"email"} type={`email`} placeholder={"Введите email"} state={email} setState={setEmail} />
+            <TextInput
+              label={"Email"}
+              name={"email"}
+              type={`email`}
+              placeholder={"Введите email"}
+              state={email}
+              setState={setEmail}
+            />
           </div>
           <div className={`w-full`}>
-            <TextInput label={"Пароль"} name={"password"} type={`password`} placeholder={"Введите пароль"} state={password} setState={setPassword} />
+            <TextInput
+              label={"Пароль"}
+              name={"password"}
+              type={`password`}
+              placeholder={"Введите пароль"}
+              state={password}
+              setState={setPassword}
+            />
           </div>
           <div className="text-sm relative sm:mt-3 mb-2 pt-4">
             <label className="flex text-mainText -py-2">
@@ -85,15 +95,15 @@ export default function Authorization(data: AuthorizationProps) {
               </div>
             </label>
           </div>
-        </form>
 
-        <button
-          className="block text-center transition-colors duration-300 hover:bg-button-hover text-white bg-orange p-3 rounded-lg w-full mt-5"
-          onClick={() => baseLogin()}
-        >
-          Войти
+          <button
+            className="block text-center transition-colors duration-300 hover:bg-button-hover text-white bg-orange p-3 rounded-lg w-full mt-5"
+            onClick={() => baseLogin()}
+          >
+            Войти
           </button>
 
+        </form>
         <h3 className="text-mainText mt-5 text-center font-roboto text-base">
           <span>Впервые на Chill? </span>
           <a className="text-orange hover:text-orange underline text-base" onClick={data.regFunc}>
@@ -107,8 +117,8 @@ export default function Authorization(data: AuthorizationProps) {
               loginContext.googleLoginHandler()
             }}
             className="self-center"> */}
-            {/* GGL logo */}
-            {/* <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* GGL logo */}
+        {/* <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M0 20C0 8.9543 8.9543 0 20 0C31.0457 0 40 8.9543 40 20C40 31.0457 31.0457 40 20 40C8.9543 40 0 31.0457 0 20Z"
                 fill="white"
@@ -134,8 +144,8 @@ export default function Authorization(data: AuthorizationProps) {
 
           <a className="self-center" onClick={() => vkLogin()}  > */}
 
-            {/* VK logo */}
-            {/* <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* VK logo */}
+        {/* <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M0 20C0 8.9543 8.9543 0 20 0C31.0457 0 40 8.9543 40 20C40 31.0457 31.0457 40 20 40C8.9543 40 0 31.0457 0 20Z"
                 fill="#4680C2"
@@ -149,7 +159,7 @@ export default function Authorization(data: AuthorizationProps) {
             </svg>
           </a> */}
 
-          {/* <FacebookLogin
+        {/* <FacebookLogin
             appId="2229850933730516"
             fields="name,email,picture"
             scope="public_profile,user_friends,user_actions.books"
@@ -157,8 +167,8 @@ export default function Authorization(data: AuthorizationProps) {
             textButton={""}
             cssClass="my-facebook-button-class"
             icon={<a className="self-center"> */}
-              {/* FB logo */}
-              {/* <svg className={`mt-1`} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* FB logo */}
+        {/* <svg className={`mt-1`} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M40 20C40 8.95317 31.0468 0 20 0C8.95317 0 0 8.95317 0 20C0 29.9844 7.3125 38.2578 16.875 39.7578V25.7813H11.7968V20H16.875V15.5938C16.875 10.582 19.8594 7.8125 24.4297 7.8125C26.6172 7.8125 28.9062 8.20312 28.9062 8.20312V13.125H26.3828C23.8984 13.125 23.125 14.668 23.125 16.25V20H28.6718L27.7852 25.7813H23.125V39.7578C32.6875 38.2578 40 29.9844 40 20Z"
                   fill="#1877F2"

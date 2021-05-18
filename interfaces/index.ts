@@ -2,6 +2,9 @@
 // and then use them in any component by importing them. For
 // example, to import the interface below do:
 //
+
+import { MutableRefObject } from "react"
+
 // import { User } from 'path/to/interfaces';
 export type PlayerData = {
     width: string
