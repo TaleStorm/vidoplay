@@ -10,8 +10,6 @@ const FilmDescription = () => {
   const { movie } = useContext(MovieContext)
   const sanitizedText = useSanitize(movie.excerpt)
 
-  console.log("Film D", movie)
-
   const isNotEmpty = (array: Array<string>) => {
     return array ? array.filter(item => item.length > 0).length > 0 : false
   }
