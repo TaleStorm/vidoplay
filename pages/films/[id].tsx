@@ -116,6 +116,7 @@ export const getServerSideProps = async (ctx) => {
   const movie = await ApiReq.getSingleEntity("movies", id)
   const result = await ApiReq.getPlaylistMoves(playlist._id)
   const movies = [...result.data]
+  console.log(movies)
   const comments = await ApiReq.getComments(movie._id)
   return { props: { movie, playlist, movies, comments } }
 }
