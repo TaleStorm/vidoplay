@@ -5,6 +5,7 @@ import { ProgressBarData } from '../../interfaces'
 import PlayerContext from '../context/playerContext';
 import FullScreenIcon from '../playerIcons/fullScreen';
 import MuteIcon from '../playerIcons/muteIcon';
+import PauseIcon from '../playerIcons/pauseIcon';
 import PlayIcon from '../playerIcons/playIcon';
 import { convertTime } from './utils';
 
@@ -25,31 +26,24 @@ export default function ProgressBar({isMobile, ...data}) {
     const currentTimeUser = convertTime(data.currentTime);
     const durationTimeUser = convertTime(data.durationTime);
     const possibleDurationTimeUser = convertTime(data.possibleDurationTime);
-    const {fullScreenHide} = useContext(PlayerContext)
+    const {fullScreenHide, isIntro, isPlaying, setIsPlaying} = useContext(PlayerContext)
 
     return(
       <div  
         className={`
           ${isMobile ? "hidden" : "flex"}
           ${fullScreenHide && "hidden"}
+          ${isIntro && "hidden"}
           absolute md:bottom-4 px-5 pb-5 md:px-0 md:pb-0 bottom-0 z-20 inset-x-0 md:mx-4 w-auto  items-end`
         }
       > 
-        <div  className={`relative cursor-pointer hidden md:block`}>
-            <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" className={`playerButtons cursor-pointer ${data.isPlaying? "hidden" : ""}`} onClick={() => data.setPlay()}>
-                <rect className="wrapper" width="42" height="42" rx="8" fill="white" fillOpacity="0.2"/>
-                <path d="M31.5693 19.7533L15.3695 10.1284C15.2331 10.0473 15.0769 10.0031 14.917 10.0002C14.7571 9.99724 14.5993 10.0358 14.4598 10.1118C14.3204 10.1879 14.2042 10.2987 14.1234 10.4328C14.0426 10.567 14 10.7196 14 10.8751V30.1249C14 30.2804 14.0426 30.433 14.1234 30.5672C14.2042 30.7013 14.3204 30.8121 14.4598 30.8882C14.5993 30.9642 14.7571 31.0028 14.917 30.9998C15.0769 30.9969 15.2331 30.9527 15.3695 30.8716L31.5693 21.2467C31.7008 21.1685 31.8095 21.0588 31.885 20.9281C31.9604 20.7973 32 20.6499 32 20.5C32 20.3501 31.9604 20.2027 31.885 20.0719C31.8095 19.9412 31.7008 19.8315 31.5693 19.7533Z" fill="white"/>
-            </svg>
-            <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" className={`playerButtons cursor-pointer ${data.isPlaying? "" : "hidden"}`} onClick={() => data.setPlay()}>
-                <path className="wrapper" d="M0 8C0 3.58172 3.58172 0 8 0H34C38.4183 0 42 3.58172 42 8V34C42 38.4183 38.4183 42 34 42H8C3.58172 42 0 38.4183 0 34V8Z" fill="white" fillOpacity="0.2"/>
-                <path d="M30 10H25.5C24.9477 10 24.5 10.4477 24.5 11V31C24.5 31.5523 24.9477 32 25.5 32H30C30.5523 32 31 31.5523 31 31V11C31 10.4477 30.5523 10 30 10Z" fill="white"/>
-                <path d="M16.5 10H12C11.4477 10 11 10.4477 11 11V31C11 31.5523 11.4477 32 12 32H16.5C17.0523 32 17.5 31.5523 17.5 31V11C17.5 10.4477 17.0523 10 16.5 10Z" fill="white"/>
-            </svg>
+        <div onClick={() => (setIsPlaying(!isPlaying))}  className={`relative lg:hover:bg-orange transition-all duration-200 rounded-lg flex-shrink-0 p-2 cursor-pointer hidden md:block w-10 h-10 bg-white bg-opacity-20`}>
+          {isPlaying ? <PlayIcon/> : <PauseIcon/>}
         </div>
         <div 
         onClick={() => data.setPlay()}
         className={`md:hidden w-9 h-9 mr-4 flex-shrink-0`}>
-        <PlayIcon/>
+         {isPlaying ? <PlayIcon/> : <PauseIcon/>}
         </div>
         <div
         className={`w-9 h-9 md:hidden mr-4 flex-shrink-0`}
@@ -134,14 +128,14 @@ export default function ProgressBar({isMobile, ...data}) {
             </div>
         </div>
 
-        <div className="cursor-pointer mr-2 text-white hidden md:block z-20">
-            <Menu as="div" className="relative inline-block text-left h-10.5">
+        <div className="cursor-pointer mr-2 text-white hidden md:block relative z-30">
+            <Menu as="div" className="relative inline-block text-left z-30 h-10.5">
                 {({ open }) => (
                   <>
                     <Transition show={open} as={Fragment} enter="transition ease-out duration-100" enterFrom="transform opacity-0 scale-95" enterTo="transform opacity-100 scale-100" leave="transition ease-in duration-75" leaveFrom="transform opacity-100 scale-100" leaveTo="transform opacity-0 scale-95">
                       <Menu.Items
                         static
-                        className="bottom-12 absolute left-0 mt-2 w-48 font-roboto rounded-md"
+                        className="bottom-12 absolute left-0 mt-2 w-48 font-roboto rounded-md z-30"
                       >
                         <div className="py-1 ">
                             {qualities.map((quality, i) => {
@@ -151,7 +145,7 @@ export default function ProgressBar({isMobile, ...data}) {
                                     <button
                                       className={classNames(
                                         active ? 'bg-playerSecond text-mainText' : 'bg-playerMain text-mainText',
-                                        'block pl-0 py-2 w-20 text-lg '
+                                        'block pl-0 py-2 w-20 text-lg relative z-30'
                                       )}
                                       onClick = {() => data.changeCurrentLevel(quality)}
                                     >

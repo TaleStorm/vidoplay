@@ -23,7 +23,27 @@ const PlayerContext = React.createContext({
     setSerie: (arg:number) => {},
     isWarningVisible: true,
     setIsWarningVisible: (arg:boolean) => {},
-    warningDuration: 4
+    warningDuration: 4,
+    currentSeason: 0,
+    setSeason: (arg:number) => {},
+    isIntro: true,
+    setIntro: (arg:boolean) => {},
+    panelState: "hidden",
+    setPanel: (arg:string) => {},
+    isEndedModalOpen: false,
+    setIsEndedModalOpen: (arg:boolean) => {},
+    currentTimePercent: "0",
+    setVideoPercentCurrent: (arg:string) => {},
+    changeSerie: (arg:number) => {},
+    currentActing: 0,
+    setActing:(arg:number) => {},
+    changeActing: (arg:number) => {},
+    durationTime: 0,
+    setVideoDuration:(arg:number) => {},
+    buttonState: "visible",
+    setButton: (arg:string) => {},
+    currentTimeBuffer: "0",
+    setVideoPercentBuffer: (arg:string) => {},
 });
 
 interface Props {
@@ -35,8 +55,12 @@ const PlayerContextProvider = ({ children }: Props) => {
   const [isMobile, setIsMobile] = useState(false)
   const [mobileOverlayStage, setMobileOverlayStage] = useState(0)
   const [currentSerie, setSerie] = useState(0);
+  const [currentSeason, setSeason] = useState(0);
   const [fullScreenHide, setFullScreenHide] = useState(false)
+  const [isIntro, setIntro] = useState(true);
+  const [durationTime, setVideoDuration] = useState(0);
   const [api, setApi] = useState(null)
+  const [panelState, setPanel] = useState("hidden");
   const [isPlaying , setIsPlaying] = useState(false)
   const [isSliderOpen, setIsSliderOpen] = useState(false);
   const [realPanelState, setRealPanel] = useState("hidden");
@@ -44,7 +68,17 @@ const PlayerContextProvider = ({ children }: Props) => {
   const [isLandscape, setIsLandscape] = useState(true)
   const [hasBeenPlayed, setHasBeenPlayed] = useState(false)
   const [isWarningVisible, setIsWarningVisible] = useState(true)
+  const [isEndedModalOpen, setIsEndedModalOpen] = useState(false);
+  const [currentTimePercent, setVideoPercentCurrent] = useState("0");
+  const [currentActing, setActing] = useState(0);
+  const [buttonState, setButton] = useState("visible");
+  const [currentTimeBuffer, setVideoPercentBuffer] = useState("0");
   const warningDuration = 4
+
+  var removeFakeButton = () => {
+    setPanel("visible");
+    setButton("hidden");
+  }
   
 
 // Определяем ориентацию (устройства)
@@ -79,7 +113,6 @@ const PlayerContextProvider = ({ children }: Props) => {
       if (api) {
         if (isPlaying) {
             setRealPanel("hidden")
-            console.log("Вызван плей")
             setMobileOverlayStage(0)
             api.method({ name: "play" })   
             setHasBeenPlayed(true)
@@ -95,7 +128,6 @@ const PlayerContextProvider = ({ children }: Props) => {
                 setRealPanel("visible")
               }
             }})
-            console.log('Вызван пауз')
             setMobileOverlayStage(2)
             api.method({ name: "pause" })   
         }
@@ -134,25 +166,74 @@ const PlayerContextProvider = ({ children }: Props) => {
     }
   }, [api, isFullScreen])
 
+  useEffect(() => {
+    if (api) {
+      delete api._events["play"]
+      api.on('play', () => {
+        setButton("hidden");
+        changeActing(currentActing)
+        setIsPlaying(true);
+        api.method({
+          name: 'getDuration', params: {}, callback: (res) => {
+            setVideoDuration(res);
+            delete api._events["progress"]
+            api.on('progress', (data) => {
+              const percent = 100 * data.current / res
+              setVideoPercentBuffer(percent.toFixed(1))
+            })
+          }
+        })
+      
+       })
+  
+    }
+  }, [api, currentActing])
+
+  useEffect(() => {
+    if (api) {
+      delete api._events["ended"]
+      if (isIntro) {
+        api.on("ended", () => {
+          setIntro(false)
+          removeFakeButton();
+        })
+      }
+      else {
+        api.on("ended", () => {
+          api.method({ name: "seekPercentage", params: 100 });
+          api.method({ name: "pause" });
+          setIsEndedModalOpen(true);
+        })
+      }
+    }
+
+  }, [api, isIntro])
+
 // Цепляем на апи листнеры
   useEffect(() => {
     if (api) {
-        const resizeListener = () => {
-            api.method({
-              name: "resize", params: {
-                width: "100%",
-                height: "100%"
-              }
-            })
+      
+      const resizeListener = () => {
+        setTimeout(() => {api.method({
+          name: "resize", params: {
+            width: "100%",
+            height: "100%"
           }
+        })}, 1000)
+      }
+
           if (hasBeenPlayed) {
+            delete api._events["ready"]
+            console.log("ready listener activated")
             api.on("ready", () => {
               api.method({name: "play"})
             })
           } 
         window.addEventListener("resize", resizeListener)
+
     }
   }, [api, hasBeenPlayed])
+
 
   
 
@@ -208,6 +289,33 @@ const PlayerContextProvider = ({ children }: Props) => {
     }
   }, [fullScreenHide])
 
+
+
+  var changeSerie = async (newSerie) => {
+    setPanel("hidden");
+    setIntro(true);
+    setIsWarningVisible(true)
+    setIsPlaying(false)
+    setMobileOverlayStage(0)
+    if (isEndedModalOpen) {
+      setIsEndedModalOpen(false);
+    }
+    setVideoPercentCurrent("0");
+    setSerie(newSerie);
+    changeActing(currentActing)
+  }
+
+
+  var changeActing =  (newActing) => {
+    setActing(newActing);
+    api.method({name: 'getPlugin', params: {
+      pluginName: "audio_selector", 
+      pluginMethod: "setIndexTrack",
+      pluginValue: currentActing
+    }, callback: (e) => {
+    }});
+  }
+
   return (
     <PlayerContext.Provider
     value={{
@@ -232,7 +340,27 @@ const PlayerContextProvider = ({ children }: Props) => {
         setSerie,
         isWarningVisible,
         setIsWarningVisible,
-        warningDuration
+        warningDuration,
+        setSeason,
+        currentSeason,
+        setIntro,
+        isIntro,
+        panelState,
+        setPanel,
+        isEndedModalOpen,
+        setIsEndedModalOpen,
+        currentTimePercent,
+        setVideoPercentCurrent,
+        changeSerie,
+        setActing,
+        currentActing,
+        changeActing,
+        durationTime,
+        setVideoDuration,
+        buttonState,
+        setButton,
+        currentTimeBuffer,
+        setVideoPercentBuffer,
     }}
     >
       {children}
