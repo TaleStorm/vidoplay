@@ -41,7 +41,8 @@ const MovieContext = React.createContext({
         _mariaDB: "",
     },
     predictions: [],
-    isSeries: false
+    isSeries: false,
+    isLoaded: false
 });
 
 interface Props {
@@ -49,6 +50,7 @@ interface Props {
 }
 
 const MovieContextProvider = ({ children }: Props) => {
+  const [isLoaded, setIsLoaded] = useState(false)
   const [movie, setMovie] = useState({
     actors: [],
     age: "",
@@ -97,6 +99,7 @@ const isSeries = movie.type === "Сериал"
     }
     if (movie._id) {
         fetchPredicitons(movie._id)
+        setIsLoaded(true)
     }
   }, [movie])
   
@@ -106,7 +109,8 @@ const isSeries = movie.type === "Сериал"
         setMovie,
         movie,
         predictions,
-        isSeries
+        isSeries,
+        isLoaded
     }}
     >
       {children}

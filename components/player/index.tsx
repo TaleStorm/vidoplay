@@ -14,31 +14,22 @@ import PlayIcon from "../playerIcons/playIcon";
 import MobileProgressBar from "./mobileProgressBar";
 import CompilationSliderMobile from "./compilationSliderMobile";
 import { useSwipeable } from "react-swipeable";
-import usePredictor from "../hooks/usePredictor";
 import PlayerContext from "../context/playerContext";
 import MovieContext from "../context/movieContext";
 import AgeWarning from "./ageWarning";
 
 export default function Player(data) {
-  const [buttonState, setButton] = useState("visible");
-  const [panelState, setPanel] = useState("hidden");
-  const [serieState, setSerieState] = useState("closed");
-  const [currentSeason, setSeason] = useState(0);
-  const [seasonState, setSeasonState] = useState("closed");
-  const [currentActing, setActing] = useState(0);
+
   const [actingState, setActingState] = useState("closed");
   const [interval, setIntervalVideo] = useState(undefined);
   const [realInterval, setRealInterval] = useState(0);
-  const [durationTime, setVideoDuration] = useState(0);
   const [currentTime, setVideoCurrent] = useState(0);
-  const [currentTimePercent, setVideoPercentCurrent] = useState("0");
-  const [currentTimeBuffer, setVideoPercentBuffer] = useState("0");
+ 
   const [currentVolume, setVolumeCurrent] = useState(100);
   const [bufferVolume, setVolumeBuffer] = useState(100);
   const [isMuted, setMute] = useState(false);
   const [isDragged, setDrag] = useState(false);
   const [currentQuality, setCurrentQuality] = useState("AUTO");
-  const [isEndedModalOpen, setIsEndedModalOpen] = useState(false);
   const [isCompliationModalOpen, setIsCompliationModalOpen] = useState(false);
   const [currentCompilationMovie, setCurrentCompilationMovie] = useState(data.movies[0]);
   const [globalGplayerAPI, setPlayer] = useState(undefined);
@@ -46,8 +37,6 @@ export default function Player(data) {
   const [draggerVisible, setDraggerVisible] = useState(false);
   const [possibleDurationTime, setPossibleDurationTime] = useState(0);
 
-  // Интро
-  const [isIntro, setIntro] = useState(true);
 
   //скелет
   const [isLoaded, setisLoaded] = useState(true);
@@ -62,16 +51,26 @@ export default function Player(data) {
     mobileOverlayStage, 
     setMobileOverlayStage,
     fullScreenHide,
-    setFullScreenHide,
     isSliderOpen,
     setIsSliderOpen,
     isPlaying,
     setIsPlaying,
     realPanelState,
-    setRealPanel,
     currentSerie,
     setSerie,
-    setIsWarningVisible
+    isIntro,
+    isEndedModalOpen,
+    setIsEndedModalOpen,
+    currentTimePercent,
+    setVideoPercentCurrent,
+    changeSerie,
+    setSeason,
+    currentSeason,
+    changeActing,
+    durationTime,
+    buttonState,
+    currentTimeBuffer,
+    panelState
     
   } = useContext(PlayerContext)
 
@@ -82,44 +81,10 @@ export default function Player(data) {
     const GcorePlayer = (window as any).GcorePlayer.gplayerAPI;
     const gplayerAPI = new GcorePlayer(document.getElementById("gplayer"))
 
-    gplayerAPI.on("ready", () => {
-      gplayerAPI.method({name: "play"});
-    })
-
-    gplayerAPI.on('play', () => {
-      setButton("hidden");
-      setVideoPercentCurrent("0");
-      setIsPlaying(true);
-      const timer = setTimeout(() => {
-        setIntro(false);
-        clearTimeout(timer);
-      }, 5000)
-      const timerforPanel = setTimeout(() => {
-        removeFakeButton();
-        clearTimeout(timerforPanel);
-      }, 8000)
-      setVideoPercentCurrent("0");
-      gplayerAPI.method({
-        name: 'getDuration', params: {}, callback: (res) => {
-          setVideoDuration(res);
-          gplayerAPI.on('progress', (data) => {
-            const percent = 100 * data.current / res
-            setVideoPercentBuffer(percent.toFixed(1))
-          })
-        }
-      })
-  })
-
     gplayerAPI.on("pause", () => {
       setIsPlaying(false)
     })
 
-
-    gplayerAPI.on("ended", () => {
-      gplayerAPI.method({ name: "seekPercentage", params: 100 });
-      gplayerAPI.method({ name: "pause" });
-      setIsEndedModalOpen(true);
-    })
 
     //Вот тут хэндлится вся логика фуллскрина при нажатии на ESC
     const fullScreenListener = () => {
@@ -185,30 +150,25 @@ export default function Player(data) {
   }
 
   useEffect(() => {
+    let listener
     if (globalGplayerAPI) {
-      const spaceListener = (e) => {
-        e.preventDefault();
+      listener = (e) => {
+        console.log(e)
         if (e.key == " ") {
-          if (realPanelState == "hidden") {
-            setRealPanel("visible");
-            globalGplayerAPI.method({ name: "pause" });
-            setIsSliderOpen(true);
+          e.preventDefault();
+          if (isPlaying) {
+            setIsPlaying(false)
           } else {
-            setRealPanel("hidden");
-            globalGplayerAPI.method({ name: "play" });
-            setIsSliderOpen(false);
+            setIsPlaying(true)
           }   
         }
-        window.removeEventListener("keydown", spaceListener);
       }
-      window.addEventListener("keydown", spaceListener);
     }
-  }, [realPanelState])
+    window.addEventListener("keydown", listener);
+    return () => {window.removeEventListener("keydown", listener)}
+  }, [isPlaying, globalGplayerAPI])
 
-  var removeFakeButton = () => {
-    setPanel("visible");
-    setButton("hidden");
-  }
+
 
 
   var setPlay = () => {
@@ -235,52 +195,7 @@ export default function Player(data) {
     setVideoPercentCurrent("0");
   }
 
-  var changeSerie = async (newSerie) => {
-    setPanel("hidden");
-    setIntro(true);
-    setIsWarningVisible(true)
-    setIsPlaying(false)
-    setMobileOverlayStage(0)
-    if (isEndedModalOpen) {
-      setIsEndedModalOpen(false);
-    }
-    setVideoPercentCurrent("0");
-    setSerie(newSerie);
-  }
 
-  var changeActing = async (newActing) => {
-    setActing(newActing);
-    globalGplayerAPI.method({name: 'getPlugin', params: {
-      pluginName: "audio_selector", 
-      pluginMethod: "setIndexTrack",
-      pluginValue: newActing
-    }, callback: (e) => {
-    }});
-  }
-
-  var changeSerieState = async () => {
-    if (seasonState == "open") {
-      setSerieState("closed")
-    } else {
-      setSerieState("open")
-    }
-  }
-
-  var changeActingState = async () => {
-    if (actingState == "open") {
-      setActingState("closed")
-    } else {
-      setActingState("open")
-    }
-  }
-
-  var changeSeasonState = async () => {
-    if (seasonState == "open") {
-      setSeasonState("closed");
-    } else {
-      setSeasonState("open");
-    };
-  }
 
   var changeMute = async () => {
     if (isMuted) {
@@ -401,7 +316,7 @@ export default function Player(data) {
 
   return (
     <div>
-      <div className={`${isLoaded ? "visible" : "hidden"}`}>
+      <div draggable={false} className={`${isLoaded ? "visible" : "hidden"}`}>
         <FullScreen handle={handle}>
           <div
             id="mainframe"
@@ -410,6 +325,7 @@ export default function Player(data) {
             <iframe
               width={data.width}
               height={data.height}
+              tabIndex={-1}
               src={isIntro ? `${intro}?player_id=777` : `${data.series[currentSeason][currentSerie].videoId}?player_id=777`}
               // src={`${data.series[currentSeason][currentSerie].videoId}?player_id=777`}
               // src={`${intro}?player_id=777`}
@@ -421,20 +337,6 @@ export default function Player(data) {
             
             <div className={`absolute  top-0 left-0 w-full h-auto ${buttonState}`} >
               <TopPlayerPanel
-                data={data.series}
-                changeSeasonState={changeSeasonState}
-                changeSeason={changeSeason}
-                currentSeason={currentSeason}
-                seasonState={seasonState}
-                changeSerieState={changeSerieState}
-                changeSerie={changeSerie}
-                currentSerie={currentSerie}
-                serieState={serieState}
-                changeActingState={changeActingState}
-                changeActing={changeActing}
-                currentActing={currentActing}
-                actingState={actingState}
-                langs={data.langs}
               />
             </div>
 
@@ -468,20 +370,6 @@ export default function Player(data) {
             <div className="hidden md:block">
               <div className={`${isPlaying ? "hidden" :"visible"}`}>
                 <TopPlayerPanel
-                  data={data.series}
-                  changeSeasonState={changeSeasonState}
-                  changeSeason={changeSeason}
-                  currentSeason={currentSeason}
-                  seasonState={seasonState}
-                  changeSerieState={changeSerieState}
-                  changeSerie={changeSerie}
-                  currentSerie={currentSerie}
-                  serieState={serieState}
-                  changeActingState={changeActingState}
-                  changeActing={changeActing}
-                  currentActing={currentActing}
-                  actingState={actingState}
-                  langs={data.langs}
                 />
               </div>
               <div className={`${(buttonState === "hidden" || panelState === "hidden") && "opacity-0 "}`}>
@@ -506,13 +394,7 @@ export default function Player(data) {
                 </PlayerModalOverlay>
               </div>
               
-              <div className={`hidden md:block ${data.isSerial ? "":"md:hidden"}`}>
-                
-                <CompilationSliderSerial setCurrentCompilationMovie={setCurrentCompilationMovie} movies={data.series[currentSeason]} setModalOpen={setIsCompliationModalOpen} isSliderOpen={isSliderOpen} setIsSliderOpen={setIsSliderOpen} isFullscreen={isFullScreen} />
-                <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
-                  <CompilationModalSerial currentCompilationMovie={currentCompilationMovie} setModalOpen={setIsCompliationModalOpen} setSerie={changeSerie}/>
-                </PlayerModalOverlay>
-              </div>
+
               </div>
           </div>
             
@@ -530,7 +412,8 @@ export default function Player(data) {
                 setPlay()
               }
             }}
-            tabIndex={0}
+            tabIndex={-1}
+            
           >
             <div
               onClick={(e) => {
@@ -550,6 +433,13 @@ export default function Player(data) {
 
 
             </div>
+            <div className={`hidden md:block ${data.isSerial ? "":"md:hidden"}`}>
+                
+                <CompilationSliderSerial setCurrentCompilationMovie={setCurrentCompilationMovie} movies={data.series[currentSeason]} setModalOpen={setIsCompliationModalOpen} isSliderOpen={isSliderOpen} setIsSliderOpen={setIsSliderOpen} isFullscreen={isFullScreen} />
+                <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
+                  <CompilationModalSerial currentCompilationMovie={currentCompilationMovie} setModalOpen={setIsCompliationModalOpen} setSerie={changeSerie}/>
+                </PlayerModalOverlay>
+              </div>
             
             <div className={`${mobileOverlayStage > 0 ? "absolute bg-opacity-50 h-full" : "bg-opacity-0 h-0 absolute"} 
             ${!isMobile && "hidden"}
@@ -562,22 +452,7 @@ export default function Player(data) {
                 className={`w-10 h-10 p-0.5 bg-opacity-20 bg-white  active:bg-orange  rounded-lg`}>
                   <ChevronLeft />
                 </div>
-                <TopPlayerPanel
-                  data={data.series}
-                  changeSeasonState={changeSeasonState}
-                  changeSeason={changeSeason}
-                  currentSeason={currentSeason}
-                  seasonState={seasonState}
-                  changeSerieState={changeSerieState}
-                  changeSerie={changeSerie}
-                  currentSerie={currentSerie}
-                  serieState={serieState}
-                  changeActingState={changeActingState}
-                  changeActing={changeActing}
-                  currentActing={currentActing}
-                  actingState={actingState}
-                  langs={data.langs}
-                />
+
                 <button
                   onClick={setPlay}
                   className={`flex-shrink-0 w-20 h-20 p-5 bg-opacity-20 bg-white  active:bg-orange rounded-lg`}>

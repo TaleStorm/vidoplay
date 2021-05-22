@@ -5,9 +5,6 @@ import { ChevronDownIcon, ChevronUpIcon} from '@heroicons/react/solid';
 
 
 const Dropdown = ({datas, state, setState}) => {
-  function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-  }
   
   return (
     <div className="">
