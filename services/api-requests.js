@@ -57,4 +57,13 @@ export default class NewsService {
   getComments = async (movieId) => {
     return this.getResource(`${urlPrefix}/api/getComments/${movieId}`)
   }
+
+  getFavoriteFilm = async (data) => {
+    return this.postResource(`${urlPrefix}/api/getFavoriteFilm`, data)
+  }
+
+  updateFavoriteFilm = async (data) => {
+    console.log(data)
+    return this.postResource(`${urlPrefix}/api/updateFavoriteFilm`, data)
+  }
 }

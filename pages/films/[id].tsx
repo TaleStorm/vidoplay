@@ -76,14 +76,14 @@ export default function IndexPage({ movie, playlist, movies, comments }) {
         />
         
         <div className={`hidden sm:block`}>
-          <ReviewsAndLikes score={score} setscore={setscore} />
+          <ReviewsAndLikes score={score} setscore={setscore} movieId = {movie._id}/>
         </div>
         <Series series={series} />
 
         <FilmDescription/>
 
         <div className="sm:hidden">
-          <ReviewsAndLikes score={score} setscore={setscore} />
+          <ReviewsAndLikes score={score} setscore={setscore} movieId={movie._id}/>
         </div>
 
         {/* <div className="hidden sm:block ">
@@ -116,7 +116,7 @@ export const getServerSideProps = async (ctx) => {
   const movie = await ApiReq.getSingleEntity("movies", id)
   const result = await ApiReq.getPlaylistMoves(playlist._id)
   const movies = [...result.data]
-  console.log(movies)
+  // console.log(localStorage.getItem('_user'))
   const comments = await ApiReq.getComments(movie._id)
   return { props: { movie, playlist, movies, comments } }
 }

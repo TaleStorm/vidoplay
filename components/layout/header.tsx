@@ -14,7 +14,6 @@ import TextSearchContext from "../context/textSearchContetxt"
 
 const HeadNav = ({pathname, context}) => {
   const path = pathname.split("/")
-  console.log(path[1])
   const navDisplayed = () => {
     if (path[1]) {
       return true
@@ -110,13 +109,8 @@ export default function Header() {
   const router = useRouter()
 
   useEffect(() => {
-    console.log(router.pathname)
-    console.log(router.pathname === "/search")
-
     if (router.pathname === "/search") {
       setIsSearchOpen(true)
-
-      // searchInputRef.current.focus()
     } else setIsSearchOpen(false)
   }, [])
 

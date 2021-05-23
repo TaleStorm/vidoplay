@@ -1,12 +1,15 @@
-import { useContext, useState } from "react"
+import { useContext, useState, useEffect } from "react"
 import AuthModalContext from "../context/authModalContext"
 import LoginContext from "../context/loginContext"
 import MovieContext from "../context/movieContext"
 import StarIcon from "../icons/starIcon"
 import ThumbsDown from "../icons/thumbsDown"
 import ThumbsUp from "../icons/thumbsUp"
+import apiReq from "../../services/api-requests"
 
-const ReviewsAndLikes = ({setscore, score}) => {
+const ApiReq = new apiReq()
+
+const ReviewsAndLikes = ({setscore, score, movieId}) => {
     const authModalContext = useContext(AuthModalContext)
     const loginContext = useContext(LoginContext)
     const {movie} = useContext(MovieContext)
@@ -16,6 +19,29 @@ const ReviewsAndLikes = ({setscore, score}) => {
     const [like, setLike] = useState(null)
     const stars = [1,2,3,4,5]
 
+    const updateFavoriteFilm = async (additional) => {
+        const data = {
+            _movieId: movieId,
+            _userId: localStorage.getItem('_user')
+        }
+        const result = Object.assign(data, additional)
+        await ApiReq.updateFavoriteFilm(result)
+    }
+
+    useEffect(() => {
+        async function fetchMyAPI() {
+            if (localStorage.getItem('_user')) {
+                const data = {
+                    _movieId: movieId,
+                    _userId: localStorage.getItem('_user')
+                }
+                console.log(await ApiReq.getFavoriteFilm(data))
+            }
+        }
+      
+        fetchMyAPI()
+    }, [])
+
     return (
         <div className="text-sm col-span-1 flex flex-col sm:flex-row justify-end content-between mt-8 pb-2">
         <div className="text-sm col-span-1 flex items-center justify-end mt-8 mr-8">
@@ -23,18 +49,24 @@ const ReviewsAndLikes = ({setscore, score}) => {
                 {score ? "Ваша оценка" : "Оцените сериал"}
             </h4>
             <div 
-            onMouseLeave={() => {
+                onMouseLeave={() => {
                     setHoveredscore(0)
                 }}
-            className={`flex items-center`}>
-            {stars.map((star, i) => {
-                return (
-                    <div className={`${i === stars.length - 1 ? "mr-0" : "mr-2"} w-8 h-8`}>
-                        <StarIcon setscore={setscore} score={score} index={star} hoveredscore={hoveredscore} setHoveredscore={setHoveredscore}/>
-                    </div>
-                )
-
-            })}
+                className={`flex items-center`}>
+                {stars.map((star, i) => {
+                    return (
+                        <div className={`${i === stars.length - 1 ? "mr-0" : "mr-2"} w-8 h-8`}>
+                            <StarIcon 
+                                setscore={setscore} 
+                                score={score} 
+                                index={star} 
+                                hoveredscore={hoveredscore} 
+                                setHoveredscore={setHoveredscore}
+                                updateFavoriteFilm={updateFavoriteFilm}
+                            />
+                        </div>
+                    )
+                })}
             </div>
         </div>
         <div className="text-sm col-span-1 flex flex-row sm:justify-end justify-center items-center content-end mt-8 ">
@@ -52,6 +84,7 @@ const ReviewsAndLikes = ({setscore, score}) => {
                         if (like === false) {
                             setDislikes(dislikes - 1)
                         }
+                        updateFavoriteFilm({isLiked: true, isDisliked: false});
                     }
                     else {
                         authModalContext.setModalOpen(true)
@@ -76,6 +109,7 @@ const ReviewsAndLikes = ({setscore, score}) => {
                     if (like === true) {
                         setLikes(likes - 1)
                     }
+                    updateFavoriteFilm({isLiked: false, isDisliked: true});
                 }
                 else {
                     authModalContext.setModalOpen(true)
