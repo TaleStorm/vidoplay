@@ -227,6 +227,7 @@ const PlayerContextProvider = ({ children }: Props) => {
             console.log("ready listener activated")
             api.on("ready", () => {
               api.method({name: "play"})
+              api.method({ name: "setVolume", params: 100 })
             })
           } 
         window.addEventListener("resize", resizeListener)
