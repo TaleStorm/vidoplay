@@ -29,11 +29,18 @@ export default function WantToSeeCard(data: mockupType) {
     return element.scrollWidth > element.offsetWidth || element.scrollHeight > element.offsetHeight;
   }
 
-  useEffect(() => {
+  useEffect(() => {    
     setIsDiscriptionLong(isOverFlowed(disriptionRef.current))
-    window.addEventListener("resize", () => {
+
+    let listener = () => {
       setIsDiscriptionLong((prev) => isOverFlowed(disriptionRef.current))
-    })
+    }
+
+    window.addEventListener("resize", listener)
+
+    return ()=>{
+      window.removeEventListener("resize", listener)
+    }
   }, [])
 
   useEffect(() => {
