@@ -1,13 +1,13 @@
 export default async (req, res) => {
-    const { method, body, query } = req
-    console.log(body, query)
+    const { method, body } = req
     try {
       switch (method) {
         case "GET":
           return res.status(404).json({ error: "Api not found." })
           break
         case "POST":
-          let response = await fetch(`${process.env.API_DOMAIN}/api/login`, {
+          console.log(body)
+          let response = await fetch(`https://accounts.chillvision.ru/api/login`, { 
             method: 'POST', // или 'PUT'
             body: JSON.stringify(body), // данные могут быть 'строкой' или {объектом}!
             headers: {
@@ -15,7 +15,6 @@ export default async (req, res) => {
             }
           })
           response = await response.json()
-          console.log(response)
           res.status(200).json(response)
           break
         default:

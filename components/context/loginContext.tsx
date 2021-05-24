@@ -10,11 +10,13 @@ import UserContext from "./userContext";
 const LoginContext = React.createContext({
   userToken: null,
   loginHandler: (data) => { return new Promise((() => true)) },
+  logIn: (data) => { },
   logOut: (data) => { },
   registerHandler: (data) => { return new Promise((() => true)) },
-  VKLoginHandler: (data) => { return new Promise((() => true)) },
+  VKLoginHandler: (data) => { },
   passwordReset: (email) => { return new Promise((() => true)) },
-  googleLoginHandler: () => { }
+  handleGoogleLogin: (data) => {},
+  handleFacebookLogin: (data) => {}
 
 });
 
@@ -30,75 +32,123 @@ const LoginContextProvider = ({ children }: Props) => {
   const { setModalOpen } = useContext(AuthModalContext)
   const { setUser, setDefaultUser } = useContext(UserContext)
 
-  const onSuccess = (res) => {
-    console.log(res)
-  }
-
-  const onFailure = () => {
-
-  }
-
   const loginHandler = async (data) => {
-    const resp = await authAxios.post("/api/login", { email: data.email, _password: data._password, type: "base-login" })
-    const respData = resp.data
-    if ((respData.status === "ok") && (!respData.error)) {
-      logIn(respData.data["_user"])
-      return true
-    }
-    else {
-      return false
-    }
+    const {email, password} = data
+        const resp = await axios.post("/api/login", {
+          email,
+          password,
+          type: "password"
+      })
+      if (resp.data.error) {
+          BadToast("Неправильный пароль/email")
+          return
+      }
+      GoodToast("Логин успешен")
+      logIn(resp.data.token)
   };
 
 
-  // useEffect(() => {
-  //     (window as any).VK.init({
-  //       apiId: 7838936,
-  //     })
-  // }, [])
+  useEffect(() => {
+    const VKscript = document.createElement('script');
+    VKscript.src = "https://vk.com/js/api/openapi.js";
+    VKscript.async = true;
+    VKscript.onload = () => {
+        (window as any).VK.init({
+            apiId: 7567371,
+          })
+    }
+    
+    const FBscript = document.createElement('script');
+    FBscript.src = "https://connect.facebook.net/en_US/sdk.js"
+    FBscript.async = true;
+    FBscript.onload = () => {
+        (window as any).FB.init({
+          appId            : 2229850933730516,
+          autoLogAppEvents : true,
+          xfbml            : true,
+          version          : 'v10.0'
+        });
+        console.log("FB Loaded")
+    }
 
-  const VKLoginHandler = async (data) => {
-    try {
-      await (window as any).VK.Auth.login(async (r) => {
-        await (window as any).VK.api(
-          "users.get",
-          {
-            fields: "bdate,photo_50,sex, books",
-            v: "5.130",
-          },
-          async (data) => {
-            let tmp = {
-              firstname: data.response[0].first_name,
-              _user: data.response[0].id,
-              type: "vk-login",
-            }
-            const response = await authAxios.post("/api/login", tmp)
-            logIn(response.data.data._user)
-            setModalOpen(false)
-            GoodToast("Успешная авторизация")
+    document.body.appendChild(VKscript);
+    document.body.appendChild(FBscript)
+
+    return () => {
+      document.body.removeChild(VKscript);
+      document.body.removeChild(FBscript)
+    }
+
+}, [])
+
+const handleFacebookLogin = async () => {
+
+  (window as any).FB.login(async function(data){
+        if (data.status !== "connected") {
+          console.log(data)
+          BadToast("Авторизация неудачна")
+          return
+        }
+        console.log(data);
+        await (window as any).FB.api('/me', { locale: "en", fields: "email" }, async (me) => {
+          const resp = await axios.post("/api/login", {
+            accessToken: data.authResponse.accessToken,
+            id: me.id,
+            email: me.email,
+            type: "facebook"
+          })
+          if (resp.data.error) {
+            BadToast("Провал")
+            return
           }
-        )
-      }, 272629760)
+          GoodToast("Успешно");
+        });
+    }, {scope: 'public_profile, email', return_scopes: true});
+      
+  }
 
+
+const handleGoogleLogin = async (data) => {
+  if (data.error) {
+      console.log(data)
+      BadToast("Авторизация неудачна")
+      return
+  }
+  const resp = await axios.post("/api/login", {
+    accessToken: data.qc.id_token,
+    id: data.googleId,
+    email: data.profileObj.email,
+    type: "google"
+    })
+    if (resp.data.error){
+      BadToast("Авторизация неудачна")
+      return
     }
-    catch (e) {
-      BadToast("Не получилось!")
-      return false
-    }
+    GoodToast("Логин успешен")
+    logIn(resp.data.token)
+  }
+
+
+
+
+  const VKLoginHandler = async () => {
+      const url = "https://oauth.vk.com/authorize?client_id=7567371&scope=email,offline&redirect_uri=https://chillvision.ru/Auth/Social_vk&response_type=token&display=popup"
+      window.location.href = url
 
   }
 
   const registerHandler = async (data) => {
-    const resp = await authAxios.post('/api/register', data)
-    const signupStatus = resp.data.status
-    if (signupStatus === "exist") {
-      const bool = await loginHandler(data)
-      return bool
+    const {email, password} = data
+    const resp = await axios.post("/api/signup", {
+      email,
+      password,
+    })
+    if (resp.data.error) {
+        BadToast("Такой email уже существует, попробуйте зайти")
+        return
     }
-    else {
-      return false
-    }
-
+    GoodToast("Логин успешен")
+    logIn(resp.data.token)
   }
 
   const logIn = async (token: string) => {
@@ -130,16 +180,6 @@ const LoginContextProvider = ({ children }: Props) => {
     }
   }, []);
 
-  const { signIn } = useGoogleLogin({
-    onSuccess,
-    onFailure,
-    clientId,
-
-  })
-
-  const googleLoginHandler = async () => {
-    signIn()
-  }
 
   return (
     <LoginContext.Provider
@@ -150,7 +190,9 @@ const LoginContextProvider = ({ children }: Props) => {
         registerHandler,
         VKLoginHandler,
         passwordReset,
-        googleLoginHandler
+        handleGoogleLogin,
+        logIn,
+        handleFacebookLogin
       }}
     >
       {children}
