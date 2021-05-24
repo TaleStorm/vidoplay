@@ -152,10 +152,16 @@ const handleGoogleLogin = async (data) => {
   }
 
   const logIn = async (token: string) => {
-    window.localStorage.setItem("_user", token)
-    setUserToken(token)
-    const userRes = await axios.post("/api/getUser", { userId: token })
-    setUser(userRes.data)
+
+    const valid = await axios.post("/api/validate", { token })
+    if (valid.status === 403) {
+      BadToast("Необходимо перезайти в аккаунт")
+    }
+    else {
+      window.localStorage.setItem("_user", token)
+      setUserToken(token)
+      setDefaultUser()
+    }
   }
 
   const logOut = () => {
