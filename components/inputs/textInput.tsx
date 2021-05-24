@@ -16,6 +16,7 @@ const TextInput = ({
     error = false,
     setError = () => { },
     errorMessage = "Ошибка!",
+    required,
 }: InputProps) => {
 
     const [realType, setRealType] = useState(type)
@@ -39,6 +40,7 @@ const TextInput = ({
                     setError(!validator(e.target.value))
                 }}
                 ref={inputRef}
+                required={required}
             />
             <div className={`self-end flex-shrink-0 cursor-pointer w-8 h-8 absolute right-4 top-12 md:top-13 ${type !== "password" && "hidden"}`} onMouseDown={() => {
                 setRealType("text")

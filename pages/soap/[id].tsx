@@ -72,18 +72,19 @@ export default function IndexPage({ movie, playlist, movies, comments }) {
           movieId = {movie._id} 
           movies = {movies} 
           langs={movie.localization}
+          video = {movie.video}
           isSerial={movie.type == "Сериал"}
         />
         
         <div className={`hidden sm:block`}>
-          <ReviewsAndLikes score={score} setscore={setscore} />
+          <ReviewsAndLikes score={score} setscore={setscore} movieId = {movie._id}/>
         </div>
         <Series series={series} />
 
         <FilmDescription/>
 
         <div className="sm:hidden">
-          <ReviewsAndLikes score={score} setscore={setscore} />
+          <ReviewsAndLikes score={score} setscore={setscore} movieId={movie._id}/>
         </div>
 
         {/* <div className="hidden sm:block ">

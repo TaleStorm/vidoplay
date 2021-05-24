@@ -1,4 +1,4 @@
-import React, { MutableRefObject, useContext, useEffect, useRef, useState } from "react"
+import React, { isValidElement, MutableRefObject, useContext, useEffect, useRef, useState } from "react"
 
 import { AuthorizationData } from "../interfaces"
 import BadToast from "./badtoast"
@@ -19,6 +19,13 @@ export default function Authorization(data: AuthorizationProps) {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [policy, setPolicy] = useState(false)
+
+  const [errors, setErrros] = useState({
+    email: { state: false, message: "" },
+    password: { state: false, message: "" },
+    policy: false
+  })
+
 
   const authModalContext = useContext(AuthModalContext)
   const loginContext = useContext(LoginContext)
@@ -50,6 +57,9 @@ export default function Authorization(data: AuthorizationProps) {
               placeholder={"Введите email"}
               state={email}
               setState={setEmail}
+              required
+              error={errors.email.state}
+              errorMessage={errors.email.message}
             />
           </div>
           <div className={`w-full`}>
@@ -60,6 +70,8 @@ export default function Authorization(data: AuthorizationProps) {
               placeholder={"Введите пароль"}
               state={password}
               setState={setPassword}
+              error={errors.password.state}
+              errorMessage={errors.password.message}
             />
           </div>
           <div className="text-sm relative sm:mt-3 mb-2 pt-4">
@@ -80,6 +92,11 @@ export default function Authorization(data: AuthorizationProps) {
                 </a>
               </div>
             </label>
+            {errors.policy &&
+              <div className="flex items-center mt-2">
+                <img src="/icons/warning.svg" className="flex-shrink-0 w-5 h-5 mr-1" alt="" />
+                <div className={`text-error-red text-sm`}>Подтвердите выбор</div>
+              </div>}
           </div>
 
           <button

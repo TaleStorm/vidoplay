@@ -5,17 +5,23 @@ import Router from "next/router"
 
 type CommentProps = DetachedComment
 
+const route = "https://chillvision.ru/soap"
+// const route = "http://localhost:3000/soap"
+
 const activeLinks = [
-  "https://chillvision.ru/films/holostye-papashi",
-  "https://chillvision.ru/films/kogda-ya-vyrastu",
-  "https://chillvision.ru/films/kristall",
-  "https://chillvision.ru/films/dnevniki-yunoy-lesbiyanki"
+  route+"/bachelor-daddies",
+  route+"/crystal",
+  route+"/diary-of-a-teenage-lesbian",
+  route+"/busted",
+  route+"/amour-amour",
+  route+"/when-i-grow-up",
 ]
 
 const CommentBlock = (commentData: CommentProps) => {
 
   const [userName,setUserName] = useState("loading")
   const [filmName,setFilmName] = useState("loading")
+  const [stringName, setStringName] = useState('')
 
   useEffect(() => {
     getFilm()
@@ -25,6 +31,7 @@ const CommentBlock = (commentData: CommentProps) => {
    const getFilm = async () =>{
        const {data} = await axios.post("/api/getMovie", {filmId: commentData._movieId})
        setFilmName(data.title)
+       setStringName(data.stringName)
    }
 
    const getUsername = async () =>{
@@ -34,15 +41,14 @@ const CommentBlock = (commentData: CommentProps) => {
 
    const gotoFilm = async () => {
     console.log(commentData._movieId)
-    const {data} = await axios.post("/api/getMovie", {filmId: commentData._movieId})
-    Router.replace(`/films/${data.stringName}`)
+    Router.replace(`/soap/${stringName}`)
    }
 
   return (
     <div className="">
       <a 
       href={activeLinks[Math.floor(Math.random()*activeLinks.length)]}
-      onClick = {() => {gotoFilm()}} 
+      // onClick = {() => {gotoFilm()}} 
       className="text-base block mt-5">
         <div className={`flex items-center`}>
           <div className={`w-8 h-8 p-1 bg-user-bg rounded-full mr-2`}>

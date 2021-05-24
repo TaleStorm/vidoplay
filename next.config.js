@@ -1,6 +1,7 @@
 require('dotenv').config()
 const Dotenv = require('dotenv-webpack')
 const path = require('path')
+const apiUrl  = process.env.API_DOMAIN
 
 const isProd = process.env.NODE_ENV === 'production'
 const urlPrefix = isProd ? process.env.DOMAIN : 'http://localhost:3000'

@@ -3,6 +3,7 @@ import AuthModalContext from "../context/authModalContext"
 import LoginContext from "../context/loginContext"
 
 const StarIcon = ({index, hoveredscore, setHoveredscore, score, setscore}) => {
+    // const StarIcon = ({index, hoveredscore, setHoveredscore, score, setscore,updateFavoriteFilm}) => {
 
     const authModalContext = useContext(AuthModalContext)
     const loginContext = useContext(LoginContext)
@@ -14,10 +15,11 @@ const StarIcon = ({index, hoveredscore, setHoveredscore, score, setscore}) => {
 
     onClick={() => {
         if (loginContext.userToken) {
-        setscore(index)
+            setscore(index);
+            // updateFavoriteFilm({score: index});
         }
         else {
-            authModalContext.setModalOpen(true)
+            authModalContext.setModalOpen(true);
         }
     }}
     className={`cursor-pointer transition-all duration-200`} width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">

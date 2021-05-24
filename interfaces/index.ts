@@ -253,6 +253,7 @@ export interface InputProps  {
     setState: Function,
     errorMessage?: string,
     onBlur?: Function,
+    required?: boolean,
 }
 
 export interface ResizableInputProps extends InputProps {
