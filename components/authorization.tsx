@@ -1,4 +1,4 @@
-import React, { MutableRefObject, useContext, useEffect, useRef, useState } from "react"
+import React, { isValidElement, MutableRefObject, useContext, useEffect, useRef, useState } from "react"
 
 import { AuthorizationData } from "../interfaces"
 import BadToast from "./badtoast"
@@ -16,6 +16,13 @@ export default function Authorization(data: AuthorizationProps) {
   const [password, setPassword] = useState("")
   const [policy, setPolicy] = useState(false)
 
+  const [errors, setErrros] = useState({
+    email: { state: false, message: "" },
+    password: { state: false, message: "" },
+    policy: false
+  })
+
+
   const authModalContext = useContext(AuthModalContext)
   const loginContext = useContext(LoginContext)
 
@@ -27,7 +34,29 @@ export default function Authorization(data: AuthorizationProps) {
     loginContext.VKLoginHandler("")
   }
 
+  const isValid = () => {
+    const isEmailLongEnough = email.trim().length > 0
+    const isPasswordLongEnough = password.trim().length > 0
+
+    setErrros({
+      email: {
+        state: !isEmailLongEnough,
+        message: "Заполните поле"
+      },
+      password: {
+        state: !isPasswordLongEnough,
+        message: "Заполните поле"
+      },
+      policy: !policy
+    })
+
+    return isEmailLongEnough && isPasswordLongEnough && policy
+  }
+
   const baseLogin = async () => {
+    if (!isValid())
+      return
+
     let tmp = {
       email,
       _password: password
@@ -64,6 +93,9 @@ export default function Authorization(data: AuthorizationProps) {
               placeholder={"Введите email"}
               state={email}
               setState={setEmail}
+              required
+              error={errors.email.state}
+              errorMessage={errors.email.message}
             />
           </div>
           <div className={`w-full`}>
@@ -74,6 +106,8 @@ export default function Authorization(data: AuthorizationProps) {
               placeholder={"Введите пароль"}
               state={password}
               setState={setPassword}
+              error={errors.password.state}
+              errorMessage={errors.password.message}
             />
           </div>
           <div className="text-sm relative sm:mt-3 mb-2 pt-4">
@@ -94,11 +128,16 @@ export default function Authorization(data: AuthorizationProps) {
                 </a>
               </div>
             </label>
+            {errors.policy &&
+              <div className="flex items-center mt-2">
+                <img src="/icons/warning.svg" className="flex-shrink-0 w-5 h-5 mr-1" alt="" />
+                <div className={`text-error-red text-sm`}>Подтвердите выбор</div>
+              </div>}
           </div>
 
           <button
             className="block text-center transition-colors duration-300 hover:bg-button-hover text-white bg-orange p-3 rounded-lg w-full mt-5"
-            onClick={() => baseLogin()}
+            onClick={() => isValid()}
           >
             Войти
           </button>
