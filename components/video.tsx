@@ -25,13 +25,19 @@ export default function Video(data) {
     }, [])
 
     useEffect(() => {
+        const body = document.querySelector("body")
         const listener = () => {
             setDimensions({
                 width: containRef.current.getBoundingClientRect().width,
                 height: containRef.current.getBoundingClientRect().height
             });
-            containRef.current.style.height = isFullScreen ? window.screen.height + "px" : (containRef.current.getBoundingClientRect().width * 9 / 16) + "px"
-            targetRef.current.style.height = isFullScreen ? window.screen.height + "px" : (containRef.current.getBoundingClientRect().width * 9 / 16) + "px"
+
+            if (isFullScreen) {
+                body.style.overflow = "hidden"
+            } else {
+                body.style.overflow = ""
+            }
+
         }
         listener()
         const changeListner = () => {

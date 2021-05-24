@@ -265,11 +265,12 @@ export default function Player(data) {
 
   const fullScreenFunc = async () => {
     if (isFullScreen) {
-      handle.exit();
+      handle.exit()
       data.setFullScreen(false);
       setFullScreen(false);
       return
     } else {
+      console.log(handle)
       handle.enter()
       data.setFullScreen(true)
       setFullScreen(true);
@@ -313,13 +314,11 @@ export default function Player(data) {
     }
   })
 
-  console.log(data.series)
-
 
   return (
     <div >
       <div draggable={false}  className={`${isLoaded ? "visible" : "hidden"}`}>
-        <FullScreen handle={handle}>
+        <FullScreen onChange={(e) => {console.log(e)}} className={`relative`} handle={handle}>
           <div
           style={{
           }}
@@ -450,9 +449,9 @@ export default function Player(data) {
                 </PlayerModalOverlay>
               </div>
             
-            <div className={`${mobileOverlayStage > 0 ? "absolute bg-opacity-50 h-full" : "bg-opacity-0 h-0 absolute"} 
+            <div className={`${mobileOverlayStage > 0 ? "absolute bg-opacity-50 h-full" : "bg-opacity-0 opacity-0  h-0 absolute"} 
             ${!isMobile && "hidden"}
-            transition-all duration-400 bg-black bottom-0 left-0 w-full z-10 flex items-center overflow-hidden `}>
+            transition-opacity duration-400 bg-black bottom-0 left-0 w-full z-10 flex items-center overflow-hidden `}>
               <div className={`w-full flex justify-between items-center px-5`}>
                 <div 
                 onClick={() => {

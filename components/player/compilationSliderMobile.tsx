@@ -43,7 +43,7 @@ const CompilationSliderMobile = ({
         ${!isMobile && "hidden"}
         ${!isLandscape && "hidden"}
         ${isFullScreen &&  mobileOverlayStage < 1 ? "opacity-0 z-0" : "z-20 opacity-100"}
-        absolute w-full items-end flex flex-col px-4 z-30 bottom-2`}>
+        absolute w-full items-end flex flex-col px-4 z-40 bottom-2`}>
             {/* <div
                 onClick={() => {
                     setIsSliderOpen(!isSliderOpen)
