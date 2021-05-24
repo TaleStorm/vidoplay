@@ -38,12 +38,12 @@ export default function ProgressBar({isMobile, ...data}) {
         }
       > 
         <div onClick={() => (setIsPlaying(!isPlaying))}  className={`relative lg:hover:bg-orange transition-all duration-200 rounded-lg flex-shrink-0 p-2 cursor-pointer hidden md:block w-10 h-10 bg-white bg-opacity-20`}>
-          {isPlaying ? <PlayIcon/> : <PauseIcon/>}
+          {isPlaying ? <PauseIcon/>  : <PlayIcon/>}
         </div>
         <div 
         onClick={() => data.setPlay()}
         className={`md:hidden w-9 h-9 mr-4 flex-shrink-0`}>
-         {isPlaying ? <PlayIcon/> : <PauseIcon/>}
+         {isPlaying ? <PauseIcon/> : <PlayIcon/>}
         </div>
         <div
         className={`w-9 h-9 md:hidden mr-4 flex-shrink-0`}
