@@ -21,6 +21,7 @@ export default function Video(data) {
 
     useEffect(() => {
         setShareUrl(document.location.href)
+        console.log(data)
     }, [])
 
     useEffect(() => {
@@ -52,6 +53,14 @@ export default function Video(data) {
         }
     }, [isFullScreen])
 
+    const isActive  = () => {
+        if((data.movies?.length > 0 && data.series?.length > 0) || (data.video !== '')){
+            return true
+        }else{
+            return false
+        }
+    }
+
     const pickInFavorites = async () => {
         let tmp = {
             movieId: data.movieId,
@@ -74,7 +83,7 @@ export default function Video(data) {
                 <div
                     className="relative" ref={targetRef}>
                     <Tabs startIndex={0} tabs={["Плеер", "Трейлер"]}>
-                        {data.movies?.length > 0 && data.series?.length > 0 ? (
+                        {isActive() ? (
                             <PLayer
                                 movies={data.movies}
                                 width={String(dimensions.width)}

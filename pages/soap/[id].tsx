@@ -72,6 +72,7 @@ export default function IndexPage({ movie, playlist, movies, comments }) {
           movieId = {movie._id} 
           movies = {movies} 
           langs={movie.localization}
+          video = {movie.video}
           isSerial={movie.type == "Сериал"}
         />
         
