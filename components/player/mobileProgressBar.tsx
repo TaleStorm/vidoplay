@@ -3,6 +3,7 @@ import PlayerContext from "../context/playerContext"
 import MenuWrapper from "../layout/menuDropdownWrapper"
 import FullScreenIcon from "../playerIcons/fullScreen"
 import MuteIcon from "../playerIcons/muteIcon"
+import PauseIcon from "../playerIcons/pauseIcon"
 import PlayIcon from "../playerIcons/playIcon"
 import { convertTime } from "./utils"
 
@@ -34,7 +35,7 @@ const MobileProgressBar = ({
     const durationTimeUser = convertTime(durationTime)
     const possibleDurationTimeUser = convertTime(possibleDurationTime)
     const volumeRef = useRef(null) as MutableRefObject<HTMLDivElement>
-    const {isLandscape} = useContext(PlayerContext)
+    const {isLandscape, isPlaying} = useContext(PlayerContext)
 
 
     const muteController = (        
@@ -66,7 +67,7 @@ const MobileProgressBar = ({
         className={`w-9 h-9 mr-4 flex-shrink-0
         ${!isLandscape && "hidden"}
         `}>
-            <PlayIcon/>
+          {isPlaying ? <PauseIcon/> : <PlayIcon/>}  
         </div>
         <MenuWrapper controller={muteController}>
           <div 

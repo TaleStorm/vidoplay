@@ -148,13 +148,16 @@ const PlayerContextProvider = ({ children }: Props) => {
   useEffect(() => {
     if (api) {
         if (!isFullScreen) {
+          api.method({name: "toggleFullscreen"})
             api.method({
                 name: "resize", params: {
                   width: "100%",
                   height: "100%"
                 }})
+                window.dispatchEvent(new Event("resize"))
             }
             else {
+              api.method({name: "toggleFullscreen"})
               api.method({
                 name: "resize", params: {
                   width: window.screen.availWidth,
