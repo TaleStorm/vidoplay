@@ -52,14 +52,6 @@ export default function Video(data) {
         }
     }, [isFullScreen])
 
-    const pickInFavorites = async () => {
-        let tmp = {
-            movieId: data.movieId,
-            _user: localStorage.getItem('_user')
-        }
-        const resp = await axios.post("/api/favorites", tmp)
-    }
-
     return (
         <>
             <div className="mb-14 flex items-center">

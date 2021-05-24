@@ -5,7 +5,6 @@ import { FilmCategoryData } from '../interfaces'
 type FilmCategoryProps = FilmCategoryData
 
 const FilmCategory = (data: FilmCategoryProps) => {
-    console.log(data.cards)
     return (<div>
         <div className="flex justify-between items-center mb-4 sm:mb-7">
 
