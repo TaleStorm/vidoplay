@@ -70,7 +70,8 @@ export default function Player(data) {
     durationTime,
     buttonState,
     currentTimeBuffer,
-    panelState
+    panelState,
+    setButton
     
   } = useContext(PlayerContext)
 
@@ -84,7 +85,6 @@ export default function Player(data) {
     gplayerAPI.on("pause", () => {
       setIsPlaying(false)
     })
-
 
     //Вот тут хэндлится вся логика фуллскрина при нажатии на ESC
     const fullScreenListener = () => {
@@ -317,10 +317,17 @@ export default function Player(data) {
 
 
   return (
-    <div>
-      <div draggable={false} className={`${isLoaded ? "visible" : "hidden"}`}>
+    <div >
+      <div draggable={false}  className={`${isLoaded ? "visible" : "hidden"}`}>
         <FullScreen handle={handle}>
           <div
+          style={{
+          }}
+          onClick={
+            () => {
+              setButton("hidden")
+            }
+          }
             id="mainframe"
             className={`relative inline-block w-full h-full`}
           >
