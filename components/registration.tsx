@@ -60,17 +60,9 @@ export default function Registration(data: RegistrationProps) {
 
     const fieldsData = {
       email,
-      firstname,
-      _password: password
+      password
     }
-    const status = await loginContext.registerHandler(fieldsData)
-    if (status) {
-      authModalContext.setModalOpen(false)
-      GoodToast("Успешная регистрация и авторизация")
-    }
-    else {
-      BadToast("Что-то пошло не так!")
-    }
+    loginContext.registerHandler(fieldsData)
   }
 
   return (
@@ -137,10 +129,6 @@ export default function Registration(data: RegistrationProps) {
           </div>
           <button
             className="block text-center text-white bg-orange p-3 rounded-lg transition-colors duration-300 hover:bg-button-hover  w-full mt-5"
-            onClick={async () => {
-              isValid()
-              // doSignup()
-            }}
           >
             Зарегестрироваться
           </button>
