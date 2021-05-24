@@ -72,6 +72,7 @@ export default function IndexPage({ movie, playlist, movies, comments }) {
           movieId = {movie._id} 
           movies = {movies} 
           langs={movie.localization}
+          video = {movie.video}
           isSerial={movie.type == "Сериал"}
         />
         
@@ -116,7 +117,6 @@ export const getServerSideProps = async (ctx) => {
   const movie = await ApiReq.getSingleEntity("movies", id)
   const result = await ApiReq.getPlaylistMoves(playlist._id)
   const movies = [...result.data]
-  // console.log(localStorage.getItem('_user'))
   const comments = await ApiReq.getComments(movie._id)
   return { props: { movie, playlist, movies, comments } }
 }
