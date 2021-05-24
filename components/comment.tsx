@@ -5,8 +5,8 @@ import Router from "next/router"
 
 type CommentProps = DetachedComment
 
-// const route = "https://chillvision.ru/soap"
-const route = "http://localhost:3000/soap"
+const route = "https://chillvision.ru/soap"
+// const route = "http://localhost:3000/soap"
 
 const activeLinks = [
   route+"/bachelor-daddies",
