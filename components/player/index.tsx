@@ -1,4 +1,4 @@
-import { MutableRefObject, useContext, useEffect, useRef, useState } from "react";
+import { MutableRefObject, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import ProgressBar from './progressBar';
 import TopPlayerPanel from './topPlayerPanel';
@@ -17,6 +17,8 @@ import { useSwipeable } from "react-swipeable";
 import PlayerContext from "../context/playerContext";
 import MovieContext from "../context/movieContext";
 import AgeWarning from "./ageWarning";
+
+
 
 export default function Player(data) {
 
@@ -264,30 +266,49 @@ export default function Player(data) {
   const handle = useFullScreenHandle();
 
   //Функция фуллскрина
-  const fullScreenFunc = async () => {
+  const fullScreenFunc = useCallback(async () => {
+    var elem = document.getElementById("mainframe") as HTMLElement & {
+      mozRequestFullScreen(): Promise<void>;
+      webkitRequestFullscreen(): Promise<void>;
+      msRequestFullscreen(): Promise<void>;
+    };
     if (isFullScreen) {
-     // handle.exit()
-      globalGplayerAPI.method({name: 'toggleFullscreen'})
+    // handle.exit()
+      //globalGplayerAPI.method({name: 'toggleFullscreen'})
+      globalGplayerAPI.method({name: "pause"})
+      document.exitFullscreen()
       data.setFullScreen(false);
-      setFullScreen(false);
+     setFullScreen(false);
       return
     } else {
       console.log(handle)
-     // handle.enter()
-      globalGplayerAPI.method({name: 'toggleFullscreen'})
+    // handle.enter()
+     // globalGplayerAPI.method({name: 'toggleFullscreen'})
+     globalGplayerAPI.method({name: "pause"})
+     if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+      elem.msRequestFullscreen();
+    } else if (elem.mozRequestFullScreen) {
+      elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullscreen) {
+      elem.webkitRequestFullscreen();
+    }
       data.setFullScreen(true)
       setFullScreen(true);
       return
     }
-  }
+  }, [isFullScreen, globalGplayerAPI]) 
 
   const [isMobileSliderOpen, setIsMobileSliderOpen] = useState(false)
   const overlayRef = useRef(null) as MutableRefObject<HTMLDivElement>
   const predictions = useContext(MovieContext)
   useEffect(() => {
     //set global player API
-    getPlayer()
-    return () => {}
+    if (!globalGplayerAPI) {
+      getPlayer()
+    }
+    return () => {setPlayer(null)}
   }, [])
 
   const TouchListener = async (e) => {
@@ -320,8 +341,12 @@ export default function Player(data) {
 
   return (
     <div >
-      <div draggable={false}  className={`${isLoaded ? "visible" : "hidden"}`}>
-        <FullScreen onChange={(e) => {console.log(e)}} className={`relative`} handle={handle}>
+      <div draggable={false} id="mainframe"   className={`${isLoaded ? "visible" : "hidden"}`}>
+        {/* <FullScreen onChange={(e) => {console.log(e)}} className={`relative`} handle={handle}>
+          <div className={`w-full h-full bg-gradient-to-t from-orange to-loveTag`}>
+
+          </div>
+        </FullScreen> */}
           <div
           style={{
           }}
@@ -330,7 +355,7 @@ export default function Player(data) {
               setButton("hidden")
             }
           }
-            id="mainframe"
+            
             className={`relative inline-block w-full h-full`}
           >
             <iframe
@@ -576,7 +601,7 @@ export default function Player(data) {
 
               </div>
             </div>
-        </FullScreen>
+
       </div>
       {/* <div className={`${isLoaded ? "hidden" : "visible"} bg-cardBackground relative inline-block w-full h-full`}>
         <div className={`bg-cardBackground relative inline-block h-12 w-12`}>
