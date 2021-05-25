@@ -265,7 +265,6 @@ export default function Player(data) {
 
   //Функция фуллскрина
   const fullScreenFunc = async () => {
-
     if (isFullScreen) {
      // handle.exit()
       globalGplayerAPI.method({name: 'toggleFullscreen'})
