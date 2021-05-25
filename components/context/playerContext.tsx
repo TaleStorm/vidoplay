@@ -44,6 +44,7 @@ const PlayerContext = React.createContext({
     setButton: (arg:string) => {},
     currentTimeBuffer: "0",
     setVideoPercentBuffer: (arg:string) => {},
+    api: null
 });
 
 interface Props {
@@ -148,7 +149,6 @@ const PlayerContextProvider = ({ children }: Props) => {
   useEffect(() => {
     if (api) {
         if (!isFullScreen) {
-          api.method({name: "toggleFullscreen"})
             api.method({
                 name: "resize", params: {
                   width: "100%",
@@ -157,7 +157,6 @@ const PlayerContextProvider = ({ children }: Props) => {
                 window.dispatchEvent(new Event("resize"))
             }
             else {
-              api.method({name: "toggleFullscreen"})
               api.method({
                 name: "resize", params: {
                   width: window.screen.availWidth,
@@ -365,6 +364,7 @@ const PlayerContextProvider = ({ children }: Props) => {
         setButton,
         currentTimeBuffer,
         setVideoPercentBuffer,
+        api
     }}
     >
       {children}

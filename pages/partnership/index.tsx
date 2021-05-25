@@ -92,7 +92,7 @@ const Partnership = () => {
         }
         const result = await fetch(`https://api.airtable.com/v0/app5Hw3RVknO5eZ4P/applications`, {
         headers: {
-            'Authorization': 'Bearer keyVIkP5eKsQsa5gA', 
+            'Authorization': 'Bearer', 
             "Content-Type" : "application/json"
         },
         method: "POST",

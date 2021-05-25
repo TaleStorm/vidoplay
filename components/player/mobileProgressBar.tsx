@@ -163,7 +163,8 @@ const MobileProgressBar = ({
         </div>
 
         <div 
-                onClick={() => {
+                onTouchEnd={() => {
+                    
                     fullScreenFunc()
                   }}
         className={`w-9 h-9 flex-shrink-0 ml-3
