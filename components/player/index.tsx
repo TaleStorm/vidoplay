@@ -71,8 +71,8 @@ export default function Player(data) {
     buttonState,
     currentTimeBuffer,
     panelState,
-    setButton
-    
+    setButton,
+    setIsSpaceListenerActive,
   } = useContext(PlayerContext)
 
   const intro = "https://chillvision.gcdn.co/videos/18824_73D1CCWxB499h8xa"
@@ -150,22 +150,11 @@ export default function Player(data) {
   }
 
   useEffect(() => {
-    let listener
     if (globalGplayerAPI) {
-      listener = (e) => {
-        console.log(e)
-        if (e.key == " ") {
-          e.preventDefault();
-          if (isPlaying) {
-            setIsPlaying(false)
-          } else {
-            setIsPlaying(true)
-          }   
-        }
-      }
+      setIsSpaceListenerActive(true)
     }
-    window.addEventListener("keydown", listener);
-    return () => {window.removeEventListener("keydown", listener)}
+
+    return () => {setIsSpaceListenerActive(false)}
   }, [isPlaying, globalGplayerAPI])
 
 

@@ -24,6 +24,9 @@ export default function IndexPage({ movie, playlist, movies, comments }) {
 
   const series = []
 
+  console.log(movie);
+  
+
   if (movie.serial)
     for (let season in movie.serial) {
       const seasonBuffer = []

@@ -1,11 +1,12 @@
 import CommentForm from "../components/commentForm"
-import {useContext, useState} from 'react'
+import { useContext, useState } from 'react'
 import LoginContext from "./context/loginContext"
 import AuthModalContext from "./context/authModalContext"
+import ModalOverlay from "./layout/modalOverlay"
 
 const FilmComments = (data) => {
   const [comments, updateComments] = useState(data.comments)
-	const [modalOpen, setModalOpen] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
   const loginContext = useContext(LoginContext)
   const authModalContext = useContext(AuthModalContext)
 
@@ -75,7 +76,7 @@ const FilmComments = (data) => {
                           strokeLinejoin="round"
                         />
                       </svg>
-                      <h4 className="text-xs font-roboto text-mainText font-normal inline ml-2">{comment.username && comment.username != 'null '? comment.username : "Анонимный пользователь"}</h4>
+                      <h4 className="text-xs font-roboto text-mainText font-normal inline ml-2">{comment.username && comment.username != 'null ' ? comment.username : "Анонимный пользователь"}</h4>
                     </a>
                   </div>
                   <div>
@@ -208,22 +209,23 @@ const FilmComments = (data) => {
           )
         })}
       </div>
-      <CommentForm 
-        modalOpen ={modalOpen} 
-        setModalOpen = {setModalOpen} 
-        movieId = {data.movieId}
-        addComment={addComment}
-      />
+      <ModalOverlay modalOpen={modalOpen} setModalOpen={setModalOpen} classes={`px-4`}>
+        <CommentForm
+          onClose={()=>{setModalOpen(false)}} 
+          movieId={data.movieId}
+          addComment={addComment}
+        />
+      </ModalOverlay>
       <div className="hidden sm:block mt-8 space-x-6">
-        <button className="bg-orange hover:bg-orange text-mainText font-normal py-3 px-14 rounded-md text-sm" onClick = {() => {
+        <button className="bg-orange hover:bg-orange text-mainText font-normal py-3 px-14 rounded-md text-sm" onClick={() => {
           if (loginContext.userToken) {
             setModalOpen(!modalOpen)
           }
           else {
             authModalContext.setModalOpen(true)
           }
-          
-          }}>
+
+        }}>
           Оставить отзыв
         </button>
       </div>

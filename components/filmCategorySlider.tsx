@@ -19,6 +19,7 @@ export default function FilmCategorySlider(data) {
     const [leftActive, setLeftActive] = useState(false)
     const [rightActive, setRightActive] =  useState(true)
     const minWidth = 640
+
     return (
       <div className="relative">
         <div  className={`hidden w-12 z-10 sm:-mr-8 absolute -left-10 top-0 h-full lg:block transition-all duration-200 ${!leftActive ? "opacity-0" : "opacity-50 hover:opacity-100"} cursor-pointer`}  id={`prev${data.sliderIndex}`}>

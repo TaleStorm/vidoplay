@@ -2,48 +2,49 @@ import React, { ReactNode, useEffect, useState } from "react";
 import authAxios from "../network/authAxios";
 
 const PlayerContext = React.createContext({
-    setFullScreen: (arg:boolean) => {},
-    isFullScreen: false,
-    setApi: (arg: any) => {},
-    isMobile: false,
-    mobileOverlayStage: 0,
-    setMobileOverlayStage: (arg:number) => {},
-    fullScreenHide: false,
-    setFullScreenHide: (arg:boolean) => {},
-    isSliderOpen: false,
-    setIsSliderOpen: (arg:boolean) => {},
-    realPanelState:"hidden",
-    setRealPanel: (arg:string) => {},
-    isPlaying: false,
-    setIsPlaying: (arg:boolean) => {},
-    isMouseMoving: true,
-    setIsMouseMoving: (arg:boolean) => {},
-    isLandscape: true,
-    currentSerie: 0,
-    setSerie: (arg:number) => {},
-    isWarningVisible: true,
-    setIsWarningVisible: (arg:boolean) => {},
-    warningDuration: 4,
-    currentSeason: 0,
-    setSeason: (arg:number) => {},
-    isIntro: true,
-    setIntro: (arg:boolean) => {},
-    panelState: "hidden",
-    setPanel: (arg:string) => {},
-    isEndedModalOpen: false,
-    setIsEndedModalOpen: (arg:boolean) => {},
-    currentTimePercent: "0",
-    setVideoPercentCurrent: (arg:string) => {},
-    changeSerie: (arg:number) => {},
-    currentActing: 0,
-    setActing:(arg:number) => {},
-    changeActing: (arg:number) => {},
-    durationTime: 0,
-    setVideoDuration:(arg:number) => {},
-    buttonState: "visible",
-    setButton: (arg:string) => {},
-    currentTimeBuffer: "0",
-    setVideoPercentBuffer: (arg:string) => {},
+  setIsSpaceListenerActive: (arg: boolean | ((arg:boolean)=>boolean)) => { },
+  setFullScreen: (arg: boolean) => { },
+  isFullScreen: false,
+  setApi: (arg: any) => { },
+  isMobile: false,
+  mobileOverlayStage: 0,
+  setMobileOverlayStage: (arg: number) => { },
+  fullScreenHide: false,
+  setFullScreenHide: (arg: boolean) => { },
+  isSliderOpen: false,
+  setIsSliderOpen: (arg: boolean) => { },
+  realPanelState: "hidden",
+  setRealPanel: (arg: string) => { },
+  isPlaying: false,
+  setIsPlaying: (arg: boolean) => { },
+  isMouseMoving: true,
+  setIsMouseMoving: (arg: boolean) => { },
+  isLandscape: true,
+  currentSerie: 0,
+  setSerie: (arg: number) => { },
+  isWarningVisible: true,
+  setIsWarningVisible: (arg: boolean) => { },
+  warningDuration: 4,
+  currentSeason: 0,
+  setSeason: (arg: number) => { },
+  isIntro: true,
+  setIntro: (arg: boolean) => { },
+  panelState: "hidden",
+  setPanel: (arg: string) => { },
+  isEndedModalOpen: false,
+  setIsEndedModalOpen: (arg: boolean) => { },
+  currentTimePercent: "0",
+  setVideoPercentCurrent: (arg: string) => { },
+  changeSerie: (arg: number) => { },
+  currentActing: 0,
+  setActing: (arg: number) => { },
+  changeActing: (arg: number) => { },
+  durationTime: 0,
+  setVideoDuration: (arg: number) => { },
+  buttonState: "visible",
+  setButton: (arg: string) => { },
+  currentTimeBuffer: "0",
+  setVideoPercentBuffer: (arg: string) => { },
 });
 
 interface Props {
@@ -61,7 +62,7 @@ const PlayerContextProvider = ({ children }: Props) => {
   const [durationTime, setVideoDuration] = useState(0);
   const [api, setApi] = useState(null)
   const [panelState, setPanel] = useState("hidden");
-  const [isPlaying , setIsPlaying] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(false)
   const [isSliderOpen, setIsSliderOpen] = useState(false);
   const [realPanelState, setRealPanel] = useState("hidden");
   const [isMouseMoving, setIsMouseMoving] = useState(true)
@@ -73,15 +74,16 @@ const PlayerContextProvider = ({ children }: Props) => {
   const [currentActing, setActing] = useState(0);
   const [buttonState, setButton] = useState("visible");
   const [currentTimeBuffer, setVideoPercentBuffer] = useState("0");
+  const [isSpaceListenerActive, setIsSpaceListenerActive] = useState(false)
   const warningDuration = 4
 
   var removeFakeButton = () => {
     setPanel("visible");
     setButton("hidden");
   }
-  
 
-// Определяем ориентацию (устройства)
+
+  // Определяем ориентацию (устройства)
   // useEffect(() => {
   //   console.log(screen.orientation.angle)
   //   const listener = () => {
@@ -97,7 +99,7 @@ const PlayerContextProvider = ({ children }: Props) => {
   //   return () => {window.removeEventListener("orientationchange", listener)}
   // },[])
 
-//Определяем, мобильное ли устройство при маунте
+  //Определяем, мобильное ли устройство при маунте
   useEffect(() => {
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
       setIsMobile(true)
@@ -105,67 +107,70 @@ const PlayerContextProvider = ({ children }: Props) => {
     else {
       setIsMobile(false)
     }
-    return () => {}
+    return () => { }
   }, [])
 
-// Играется ли видео и все, что с этим связано
-  useEffect(() => {
-      if (api) {
-        if (isPlaying) {
-            setRealPanel("hidden")
-            setMobileOverlayStage(0)
-            api.method({ name: "play" })   
-            setHasBeenPlayed(true)
-            if  (!hasBeenPlayed) {
-              setIsWarningVisible(true)
-            }
-            setIsSliderOpen(false)
-            setHasBeenPlayed(true)
-        }
-        else {
-            api.method({name: 'isPlaying', params: {}, callback: (res) => {
-              if (res) {
-                setRealPanel("visible")
-              }
-            }})
-            setMobileOverlayStage(2)
-            api.method({ name: "pause" })   
-        }
-      }
-  }, [isPlaying, api])
-
-//Таймаут для мобильного оверлея
-    useEffect(() => {
-        const timer = setTimeout(() => {
-          if (mobileOverlayStage === 1) {
-            setMobileOverlayStage(0)
-          }
-        }, 4000)
-        return () => {clearTimeout(timer)}
-      }, [mobileOverlayStage])
-
-//Хэндлим фуллскрин
+  // Играется ли видео и все, что с этим связано
   useEffect(() => {
     if (api) {
-        if (!isFullScreen) {
-          api.method({name: "toggleFullscreen"})
-            api.method({
-                name: "resize", params: {
-                  width: "100%",
-                  height: "100%"
-                }})
-                window.dispatchEvent(new Event("resize"))
+      if (isPlaying) {
+        setRealPanel("hidden")
+        setMobileOverlayStage(0)
+        api.method({ name: "play" })
+        setHasBeenPlayed(true)
+        if (!hasBeenPlayed) {
+          setIsWarningVisible(true)
+        }
+        setIsSliderOpen(false)
+        setHasBeenPlayed(true)
+      }
+      else {
+        api.method({
+          name: 'isPlaying', params: {}, callback: (res) => {
+            if (res) {
+              setRealPanel("visible")
             }
-            else {
-              api.method({name: "toggleFullscreen"})
-              api.method({
-                name: "resize", params: {
-                  width: window.screen.availWidth,
-                  height: window.screen.availHeight
-                }
-              })
-              window.dispatchEvent(new Event("resize"))
-            }
+          }
+        })
+        setMobileOverlayStage(2)
+        api.method({ name: "pause" })
+      }
+    }
+  }, [isPlaying, api])
+
+  //Таймаут для мобильного оверлея
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (mobileOverlayStage === 1) {
+        setMobileOverlayStage(0)
+      }
+    }, 4000)
+    return () => { clearTimeout(timer) }
+  }, [mobileOverlayStage])
+
+  //Хэндлим фуллскрин
+  useEffect(() => {
+    if (api) {
+      if (!isFullScreen) {
+        api.method({ name: "toggleFullscreen" })
+        api.method({
+          name: "resize", params: {
+            width: "100%",
+            height: "100%"
+          }
+        })
+        window.dispatchEvent(new Event("resize"))
+      }
+      else {
+        api.method({ name: "toggleFullscreen" })
+        api.method({
+          name: "resize", params: {
+            width: window.screen.availWidth,
+            height: window.screen.availHeight
+          }
+        })
+        window.dispatchEvent(new Event("resize"))
+      }
     }
   }, [api, isFullScreen])
 
@@ -186,9 +191,9 @@ const PlayerContextProvider = ({ children }: Props) => {
             })
           }
         })
-      
-       })
-  
+
+      })
+
     }
   }, [api, currentActing])
 
@@ -212,36 +217,38 @@ const PlayerContextProvider = ({ children }: Props) => {
 
   }, [api, isIntro])
 
-// Цепляем на апи листнеры
+  // Цепляем на апи листнеры
   useEffect(() => {
     if (api) {
-      
+
       const resizeListener = () => {
-        setTimeout(() => {api.method({
-          name: "resize", params: {
-            width: "100%",
-            height: "100%"
-          }
-        })}, 1000)
+        setTimeout(() => {
+          api.method({
+            name: "resize", params: {
+              width: "100%",
+              height: "100%"
+            }
+          })
+        }, 1000)
       }
 
-          if (hasBeenPlayed) {
-            delete api._events["ready"]
-            console.log("ready listener activated")
-            api.on("ready", () => {
-              api.method({name: "play"})
-              api.method({ name: "setVolume", params: 100 })
-            })
-          } 
-        window.addEventListener("resize", resizeListener)
+      if (hasBeenPlayed) {
+        delete api._events["ready"]
+        console.log("ready listener activated")
+        api.on("ready", () => {
+          api.method({ name: "play" })
+          api.method({ name: "setVolume", params: 100 })
+        })
+      }
+      window.addEventListener("resize", resizeListener)
 
     }
   }, [api, hasBeenPlayed])
 
 
-  
 
-//Юзэффекты на движение мышью при фуллскрине
+
+  //Юзэффекты на движение мышью при фуллскрине
   useEffect(() => {
     if (isFullScreen && isMouseMoving) {
       setFullScreenHide(false)
@@ -249,13 +256,13 @@ const PlayerContextProvider = ({ children }: Props) => {
     const timer = setTimeout(() => {
       if (isFullScreen) {
         setFullScreenHide(true)
-      } 
+      }
     }, 4000)
     if (isMouseMoving && !isFullScreen) {
       clearTimeout(timer)
     }
 
-    return () => {clearTimeout(timer)}
+    return () => { clearTimeout(timer) }
   }, [isMouseMoving, isFullScreen, api])
 
   useEffect(() => {
@@ -264,8 +271,8 @@ const PlayerContextProvider = ({ children }: Props) => {
         setIsMouseMoving(true)
         setTimeout(() => {
           setIsMouseMoving(false)
-      }, 4000)
-      }    
+        }, 4000)
+      }
     }
     setFullScreenHide(false)
     window.addEventListener("mousemove", listener)
@@ -281,7 +288,7 @@ const PlayerContextProvider = ({ children }: Props) => {
     }
   }, [isFullScreen, api])
 
-//Прячем курсор когда надо, а когда не надо, не прячем)
+  //Прячем курсор когда надо, а когда не надо, не прячем)
   useEffect(() => {
     const body = document.querySelector('body')
     console.log("cursor changed")
@@ -293,7 +300,39 @@ const PlayerContextProvider = ({ children }: Props) => {
     }
   }, [fullScreenHide])
 
+  function spaceListener(e) {
 
+    console.log("1")
+    if (e.key == " ") {
+      e.preventDefault();
+
+      if (isPlaying) {
+        setIsPlaying(false)
+      } else {
+        setIsPlaying(true)
+      }
+    }
+  }
+
+  // useEffect(()=>{
+  //   if(!isIntro)
+  //   {
+  //     setIsSpaceListenerActive(prev => false)
+  //     setIsSpaceListenerActive(prev => true)
+  //   }
+
+  // }, [isIntro])
+
+  //Добляем или удаляем обработчик пробела
+  useEffect(() => {
+    if (isSpaceListenerActive)
+      window.addEventListener("keydown", spaceListener);
+    else
+      window.removeEventListener("keydown", spaceListener)
+
+
+    return(()=>{window.removeEventListener("keydown", spaceListener)}) 
+  }, [isSpaceListenerActive, isPlaying])
 
   var changeSerie = async (newSerie) => {
     setPanel("hidden");
@@ -310,19 +349,22 @@ const PlayerContextProvider = ({ children }: Props) => {
   }
 
 
-  var changeActing =  (newActing) => {
+  var changeActing = (newActing) => {
     setActing(newActing);
-    api.method({name: 'getPlugin', params: {
-      pluginName: "audio_selector", 
-      pluginMethod: "setIndexTrack",
-      pluginValue: currentActing
-    }, callback: (e) => {
-    }});
+    api.method({
+      name: 'getPlugin', params: {
+        pluginName: "audio_selector",
+        pluginMethod: "setIndexTrack",
+        pluginValue: currentActing
+      }, callback: (e) => {
+      }
+    });
   }
 
   return (
     <PlayerContext.Provider
-    value={{
+      value={{
+        setIsSpaceListenerActive,
         setFullScreen,
         isFullScreen,
         setApi,
@@ -365,7 +407,7 @@ const PlayerContextProvider = ({ children }: Props) => {
         setButton,
         currentTimeBuffer,
         setVideoPercentBuffer,
-    }}
+      }}
     >
       {children}
     </PlayerContext.Provider>
