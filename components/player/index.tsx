@@ -263,15 +263,19 @@ export default function Player(data) {
 
   const handle = useFullScreenHandle();
 
+  //Функция фуллскрина
   const fullScreenFunc = async () => {
+
     if (isFullScreen) {
-      handle.exit()
+     // handle.exit()
+      globalGplayerAPI.method({name: 'toggleFullscreen'})
       data.setFullScreen(false);
       setFullScreen(false);
       return
     } else {
       console.log(handle)
-      handle.enter()
+     // handle.enter()
+      globalGplayerAPI.method({name: 'toggleFullscreen'})
       data.setFullScreen(true)
       setFullScreen(true);
       return
@@ -375,7 +379,7 @@ export default function Player(data) {
               />
             </PlayerModalOverlay>
 
-            <div className="hidden md:block">
+            <div className="block">
               <div className={`${isPlaying ? "hidden" :"visible"}`}>
                 <TopPlayerPanel
                 />
@@ -441,7 +445,7 @@ export default function Player(data) {
 
 
             </div>
-            <div className={`hidden md:block ${data.isSerial ? "":"md:hidden"}`}>
+            <div className={`hidden lg:block ${data.isSerial ? "":"hidden"}`}>
                 
                 <CompilationSliderSerial setCurrentCompilationMovie={setCurrentCompilationMovie} movies={data.series[currentSeason]} setModalOpen={setIsCompliationModalOpen} isSliderOpen={isSliderOpen} setIsSliderOpen={setIsSliderOpen} isFullscreen={isFullScreen} />
                 <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>

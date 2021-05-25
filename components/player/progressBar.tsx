@@ -26,7 +26,7 @@ export default function ProgressBar({isMobile, ...data}) {
     const currentTimeUser = convertTime(data.currentTime);
     const durationTimeUser = convertTime(data.durationTime);
     const possibleDurationTimeUser = convertTime(data.possibleDurationTime);
-    const {fullScreenHide, isIntro, isPlaying, setIsPlaying} = useContext(PlayerContext)
+    const {fullScreenHide, isIntro, isPlaying, setIsPlaying, api} = useContext(PlayerContext)
 
     return(
       <div  
@@ -175,6 +175,7 @@ export default function ProgressBar({isMobile, ...data}) {
         {durationTimeUser}
         </div>
         <div 
+        
         onClick={(e) => {
           data.fullScreenFunc()
         }}
