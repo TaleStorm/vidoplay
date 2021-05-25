@@ -1,12 +1,15 @@
-import { MutableRefObject, useEffect, useRef, useState } from "react"
+import { MutableRefObject, useContext, useEffect, useRef, useState } from "react"
 import ChevronDown from "../icons/chevronDown"
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation } from 'swiper';
 import PlayerFilmCardSerial from "../filmCards/playerFilmCardSerial";
+import PlayerContext from "../context/playerContext";
 
 SwiperCore.use([Navigation]);
 
 const CompilationSlider = ({setModalOpen, isSliderOpen, setIsSliderOpen, movies, setCurrentCompilationMovie, isFullscreen}) => {
+
+    const {currentSerie} = useContext(PlayerContext)
 
     const sliderContainerRef = useRef() as MutableRefObject<HTMLDivElement>
 
@@ -40,7 +43,7 @@ const CompilationSlider = ({setModalOpen, isSliderOpen, setIsSliderOpen, movies,
                             title: "Серия " + (Number(i)+1),
                             serie: i
                         }
-                        return <SwiperSlide key={i} className="">
+                        if (i !== currentSerie) return <SwiperSlide key={i} className="">
                             <a onClick={(e) => {
                                 e.preventDefault()
                                 setIsSliderOpen(false)

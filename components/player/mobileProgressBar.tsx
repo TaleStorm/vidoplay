@@ -3,6 +3,7 @@ import PlayerContext from "../context/playerContext"
 import MenuWrapper from "../layout/menuDropdownWrapper"
 import FullScreenIcon from "../playerIcons/fullScreen"
 import MuteIcon from "../playerIcons/muteIcon"
+import PauseIcon from "../playerIcons/pauseIcon"
 import PlayIcon from "../playerIcons/playIcon"
 import { convertTime } from "./utils"
 
@@ -34,7 +35,7 @@ const MobileProgressBar = ({
     const durationTimeUser = convertTime(durationTime)
     const possibleDurationTimeUser = convertTime(possibleDurationTime)
     const volumeRef = useRef(null) as MutableRefObject<HTMLDivElement>
-    const {isLandscape} = useContext(PlayerContext)
+    const {isLandscape, isPlaying} = useContext(PlayerContext)
 
 
     const muteController = (        
@@ -66,9 +67,9 @@ const MobileProgressBar = ({
         className={`w-9 h-9 mr-4 flex-shrink-0
         ${!isLandscape && "hidden"}
         `}>
-            <PlayIcon/>
+          {isPlaying ? <PauseIcon/> : <PlayIcon/>}  
         </div>
-        <MenuWrapper controller={muteController} id="">
+        <MenuWrapper controller={muteController}>
           <div 
 
           className={`bg-popupBackground rounded-lg p-3 w-auto h-32`}>
@@ -114,20 +115,17 @@ const MobileProgressBar = ({
         >
           {currentTimeUser}
         </div>
-        <div  className={`w-full h-6 cursor-pointer md:mx-2`} 
-              onMouseMove= {(e) => getMousePos(e)}  
-              onClick= {(e) => setCurrentDuration(e)} 
-              onMouseUp={() => 
-                setDrag(false)} 
-              onMouseDown={() => 
-                setDrag(true)}
-              onMouseOut={() => setMouseOver()}
+        <div  className={`w-full h-6 cursor-pointer md:mx-2 select-none`} 
               onTouchStart={(e) => {
+                console.log(e)
                 setDrag(true)
                 getMousePos(e.touches[0])
+                
                 }}
               onTouchMove={(e) => getMousePos(e.touches[0])}
               onTouchEnd = {(e) => {
+                  console.log(e)
+                  getMousePos(e.changedTouches[0])
                   setCurrentDuration(e)
                   setMouseOver()
                   setDrag(false)  
@@ -165,13 +163,14 @@ const MobileProgressBar = ({
         </div>
 
         <div 
-                onClick={() => {
+                onTouchEnd={() => {
+                    
                     fullScreenFunc()
                   }}
         className={`w-9 h-9 flex-shrink-0 ml-3
         ${!isLandscape ? "absolute right-1 -top-8" : "relative"}
         `}>
-          <FullScreenIcon/>
+          <FullScreenIcon isFullScreen={isFullScreen}/>
         </div>
         </div>
     )

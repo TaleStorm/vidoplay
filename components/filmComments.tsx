@@ -1,17 +1,19 @@
-import { FilmCommentsData } from "../interfaces"
 import CommentForm from "../components/commentForm"
-import {useContext, useState} from 'react'
+import { useContext, useState } from 'react'
 import LoginContext from "./context/loginContext"
 import AuthModalContext from "./context/authModalContext"
+import ModalOverlay from "./layout/modalOverlay"
 
-type FilmCommentsProps = FilmCommentsData
-
-const FilmComments = (data: FilmCommentsProps) => {
-
-	const [modalOpen, setModalOpen] = useState(false)
+const FilmComments = (data) => {
+  const [comments, updateComments] = useState(data.comments)
+  const [modalOpen, setModalOpen] = useState(false)
   const loginContext = useContext(LoginContext)
   const authModalContext = useContext(AuthModalContext)
 
+  var addComment = (comment) => {
+    comments.push(comment);
+    updateComments(comments);
+  };
 
   return (
     <div className="sm:mx-0 sm:py-10 ">
@@ -23,7 +25,7 @@ const FilmComments = (data: FilmCommentsProps) => {
       <div className="flex justify-between">
         <h4 className="text-3xl font-roboto text-mainText font-normal block mt-4 mb-3 sm:mb-6">Отзывы</h4>
         <div className="flex items-center mt-2 sm:hidden">
-          <h6 className="text-md font-roboto text-maintext font-normal">{data.comments?.length || 0}</h6>
+          <h6 className="text-md font-roboto text-maintext font-normal">{comments?.length || 0}</h6>
           <svg
             width="25"
             height="25"
@@ -41,7 +43,7 @@ const FilmComments = (data: FilmCommentsProps) => {
         </div>
       </div>
       <div className="grid grid-cols-1 gap-y-4">
-        {data.comments?.map((comment, i) => {
+        {comments?.map((comment, i) => {
           return (
             <div
               className="bg-cardBackground sm:grid grid-cols-12 grid-rows-1 grid-flow-column gap-4 pt-3 sm:pb-5 rounded-lg"
@@ -74,24 +76,24 @@ const FilmComments = (data: FilmCommentsProps) => {
                           strokeLinejoin="round"
                         />
                       </svg>
-                      <h4 className="text-xs font-roboto text-mainText font-normal inline ml-2">{comment.username}</h4>
+                      <h4 className="text-xs font-roboto text-mainText font-normal inline ml-2">{comment.username && comment.username != 'null ' ? comment.username : "Анонимный пользователь"}</h4>
                     </a>
                   </div>
                   <div>
                     <h6 className="sm:hidden font-roboto text-mainText text-xs inline font-normal self-end opacity-70">
-                      09.10.2020
+                      {comment.dateString}
                     </h6>
                   </div>
                 </div>
                 <h4 className="text-base font-roboto text-mainText font-normal block sm:ml-7 mt-2 opacity-70 pb-5">
-                  {comment.comment}
+                  {comment.text}
                 </h4>
               </div>
               <div className="hidden col-span-2 sm:grid justify-items-end mr-8">
-                <h6 className="font-roboto text-mainText text-sm inline self-end opacity-70">09.10.2020</h6>
-                <div className="text-sm col-span-1 flex flex-row justify-end space-x-7 content-end mt-8">
-                  <a href="/#" className="self-center space-x-2 flex justify-center">
-                    <h6 className="font-roboto text-mainText text-base inline self-center">123</h6>
+                <h6 className="font-roboto text-mainText text-sm inline opacity-70">{comment.dateString}</h6>
+                {/* <div className="text-sm col-span-1 flex flex-row justify-end space-x-7 content-end mt-8">
+                  <a className="cursor-pointer self-center space-x-2 flex justify-center">
+                    <h6 className="font-roboto text-mainText text-base inline self-center">{comment._likes}</h6>
                     <svg
                       width="27"
                       height="25"
@@ -117,8 +119,8 @@ const FilmComments = (data: FilmCommentsProps) => {
                     </svg>
                   </a>
 
-                  <a href="/#" className="self-center space-x-2 flex justify-center">
-                    <h6 className="font-roboto text-mainText text-base inline self-center">1</h6>
+                  <a className="cursor-pointer self-center space-x-2 flex justify-center">
+                    <h6 className="font-roboto text-mainText text-base inline self-center">{comment._dislikes}</h6>
                     <svg
                       width="27"
                       height="25"
@@ -143,12 +145,12 @@ const FilmComments = (data: FilmCommentsProps) => {
                       />
                     </svg>
                   </a>
-                </div>
+                </div> */}
               </div>
               <div className="sm:hidden col-span-2 grid gap-x-0.5 grid-cols-2 ">
-                <div className="text-sm col-span-1 flex flex-row py-2 justify-center space-x-7 content-end bg-filmReviewBackground">
-                  <a href="/#" className="self-center space-x-2">
-                    <h6 className="font-roboto text-mainText text-base inline self-center">123</h6>
+                {/* <div className="text-sm col-span-1 flex flex-row py-2 justify-center space-x-7 content-end bg-filmReviewBackground">
+                  <a className="cursor-pointer self-center space-x-2">
+                    <h6 className="font-roboto text-mainText text-base inline self-center">{comment._likes}</h6>
                     <svg
                       width="27"
                       height="25"
@@ -173,10 +175,10 @@ const FilmComments = (data: FilmCommentsProps) => {
                       />
                     </svg>
                   </a>
-                </div>
-                <div className="text-sm col-span-1 flex flex-row py-2 justify-center space-x-7 content-end bg-filmReviewBackground">
-                  <a href="/#" className="self-center space-x-2">
-                    <h6 className="font-roboto text-mainText text-base inline self-center">1</h6>
+                </div> */}
+                {/* <div className="text-sm col-span-1 flex flex-row py-2 justify-center space-x-7 content-end bg-filmReviewBackground">
+                  <a className="cursor-pointer self-center space-x-2">
+                    <h6 className="font-roboto text-mainText text-base inline self-center">{comment._dislikes}</h6>
                     <svg
                       width="27"
                       height="25"
@@ -201,23 +203,29 @@ const FilmComments = (data: FilmCommentsProps) => {
                       />
                     </svg>
                   </a>
-                </div>
+                </div> */}
               </div>
             </div>
           )
         })}
       </div>
-      <CommentForm modalOpen ={modalOpen} setModalOpen = {setModalOpen} movieId = {data.movieId}/>
+      <ModalOverlay modalOpen={modalOpen} setModalOpen={setModalOpen} classes={`px-4`}>
+        <CommentForm
+          onClose={()=>{setModalOpen(false)}} 
+          movieId={data.movieId}
+          addComment={addComment}
+        />
+      </ModalOverlay>
       <div className="hidden sm:block mt-8 space-x-6">
-        <button className="bg-orange hover:bg-orange text-mainText font-normal py-3 px-14 rounded-md text-sm" onClick = {() => {
+        <button className="bg-orange hover:bg-orange text-mainText font-normal py-3 px-14 rounded-md text-sm" onClick={() => {
           if (loginContext.userToken) {
             setModalOpen(!modalOpen)
           }
           else {
             authModalContext.setModalOpen(true)
           }
-          
-          }}>
+
+        }}>
           Оставить отзыв
         </button>
       </div>

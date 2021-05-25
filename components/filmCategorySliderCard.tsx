@@ -17,11 +17,9 @@ const FilmCategorySliderCard = (data) => {
 
 	const [isImageFailed, setIsImageFailed] = useState(false)
 
-
 	return (
-
   	<a
-	  href={`/films/${data.stringName}`}
+	  href={`/soap/${data.stringName}`}
 	  className="bg-cardBackground cursor-pointer relative transform transition-all duration-400 lg:hover:-translate-y-2.5 shadow-none lg:hover:shadow-card-hover flex flex-col h-full rounded-lg">
 			{/* <div ref={imgRef} className={`h-40 md:h-60 sm:h-${data.imageSize} bg-cover relative bg-center flex-shrink-0`}> */}
 			<div ref={imgRef} className={`bg-cover relative bg-center flex-shrink-0 rounded-t-lg`}>
@@ -59,7 +57,7 @@ const FilmCategorySliderCard = (data) => {
 			})}
 			</div>
 			<div  className="bg-filmReviewBackground h-8 flex flex-wrap content-center sm:w-auto absolute sm:relative bottom-0 w-full justify-center sm:bg-filmInfoBackground -mx-2 sm:mx-0 px-2">
-			<h1 className="text-md font-roboto font-medium inline text-mainText sm:text-xs ">Отзывы:  {" "}{data._comment ? data._comment.length : ""}</h1>
+			<h1 className="text-md font-roboto font-medium inline text-mainText sm:text-xs ">Отзывы:  {" "}{data._comment ? data._comment : ""}</h1>
 				
 			<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" className="inline ml-1.5 md:pb-0.5 mt-0.5 md:mt-0"> 
 				<path d="M15.9375 2.5H4.0625C3.48285 2.50165 2.9274 2.73265 2.51753 3.14253C2.10765 3.5524 1.87665 4.10785 1.875 4.6875V12.1875C1.87665 12.7672 2.10765 13.3226 2.51753 13.7325C2.9274 14.1424 3.48285 14.3734 4.0625 14.375H5.625V17.5L9.28594 14.4477C9.34216 14.4007 9.41308 14.375 9.48633 14.375H15.9375C16.5172 14.3734 17.0726 14.1424 17.4825 13.7325C17.8924 13.3226 18.1234 12.7672 18.125 12.1875V4.6875C18.1234 4.10785 17.8924 3.5524 17.4825 3.14253C17.0726 2.73265 16.5172 2.50165 15.9375 2.5V2.5Z" stroke="white" strokeLinejoin="round"/>

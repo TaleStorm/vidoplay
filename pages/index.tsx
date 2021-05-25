@@ -16,6 +16,8 @@ function IndexPage({ playlists = [], movies, comments, banners }) {
     onClick: (e) => { setChillPromoOpen(true) }
   }
 
+  console.log(playlists)
+
   return (
       <div className="w-full">
         <div className=" md:grid grid-cols-5 grid-rows-1 gap-7">
@@ -25,6 +27,10 @@ function IndexPage({ playlists = [], movies, comments, banners }) {
             <Slider cards={banners} />
             </div>
             {playlists.map((playlist, i) => {
+
+              if(playlist.stringName === "piloty")
+                return
+
               return (
                 <div className={`mb-10`}>
                   <FilmCategory
@@ -37,7 +43,7 @@ function IndexPage({ playlists = [], movies, comments, banners }) {
                   />
                   { i === 0 &&
                   <a href="/piloty">
-                    <img  className={`w-full mt-10`} src="/images/Pilots.png" alt=""/>
+                    <img  className={`rounded-lg w-full mt-10`} src="/images/Pilots.png" alt=""/>
                   </a>
                   }
                 </div>

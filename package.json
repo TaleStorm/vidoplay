@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start -p $PORT",
-    "deploy": "pm2 deploy production"
+    "deploy": "pm2 deploy development"
   },
   "dependencies": {
     "@headlessui/react": "^1.0.0",

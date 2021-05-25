@@ -39,7 +39,7 @@ const Footer = (data:{onAboutChillClick?:Function}) => (
         <div className="pl-8 col-span-5 relative text-xs sm:text-base">
           <div>
             <a href="/partnership" >
-              Как стать автором контента
+              Как стать частью CHILL?
           </a>
           </div>
           <div className="mt-3">

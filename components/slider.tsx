@@ -14,7 +14,7 @@ type SliderProps = SliderData
 const Slider = (data) => (
 
 
-      <div className="relative sm:h-72 h-40">
+      <div className="relative">
           <Swiper
                 spaceBetween={0}
                 slidesPerView={1}
