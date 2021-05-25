@@ -151,26 +151,23 @@ const PlayerContextProvider = ({ children }: Props) => {
   //Хэндлим фуллскрин
   useEffect(() => {
     if (api) {
-      if (!isFullScreen) {
-        api.method({ name: "toggleFullscreen" })
-        api.method({
-          name: "resize", params: {
-            width: "100%",
-            height: "100%"
-          }
-        })
-        window.dispatchEvent(new Event("resize"))
-      }
-      else {
-        api.method({ name: "toggleFullscreen" })
-        api.method({
-          name: "resize", params: {
-            width: window.screen.availWidth,
-            height: window.screen.availHeight
-          }
-        })
-        window.dispatchEvent(new Event("resize"))
-      }
+        if (!isFullScreen) {
+            api.method({
+                name: "resize", params: {
+                  width: "100%",
+                  height: "100%"
+                }})
+                window.dispatchEvent(new Event("resize"))
+            }
+            else {
+              api.method({
+                name: "resize", params: {
+                  width: window.screen.availWidth,
+                  height: window.screen.availHeight
+                }
+              })
+              window.dispatchEvent(new Event("resize"))
+            }
     }
   }, [api, isFullScreen])
 
@@ -397,7 +394,8 @@ const PlayerContextProvider = ({ children }: Props) => {
         setButton,
         currentTimeBuffer,
         setVideoPercentBuffer,
-      }}
+        api
+    }}
     >
       {children}
     </PlayerContext.Provider>

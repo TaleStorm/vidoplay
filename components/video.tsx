@@ -45,8 +45,7 @@ export default function Video(data) {
                 width: containRef.current.getBoundingClientRect().width,
                 height: containRef.current.getBoundingClientRect().height
             });
-            containRef.current.style.height = isFullScreen ? window.screen.height + "px" : (containRef.current.getBoundingClientRect().width * 9 / 16) + "px"
-            targetRef.current.style.height = isFullScreen ? window.screen.height + "px" : (containRef.current.getBoundingClientRect().width * 9 / 16) + "px"
+            containRef.current.style.height = "100%"
             setTimeout(() => {
                 window.dispatchEvent(new Event("resize"))
             }, 1000)
@@ -77,7 +76,7 @@ export default function Video(data) {
                     <ShareButtons url={shareUrl} title={data.name} image={movie.image} text="Смотрите на Chill" />
                 </div>
             </div>
-            <div ref={containRef} className={`md:mx-auto ${isFullScreen ? "fixed max-h-screen top-0 left-0 z-50" : "max-w-5xl"}  w-full`}>
+            <div ref={containRef} className={`md:mx-auto ${isFullScreen ? "fixed h-full max-h-full top-0 left-0 z-50" : "max-w-5xl"}  w-full`}>
                 <div
                     className="relative" ref={targetRef}>
                     <Tabs startIndex={0} tabs={["Плеер", "Трейлер"]}>
