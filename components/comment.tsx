@@ -40,7 +40,6 @@ const CommentBlock = (commentData: CommentProps) => {
    }
 
    const gotoFilm = async () => {
-    console.log(commentData._movieId)
     Router.replace(`/soap/${stringName}`)
    }
 

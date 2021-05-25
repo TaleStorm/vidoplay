@@ -302,7 +302,6 @@ const PlayerContextProvider = ({ children }: Props) => {
 
   function spaceListener(e) {
 
-    console.log("1")
     if (e.key == " ") {
       e.preventDefault();
 
@@ -313,15 +312,6 @@ const PlayerContextProvider = ({ children }: Props) => {
       }
     }
   }
-
-  // useEffect(()=>{
-  //   if(!isIntro)
-  //   {
-  //     setIsSpaceListenerActive(prev => false)
-  //     setIsSpaceListenerActive(prev => true)
-  //   }
-
-  // }, [isIntro])
 
   //Добляем или удаляем обработчик пробела
   useEffect(() => {

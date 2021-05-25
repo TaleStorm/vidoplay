@@ -5,8 +5,6 @@ type CommentsProps = CommentsData
 
 const Comments = (data: CommentsProps) => {
 
-	console.log(data)
-
 	return (
 		<div className="ml-8">
 			<h4 className="text-sm font-roboto text-mainText font-normal block mt-4 opacity-80">
