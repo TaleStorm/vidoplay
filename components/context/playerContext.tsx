@@ -394,7 +394,6 @@ const PlayerContextProvider = ({ children }: Props) => {
         setButton,
         currentTimeBuffer,
         setVideoPercentBuffer,
-        api
     }}
     >
       {children}
