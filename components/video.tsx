@@ -4,6 +4,7 @@ import axios from "axios"
 import ShareButtons from "./shareButtons";
 import MovieContext from "./context/movieContext";
 import Tabs from "./Tabs";
+import TrailerPlayer from "./trailerPlayer";
 
 export default function Video(data) {
     const targetRef = useRef() as MutableRefObject<HTMLDivElement>
@@ -98,7 +99,7 @@ export default function Video(data) {
                                     Видео скоро появится
                             </h1>
                             </div>)}
-                        <video preload="metadata" className="w-full h-full" controls src={'http://' + movie.trailer} />
+                        <TrailerPlayer videoUrl={movie.trailer}/>
                     </Tabs>
                 </div>
                 <div className="hidden grid-cols-2 grid-rows-1 gap-4 mb-6">
