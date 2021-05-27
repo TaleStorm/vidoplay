@@ -44,6 +44,7 @@ const FilmComments = (data) => {
       </div>
       <div className="grid grid-cols-1 gap-y-4">
         {comments?.map((comment, i) => {
+          console.log(comment)
           return (
             <div
               className="bg-cardBackground sm:grid grid-cols-12 grid-rows-1 grid-flow-column gap-4 pt-3 sm:pb-5 rounded-lg"

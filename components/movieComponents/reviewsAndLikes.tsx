@@ -19,28 +19,35 @@ const ReviewsAndLikes = ({setscore, score, movieId}) => {
     const [like, setLike] = useState(null)
     const stars = [1,2,3,4,5]
 
-    // const updateFavoriteFilm = async (additional) => {
-    //     const data = {
-    //         _movieId: movieId,
-    //         _userId: localStorage.getItem('_user')
-    //     }
-    //     const result = Object.assign(data, additional)
-    //     await ApiReq.updateFavoriteFilm(result)
-    // }
+    const updateFavoriteFilm = async (additional) => {
+        const data = {
+            _movieId: movieId,
+            _userId: localStorage.getItem('_user')
+        }
+        const result = Object.assign(data, additional)
+        await ApiReq.updateFavoriteFilm(result)
+    }
 
-    // useEffect(() => {
-    //     async function fetchMyAPI() {
-    //         if (localStorage.getItem('_user')) {
-    //             const data = {
-    //                 _movieId: movieId,
-    //                 _userId: localStorage.getItem('_user')
-    //             }
-    //             console.log(await ApiReq.getFavoriteFilm(data))
-    //         }
-    //     }
+    useEffect(() => {
+        async function fetchMyAPI() {
+            if (localStorage.getItem('_user')) {
+                const data = {
+                    _movieId: movieId,
+                    _userId: localStorage.getItem('_user')
+                }
+                const res = await ApiReq.getFavoriteFilm(data)
+                setscore(res.score)
+                if (res.isLiked) {
+                    setLike(true)
+                }
+                if (res.isDisliked) {
+                    setLike(false)
+                }
+            }
+        }
       
-    //     fetchMyAPI()
-    // }, [])
+        fetchMyAPI()
+    }, [])
 
     return (
         <div className="text-sm col-span-1 flex flex-col sm:flex-row justify-end content-between mt-8 pb-2">
@@ -62,7 +69,7 @@ const ReviewsAndLikes = ({setscore, score, movieId}) => {
                                 index={star} 
                                 hoveredscore={hoveredscore} 
                                 setHoveredscore={setHoveredscore}
-                                // updateFavoriteFilm={updateFavoriteFilm}
+                                updateFavoriteFilm={updateFavoriteFilm}
                             />
                         </div>
                     )
@@ -84,7 +91,7 @@ const ReviewsAndLikes = ({setscore, score, movieId}) => {
                         if (like === false) {
                             setDislikes(dislikes - 1)
                         }
-                        // updateFavoriteFilm({isLiked: true, isDisliked: false});
+                        updateFavoriteFilm({isLiked: true, isDisliked: false});
                     }
                     else {
                         authModalContext.setModalOpen(true)

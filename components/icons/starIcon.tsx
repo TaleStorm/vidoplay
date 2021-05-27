@@ -2,8 +2,7 @@ import { useContext } from "react"
 import AuthModalContext from "../context/authModalContext"
 import LoginContext from "../context/loginContext"
 
-const StarIcon = ({index, hoveredscore, setHoveredscore, score, setscore}) => {
-    // const StarIcon = ({index, hoveredscore, setHoveredscore, score, setscore,updateFavoriteFilm}) => {
+const StarIcon = ({index, hoveredscore, setHoveredscore, score, setscore,updateFavoriteFilm}) => {
 
     const authModalContext = useContext(AuthModalContext)
     const loginContext = useContext(LoginContext)
@@ -16,7 +15,7 @@ const StarIcon = ({index, hoveredscore, setHoveredscore, score, setscore}) => {
     onClick={() => {
         if (loginContext.userToken) {
             setscore(index);
-            // updateFavoriteFilm({score: index});
+            updateFavoriteFilm({score: index});
         }
         else {
             authModalContext.setModalOpen(true);

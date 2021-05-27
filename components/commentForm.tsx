@@ -2,8 +2,10 @@
 import { get } from "node:https"
 import { useContext, useEffect, useState } from "react"
 import ModalOverlay from "./layout/modalOverlay"
-import axios from 'axios'
+import apiReq from "../services/api-requests"
 import PlayerContext from "./context/playerContext"
+
+const ApiReq = new apiReq()
 
 const CommentForm = ({ onClose, movieId, addComment }) => {
   const [comentData, setCommentData] = useState({ text: '' })
@@ -28,10 +30,10 @@ const CommentForm = ({ onClose, movieId, addComment }) => {
         _dislikes: 0,
       }
 
-      const res = await axios.post('/api/sendComment', data);
+      await ApiReq.createComment(data)
 
       const dateArray = String(date.toLocaleString()).split(",")[0].split(".");
-      data.dateString = `${dateArray[0]} ${dateArray[1]} ${dateArray[2]}`
+      data.dateString = `${dateArray[0]} ${dateArray[1]} ${dateArray[2]}`;
       addComment(data);
 
       onClose();

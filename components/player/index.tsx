@@ -18,10 +18,7 @@ import PlayerContext from "../context/playerContext";
 import MovieContext from "../context/movieContext";
 import AgeWarning from "./ageWarning";
 
-
-
 export default function Player(data) {
-
   const [actingState, setActingState] = useState("closed");
   const [interval, setIntervalVideo] = useState(undefined);
   const [realInterval, setRealInterval] = useState(0);
@@ -39,10 +36,8 @@ export default function Player(data) {
   const [draggerVisible, setDraggerVisible] = useState(false);
   const [possibleDurationTime, setPossibleDurationTime] = useState(0);
 
-
   //скелет
   const [isLoaded, setisLoaded] = useState(true);
-
 
   //Контекст, в идеале запихнуть в него всю функциональную часть плеера, здесь оставив лишь декорации
   const {
@@ -326,7 +321,6 @@ export default function Player(data) {
     }
     }
   })
-
 
   return (
     <div >
