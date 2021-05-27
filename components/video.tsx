@@ -21,7 +21,6 @@ export default function Video(data) {
 
     useEffect(() => {
         setShareUrl(document.location.href)
-        console.log(data)
     }, [])
 
     useEffect(() => {

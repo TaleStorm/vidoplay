@@ -6,7 +6,7 @@ axios.interceptors.request.use(function (config) {
       ...config.headers,
       "Authorization" : `Bearer ${token}`
     }
-    console.log(config);
+    // console.log(config);
     return config;
   }, function (error) {
     // Do something with request error

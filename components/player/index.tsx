@@ -153,7 +153,6 @@ export default function Player(data) {
     let listener
     if (globalGplayerAPI) {
       listener = (e) => {
-        console.log(e)
         if (e.key == " ") {
           e.preventDefault();
           if (isPlaying) {
@@ -312,9 +311,6 @@ export default function Player(data) {
     }
     }
   })
-
-  console.log(data.series)
-
 
   return (
     <div >
