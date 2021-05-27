@@ -37,7 +37,7 @@ export default function ProgressBar({isMobile, ...data}) {
           absolute md:bottom-4 px-5 pb-5 md:px-0 md:pb-0 bottom-0 z-20 inset-x-0 md:mx-4 w-auto  items-end`
         }
       > 
-        <div onClick={() => (setIsPlaying(!isPlaying))}  className={`relative lg:hover:bg-orange transition-all duration-200 rounded-lg flex-shrink-0 p-2 cursor-pointer hidden md:block w-10 h-10 bg-white bg-opacity-20`}>
+        <div onClick={() => (setIsPlaying(!isPlaying))}  className={`relative lg:hover:bg-orange transition-all duration-200 rounded-lg flex-shrink-0 p-2 cursor-pointer hidden md:block w-10 h-10 bg-white bg-opacity-20 z-10`}>
           {isPlaying ? <PauseIcon/>  : <PlayIcon/>}
         </div>
         <div 
@@ -175,6 +175,7 @@ export default function ProgressBar({isMobile, ...data}) {
         {durationTimeUser}
         </div>
         <div 
+        
         onClick={(e) => {
           data.fullScreenFunc()
         }}

@@ -4,6 +4,7 @@ import axios from "axios"
 import ShareButtons from "./shareButtons";
 import MovieContext from "./context/movieContext";
 import Tabs from "./Tabs";
+import TrailerPlayer from "./trailerPlayer";
 
 export default function Video(data) {
     const targetRef = useRef() as MutableRefObject<HTMLDivElement>
@@ -21,7 +22,6 @@ export default function Video(data) {
 
     useEffect(() => {
         setShareUrl(document.location.href)
-        console.log(data)
     }, [])
 
     useEffect(() => {
@@ -45,8 +45,7 @@ export default function Video(data) {
                 width: containRef.current.getBoundingClientRect().width,
                 height: containRef.current.getBoundingClientRect().height
             });
-            containRef.current.style.height = isFullScreen ? window.screen.height + "px" : (containRef.current.getBoundingClientRect().width * 9 / 16) + "px"
-            targetRef.current.style.height = isFullScreen ? window.screen.height + "px" : (containRef.current.getBoundingClientRect().width * 9 / 16) + "px"
+            containRef.current.style.height = "100%"
             setTimeout(() => {
                 window.dispatchEvent(new Event("resize"))
             }, 1000)
@@ -77,9 +76,9 @@ export default function Video(data) {
                     <ShareButtons url={shareUrl} title={data.name} image={movie.image} text="Смотрите на Chill" />
                 </div>
             </div>
-            <div ref={containRef} className={`md:mx-auto ${isFullScreen ? "fixed max-h-screen top-0 left-0 z-50" : "max-w-5xl"}  w-full`}>
+            <div ref={containRef} className={`md:mx-auto ${isFullScreen ? "fixed h-full max-h-full top-0 left-0 z-50" : "max-w-5xl"}  w-full`}>
                 <div
-                    className="relative" ref={targetRef}>
+                    className="relative w-full h-full" ref={targetRef}>
                     <Tabs startIndex={0} tabs={["Плеер", "Трейлер"]}>
                         {isActive() ? (
                             <PLayer
@@ -99,7 +98,7 @@ export default function Video(data) {
                                     Видео скоро появится
                             </h1>
                             </div>)}
-                        <video preload="metadata" className="w-full h-full" controls src={'http://' + movie.trailer} />
+                        <TrailerPlayer videoUrl={movie.trailer}/>
                     </Tabs>
                 </div>
                 <div className="hidden grid-cols-2 grid-rows-1 gap-4 mb-6">

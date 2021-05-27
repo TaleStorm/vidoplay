@@ -1,4 +1,4 @@
-import { MutableRefObject, useContext, useEffect, useRef, useState } from "react";
+import { MutableRefObject, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import ProgressBar from './progressBar';
 import TopPlayerPanel from './topPlayerPanel';
@@ -19,29 +19,6 @@ import MovieContext from "../context/movieContext";
 import AgeWarning from "./ageWarning";
 
 export default function Player(data) {
-
-  const [actingState, setActingState] = useState("closed");
-  const [interval, setIntervalVideo] = useState(undefined);
-  const [realInterval, setRealInterval] = useState(0);
-  const [currentTime, setVideoCurrent] = useState(0);
- 
-  const [currentVolume, setVolumeCurrent] = useState(100);
-  const [bufferVolume, setVolumeBuffer] = useState(100);
-  const [isMuted, setMute] = useState(false);
-  const [isDragged, setDrag] = useState(false);
-  const [currentQuality, setCurrentQuality] = useState("AUTO");
-  const [isCompliationModalOpen, setIsCompliationModalOpen] = useState(false);
-  const [currentCompilationMovie, setCurrentCompilationMovie] = useState(data.movies[0]);
-  const [globalGplayerAPI, setPlayer] = useState(undefined);
-  const [draggerPercent, setDraggerPercent] = useState("0");
-  const [draggerVisible, setDraggerVisible] = useState(false);
-  const [possibleDurationTime, setPossibleDurationTime] = useState(0);
-
-
-  //скелет
-  const [isLoaded, setisLoaded] = useState(true);
-
-
   //Контекст, в идеале запихнуть в него всю функциональную часть плеера, здесь оставив лишь декорации
   const {
     setApi, 
@@ -71,37 +48,57 @@ export default function Player(data) {
     buttonState,
     currentTimeBuffer,
     panelState,
-    setButton
-    
+    setButton,
+    setIsSpaceListenerActive,
+    currentVolume,
+    setVolumeCurrent
   } = useContext(PlayerContext)
 
+  const [interval, setIntervalVideo] = useState(undefined);
+  const [realInterval, setRealInterval] = useState(0);
+  const [currentTime, setVideoCurrent] = useState(0);
+  const [bufferVolume, setVolumeBuffer] = useState(100);
+  const [isMuted, setMute] = useState(false);
+  const [isDragged, setDrag] = useState(false);
+  const [currentQuality, setCurrentQuality] = useState("AUTO");
+  const [isCompliationModalOpen, setIsCompliationModalOpen] = useState(false);
+  const [currentCompilationMovie, setCurrentCompilationMovie] = useState(data.movies[0]);
+  const [globalGplayerAPI, setPlayer] = useState(undefined);
+  const [draggerPercent, setDraggerPercent] = useState("0");
+  const [draggerVisible, setDraggerVisible] = useState(false);
+  const [possibleDurationTime, setPossibleDurationTime] = useState(0);
+
+  //скелет
+  const [isLoaded, setisLoaded] = useState(true);
+
+  
   const intro = "https://chillvision.gcdn.co/videos/18824_73D1CCWxB499h8xa"
 
   const getPlayer = async () => {
     setVideoPercentCurrent("0");
+    console.log((window as any))
     const GcorePlayer = (window as any).GcorePlayer.gplayerAPI;
     const gplayerAPI = new GcorePlayer(document.getElementById("gplayer"))
-
     gplayerAPI.on("pause", () => {
       setIsPlaying(false)
     })
-
+    
     //Вот тут хэндлится вся логика фуллскрина при нажатии на ESC
     const fullScreenListener = () => {
       if (window.innerWidth > 1000) {
         if (!window.screenTop && !window.screenY) {
-          data.setFullScreen(false);
           setFullScreen(false);
         }
         else {
-          data.setFullScreen(true)
           setFullScreen(true);
         }
       }
     }
 
+
     window.addEventListener("fullscreenchange", fullScreenListener)
     setPlayer(gplayerAPI);
+    setApi(gplayerAPI)
     return { gplayerAPI: gplayerAPI, userWindow: { width: (window).innerWidth, height: (window).innerHeight } }
   }
 
@@ -117,12 +114,6 @@ export default function Player(data) {
       })
     }
   }, [durationTime,globalGplayerAPI])
-
-  useEffect(() => {
-    if (globalGplayerAPI) {
-      setApi(globalGplayerAPI)
-    }
-  }, [globalGplayerAPI])
 
   useEffect(() => {
     if (globalGplayerAPI) {
@@ -150,22 +141,11 @@ export default function Player(data) {
   }
 
   useEffect(() => {
-    let listener
     if (globalGplayerAPI) {
-      listener = (e) => {
-        console.log(e)
-        if (e.key == " ") {
-          e.preventDefault();
-          if (isPlaying) {
-            setIsPlaying(false)
-          } else {
-            setIsPlaying(true)
-          }   
-        }
-      }
+      setIsSpaceListenerActive(true)
     }
-    window.addEventListener("keydown", listener);
-    return () => {window.removeEventListener("keydown", listener)}
+
+    return () => {setIsSpaceListenerActive(false)}
   }, [isPlaying, globalGplayerAPI])
 
 
@@ -263,20 +243,41 @@ export default function Player(data) {
 
   const handle = useFullScreenHandle();
 
+  //Функция фуллскрина
   const fullScreenFunc = async () => {
-    if (isFullScreen) {
-      handle.exit()
-      data.setFullScreen(false);
-      setFullScreen(false);
-      return
-    } else {
-      console.log(handle)
-      handle.enter()
-      data.setFullScreen(true)
-      setFullScreen(true);
-      return
-    }
+      var elem = document.getElementById("mainframe") as HTMLElement & {
+        mozRequestFullScreen(): Promise<void>;
+        webkitRequestFullscreen(): Promise<void>;
+        msRequestFullscreen(): Promise<void>;
+      };
+      console.log(elem)
+      if (isFullScreen) {
+        screen.orientation.unlock()
+        globalGplayerAPI.method({name: "pause"})
+        document.exitFullscreen()
+        setFullScreen(false);
+        return
+      } else {
+       globalGplayerAPI.method({name: "pause"})
+
+       if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen();
+      } else if (elem.mozRequestFullScreen) {
+        elem.mozRequestFullScreen();
+      } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen();
+      }
+      screen.orientation.lock("landscape")
+        setFullScreen(true);
+        return
+      }
   }
+
+  useEffect(() => {
+    console.log(currentSeason, currentSerie)
+  }, [currentSeason, currentSerie])
 
   const [isMobileSliderOpen, setIsMobileSliderOpen] = useState(false)
   const overlayRef = useRef(null) as MutableRefObject<HTMLDivElement>
@@ -284,7 +285,6 @@ export default function Player(data) {
   useEffect(() => {
     //set global player API
     getPlayer()
-    return () => {}
   }, [])
 
   const TouchListener = async (e) => {
@@ -314,11 +314,14 @@ export default function Player(data) {
     }
   })
 
-
   return (
-    <div >
-      <div draggable={false}  className={`${isLoaded ? "visible" : "hidden"}`}>
-        <FullScreen onChange={(e) => {console.log(e)}} className={`relative`} handle={handle}>
+    <div className={`h-full`} >
+      <div draggable={false} id="mainframe" className={`${isLoaded ? "visible" : "hidden"} h-full`}>
+        {/* <FullScreen onChange={(e) => {console.log(e)}} className={`relative`} handle={handle}>
+          <div className={`w-full h-full bg-gradient-to-t from-orange to-loveTag`}>
+
+          </div>
+        </FullScreen> */}
           <div
           style={{
           }}
@@ -327,7 +330,7 @@ export default function Player(data) {
               setButton("hidden")
             }
           }
-            id="mainframe"
+            
             className={`relative inline-block w-full h-full`}
           >
             <iframe
@@ -338,7 +341,6 @@ export default function Player(data) {
               // src={`${data.series[currentSeason][currentSerie].videoId}?player_id=777`}
               // src={`${intro}?player_id=777`}
               allowFullScreen
-              //allow='autoplay' 
               frameBorder="0"
               id="gplayer"
             ></iframe>
@@ -375,7 +377,7 @@ export default function Player(data) {
               />
             </PlayerModalOverlay>
 
-            <div className="hidden md:block">
+            <div className="block">
               <div className={`${isPlaying ? "hidden" :"visible"}`}>
                 <TopPlayerPanel
                 />
@@ -441,7 +443,7 @@ export default function Player(data) {
 
 
             </div>
-            <div className={`hidden md:block ${data.isSerial ? "":"md:hidden"}`}>
+            <div className={`hidden lg:block ${data.isSerial ? "":"hidden"}`}>
                 
                 <CompilationSliderSerial setCurrentCompilationMovie={setCurrentCompilationMovie} movies={data.series[currentSeason]} setModalOpen={setIsCompliationModalOpen} isSliderOpen={isSliderOpen} setIsSliderOpen={setIsSliderOpen} isFullscreen={isFullScreen} />
                 <PlayerModalOverlay setModalOpen={setIsCompliationModalOpen} modalOpen={isCompliationModalOpen}>
@@ -573,8 +575,9 @@ export default function Player(data) {
 
               </div>
             </div>
-        </FullScreen>
+
       </div>
+
       {/* <div className={`${isLoaded ? "hidden" : "visible"} bg-cardBackground relative inline-block w-full h-full`}>
         <div className={`bg-cardBackground relative inline-block h-12 w-12`}>
         </div>

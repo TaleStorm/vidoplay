@@ -14,7 +14,7 @@ export default function Player(data) {
     const gplayerAPI = new GcorePlayer(document.getElementById("gplayer"))
     setPlayer(gplayerAPI);
 
-
+    gplayerAPI.method({name: "setVolume", params: 100})
     gplayerAPI.on('tracks', (info) => {
       setTracks(info)
     })
@@ -39,24 +39,7 @@ export default function Player(data) {
 
   return (
     <div>
-        <script src="https://vplatform.gcdn.co/_players/v2.0.71/gplayerAPI.js"></script>
-        <iframe
-            width={700}
-            height={500}
-            // src={`https://chillvision.gcdn.co/videos/${video}?player_id=777`}
-            src={`https://chillvision.gcdn.co/videos/${video}?player_id=777`}
-            frameBorder="0"
-            id="gplayer"
-            >
-        </iframe>
-        {/* <button onClick= {() => setAudio()} >
-    Click
-        </button> */}
-        {tracks ? tracks.map((track, i) => {
-                        return <button key={i} onClick= {() => setAudio(track.id)} className="block">
-                        ID: {track.id}
-                            </button>
-                    }): ""}
+        
     </div>
   )
 }

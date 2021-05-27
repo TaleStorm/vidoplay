@@ -155,6 +155,7 @@ const handleGoogleLogin = async (data) => {
 
     const valid = await axios.post("/api/validate", { token })
     if (valid.status === 403) {
+      logOut()
       BadToast("Необходимо перезайти в аккаунт")
     }
     else {

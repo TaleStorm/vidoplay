@@ -90,7 +90,9 @@ const HeadPC = () => {
     </>
   )
 }
-export default function Header() {
+export default function Header({
+  isLayoutHidden
+}) {
   const [auth, changeAuth] = useState("hidden")
   const [authState, changeState] = useState("auth")
 
@@ -150,7 +152,7 @@ export default function Header() {
   return (
     <>
       <Sidebar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} setAuth={setAuth} />
-      <header className="top-0 left-0 w-full  fixed z-30 bg-background h-22 flex justify-center">
+      <header className= {`top-0 left-0 w-full  fixed z-30 bg-background h-22 flex justify-center ${isLayoutHidden && "hidden overflow-hidden"}`}>
         <div
           style={{
             maxWidth: "1440px",
@@ -319,7 +321,7 @@ export default function Header() {
           />
         </div>
       </header>
-      <div className={`w-full h-22 flex-shrink-0`}></div>
+      <div className={`w-full h-22 flex-shrink-0 ${isLayoutHidden && "hidden"}`}></div>
     </>
   )
 }

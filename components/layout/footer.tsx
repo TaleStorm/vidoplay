@@ -1,8 +1,10 @@
 import FooterSocials from "./footerSocials"
 
-const Footer = (data:{onAboutChillClick?:Function}) => (
+const Footer = ({
+  isLayoutHidden
+}) => (
 
-  <footer className="relative md:pl-16 md:pr-28 px-6 pt-36">
+  <footer className={`relative md:pl-16 md:pr-28 px-6 pt-36 ${isLayoutHidden && "hidden"}`}>
     <div className="font-roboto text-mainText text-base  flex flex-col-reverse sm:grid grid-cols-12 pb-8 sm:pb-0 pt-8 sm:pt-14 sm:h-72 mx-auto sm:overflow-hidden">
       <div className="col-span-2 hidden lg:block">
         <div className="flex  justify-center">
@@ -31,7 +33,7 @@ const Footer = (data:{onAboutChillClick?:Function}) => (
           </div> */}
           {/* <div className="mt-3"> */}
           <div>
-            <a href="/about-us" className="cursor-pointer" onClick={()=>data.onAboutChillClick()}>
+            <a href="/about-us" className="cursor-pointer">
               О CHILL
           </a>
           </div>

@@ -40,15 +40,14 @@ const CommentBlock = (commentData: CommentProps) => {
    }
 
    const gotoFilm = async () => {
-    console.log(commentData._movieId)
     Router.replace(`/soap/${stringName}`)
    }
 
   return (
     <div className="">
       <a 
-      href={activeLinks[Math.floor(Math.random()*activeLinks.length)]}
-      // onClick = {() => {gotoFilm()}} 
+      // href={activeLinks[Math.floor(Math.random()*activeLinks.length)]}
+      onClick = {() => {gotoFilm()}} 
       className="text-base block mt-5">
         <div className={`flex items-center`}>
           <div className={`w-8 h-8 p-1 bg-user-bg rounded-full mr-2`}>

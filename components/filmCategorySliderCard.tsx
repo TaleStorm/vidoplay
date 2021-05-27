@@ -16,6 +16,7 @@ const FilmCategorySliderCard = (data) => {
 	const sanitizedText = useSanitize(data.excerpt)
 
 	const [isImageFailed, setIsImageFailed] = useState(false)
+
 	return (
   	<a
 	  href={`/soap/${data.stringName}`}
