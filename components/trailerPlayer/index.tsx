@@ -1,5 +1,7 @@
 import { MutableRefObject, useEffect, useRef, useState } from "react"
 import { convertTime } from "../player/utils"
+import FullScreenIcon from "../playerIcons/fullScreen"
+import MuteIcon from "../playerIcons/muteIcon"
 import PauseIcon from "../playerIcons/pauseIcon"
 import PlayIcon from "../playerIcons/playIcon"
 
@@ -12,6 +14,8 @@ const TrailerPlayer = ({
     const [currentTime, setCurrentTime] = useState(0)
     const [hoveredPercent, setHoveredPercent] = useState(0)
     const [isHovered, setIsHovered] = useState(false)
+    const [volumePercent, setVolumePercent] = useState(0)
+    const [isFullScreen, setFullScreen] = useState(false)
     const videoRef = useRef() as MutableRefObject<HTMLVideoElement>
 
     useEffect(() => {
@@ -21,6 +25,39 @@ const TrailerPlayer = ({
         }
         videoRef.current.pause()
     }, [isPlaying])
+
+    useEffect(() => {
+        setVolumePercent(videoRef.current.volume * 100)
+    }, [])
+
+    useEffect(() => {
+        videoRef.current.volume = volumePercent/100
+    }, [volumePercent])
+
+    const fullScreenFunc = () => {
+        const elem = document.getElementById("trailerFrame") as HTMLElement & {
+            mozRequestFullScreen(): Promise<void>;
+            webkitRequestFullscreen(): Promise<void>;
+            msRequestFullscreen(): Promise<void>;
+          };
+          if (isFullScreen) {
+            document.exitFullscreen()
+            setFullScreen(false);
+            return
+          } else {
+           if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+          } else if (elem.msRequestFullscreen) {
+            elem.msRequestFullscreen();
+          } else if (elem.mozRequestFullScreen) {
+            elem.mozRequestFullScreen();
+          } else if (elem.webkitRequestFullscreen) {
+            elem.webkitRequestFullscreen();
+          }
+            setFullScreen(true);
+            return
+          }
+    }
     
     useEffect(() => {
         const timer = setInterval(() => {
@@ -56,6 +93,13 @@ const TrailerPlayer = ({
 
     return (
         <div 
+        onClick={(e) => {
+            const elem = videoRef.current
+            if (e.target === elem) {
+                setIsPlaying(!isPlaying)
+            }
+        }}
+        id="trailerFrame"
         className={`h-full w-full relative`}>
         <video preload="metadata" ref={videoRef} className="w-full h-full" src={'http://' + videoUrl} />
         <div className={`absolute bottom-0 left-0 w-full pb-4 bg-black bg-opacity-10 flex px-4`}>
@@ -111,9 +155,40 @@ const TrailerPlayer = ({
                       className={`absolute h-4 w-7 -top-4 bg-white bg-opacity-20`}/>
                   </div>
         </div>
-            <div className={`w-36 h-10 rounded-lg bg-white bg-opacity-20 flex-shrink-0`}>
-                
+            <div className={`w-36 h-10 rounded-lg bg-white bg-opacity-20 flex-shrink-0 items-center flex px-2 mr-4`}>
+                <div 
+                onClick={() => {
+                    if (volumePercent !== 0) {
+                        setVolumePercent(0)
+                        return
+                    }
+                    setVolumePercent(50)
+                    }}
+                className={`w-7 h-7 flex-shrink-0`}>
+                <MuteIcon state={volumePercent !== 0}/>
+                </div>
+                <div className={`h-5 w-full bg-white bg-opacity-20 ml-2 relative`}>
+                    <div 
+                    style={{
+                        width: `${volumePercent}%`
+                    }}
+                    className={`absolute top-0 left-0 h-full bg-orange`}/>
+                    <div 
+                    onClick={(e) => {
+                        const bounds = e.currentTarget.getBoundingClientRect()
+                        const percent = ((e.pageX - bounds.x)/bounds.width) * 100
+                        setVolumePercent(percent)
+                    }}
+                    draggable={`false`}
+                    className={`absolute top-0 left-0 h-full w-full cursor-pointer`}/>
+             </div>
+
             </div>
+            <div 
+            onClick={fullScreenFunc}
+            className={`lg:hover:bg-orange transition-all duration-200 rounded-lg flex-shrink-0 p-1.5 cursor-pointer md:block w-10 h-10 bg-white bg-opacity-20`}>
+                    <FullScreenIcon isFullScreen={isFullScreen}/>
+                </div>
 
         </div>
         </div>
