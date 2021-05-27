@@ -17,14 +17,14 @@ const EndedModal = ({
 }) => {
 
     const [isLast, setIsLast] = useState(false)
-    const [next, setNext] = useState(series.length ? series[currentSeason][currentSerie] : {})
+    const [next, setNext] = useState(series[currentSeason] && series[currentSeason][currentSerie] || {})
     const [nextNumbers, setNextNumbers] = useState({season: 0, serie: 0,})
     const router = useRouter()
 
     useEffect(() => {
         const getNext = () => {
-            if (currentSerie + 2 > series[currentSeason].length) {
-                if (currentSeason + 2 > series.length) {
+            if (currentSerie + 2 > series[currentSeason]?.length) {
+                if (currentSeason + 2 > series?.length) {
                     setIsLast(true)
                     setNext(prediction)
                     setNextNumbers( {
@@ -40,12 +40,16 @@ const EndedModal = ({
                 })
                 return 
             }
-            setNext(series[currentSeason][currentSerie + 1] )
-            setNextNumbers({
-                season: currentSeason,
-                serie: currentSerie + 1,
-            })
-            return 
+            if(series[currentSeason])
+            {
+                setNext(series[currentSeason][currentSerie + 1] )            
+                setNextNumbers(
+                    {
+                        season: currentSeason,
+                        serie: currentSerie + 1,
+                    })
+                return 
+            }
         }
         getNext()
     }, [currentSerie, currentSeason])

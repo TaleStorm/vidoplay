@@ -55,7 +55,7 @@ const ReviewsAndLikes = ({setscore, score, movieId}) => {
                 className={`flex items-center`}>
                 {stars.map((star, i) => {
                     return (
-                        <div className={`${i === stars.length - 1 ? "mr-0" : "mr-2"} w-8 h-8`}>
+                        <div key={i} className={`${i === stars.length - 1 ? "mr-0" : "mr-2"} w-8 h-8`}>
                             <StarIcon 
                                 setscore={setscore} 
                                 score={score} 

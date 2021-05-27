@@ -54,7 +54,7 @@ const CompilationSlider = ({
                         nextEl: '#next' + 1,
                     }}
                 >
-                    {movies.map((card, i) => {
+                    {movies?.map((card, i) => {
                         if (i === currentSerie) {
                             return
                         }

@@ -39,7 +39,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen, setAuth }) => {
             <div className={`w-full pt-8 grid grid-cols-1 space-y-6`}>
                 {links.map((link) => {
                     return (
-                        <Link href={link.link}>
+                        <Link key={link.name} href={link.link}>
                             <div onClick={() => { setIsSidebarOpen(false) }} className={`text-h7 w-full justify-center text-center font-medium cursor-pointer`}>
                                 {link.name}
                             </div>

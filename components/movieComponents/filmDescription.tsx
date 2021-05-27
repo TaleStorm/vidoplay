@@ -11,7 +11,7 @@ const FilmDescription = () => {
   const sanitizedText = useSanitize(movie.excerpt)
 
   const isNotEmpty = (array: Array<string>) => {
-    return array ? array.filter(item => item.length > 0).length > 0 : false
+    return array ? array.filter(item => item?.length > 0).length > 0 : false
   }
 
   return (

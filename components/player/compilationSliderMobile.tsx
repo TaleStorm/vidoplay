@@ -63,7 +63,7 @@ const CompilationSliderMobile = ({
                         nextEl: '#next' + 1,
                     }}
                 >
-                    {movies.map((card, i) => {
+                    {movies?.map((card, i) => {
                         if (i !== currentSerie) return <SwiperSlide key={i} className="">
                             <a onClick={(e) => {
                                 changeSerie(i)

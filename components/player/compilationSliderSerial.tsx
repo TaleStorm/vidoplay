@@ -37,7 +37,7 @@ const CompilationSlider = ({setModalOpen, isSliderOpen, setIsSliderOpen, movies,
                         nextEl: '#next' + 1,
                     }}
                 >
-                    {movies.map((movie, i) => {
+                    {movies?.map((movie, i) => {
                         const card = {
                             image: movie.image,
                             title: "Серия " + (Number(i)+1),

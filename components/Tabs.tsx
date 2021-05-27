@@ -18,7 +18,7 @@ export default function Tabs(data:
     <div>
       <div className="text-center w-full flex font-roboto absolute z-10" style={{transform:"translateY(-100%)"}}>
         {data.tabs.map((item, i) =>
-          <div onClick={() => { setCurrentTab(i) }} className={`w-full sm:w-auto px-2 pb-1 pt-2 rounded-t-lg cursor-pointer ${i === currentTab ? "bg-orange" : "hover:bg-"}`}>
+          <div key={item} onClick={() => { setCurrentTab(i) }} className={`w-full sm:w-auto px-2 pb-1 pt-2 rounded-t-lg cursor-pointer ${i === currentTab ? "bg-orange" : "hover:bg-"}`}>
             {item}
           </div>
         )}
