@@ -41,7 +41,7 @@ const ModalOverlay = ({ children, modalOpen, setModalOpen, classes }) => {
                 className={`w-full h-0 flex justify-center ${classes}`}
             >
                 <div className={`h-auto w-full`}>
-                 {modalOpen && children}
+                 {children}
                 </div>
             </div>
         </div>
