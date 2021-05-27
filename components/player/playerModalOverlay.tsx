@@ -3,19 +3,24 @@ import doramas from "../../data/doramas";
 import PlayerFilmCard from "../filmCards/playerFilmCard";
 
 const PlayerModalOverlay = ({ modalOpen, setModalOpen, classes="", children }) => {
-    const modalOverlayRef = useRef() as MutableRefObject<HTMLDivElement>;
+    const modalOverlayRef = useRef(null) as MutableRefObject<HTMLDivElement>;
     const modalWrap = useRef() as MutableRefObject<HTMLDivElement>;
     const thirdWrap = useRef() as MutableRefObject<HTMLDivElement>;
 
 
     useEffect(() => {
-        if (modalOpen) {
-            modalOverlayRef.current.style.height = "";
-        } else {
-            setTimeout(() => {
-                modalOverlayRef.current.style.height = "0px";
-            }, 500);
-        }
+        console.log(modalOverlayRef.current)
+            if (modalOpen) {
+                modalOverlayRef.current.style.height = "";
+            } else {
+                setTimeout(() => {
+                    if (modalOverlayRef.current) {
+                        modalOverlayRef.current.style.height = "0px";
+                    }
+                   
+                }, 500);
+            }
+
 
     }, [modalOpen]);
 

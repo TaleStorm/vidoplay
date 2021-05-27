@@ -78,7 +78,7 @@ export default function Video(data) {
             </div>
             <div ref={containRef} className={`md:mx-auto ${isFullScreen ? "fixed h-full max-h-full top-0 left-0 z-50" : "max-w-5xl"}  w-full`}>
                 <div
-                    className="relative" ref={targetRef}>
+                    className="relative w-full h-full" ref={targetRef}>
                     <Tabs startIndex={0} tabs={["Плеер", "Трейлер"]}>
                         {isActive() ? (
                             <PLayer

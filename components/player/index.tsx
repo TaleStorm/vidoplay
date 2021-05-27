@@ -19,24 +19,6 @@ import MovieContext from "../context/movieContext";
 import AgeWarning from "./ageWarning";
 
 export default function Player(data) {
-  const [actingState, setActingState] = useState("closed");
-  const [interval, setIntervalVideo] = useState(undefined);
-  const [realInterval, setRealInterval] = useState(0);
-  const [currentTime, setVideoCurrent] = useState(0);
-  const [bufferVolume, setVolumeBuffer] = useState(100);
-  const [isMuted, setMute] = useState(false);
-  const [isDragged, setDrag] = useState(false);
-  const [currentQuality, setCurrentQuality] = useState("AUTO");
-  const [isCompliationModalOpen, setIsCompliationModalOpen] = useState(false);
-  const [currentCompilationMovie, setCurrentCompilationMovie] = useState(data.movies[0]);
-  const [globalGplayerAPI, setPlayer] = useState(undefined);
-  const [draggerPercent, setDraggerPercent] = useState("0");
-  const [draggerVisible, setDraggerVisible] = useState(false);
-  const [possibleDurationTime, setPossibleDurationTime] = useState(0);
-
-  //скелет
-  const [isLoaded, setisLoaded] = useState(true);
-
   //Контекст, в идеале запихнуть в него всю функциональную часть плеера, здесь оставив лишь декорации
   const {
     setApi, 
@@ -72,24 +54,42 @@ export default function Player(data) {
     setVolumeCurrent
   } = useContext(PlayerContext)
 
+  const [interval, setIntervalVideo] = useState(undefined);
+  const [realInterval, setRealInterval] = useState(0);
+  const [currentTime, setVideoCurrent] = useState(0);
+  const [bufferVolume, setVolumeBuffer] = useState(100);
+  const [isMuted, setMute] = useState(false);
+  const [isDragged, setDrag] = useState(false);
+  const [currentQuality, setCurrentQuality] = useState("AUTO");
+  const [isCompliationModalOpen, setIsCompliationModalOpen] = useState(false);
+  const [currentCompilationMovie, setCurrentCompilationMovie] = useState(data.movies[0]);
+  const [globalGplayerAPI, setPlayer] = useState(undefined);
+  const [draggerPercent, setDraggerPercent] = useState("0");
+  const [draggerVisible, setDraggerVisible] = useState(false);
+  const [possibleDurationTime, setPossibleDurationTime] = useState(0);
+
+  //скелет
+  const [isLoaded, setisLoaded] = useState(true);
+
+  
   const intro = "https://chillvision.gcdn.co/videos/18824_73D1CCWxB499h8xa"
 
   const getPlayer = async () => {
     setVideoPercentCurrent("0");
+    console.log((window as any))
     const GcorePlayer = (window as any).GcorePlayer.gplayerAPI;
     const gplayerAPI = new GcorePlayer(document.getElementById("gplayer"))
     gplayerAPI.on("pause", () => {
       setIsPlaying(false)
     })
+    
     //Вот тут хэндлится вся логика фуллскрина при нажатии на ESC
     const fullScreenListener = () => {
       if (window.innerWidth > 1000) {
         if (!window.screenTop && !window.screenY) {
-          data.setFullScreen(false);
           setFullScreen(false);
         }
         else {
-          data.setFullScreen(true)
           setFullScreen(true);
         }
       }
@@ -244,39 +244,40 @@ export default function Player(data) {
   const handle = useFullScreenHandle();
 
   //Функция фуллскрина
-  const fullScreenFunc = useCallback(async () => {
-    var elem = document.getElementById("mainframe") as HTMLElement & {
-      mozRequestFullScreen(): Promise<void>;
-      webkitRequestFullscreen(): Promise<void>;
-      msRequestFullscreen(): Promise<void>;
-    };
-    if (isFullScreen) {
-    // handle.exit()
-      //globalGplayerAPI.method({name: 'toggleFullscreen'})
-      globalGplayerAPI.method({name: "pause"})
-      document.exitFullscreen()
-      data.setFullScreen(false);
-     setFullScreen(false);
-      return
-    } else {
-      console.log(handle)
-    // handle.enter()
-     // globalGplayerAPI.method({name: 'toggleFullscreen'})
-     globalGplayerAPI.method({name: "pause"})
-     if (elem.requestFullscreen) {
-      elem.requestFullscreen();
-    } else if (elem.msRequestFullscreen) {
-      elem.msRequestFullscreen();
-    } else if (elem.mozRequestFullScreen) {
-      elem.mozRequestFullScreen();
-    } else if (elem.webkitRequestFullscreen) {
-      elem.webkitRequestFullscreen();
-    }
-      data.setFullScreen(true)
-      setFullScreen(true);
-      return
-    }
-  }, [isFullScreen, globalGplayerAPI]) 
+  const fullScreenFunc = async () => {
+      var elem = document.getElementById("mainframe") as HTMLElement & {
+        mozRequestFullScreen(): Promise<void>;
+        webkitRequestFullscreen(): Promise<void>;
+        msRequestFullscreen(): Promise<void>;
+      };
+      console.log(elem)
+      if (isFullScreen) {
+        screen.orientation.unlock()
+        globalGplayerAPI.method({name: "pause"})
+        document.exitFullscreen()
+        setFullScreen(false);
+        return
+      } else {
+       globalGplayerAPI.method({name: "pause"})
+
+       if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen();
+      } else if (elem.mozRequestFullScreen) {
+        elem.mozRequestFullScreen();
+      } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen();
+      }
+      screen.orientation.lock("landscape")
+        setFullScreen(true);
+        return
+      }
+  }
+
+  useEffect(() => {
+    console.log(currentSeason, currentSerie)
+  }, [currentSeason, currentSerie])
 
   const [isMobileSliderOpen, setIsMobileSliderOpen] = useState(false)
   const overlayRef = useRef(null) as MutableRefObject<HTMLDivElement>
@@ -314,8 +315,8 @@ export default function Player(data) {
   })
 
   return (
-    <div >
-      <div draggable={false} id="mainframe"   className={`${isLoaded ? "visible" : "hidden"}`}>
+    <div className={`h-full`} >
+      <div draggable={false} id="mainframe" className={`${isLoaded ? "visible" : "hidden"} h-full`}>
         {/* <FullScreen onChange={(e) => {console.log(e)}} className={`relative`} handle={handle}>
           <div className={`w-full h-full bg-gradient-to-t from-orange to-loveTag`}>
 
@@ -333,8 +334,8 @@ export default function Player(data) {
             className={`relative inline-block w-full h-full`}
           >
             <iframe
-              width={data.width}
-              height={data.height}
+              width={"100%"}
+              height={"100%"}
               src={isIntro ? `${intro}?player_id=777&autoplay=false` : `${data.series[currentSeason][currentSerie].videoId}?player_id=777`}
               // src={`${data.series[currentSeason][currentSerie].videoId}?player_id=777`}
               // src={`${intro}?player_id=777`}
@@ -575,6 +576,7 @@ export default function Player(data) {
             </div>
 
       </div>
+
       {/* <div className={`${isLoaded ? "hidden" : "visible"} bg-cardBackground relative inline-block w-full h-full`}>
         <div className={`bg-cardBackground relative inline-block h-12 w-12`}>
         </div>
