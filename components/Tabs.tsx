@@ -24,7 +24,14 @@ export default function Tabs(data:
         )}
       </div>
       <div className={data.classes?.container}>
-        {childrens[currentTab]}
+        {childrens.map((child, i) => {
+          if (i === currentTab) {
+            return <div>{child}</div>
+          }
+          else {
+            return <div className={`w-0 h-0 opacity-0 overflow-hidden`}>{child}</div>
+          }
+        })}
       </div>
     </div>)
 }

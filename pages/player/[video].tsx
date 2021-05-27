@@ -14,7 +14,7 @@ export default function Player(data) {
     const gplayerAPI = new GcorePlayer(document.getElementById("gplayer"))
     setPlayer(gplayerAPI);
 
-
+    gplayerAPI.method({name: "setVolume", params: 100})
     gplayerAPI.on('tracks', (info) => {
       setTracks(info)
     })

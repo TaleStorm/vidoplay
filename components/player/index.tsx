@@ -23,8 +23,6 @@ export default function Player(data) {
   const [interval, setIntervalVideo] = useState(undefined);
   const [realInterval, setRealInterval] = useState(0);
   const [currentTime, setVideoCurrent] = useState(0);
- 
-  const [currentVolume, setVolumeCurrent] = useState(100);
   const [bufferVolume, setVolumeBuffer] = useState(100);
   const [isMuted, setMute] = useState(false);
   const [isDragged, setDrag] = useState(false);
@@ -70,6 +68,8 @@ export default function Player(data) {
     panelState,
     setButton,
     setIsSpaceListenerActive,
+    currentVolume,
+    setVolumeCurrent
   } = useContext(PlayerContext)
 
   const intro = "https://chillvision.gcdn.co/videos/18824_73D1CCWxB499h8xa"
@@ -78,11 +78,9 @@ export default function Player(data) {
     setVideoPercentCurrent("0");
     const GcorePlayer = (window as any).GcorePlayer.gplayerAPI;
     const gplayerAPI = new GcorePlayer(document.getElementById("gplayer"))
-
     gplayerAPI.on("pause", () => {
       setIsPlaying(false)
     })
-
     //Вот тут хэндлится вся логика фуллскрина при нажатии на ESC
     const fullScreenListener = () => {
       if (window.innerWidth > 1000) {
@@ -97,8 +95,10 @@ export default function Player(data) {
       }
     }
 
+
     window.addEventListener("fullscreenchange", fullScreenListener)
     setPlayer(gplayerAPI);
+    setApi(gplayerAPI)
     return { gplayerAPI: gplayerAPI, userWindow: { width: (window).innerWidth, height: (window).innerHeight } }
   }
 
@@ -114,12 +114,6 @@ export default function Player(data) {
       })
     }
   }, [durationTime,globalGplayerAPI])
-
-  useEffect(() => {
-    if (globalGplayerAPI) {
-      setApi(globalGplayerAPI)
-    }
-  }, [globalGplayerAPI])
 
   useEffect(() => {
     if (globalGplayerAPI) {
@@ -289,10 +283,7 @@ export default function Player(data) {
   const predictions = useContext(MovieContext)
   useEffect(() => {
     //set global player API
-    if (!globalGplayerAPI) {
-      getPlayer()
-    }
-    return () => {setPlayer(null)}
+    getPlayer()
   }, [])
 
   const TouchListener = async (e) => {
@@ -344,12 +335,10 @@ export default function Player(data) {
             <iframe
               width={data.width}
               height={data.height}
-              tabIndex={-1}
-              src={isIntro ? `${intro}?player_id=777` : `${data.series[currentSeason][currentSerie].videoId}?player_id=777`}
+              src={isIntro ? `${intro}?player_id=777&autoplay=false` : `${data.series[currentSeason][currentSerie].videoId}?player_id=777`}
               // src={`${data.series[currentSeason][currentSerie].videoId}?player_id=777`}
               // src={`${intro}?player_id=777`}
               allowFullScreen
-              //allow='autoplay' 
               frameBorder="0"
               id="gplayer"
             ></iframe>

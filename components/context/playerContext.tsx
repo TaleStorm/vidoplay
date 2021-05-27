@@ -45,6 +45,8 @@ const PlayerContext = React.createContext({
   setButton: (arg: string) => { },
   currentTimeBuffer: "0",
   setVideoPercentBuffer: (arg: string) => { },
+  currentVolume: 100,
+  setVolumeCurrent: (arg: number) => { },
 });
 
 interface Props {
@@ -52,6 +54,7 @@ interface Props {
 }
 
 const PlayerContextProvider = ({ children }: Props) => {
+  const [currentVolume, setVolumeCurrent] = useState(100);
   const [isFullScreen, setFullScreen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [mobileOverlayStage, setMobileOverlayStage] = useState(0)
@@ -114,6 +117,7 @@ const PlayerContextProvider = ({ children }: Props) => {
   useEffect(() => {
     if (api) {
       if (isPlaying) {
+        api.method({ name: "setVolume", params: currentVolume });
         setRealPanel("hidden")
         setMobileOverlayStage(0)
         api.method({ name: "play" })
@@ -122,7 +126,6 @@ const PlayerContextProvider = ({ children }: Props) => {
           setIsWarningVisible(true)
         }
         setIsSliderOpen(false)
-        setHasBeenPlayed(true)
       }
       else {
         api.method({
@@ -175,6 +178,11 @@ const PlayerContextProvider = ({ children }: Props) => {
     if (api) {
       delete api._events["play"]
       api.on('play', () => {
+        console.log("playing")
+        // api.method({name: "getVolume", params: {}, callback: (e) => {
+        //   console.log(e)
+        //   
+        // }})
         setButton("hidden");
         changeActing(currentActing)
         setIsPlaying(true);
@@ -211,13 +219,17 @@ const PlayerContextProvider = ({ children }: Props) => {
         })
       }
     }
+    return () => {if (api) delete api._events["ended"]}
 
   }, [api, isIntro])
 
+  useEffect(() => { console.log(api)}, [api])
+
   // Цепляем на апи листнеры
   useEffect(() => {
+    
     if (api) {
-
+      console.log(api)
       const resizeListener = () => {
         setTimeout(() => {
           api.method({
@@ -228,19 +240,18 @@ const PlayerContextProvider = ({ children }: Props) => {
           })
         }, 1000)
       }
-
       if (hasBeenPlayed) {
-        delete api._events["ready"]
-        console.log("ready listener activated")
         api.on("ready", () => {
-          api.method({ name: "play" })
-          api.method({ name: "setVolume", params: 100 })
+          api.method({ name: "play" });
         })
+       
       }
       window.addEventListener("resize", resizeListener)
 
     }
-  }, [api, hasBeenPlayed])
+
+    return () => { if (api) console.log(api)}
+  }, [api, hasBeenPlayed, currentVolume])
 
 
 
@@ -394,6 +405,8 @@ const PlayerContextProvider = ({ children }: Props) => {
         setButton,
         currentTimeBuffer,
         setVideoPercentBuffer,
+        currentVolume, 
+        setVolumeCurrent
     }}
     >
       {children}
