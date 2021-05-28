@@ -128,13 +128,7 @@ const PlayerContextProvider = ({ children }: Props) => {
         setIsSliderOpen(false)
       }
       else {
-        api.method({
-          name: 'isPlaying', params: {}, callback: (res) => {
-            if (res) {
-              setRealPanel("visible")
-            }
-          }
-        })
+        setIsSliderOpen(true)
         setMobileOverlayStage(2)
         api.method({ name: "pause" })
       }
@@ -163,12 +157,6 @@ const PlayerContextProvider = ({ children }: Props) => {
                 window.dispatchEvent(new Event("resize"))
             }
             else {
-              api.method({
-                name: "resize", params: {
-                  width: window.screen.availWidth,
-                  height: window.screen.availHeight
-                }
-              })
               window.dispatchEvent(new Event("resize"))
             }
     }
@@ -223,7 +211,9 @@ const PlayerContextProvider = ({ children }: Props) => {
 
   }, [api, isIntro])
 
-  useEffect(() => { console.log(api)}, [api])
+  useEffect(() => { 
+
+  }, [isFullScreen, api])
 
   // Цепляем на апи листнеры
   useEffect(() => {
@@ -244,7 +234,6 @@ const PlayerContextProvider = ({ children }: Props) => {
         api.on("ready", () => {
           api.method({ name: "play" });
         })
-       
       }
       window.addEventListener("resize", resizeListener)
 

@@ -155,7 +155,7 @@ const TrailerPlayer = ({
                       className={`absolute h-4 w-7 -top-4 bg-white bg-opacity-20`}/>
                   </div>
         </div>
-            <div className={`w-36 h-10 rounded-lg bg-white bg-opacity-20 flex-shrink-0 items-center flex px-2 mr-4`}>
+            <div className={`w-32 h-10 rounded-lg bg-white bg-opacity-20 flex-shrink-0 items-center flex px-2 mr-4`}>
                 <div 
                 onClick={() => {
                     if (volumePercent !== 0) {
