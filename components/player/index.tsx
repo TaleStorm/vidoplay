@@ -207,6 +207,12 @@ export default function Player(data) {
     setVolumeCurrent(Number(percent.toFixed(0)))
   }
 
+  const changeCurrentVolumeYClick = (e, ref) => {
+    const bounds = ref.current.getBoundingClientRect()
+    const value = 1 - ((e.clientY - bounds.y)/bounds.height)
+    setVolumeCurrent(Number((value * 100).toFixed(0)))
+  }
+
   const changeCurrentVolumeY = (e, ref) => {
     setMute(false);
     const target = ref.current.parentElement.getBoundingClientRect();
@@ -520,6 +526,7 @@ export default function Player(data) {
                 changeMute={changeMute}
                 isMuted={isMuted}
                 setCurrentVolume={changeCurrentVolume}
+                setCurrentVolumeY={changeCurrentVolumeYClick}
                 currentVolume={currentVolume}
                 changeCurrentLevel={changeCurrentLevel}
                 currentQuality={currentQuality}
