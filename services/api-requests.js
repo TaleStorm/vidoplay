@@ -1,4 +1,5 @@
 const urlPrefix  = process.env.API_DOMAIN
+const regPrefix  = process.env.ONE_LOG_DOMAIN
 
 export default class NewsService {
   getResource = async (url) => {
@@ -68,5 +69,13 @@ export default class NewsService {
 
   updateFavoriteFilm = async (data) => {
     return this.postResource(`${urlPrefix}/api/updateFavoriteFilm`, data)
+  }
+
+  updateLikes = async (movieId, data) => {
+    return this.putResource(`${urlPrefix}/api/movies/${movieId}`, data)
+  }
+
+  validate = async (data) => {
+    return this.postResource(`${regPrefix}/api/validate`, data)
   }
 }

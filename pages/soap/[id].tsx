@@ -24,9 +24,6 @@ export default function IndexPage({ movie, playlist, movies, comments }) {
 
   const series = []
 
-  console.log(movie);
-  
-
   if (movie.serial)
     for (let season in movie.serial) {
       const seasonBuffer = []
@@ -82,14 +79,14 @@ export default function IndexPage({ movie, playlist, movies, comments }) {
             />
 
             <div className={`hidden sm:block`}>
-              <ReviewsAndLikes score={score} setscore={setscore} movieId={movie._id} />
+              <ReviewsAndLikes score={score} setscore={setscore} movie={movie} movieId = {movie._id} />
             </div>
             <Series series={series} />
 
             <FilmDescription />
 
             <div className="sm:hidden">
-              <ReviewsAndLikes score={score} setscore={setscore} movieId={movie._id} />
+              <ReviewsAndLikes score={score} setscore={setscore} movie={movie} movieId = {movie._id} />
             </div>
 
             {/* <div className="hidden sm:block ">
