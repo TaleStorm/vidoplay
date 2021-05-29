@@ -167,6 +167,7 @@ const PlayerContextProvider = ({ children }: Props) => {
       delete api._events["play"]
       api.on('play', () => {
         console.log("playing")
+        api.method({name: "setVolume", params: currentVolume})
         // api.method({name: "getVolume", params: {}, callback: (e) => {
         //   console.log(e)
         //   
@@ -188,7 +189,7 @@ const PlayerContextProvider = ({ children }: Props) => {
       })
 
     }
-  }, [api, currentActing])
+  }, [api, currentActing, currentVolume])
 
   useEffect(() => {
     if (api) {
@@ -231,6 +232,7 @@ const PlayerContextProvider = ({ children }: Props) => {
         }, 1000)
       }
       if (hasBeenPlayed) {
+        delete api._events["ready"]
         api.on("ready", () => {
           api.method({ name: "play" });
         })
@@ -240,7 +242,7 @@ const PlayerContextProvider = ({ children }: Props) => {
     }
 
     return () => { if (api) console.log(api)}
-  }, [api, hasBeenPlayed, currentVolume])
+  }, [api, hasBeenPlayed])
 
 
 
@@ -312,14 +314,14 @@ const PlayerContextProvider = ({ children }: Props) => {
 
   //Добляем или удаляем обработчик пробела
   useEffect(() => {
-    if (isSpaceListenerActive)
+    if (isSpaceListenerActive && !isIntro)
       window.addEventListener("keydown", spaceListener);
     else
       window.removeEventListener("keydown", spaceListener)
 
 
     return(()=>{window.removeEventListener("keydown", spaceListener)}) 
-  }, [isSpaceListenerActive, isPlaying])
+  }, [isSpaceListenerActive, isPlaying, isIntro])
 
   var changeSerie = async (newSerie) => {
     setPanel("hidden");

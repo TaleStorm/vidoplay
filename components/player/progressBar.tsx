@@ -1,8 +1,9 @@
 import { Menu, Transition } from '@headlessui/react';
-import { Fragment, useContext, useState } from "react";
+import { Fragment, MutableRefObject, useContext, useRef, useState } from "react";
 
 import { ProgressBarData } from '../../interfaces'
 import PlayerContext from '../context/playerContext';
+import MenuWrapper from '../layout/menuDropdownWrapper';
 import FullScreenIcon from '../playerIcons/fullScreen';
 import MuteIcon from '../playerIcons/muteIcon';
 import PauseIcon from '../playerIcons/pauseIcon';
@@ -22,11 +23,18 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
   }
 
-export default function ProgressBar({isMobile, ...data}) {
+export default function ProgressBar({isMobile, setCurrentVolumeY, ...data}) {
     const currentTimeUser = convertTime(data.currentTime);
     const durationTimeUser = convertTime(data.durationTime);
     const possibleDurationTimeUser = convertTime(data.possibleDurationTime);
-    const {fullScreenHide, isIntro, isPlaying, setIsPlaying} = useContext(PlayerContext)
+    const {fullScreenHide, isIntro, isPlaying, setIsPlaying, currentVolume} = useContext(PlayerContext)
+    const volumeRef = useRef(null) as MutableRefObject<HTMLDivElement>
+
+    const muteController = (        
+      <div className={`w-9 h-9 mr-4 flex-shrink-0 md:hidden
+      `}>
+              <MuteIcon/>
+          </div>)
 
     return(
       <div  
@@ -45,11 +53,49 @@ export default function ProgressBar({isMobile, ...data}) {
         className={`md:hidden w-9 h-9 mr-4 flex-shrink-0`}>
          {isPlaying ? <PauseIcon/> : <PlayIcon/>}
         </div>
-        <div
-        className={`w-9 h-9 md:hidden mr-4 flex-shrink-0`}
-        >
-        <MuteIcon/>
-        </div>
+        <MenuWrapper controller={muteController}>
+          <div 
+
+          className={`bg-popupBackground rounded-lg p-3 w-auto h-32`}>
+              <div 
+              style={{
+                touchAction: "none"
+              }}
+              ref={volumeRef}
+              onClick={(e) => {
+                e.preventDefault()
+                setCurrentVolumeY(e, volumeRef)
+              }}
+                onTouchStart={(e) => {
+                    e.preventDefault()
+                    //setCurrentVolume(e, volumeRef)
+                }}
+                onTouchMove={(e) => {
+
+                    //setCurrentVolume(e, volumeRef)
+                }}
+                onTouchEnd={(e) => {
+                        e.preventDefault()
+                        //setCurrentVolume(e, volumeRef)
+                         }}
+              className={`bg-white bg-opacity-40
+               w-7 h-full relative
+               `}>
+                <div 
+
+                style={{
+                    height: `${currentVolume}%`
+                }}
+                id={`mutePanel`}
+                className={`absolute bottom-0 h-full w-full bg-orange`}>
+                </div>
+            </div>
+          </div>
+          <div>
+
+          </div>
+
+        </MenuWrapper>
         <div
         className={`text-h2-mobile font-medium md:hidden flex-shrink-0 mr-3`}
         >
