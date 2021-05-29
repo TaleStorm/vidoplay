@@ -9,12 +9,11 @@ import apiReq from "../../services/api-requests"
 
 const ApiReq = new apiReq()
 
-const ReviewsAndLikes = ({setscore, score, movieId}) => {
+const ReviewsAndLikes = ({setscore, score, movie, movieId}) => {
     const authModalContext = useContext(AuthModalContext)
     const loginContext = useContext(LoginContext)
-    const {movie} = useContext(MovieContext)
-    const [likes, setLikes] = useState(movie._likes)
-    const [dislikes, setDislikes] = useState(movie._dislikes)
+    const [likes, setLikes] = useState(0)
+    const [dislikes, setDislikes] = useState(0)
     const [hoveredscore, setHoveredscore] = useState(0)
     const [like, setLike] = useState(null)
     const stars = [1,2,3,4,5]
@@ -26,6 +25,37 @@ const ReviewsAndLikes = ({setscore, score, movieId}) => {
         }
         const result = Object.assign(data, additional)
         await ApiReq.updateFavoriteFilm(result)
+    }
+
+    const updateFilmState = async (newState, newLikes, newDislikes) => {
+        if (loginContext.userToken) {
+            if (like === null && newState) {
+                setLike(newState);
+                setLikes(newLikes);
+                updateFilm(newState, newLikes, newDislikes);
+            } else if (like === null && !newState) {
+                setLike(newState);
+                setDislikes(newDislikes);
+                updateFilm(newState, newLikes, newDislikes);
+            } else if (like !== newState) {
+                setLike(newState);
+                setLikes(newLikes);
+                setDislikes(newDislikes);
+                updateFilm(newState, newLikes, newDislikes);
+            }
+        }
+        else {
+            authModalContext.setModalOpen(true)
+        }
+    }
+
+    const updateFilm = async (newState, newLikes, newDislikes) => {
+        const likesData = {
+            _dislikes: newDislikes,
+            _likes: newLikes,
+        };
+        await ApiReq.updateLikes(movieId,likesData);
+        updateFavoriteFilm({isLiked: newState, isDisliked: !newState});
     }
 
     useEffect(() => {
@@ -47,6 +77,11 @@ const ReviewsAndLikes = ({setscore, score, movieId}) => {
         }
       
         fetchMyAPI()
+    }, [])
+
+    useEffect(() => {
+        setLikes(movie._likes)
+        setDislikes(movie._dislikes)
     }, [])
 
     return (
@@ -83,19 +118,7 @@ const ReviewsAndLikes = ({setscore, score, movieId}) => {
                 </h6>
                 <div 
                 onClick={() => {
-                    if (loginContext.userToken) {
-                        setLike(true)
-                        if (like !== true) {
-                            setLikes(likes + 1)
-                        }
-                        if (like === false) {
-                            setDislikes(dislikes - 1)
-                        }
-                        updateFavoriteFilm({isLiked: true, isDisliked: false});
-                    }
-                    else {
-                        authModalContext.setModalOpen(true)
-                    }
+                    updateFilmState(true, likes + 1, dislikes - 1);
                 }}
                 className={`w-8  h-8 mb-1 transition-all duration-200 cursor-pointer hover:text-white ${like === true ? "text-white" : "text-inactive"}`}>
                 <ThumbsUp/>
@@ -108,19 +131,7 @@ const ReviewsAndLikes = ({setscore, score, movieId}) => {
                 </h6>
                 <div 
                 onClick={() => {
-                    if (loginContext.userToken) {
-                    setLike(false)
-                    if (like !== false) {
-                        setDislikes(dislikes + 1)
-                    }
-                    if (like === true) {
-                        setLikes(likes - 1)
-                    }
-                    // updateFavoriteFilm({isLiked: false, isDisliked: true});
-                }
-                else {
-                    authModalContext.setModalOpen(true)
-                }
+                    updateFilmState(false ,likes - 1, dislikes + 1);
                 }}
                 className={`w-8 h-8 cursor-pointer mt-1 transition-all duration-200 hover:text-white ${like === false ? "text-white" : "text-inactive"}`}>
                 <ThumbsDown/>

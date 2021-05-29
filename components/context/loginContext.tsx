@@ -6,6 +6,9 @@ import GoodToast from "../goodtoast";
 import authAxios from "../network/authAxios";
 import AuthModalContext from "./authModalContext";
 import UserContext from "./userContext";
+import apiReq from "../../services/api-requests"
+
+const ApiReq = new apiReq()
 
 const LoginContext = React.createContext({
   userToken: null,
@@ -152,16 +155,17 @@ const handleGoogleLogin = async (data) => {
   }
 
   const logIn = async (token: string) => {
-
-    const valid = await axios.post("/api/validate", { token })
-    if (valid.status === 403) {
-      logOut()
-      BadToast("Необходимо перезайти в аккаунт")
-    }
-    else {
+    let valid 
+    try {
+      valid = await axios.post("/api/validate", { token });
       window.localStorage.setItem("_user", token)
       setUserToken(token)
       setDefaultUser()
+    } catch (error) {
+      if (valid == undefined || valid.status === 403) {
+        logOut();
+        BadToast("Необходимо перезайти в аккаунт");
+      }
     }
   }
 
