@@ -37,7 +37,9 @@ const nextConfig = {
       'chillvision.ru',
       "hsto.org",
       's-ed1.cloud.gcore.lu',
-      "habrastorage.org"
+      "habrastorage.org",
+      "chillvision.gcdn.co",
+      "media.gcorelabs.com"
     ],
   },
 }
