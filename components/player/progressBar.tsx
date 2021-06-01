@@ -40,7 +40,7 @@ export default function ProgressBar({isMobile, setCurrentVolumeY, ...data}) {
       <div  
         className={`
           ${fullScreenHide && "hidden"}
-          ${isIntro && "hidden"}
+          ${isIntro && "invisible"}
           absolute md:bottom-4 xs:px-5 px-2 xs:pb-5 pb-1 md:px-0 md:pb-0 bottom-0 z-20 inset-x-0 md:mx-4 w-auto xs:flex items-end`
         }
       > 
