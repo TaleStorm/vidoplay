@@ -17,9 +17,9 @@ const Layout = ({children}) => {
     return (
         <>
         <Header isLayoutHidden={isLayoutHidden} />
-        {!isLayoutHidden ? <div className={`h-auto w-full min-h-full flex-shrink-0 md:px-16 px-6 pt-9`}>
+        { <div className={`h-auto w-full min-h-full flex-shrink-0 ${!isLayoutHidden && "md:px-16 px-6 pt-9"} `}>
           {children}
-        </div> : children} 
+        </div>} 
         <Footer isLayoutHidden={isLayoutHidden} />
         </>
     )

@@ -9,10 +9,13 @@ import PlayerContext from "../context/playerContext";
 export default function TopPlayerPanel() {
 
     const {movie, isLoaded} = useContext(MovieContext)
-    const {currentSerie, currentSeason, changeSerie, currentActing, changeActing, isIntro} = useContext(PlayerContext)
+    const {currentSerie, currentSeason, changeSerie, currentActing, changeActing, isIntro, isTopPanelActive} = useContext(PlayerContext)
     
     return(
-        <div  className={`${isIntro && "hidden"} absolute lg:flex hidden top-4 left-4 flex-wrap z-10`}>
+        <div  className={`
+        ${!isTopPanelActive && "invisible"}
+        ${isIntro && "invisible"}
+         absolute lg:flex hidden top-4 left-4 flex-wrap z-10`}>
         <div className="mr-3">
         {<TopMenuDropdown handler={(i) => {changeSerie(i)}} controller={`${currentSerie + 1} серия`}>
           {isLoaded ? movie.serial[currentSeason].series.map((_a, i) => `${i + 1} серия`) : []}

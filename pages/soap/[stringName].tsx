@@ -16,6 +16,7 @@ export default function IndexPage({ movie, playlist, movies, comments }) {
   const movieContext = useContext(MovieContext)
 
   useEffect(() => {
+    console.log(movie)
     movieContext.setMovie({ ...movie })
   }, [])
 

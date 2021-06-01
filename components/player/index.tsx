@@ -325,10 +325,10 @@ export default function Player(data) {
             className={`relative inline-block w-full h-full`}
           >
             <iframe
-              width={data.width}
-              height={data.height}
+              width="100%"
+              height="100%"
               tabIndex={-1}
-              src={isIntro ? `${intro}?player_id=777` : `${data.series[currentSeason] && data.series[currentSeason][currentSerie].videoId || intro}?player_id=777`}
+              src={isIntro ? `${intro}?player_id=777&autoplay=false` : `${data.series[currentSeason] && data.series[currentSeason][currentSerie].videoId || intro}?player_id=777`}
               // src={`${data.series[currentSeason][currentSerie].videoId}?player_id=777`}
               // src={`${intro}?player_id=777`}
               allowFullScreen

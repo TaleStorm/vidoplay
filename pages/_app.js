@@ -13,6 +13,7 @@ import { UserContextProvider } from "../components/context/userContext"
 import TagManager from "react-gtm-module"
 import { MovieContextProvider } from "../components/context/movieContext"
 import { PlayerContextProvider } from "../components/context/playerContext"
+import { PlayerEventsContextProvider } from "../components/context/playerEventsContext"
 import { TextSearchContextProvider } from "../components/context/textSearchContetxt"
 
 function MyApp({ Component, pageProps }) {
@@ -53,6 +54,7 @@ function MyApp({ Component, pageProps }) {
             <PlayerContextProvider>
               <LoginContextProvider>
                 <TextSearchContextProvider>
+                <PlayerEventsContextProvider>
                   <Head>
                     <script src="//vk.com/js/api/openapi.js"></script>
                     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
@@ -62,6 +64,7 @@ function MyApp({ Component, pageProps }) {
                   <Layout>
                     <Component {...pageProps} />
                   </Layout>
+                  </PlayerEventsContextProvider>
                 </TextSearchContextProvider>
               </LoginContextProvider>
             </PlayerContextProvider>
