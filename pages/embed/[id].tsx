@@ -9,7 +9,6 @@ const EmbeddedPage = ({movie, movies}) => {
 
     
   const movieContext = useContext(MovieContext)
-
   const series = []
 
   console.log(movie);
@@ -33,7 +32,6 @@ const EmbeddedPage = ({movie, movies}) => {
     const next = document.getElementById("__next")
     next.classList.add("h-full")
     movieContext.setMovie({...movie})
-
   }, [])
 
 

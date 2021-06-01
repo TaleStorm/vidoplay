@@ -483,28 +483,6 @@ export default function Player(data) {
               isFullScreen={isFullScreen}
             />
             </div>
-
-            <MobileProgressBar 
-              isMobile={isMobile}
-              mobileOverlayStage={mobileOverlayStage}
-              setMobileOverlayStage={setMobileOverlayStage}
-              globalGplayerAPI = {globalGplayerAPI}
-              isFullScreen = {isFullScreen}
-              fullScreenFunc={fullScreenFunc}
-              possibleDurationTime={possibleDurationTime}
-              setMouseOver={setMouseOver}
-              draggerPercent={draggerPercent}
-              draggerVisible={draggerVisible}
-              setDrag={setDrag}
-              currentTimePercent={currentTimePercent}
-              bufferTimePercent={currentTimeBuffer}
-              getMousePos={getMousePos}
-              setCurrentDuration={setCurrentDuration}
-              durationTime={durationTime}
-              currentTime={currentTime}
-              setCurrentVolume={changeCurrentVolumeY}
-              currentVolume={currentVolume}
-            />
               <ProgressBar
                 isMobile = {isMobile}
                 possibleDurationTime={possibleDurationTime}
