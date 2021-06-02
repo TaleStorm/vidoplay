@@ -16,6 +16,7 @@ import { PlayerContextProvider } from "../components/context/playerContext"
 import { PlayerEventsContextProvider } from "../components/context/playerEventsContext"
 import { TextSearchContextProvider } from "../components/context/textSearchContetxt"
 import { CatalogContextProvider } from "../components/context/catalogContext"
+import { SearchContextProvider } from "../components/context/searchContext"
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
@@ -55,6 +56,7 @@ function MyApp({ Component, pageProps }) {
             <PlayerContextProvider>
               <LoginContextProvider>
                 <TextSearchContextProvider>
+                <SearchContextProvider>
                   <PlayerEventsContextProvider>
                   <CatalogContextProvider>
                   <Head>
@@ -69,8 +71,10 @@ function MyApp({ Component, pageProps }) {
                   </Layout>
                   </CatalogContextProvider>
                   </PlayerEventsContextProvider>
+                  </SearchContextProvider>
                 </TextSearchContextProvider>
               </LoginContextProvider>
+              
             </PlayerContextProvider>
           </AuthModalContextProvider>
         </UserDisplayContextProvider>

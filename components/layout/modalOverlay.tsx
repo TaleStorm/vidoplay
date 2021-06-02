@@ -4,18 +4,13 @@ import { MutableRefObject, useEffect, useRef } from "react";
 const ModalOverlay = ({ children, modalOpen, setModalOpen, classes }) => {
     const modalOverlayRef = useRef() as MutableRefObject<HTMLDivElement>;
     const modalWrap = useRef();
-    const { pathname } = useRouter();
 
     useEffect(() => {
         const body = document.querySelector("body")
         if (modalOpen) {
             body.style.overflow = "hidden"
-            modalOverlayRef.current.style.height = "";
         } else {
             body.style.overflow = ""
-            setTimeout(() => {
-                modalOverlayRef.current.style.height = "0px";
-            }, 500);
         }
 
     }, [modalOpen]);
@@ -30,11 +25,8 @@ const ModalOverlay = ({ children, modalOpen, setModalOpen, classes }) => {
                 }
             }}
             ref={modalOverlayRef}
-            style={{
-                height: "0px",
-            }}
-            className={`${modalOpen ? "opacity-100" : "opacity-0"
-                } h-screen fixed top-0 left-0 z-40 bg-black bg-opacity-25 w-full overflow-y-auto flex justify-center transition-opacity duration-500`}
+            className={`${modalOpen ? "opacity-100 visible" : "opacity-0 invisible"
+                } h-screen fixed top-0 left-0 z-40 bg-black bg-opacity-25 w-full overflow-y-auto flex justify-center transition-all duration-500`}
         >
             <div
                 ref={modalWrap}
