@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { MutableRefObject, useEffect, useRef, useState } from 'react'
 import Tag from '../components/tag'
 
@@ -14,12 +15,16 @@ const FilmCategorySliderCard = (data) => {
 	const fullRef = useRef() as MutableRefObject<HTMLAnchorElement>
 	const imgRef = useRef() as MutableRefObject<HTMLDivElement>
 	const sanitizedText = useSanitize(data.excerpt)
+	const router = useRouter()
 
 	const [isImageFailed, setIsImageFailed] = useState(false)
 
 	return (
   	<a
-	  href={`/soap/${data.stringName}`}
+	  onClick={(e) => {
+		e.preventDefault
+		router.push(`/soap/${data.stringName}`)
+	  }}
 	  className="bg-cardBackground cursor-pointer relative transform transition-all duration-400 lg:hover:-translate-y-2.5 shadow-none lg:hover:shadow-card-hover flex flex-col h-full rounded-lg">
 			{/* <div ref={imgRef} className={`h-40 md:h-60 sm:h-${data.imageSize} bg-cover relative bg-center flex-shrink-0`}> */}
 			<div ref={imgRef} className={`bg-cover relative bg-center flex-shrink-0 rounded-t-lg`}>

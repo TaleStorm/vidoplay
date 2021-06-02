@@ -275,7 +275,6 @@ export default function Player(data) {
   useEffect(() => {
     //set global player API
     getPlayer()
-    return () => {globalGplayerAPI.method({name: "pause"})}
   }, [])
 
   const TouchListener = async (e) => {

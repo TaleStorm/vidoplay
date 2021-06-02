@@ -83,7 +83,10 @@ const TrailerPlayer = ({
         }
         videoRef.current.addEventListener("progress", listener)
         return () => {
-            videoRef.current.removeEventListener("progress", listener)
+            if (videoRef.current) {
+                videoRef.current.removeEventListener("progress", listener)
+            }
+            
         }
     }, [currentTime])
 

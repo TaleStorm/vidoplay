@@ -9,11 +9,13 @@ import Head from "next/head"
 import { useContext, useEffect, useState } from "react"
 import ReviewsAndLikes from "../../components/movieComponents/reviewsAndLikes"
 import MovieContext from "../../components/context/movieContext"
+import { useRouter } from "next/router"
 
 const ApiReq = new apiReq()
 
 export default function IndexPage({ movie, playlist, movies, comments }) {
   const movieContext = useContext(MovieContext)
+  const router = useRouter()
 
   useEffect(() => {
     console.log(movie)
@@ -41,11 +43,15 @@ export default function IndexPage({ movie, playlist, movies, comments }) {
   return "title" in movie ? (
     <>
       <Head>
-        <script src="https://vplatform.gcdn.co/_players/v2.0.71/gplayerAPI.js"></script>
+
       </Head>
       <div className="w-full grid grid-cols-1">
         <nav className="hidden sm:flex justify-start md:inline">
-          <a href="/" className="text-base">
+          <a 
+          onClick={() => {
+            window.history.back()
+          }}
+          className="text-base">
             <svg
               width="17"
               height="17"

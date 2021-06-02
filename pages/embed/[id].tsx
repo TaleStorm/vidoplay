@@ -39,7 +39,7 @@ const EmbeddedPage = ({movie, movies}) => {
     return (
         <> 
         <Head>
-        <script src="https://vplatform.gcdn.co/_players/v2.0.71/gplayerAPI.js"></script>
+
         </Head>
         <div className={`flex-shrink-0 w-full h-full bg-black`}>
             <Player 

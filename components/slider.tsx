@@ -1,9 +1,9 @@
 import React from "react";
 import SliderCard from '../components/sliderCard'
 import { Swiper, SwiperSlide } from 'swiper/react';
-import SwiperCore, { Navigation } from 'swiper';
+import SwiperCore, { Navigation, Autoplay} from 'swiper';
 
-SwiperCore.use([ Navigation]);
+SwiperCore.use([ Navigation, Autoplay]);
 
 import { SliderData } from '../interfaces'
 import ChevronRight from "./icons/chevronRight";
@@ -27,10 +27,11 @@ const Slider = (data) => (
                 }}
                 onInit={(swiper) => {
                   if (swiper) {
-                    setInterval(() => {swiper.slideNext()}, 3000)
-                  }
-                  
-                }}
+                    
+                  }}}
+                  autoplay = {{
+                    delay: 3000
+                  }}
               >
                 {data.cards.map((card, i) => {    
                   const sliderCardProps = {
