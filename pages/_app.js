@@ -103,10 +103,17 @@ MyApp.getInitialProps = async ({component, ctx}) => {
     const chillToken = chips.find(a => a.match("chill_token"))
     if (chillToken) {
       token = chillToken.split('=')[1]
-      const valid = await ApiReq.validate({ token })
-      if (valid == undefined || valid.status === 403) {
-        token = ""
+      try {
+        const valid = await ApiReq.validate({ token })
+        if (valid == undefined || valid.status === 403) {
+          token = ""
+        }
       }
+      catch (e) {
+        token=""
+      }
+
+
     }
   }
   
