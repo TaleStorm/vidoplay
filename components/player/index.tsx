@@ -18,6 +18,37 @@ import PlayerContext from "../context/playerContext";
 import MovieContext from "../context/movieContext";
 import AgeWarning from "./ageWarning";
 
+// useEffect(() => {
+//   if (api) {
+//     api.method({
+//       name: 'getCurrentTime', params: {}, callback: (res) => {
+//         setVideoCurrent(res)
+//         setIntervalVideo(setInterval(() => tick(), 500));
+//         const percent = 100 * res / durationTime
+//         setVideoPercentCurrent(percent.toFixed(1))
+//       }
+//     })
+//   }
+// }, [durationTime,api])
+
+// useEffect(() => {
+//   if (api) {
+//   api.method({name: "pause"})
+//   }
+// }, [currentSerie])
+
+// useEffect(() => {
+//   if (api) {
+//     api.method({
+//       name: 'getCurrentTime', params: {}, callback: (res) => {
+//         setVideoCurrent(res)
+//         const percent = 100 * res / durationTime
+//         setVideoPercentCurrent(percent.toFixed(1))
+//       }
+//     })
+//   }
+// }, [realInterval,durationTime])
+
 export default function Player(data) {
   //Контекст, в идеале запихнуть в него всю функциональную часть плеера, здесь оставив лишь декорации
   const {
@@ -51,7 +82,10 @@ export default function Player(data) {
     setButton,
     setIsSpaceListenerActive,
     currentVolume,
-    setVolumeCurrent
+    setVolumeCurrent,
+    setIntro,
+    api,
+    setHasBeenPlayed
   } = useContext(PlayerContext)
 
   const [interval, setIntervalVideo] = useState(undefined);
@@ -63,10 +97,35 @@ export default function Player(data) {
   const [currentQuality, setCurrentQuality] = useState("AUTO");
   const [isCompliationModalOpen, setIsCompliationModalOpen] = useState(false);
   const [currentCompilationMovie, setCurrentCompilationMovie] = useState(data.movies[0]);
-  const [globalGplayerAPI, setPlayer] = useState(undefined);
   const [draggerPercent, setDraggerPercent] = useState("0");
   const [draggerVisible, setDraggerVisible] = useState(false);
   const [possibleDurationTime, setPossibleDurationTime] = useState(0);
+
+  useEffect(() => {
+    if (api) {
+      api.method({
+        name: 'getCurrentTime', params: {}, callback: (res) => {
+          setVideoCurrent(res)
+          setIntervalVideo(setInterval(() => tick(), 500));
+          const percent = 100 * res / durationTime
+          setVideoPercentCurrent(percent.toFixed(1))
+        }
+     })
+    }
+  }, [durationTime,api])
+
+   useEffect(() => {
+  if (api) {
+    api.method({
+      name: 'getCurrentTime', params: {}, callback: (res) => {
+        setVideoCurrent(res)
+        const percent = 100 * res / durationTime
+        setVideoPercentCurrent(percent.toFixed(1))
+     }
+     })
+  }
+ }, [realInterval,durationTime])
+ 
 
   //скелет
   const [isLoaded, setisLoaded] = useState(true);
@@ -74,59 +133,17 @@ export default function Player(data) {
   
   const intro = "https://chillvision.gcdn.co/videos/18824_73D1CCWxB499h8xa"
 
-  const getPlayer = useCallback(async () => {
+  const getPlayer = async () => {
     setVideoPercentCurrent("0");
-    console.log((window as any))
+    const frame = document.getElementById("gplayer")
+    console.log(frame)
     const GcorePlayer = (window as any).GcorePlayer.gplayerAPI;
-    const gplayerAPI = new GcorePlayer(document.getElementById("gplayer"))
-
-    const fullScreenListener = (e) => {
-      if (document.fullscreenElement) {
-        setApi(gplayerAPI)
-        setFullScreen(true)
-        return
-      }
-      setFullScreen(false)
+    if (!api) {
+      const  gplayerAPI = new GcorePlayer(frame)
       setApi(gplayerAPI)
+      return
     }
-    window.addEventListener("fullscreenchange", fullScreenListener)
-
-
-    setPlayer(gplayerAPI);
-    setApi(gplayerAPI)
-    return { gplayerAPI: gplayerAPI, userWindow: { width: (window).innerWidth, height: (window).innerHeight } }
-  }, []) 
-
-  useEffect(() => {
-    if (globalGplayerAPI) {
-      globalGplayerAPI.method({
-        name: 'getCurrentTime', params: {}, callback: (res) => {
-          setVideoCurrent(res)
-          setIntervalVideo(setInterval(() => tick(), 500));
-          const percent = 100 * res / durationTime
-          setVideoPercentCurrent(percent.toFixed(1))
-        }
-      })
-    }
-  }, [durationTime,globalGplayerAPI])
-
-  useEffect(() => {
-    if (globalGplayerAPI) {
-    globalGplayerAPI.method({name: "pause"})
-    }
-  }, [currentSerie])
-
-  useEffect(() => {
-    if (globalGplayerAPI) {
-      globalGplayerAPI.method({
-        name: 'getCurrentTime', params: {}, callback: (res) => {
-          setVideoCurrent(res)
-          const percent = 100 * res / durationTime
-          setVideoPercentCurrent(percent.toFixed(1))
-        }
-      })
-    }
-  }, [realInterval,durationTime])
+  }
 
   var tick = () => {
     if (realInterval > 60) {
@@ -136,17 +153,12 @@ export default function Player(data) {
   }
 
   useEffect(() => {
-    if (globalGplayerAPI) {
+    if (api) {
       setIsSpaceListenerActive(true)
     }
 
     return () => {setIsSpaceListenerActive(false)}
-  }, [isPlaying, globalGplayerAPI])
-
-
-
-
-
+  }, [isPlaying, api])
 
   var changeVideo = async (direction) => {
     if (direction == "prev") {
@@ -167,11 +179,11 @@ export default function Player(data) {
   var changeMute = async () => {
     if (isMuted) {
       setMute(false);
-      globalGplayerAPI.method({ name: "unmute" });
+      api.method({ name: "unmute" });
       setVolumeCurrent(bufferVolume);
     } else {
       setMute(true);
-      globalGplayerAPI.method({ name: "mute" });
+      api.method({ name: "mute" });
       setVolumeBuffer(currentVolume);
       setVolumeCurrent(0);
     }
@@ -181,7 +193,7 @@ export default function Player(data) {
     const target = e.target.getBoundingClientRect();
     const percent = 100 * (e.clientX - target.x) / e.target.parentElement.offsetWidth
     if (isDragged) {
-      globalGplayerAPI.method({ name: "seekPercentage", params: percent.toFixed(1) })
+      api.method({ name: "seekPercentage", params: percent.toFixed(1) })
     }
     setDraggerVisible(true)
     setDraggerPercent((percent).toFixed(1))
@@ -196,14 +208,14 @@ export default function Player(data) {
   var setCurrentDuration = (e) => {
     const target = e.target.getBoundingClientRect();
     const percent = 100 * (e.clientX - target.x) / e.target.parentElement.offsetWidth
-    globalGplayerAPI.method({ name: "seekPercentage", params: percent.toFixed(1) })
+    api.method({ name: "seekPercentage", params: percent.toFixed(1) })
   }
 
   var changeCurrentVolume = (e) => {
     setMute(false);
     const target = e.target.parentElement.getBoundingClientRect();
     const percent = 100 * (e.clientX - target.x) / e.target.parentElement.offsetWidth
-    globalGplayerAPI.method({ name: "setVolume", params: percent.toFixed(0) })
+    api.method({ name: "setVolume", params: percent.toFixed(0) })
     setVolumeCurrent(Number(percent.toFixed(0)))
   }
 
@@ -218,13 +230,13 @@ export default function Player(data) {
     const target = ref.current.parentElement.getBoundingClientRect();
     const result = (((target.height - (e.changedTouches[0].clientY - target.y))/ target.height) * 100)
     const percent = result < 100.1 ? result : 100
-    globalGplayerAPI.method({ name: "setVolume", params: percent.toFixed(0) })
+    api.method({ name: "setVolume", params: percent.toFixed(0) })
     setVolumeCurrent(Number(percent.toFixed(0)))
   }
 
   var changeCurrentLevel = (quality) => {
     setCurrentQuality(quality);
-    globalGplayerAPI.method({
+    api.method({
       name: 'getPlugin', params: {
         pluginName: 'level_selector',
         pluginMethod: 'setLevel',
@@ -275,6 +287,13 @@ export default function Player(data) {
   useEffect(() => {
     //set global player API
     getPlayer()
+    
+    return () => {
+      console.log("unmount")
+      setApi(null)
+      setIntro(true)
+      setHasBeenPlayed(false)
+    }
   }, [])
 
   const TouchListener = async (e) => {

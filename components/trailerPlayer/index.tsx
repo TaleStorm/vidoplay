@@ -69,8 +69,9 @@ const TrailerPlayer = ({
     useEffect(() => {
 
         const listener = () => {
-            setDuration(videoRef.current.duration)
+            if (videoRef) {}
             try {
+                setDuration(videoRef.current.duration)
                 const r = videoRef.current.buffered;
                 const total = videoRef.current.duration;
                 const end = r.end(r.length - 1);
@@ -88,7 +89,7 @@ const TrailerPlayer = ({
             }
             
         }
-    }, [currentTime])
+    }, [currentTime, videoRef])
 
     const changeVideoPercent = () => {
         videoRef.current.currentTime = duration * hoveredPercent/100

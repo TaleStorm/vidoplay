@@ -6,7 +6,6 @@ export default async (req, res) => {
         case "GET":
             let response = await fetch(`${process.env.API_DOMAIN}/api/categoryes`)
             response = await response.json()
-            console.log(response)
             res.status(200).json(response)
             break
         case "POST":

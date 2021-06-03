@@ -9,7 +9,6 @@ export default async (req, res) => {
       case "POST":
         let response = await fetch(`${process.env.API_DOMAIN}/api/movies/${body.filmId}`)
         response = await response.json()
-        console.log(response)
         res.status(200).json(response)
         break
       default:

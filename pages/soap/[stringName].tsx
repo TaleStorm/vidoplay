@@ -20,6 +20,11 @@ export default function IndexPage({ movie, playlist, movies, comments }) {
   useEffect(() => {
     console.log(movie)
     movieContext.setMovie({ ...movie })
+
+    return () => {
+      movieContext.setMovie(movieContext.defaultMovie)
+      movieContext.setIsLoaded(false)
+    }
   }, [])
 
   const [score, setscore] = useState(null)
