@@ -60,6 +60,9 @@ module.exports = {
         70:70,
         80:80,
       },
+      minWidth: {
+        "auto" : "auto"
+      },
       transitionDuration: {
         400: "400ms"
       },

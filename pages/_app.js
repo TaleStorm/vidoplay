@@ -17,8 +17,13 @@ import { PlayerEventsContextProvider } from "../components/context/playerEventsC
 import { TextSearchContextProvider } from "../components/context/textSearchContetxt"
 import { CatalogContextProvider } from "../components/context/catalogContext"
 import { SearchContextProvider } from "../components/context/searchContext"
+import apiReq from "../services/api-requests"
 
-function MyApp({ Component, pageProps }) {
+const ApiReq = new apiReq()
+
+
+function MyApp({ Component, pageProps, token }) {
+  console.log(token)
   useEffect(() => {
     const appHeight = () => {
       let vh = window.innerHeight * 0.01
@@ -54,12 +59,13 @@ function MyApp({ Component, pageProps }) {
         <UserDisplayContextProvider>
           <AuthModalContextProvider>
             <PlayerContextProvider>
-              <LoginContextProvider>
+              <LoginContextProvider loginState={token}>
                 <TextSearchContextProvider>
                 <SearchContextProvider>
                   <PlayerEventsContextProvider>
                   <CatalogContextProvider>
                   <Head>
+                  <title>Веб-кинотеатр CHILL</title>
                     <script src="//vk.com/js/api/openapi.js"></script>
                     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
                     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
@@ -88,4 +94,31 @@ function MyApp({ Component, pageProps }) {
   )
 }
 
+
+
+MyApp.getInitialProps = async ({component, ctx}) => {
+  let token = ''
+  if (ctx.req) {
+    const chips = ctx.req.headers.cookie.split(";")
+    const chillToken = chips.find(a => a.match("chill_token"))
+    if (chillToken) {
+      token = chillToken.split('=')[1]
+      try {
+        const valid = await ApiReq.validate({ token })
+        if (valid == undefined || valid.status === 403) {
+          token = ""
+        }
+      }
+      catch (e) {
+        token=""
+      }
+
+
+    }
+  }
+  
+  return {
+    token
+  }
+}
 export default MyApp
