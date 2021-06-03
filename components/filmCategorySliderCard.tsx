@@ -21,9 +21,9 @@ const FilmCategorySliderCard = (data) => {
 
 	return (
   	<a
-	  onClick={(e) => {
-		e.preventDefault
-		router.push(`/soap/${data.stringName}`)
+	  //href={`/soap/${data.stringName}`}
+	  onClick={() => {
+		  router.push(`/soap/${data.stringName}`)
 	  }}
 	  className="bg-cardBackground cursor-pointer relative transform transition-all duration-400 lg:hover:-translate-y-2.5 shadow-none lg:hover:shadow-card-hover flex flex-col h-full rounded-lg">
 			{/* <div ref={imgRef} className={`h-40 md:h-60 sm:h-${data.imageSize} bg-cover relative bg-center flex-shrink-0`}> */}

@@ -34,8 +34,8 @@ interface Props {
 }
 
 const CatalogContextProvider = ({ children }: Props) => {
-    const {pathname} = useRouter()
-
+    const router = useRouter()
+    const {pathname} = router
     const [displayedMovies, setDisplayedMovies] = useState([])
     const [countries, setCountries] = useState(["Любой", ""])
     const [country, setCountry] = useState("Любой")
@@ -66,6 +66,23 @@ const CatalogContextProvider = ({ children }: Props) => {
         isSeries,
       })
 
+    // useEffect(() => {
+    //   if (pathname.split("/")[1] === "catalog") {
+    //     window.scrollTo(0, catalogScroll)
+    //   }
+    // }, [pathname])
+
+    // useEffect(() => {
+    //   let listener = () => {
+    //     console.log(window.scrollY)
+    //     setCatalogScroll(window.scrollY)}
+    //   if (pathname.split("/")[1] === "catalog") {
+    //     window.addEventListener("scroll", listener)
+    //   }
+    //   return () => {window.removeEventListener("scroll", listener)}
+
+    // }, [pathname])
+
     const debouncedSearchQuery = useDebounce(searchQuery, 3000)
 
     const getMoviesFromCat = async () => {
@@ -78,7 +95,6 @@ const CatalogContextProvider = ({ children }: Props) => {
             isSeries,
         }
         const res = await axios.post('/api/categorySearch', tmp)
-        console.log(res.data.data)
         setDisplayedMovies(res.data.data)
     }
 
@@ -122,6 +138,12 @@ const CatalogContextProvider = ({ children }: Props) => {
             })
         }
         getCats()
+
+        router.beforePopState((state) => {
+          state.options.scroll = true;
+          return true;
+        });
+      
     },[])
 
 

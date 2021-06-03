@@ -48,7 +48,8 @@ const PlayerContext = React.createContext({
   currentVolume: 100,
   setVolumeCurrent: (arg: number) => { },
   isTopPanelActive: false,
-  api: null
+  api: null,
+  setHasBeenPlayed: (arg: boolean) => { },
 });
 
 // В этой функции отправляем сообщения
@@ -94,6 +95,7 @@ const PlayerContextProvider = ({ children }: Props) => {
     setButton("hidden");
   }
 
+
   //Определяем, мобильное ли устройство при маунте
   useEffect(() => {
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -136,6 +138,7 @@ const PlayerContextProvider = ({ children }: Props) => {
     }, 4000)
     return () => { clearTimeout(timer) }
   }, [mobileOverlayStage])
+
 
   //Хэндлим фуллскрин
   useEffect(() => {
@@ -185,6 +188,7 @@ const PlayerContextProvider = ({ children }: Props) => {
 
     }
   }, [api, currentActing, currentVolume, isIntro])
+
 
   //Листенеры на ended
   useEffect(() => {
@@ -236,14 +240,14 @@ const PlayerContextProvider = ({ children }: Props) => {
     if (api) {
       console.log(api)
       const resizeListener = () => {
-        setTimeout(() => {
-          api.method({
-            name: "resize", params: {
-              width: "100%",
-              height: "100%"
-            }
-          })
-        }, 1000)
+        // setTimeout(() => {
+        //   api.method({
+        //     name: "resize", params: {
+        //       width: "100%",
+        //       height: "100%"
+        //     }
+        //   })
+        // }, 1000)
       }
        if (hasBeenPlayed) {   
           api.on("ready", () => {
@@ -332,6 +336,18 @@ const PlayerContextProvider = ({ children }: Props) => {
     }
   }
 
+  useEffect(() => {
+    const fullScreenListener = (e) => {
+      if (document.fullscreenElement) {
+        setFullScreen(true)
+        return
+      }
+      setFullScreen(false)
+    }
+    window.addEventListener("fullscreenchange", fullScreenListener)
+    return () => {window.removeEventListener("fullscreenchange", fullScreenListener)}
+  }, [])
+
   //Добляем или удаляем обработчик пробела
   useEffect(() => {
     if (isSpaceListenerActive && !isIntro)
@@ -417,7 +433,8 @@ const PlayerContextProvider = ({ children }: Props) => {
         currentVolume, 
         setVolumeCurrent,
         isTopPanelActive,
-        api
+        api,
+        setHasBeenPlayed
     }}
     >
       {children}

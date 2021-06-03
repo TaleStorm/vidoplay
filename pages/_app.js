@@ -16,6 +16,7 @@ import { PlayerContextProvider } from "../components/context/playerContext"
 import { PlayerEventsContextProvider } from "../components/context/playerEventsContext"
 import { TextSearchContextProvider } from "../components/context/textSearchContetxt"
 import { CatalogContextProvider } from "../components/context/catalogContext"
+import { SearchContextProvider } from "../components/context/searchContext"
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
@@ -55,6 +56,7 @@ function MyApp({ Component, pageProps }) {
             <PlayerContextProvider>
               <LoginContextProvider>
                 <TextSearchContextProvider>
+                <SearchContextProvider>
                   <PlayerEventsContextProvider>
                   <CatalogContextProvider>
                   <Head>
@@ -63,14 +65,21 @@ function MyApp({ Component, pageProps }) {
                     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
                     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v10.0" nonce="SUBXHY9c"></script>
                     <script src="https://vplatform.gcdn.co/_players/v2.0.71/gplayerAPI.js"></script>
+                      {/* <script
+          dangerouslySetInnerHTML={{
+            __html: `history.scrollRestoration = "manual"`,
+          }}
+        /> */}
                   </Head>
                   <Layout>
                     <Component {...pageProps} />
                   </Layout>
                   </CatalogContextProvider>
                   </PlayerEventsContextProvider>
+                  </SearchContextProvider>
                 </TextSearchContextProvider>
               </LoginContextProvider>
+              
             </PlayerContextProvider>
           </AuthModalContextProvider>
         </UserDisplayContextProvider>

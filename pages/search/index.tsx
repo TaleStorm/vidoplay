@@ -3,25 +3,11 @@ import TextSearchContext from "../../components/context/textSearchContetxt"
 import React, {useContext, useState, useEffect} from "react"
 import useDebounce from "../../components/hooks/useDebounce"
 import axios from "axios";
+import SearchContext from "../../components/context/searchContext";
 
 export default function Search() {
 
-  const textSearch = useContext(TextSearchContext)
-  const [displayedMovies, setDisplayedMovies] = useState([])
-  const debouncedSearchQuery = useDebounce(textSearch.text, 3000)
-
-  const getResults  = async () => {
-    const body = {
-      text: textSearch.text
-    }
-    const res = await axios.post('/api/textSearch', body)
-    setDisplayedMovies(res.data.data)
-  }
-
-
-  useEffect(() => {
-    getResults()
-  }, [debouncedSearchQuery])
+  const {displayedMovies} = useContext(SearchContext)
 
   return (
     <div>

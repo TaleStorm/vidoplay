@@ -55,6 +55,11 @@ module.exports = {
       inter: ["Inter"]
     },
     extend: {
+      zIndex: {
+        60:60,
+        70:70,
+        80:80,
+      },
       transitionDuration: {
         400: "400ms"
       },
