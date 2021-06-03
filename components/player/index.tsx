@@ -133,18 +133,6 @@ export default function Player(data) {
   
   const intro = "https://chillvision.gcdn.co/videos/18824_73D1CCWxB499h8xa"
 
-  const getPlayer = async () => {
-    setVideoPercentCurrent("0");
-    const frame = document.getElementById("gplayer")
-    console.log(frame)
-    const GcorePlayer = (window as any).GcorePlayer.gplayerAPI;
-    if (!api) {
-      const  gplayerAPI = new GcorePlayer(frame)
-      setApi(gplayerAPI)
-      return
-    }
-  }
-
   var tick = () => {
     if (realInterval > 60) {
       setRealInterval(0);
@@ -286,15 +274,38 @@ export default function Player(data) {
   const predictions = useContext(MovieContext)
   useEffect(() => {
     //set global player API
-    getPlayer()
+    setVideoPercentCurrent("0");
+    const frame = document.getElementById("gplayer")
+    const GcorePlayer = (window as any).GcorePlayer.gplayerAPI;
+    const gplayerAPI = new GcorePlayer(frame)
+    setApi(gplayerAPI)
     
     return () => {
-      console.log("unmount")
-      setApi(null)
+      setButton("visible")
+      setIsPlaying(false)
       setIntro(true)
-      setHasBeenPlayed(false)
+      setHasBeenPlayed(false) 
+      setApi(null)
+    
     }
   }, [])
+
+
+  useEffect(() => {
+    if (api) {
+      changeSerie(0)
+    }
+    return () => {
+      if (api) {
+        delete api._events["play"]
+        delete api._events["ready"]
+        delete api._events["progress"]
+        delete api._events["advertisementWasStarted"]
+        delete api._events["advertisementWasFinished"]
+      }
+    }
+
+  }, [api])
 
   const TouchListener = async (e) => {
     const playingPanel = document.getElementById("playingPanel")

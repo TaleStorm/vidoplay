@@ -139,6 +139,7 @@ const PlayerContextProvider = ({ children }: Props) => {
     return () => { clearTimeout(timer) }
   }, [mobileOverlayStage])
 
+
   //Хэндлим фуллскрин
   useEffect(() => {
     if (api) {
@@ -187,6 +188,7 @@ const PlayerContextProvider = ({ children }: Props) => {
 
     }
   }, [api, currentActing, currentVolume, isIntro])
+
 
   //Листенеры на ended
   useEffect(() => {

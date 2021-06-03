@@ -37,6 +37,7 @@ const IndexPage = () => {
 
   
   } = useContext(CatalogContext)
+  const router = useRouter()
 
   return (
     <div className="w-full">
