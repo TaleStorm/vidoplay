@@ -12,6 +12,9 @@ import getUser from "../api/getUser"
 import GoodToast from "../../components/goodtoast"
 import UserContext from "../../components/context/userContext"
 import { useRouter } from "next/router"
+import apiReq from "../../services/api-requests"
+
+const ApiReq = new apiReq()
 
 const stageHeaders = {
   data: "Редактировать профиль",
@@ -22,7 +25,6 @@ const stageHeaders = {
 const IndexPage = () => {
   const { logOut } = useContext(LoginContext)
   const { user, setUser } = useContext(UserContext)
-
 
   const [loading, setLoading] = useState(true)
   const [filmLoading, setFilmLoading] = useState(false)
@@ -36,7 +38,7 @@ const IndexPage = () => {
 
   const [name, setName] = useState("Ангелина")
   const [lastName, setLastName] = useState("Ангелинова")
-  const [patronymic, setPatronymic] = useState("Ангелиновна")
+  const [middleName, setMiddleName] = useState("Ангелиновна")
 
   const [userPassword, setUserPassword] = useState(undefined)
   const [currentPassword, setCurrentPassword] = useState(undefined)
@@ -49,11 +51,25 @@ const IndexPage = () => {
     getUser()
   }, [user])
 
+  useEffect(() => {
+    async function fetchMyAPI() {
+      if (localStorage.getItem('_user')) {
+        const data = {
+          _userId: localStorage.getItem('_user')
+        }
+        const res = await ApiReq.getUserFavorites(data)
+        console.log(res)
+      }
+    }
+
+    fetchMyAPI()
+  }, [])
+
   const getUser = async () => {
     setEmail(user.email)
     setName(user.firstname)
     setLastName(user.lastname)
-    setPatronymic(user.middleName)
+    setMiddleName(user.middleName)
     setUserPassword(user._password)
 
     //Проверку не убирать! Если отсутствуют данные, то страница крашится!
@@ -64,47 +80,34 @@ const IndexPage = () => {
     }
     
     setLoading(false)
-    }
-
-  // useEffect(() => {
-  //   if (display === "history" || display === "favourites") {
-  //     setFilmLoading(true)
-  //     if (display === "history") {
-  //       // setHistory(doramas)
-  //     }
-  //     if (display === "favourites") {
-  //       // setFavourites(doramas)
-  //     }
-  //     setTimeout(() => {
-  //       setFilmLoading(false)
-  //     }, 1000)
-  //   }
-  // }, [display])
+  }
 
   const updateUser = async () => {
     const userId = localStorage.getItem("_user")
-    const res = await axios.post("/api/updateUser", {
-      _id: userId,
-      info: {
-        firstname: name,
-        email,
-        lastname: lastName,
-        middleName: patronymic,
-        _password: userPassword
-      }
-    })
+    const data = {
+      firstName: name,
+      lastName: lastName,
+      middleName: middleName
+    }
+    const validateData = {
+      token: userId
+    }
+
+    const validateRes = await ApiReq.validate(validateData)
+    console.log(validateRes)
+
+    const res = await ApiReq.updateUserInfo(data, userId)
+
     if (res.status === 200) {
       setUser({
         ...user,
         firstname: name,
         lastname: lastName,
-        middleName: patronymic,
+        middleName: middleName,
         _password: userPassword
       })
       GoodToast("Изменения сохранены")
     }
-      
-    console.log(res)
   }
 
   return (
@@ -281,8 +284,8 @@ const IndexPage = () => {
                     setName={setName}
                     lastName={lastName}
                     setLastName={setLastName}
-                    patronymic={patronymic}
-                    setPatronymic={setPatronymic}
+                    middleName={middleName}
+                    setMiddleName={setMiddleName}
                     setConfrimPassword={setCurrentPassword}
                     {...({
                       password: userPassword,

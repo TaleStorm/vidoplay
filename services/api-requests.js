@@ -39,7 +39,7 @@ export default class NewsService {
     return this.getResource(`${urlPrefix}/api/${entity}/${id}`)
   }
 
-  getPlaylistMoves = (id) => {
+  getPlaylistMovies = (id) => {
     return this.postResource(`${urlPrefix}/api/getPlaylistMovies`, {
       playlistId: id
     })
@@ -67,12 +67,20 @@ export default class NewsService {
     return this.postResource(`${urlPrefix}/api/getFavoriteFilm`, data)
   }
 
+  getUserFavorites = async (data) => {
+    return this.postResource(`${urlPrefix}/api/getUserFavorites`, data)
+  }
+
   updateFavoriteFilm = async (data) => {
     return this.postResource(`${urlPrefix}/api/updateFavoriteFilm`, data)
   }
 
   updateLikes = async (movieId, data) => {
     return this.putResource(`${urlPrefix}/api/movies/${movieId}`, data)
+  }
+
+  updateUserInfo = async (data, userId) => {
+    return this.postResource(`${regPrefix}/api/profile/${userId}`, data)
   }
 
   validate = async (data) => {

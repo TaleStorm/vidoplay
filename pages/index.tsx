@@ -76,7 +76,7 @@ export const getStaticProps = async (ctx) => {
   let count = 1
   const movies = []
   for (let playlist of playlists) {
-    const result = await ApiReq.getPlaylistMoves(playlist._id)
+    const result = await ApiReq.getPlaylistMovies(playlist._id)
     movies.push(result.data)
     count++
     }

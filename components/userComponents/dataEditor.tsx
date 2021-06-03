@@ -2,7 +2,7 @@ import { MutableRefObject, useEffect, useRef, useState } from "react"
 import ModalOverlay from "../layout/modalOverlay"
 import TextInput from "../inputs/textInput"
 
-const DataEditor = ({ name, setName, lastName, setLastName, patronymic, setPatronymic, password, setPassword, currentPassword, setCurrentPassword, newPassword, setNewPassword, confrimPassword, setConfrimPassword }) => {
+const DataEditor = ({ name, setName, lastName, setLastName, middleName, setMiddleName, password, setPassword, currentPassword, setCurrentPassword, newPassword, setNewPassword, confrimPassword, setConfrimPassword }) => {
 
     const [stage, setStage] = useState(0)
     const sliderBody = useRef() as MutableRefObject<HTMLDivElement>
@@ -70,7 +70,7 @@ const DataEditor = ({ name, setName, lastName, setLastName, patronymic, setPatro
                     <div className={`grid lg:grid-cols-2 gap-x-14 gap-y-6`}>
                         <TextInput label={`Имя`} name={`name`} state={name} setState={setName} />
                         <TextInput label={`Фамилия`} name={`lastname`} state={lastName} setState={setLastName} />
-                        <TextInput label={`Отчество`} name={`patronymic`} state={patronymic} setState={setPatronymic} />
+                        <TextInput label={`Отчество`} name={`middleName`} state={middleName} setState={setMiddleName} />
                     </div>
                 </div>
                 <div>
@@ -148,7 +148,7 @@ const DataEditor = ({ name, setName, lastName, setLastName, patronymic, setPatro
                         <div className={`w-full flex-shrink-0 grid grid-cols-1 gap-y-4`}>
                             <TextInput label={`Имя`} name={`name`} state={name} setState={setName} />
                             <TextInput label={`Фамилия`} name={`lastname`} state={lastName} setState={setLastName} />
-                            <TextInput label={`Отчество`} name={`patronymic`} state={patronymic} setState={setPatronymic} />
+                            <TextInput label={`Отчество`} name={`middleName`} state={middleName} setState={setMiddleName} />
                             <button className="mt-1 text-h2-mobile text-center text-white bg-orange p-3 duration-300 rounded-lg hover:bg-orange w-full ">
                                 Сохранить изменения
                     </button>
