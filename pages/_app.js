@@ -17,8 +17,13 @@ import { PlayerEventsContextProvider } from "../components/context/playerEventsC
 import { TextSearchContextProvider } from "../components/context/textSearchContetxt"
 import { CatalogContextProvider } from "../components/context/catalogContext"
 import { SearchContextProvider } from "../components/context/searchContext"
+import apiReq from "../services/api-requests"
 
-function MyApp({ Component, pageProps }) {
+const ApiReq = new apiReq()
+
+
+function MyApp({ Component, pageProps, token }) {
+  console.log(token)
   useEffect(() => {
     const appHeight = () => {
       let vh = window.innerHeight * 0.01
@@ -54,7 +59,7 @@ function MyApp({ Component, pageProps }) {
         <UserDisplayContextProvider>
           <AuthModalContextProvider>
             <PlayerContextProvider>
-              <LoginContextProvider>
+              <LoginContextProvider loginState={token}>
                 <TextSearchContextProvider>
                 <SearchContextProvider>
                   <PlayerEventsContextProvider>
@@ -88,4 +93,24 @@ function MyApp({ Component, pageProps }) {
   )
 }
 
+
+
+MyApp.getInitialProps = async ({component, ctx}) => {
+  let token = ''
+  if (ctx.req) {
+    const chips = ctx.req.headers.cookie.split(";")
+    const chillToken = chips.find(a => a.match("chill_token"))
+    if (chillToken) {
+      token = chillToken.split('=')[1]
+      const valid = await ApiReq.validate({ token })
+      if (valid == undefined || valid.status === 403) {
+        token = ""
+      }
+    }
+  }
+  
+  return {
+    token
+  }
+}
 export default MyApp

@@ -21,8 +21,9 @@ const FilmCategorySliderCard = (data) => {
 
 	return (
   	<a
-	  //href={`/soap/${data.stringName}`}
-	  onClick={() => {
+	  href={`/soap/${data.stringName}`}
+	  onClick={(e) => {
+		  e.preventDefault()
 		  router.push(`/soap/${data.stringName}`)
 	  }}
 	  className="bg-cardBackground cursor-pointer relative transform transition-all duration-400 lg:hover:-translate-y-2.5 shadow-none lg:hover:shadow-card-hover flex flex-col h-full rounded-lg">
@@ -51,7 +52,7 @@ const FilmCategorySliderCard = (data) => {
 				{data.title}
 			</p>
 			<p className="text-xs sm:text-sm font-roboto text-mainText opacity-70">
-				{sanitizedText ? (sanitizedText.length > 320 ? sanitizedText.substr(0, 317) + "..." : sanitizedText) : sanitizedText}
+				{data.excerpt}
 			</p>
 		</div>
 		<div>

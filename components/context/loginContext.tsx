@@ -8,7 +8,37 @@ import AuthModalContext from "./authModalContext";
 import UserContext from "./userContext";
 import apiReq from "../../services/api-requests"
 
-const ApiReq = new apiReq()
+
+function setCookie(name, value, options) {
+
+  options = {
+    path: '/',
+    // при необходимости добавьте другие значения по умолчанию
+    ...options
+  };
+
+  if (options.expires instanceof Date) {
+    options.expires = options.expires.toUTCString();
+  }
+
+  let updatedCookie = encodeURIComponent(name) + "=" + encodeURIComponent(value);
+
+  for (let optionKey in options) {
+    updatedCookie += "; " + optionKey;
+    let optionValue = options[optionKey];
+    if (optionValue !== true) {
+      updatedCookie += "=" + optionValue;
+    }
+  }
+
+  document.cookie = updatedCookie;
+}
+
+function deleteCookie(name) {
+  setCookie(name, "", {
+    'max-age': -1
+  })
+}
 
 const LoginContext = React.createContext({
   userToken: null,
@@ -28,10 +58,11 @@ const clientId = "549411935973-lhuu4ddmi0fi39kkuk06ak22bbpr80lg.apps.googleuserc
 
 interface Props {
   children: ReactNode;
+  loginState?: string
 }
 
-const LoginContextProvider = ({ children }: Props) => {
-  const [userToken, setUserToken] = useState(null);
+const LoginContextProvider = ({ children, loginState="" }: Props) => {
+  const [userToken, setUserToken] = useState(loginState);
   const { setModalOpen } = useContext(AuthModalContext)
   const { setUser, setDefaultUser } = useContext(UserContext)
 
@@ -57,7 +88,7 @@ const LoginContextProvider = ({ children }: Props) => {
     VKscript.async = true;
     VKscript.onload = () => {
         (window as any).VK.init({
-            apiId: 7567371,
+            apiId: 7862962,
           })
     }
     
@@ -135,7 +166,7 @@ const handleGoogleLogin = async (data) => {
 
 
   const VKLoginHandler = async () => {
-      const url = "https://oauth.vk.com/authorize?client_id=7567371&scope=email,offline&redirect_uri=https://chillvision.ru/Auth/Social_vk&response_type=token&display=popup"
+      const url = "https://oauth.vk.com/authorize?client_id=7862962&scope=email,offline&redirect_uri=https://chillvision.ru/Auth/Social_vk&response_type=token&display=popup"
       window.location.href = url
 
   }
@@ -158,7 +189,7 @@ const handleGoogleLogin = async (data) => {
     let valid 
     try {
       valid = await axios.post("/api/validate", { token });
-      window.localStorage.setItem("_user", token)
+      document.cookie = `chill_token=${token}`
       setUserToken(token)
       setDefaultUser()
     } catch (error) {
@@ -170,7 +201,7 @@ const handleGoogleLogin = async (data) => {
   }
 
   const logOut = () => {
-    window.localStorage.removeItem("_user")
+    deleteCookie("chill_token")
     setUserToken(null)
     setDefaultUser()
   };
@@ -181,16 +212,6 @@ const handleGoogleLogin = async (data) => {
     })
     return true
   }
-
-  useEffect(() => {
-    const token = window.localStorage.getItem("_user");
-    if (token) {
-      logIn(token)
-    } else {
-      logOut();
-    }
-  }, []);
-
 
   return (
     <LoginContext.Provider

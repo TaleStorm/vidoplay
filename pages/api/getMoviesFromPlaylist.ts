@@ -6,7 +6,6 @@ export default async (req, res) => {
           return res.status(404).json({ error: "Api not found." })
           break
         case "POST":
-          console.log(body)
           let response = await fetch(`${process.env.API_DOMAIN}/api/getPlaylistMovies`, { 
             method: 'POST', // или 'PUT'
             body: JSON.stringify(body), // данные могут быть 'строкой' или {объектом}!

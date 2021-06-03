@@ -25,7 +25,7 @@ const SearchModal = () => {
                 style={{
                     width: width
                 }}
-                className={`grid grid-cols-1 gap-1 transition-all duration-200`}>
+                className={`grid grid-cols-1 gap-1 transition-all duration-200 min-w-full md:min-w-auto`}>
                     {displayedMovies.map(movie => 
                     <SearchFilmCard
                     key={`search-result-${movie.stringName}`}
