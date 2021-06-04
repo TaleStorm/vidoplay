@@ -46,6 +46,31 @@ function MyApp({ Component, pageProps }) {
     }
   }, [])
 
+  useEffect(() => {
+    (function (m, e, t, r, i, k, a) {
+      m[i] =
+        m[i] ||
+        function () {
+          ;(m[i].a = m[i].a || []).push(arguments)
+        }
+
+      m[i].l = 1 * new Date()
+      (k = e.createElement(t)),
+        (a = e.getElementsByTagName(t)[0]),
+        (k.async = 1),
+        (k.src = r),
+        a.parentNode.insertBefore(k, a)
+      console.log("ymMetrickInit")
+    })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym")
+    
+    ym(64534015, "init", {
+      clickmap: true,
+      trackLinks: true,
+      accurateTrackBounce: true,
+      webvisor: true,
+    })
+  }, [])
+
   return (
     <MovieContextProvider>
       <UserContextProvider>
@@ -54,16 +79,27 @@ function MyApp({ Component, pageProps }) {
             <PlayerContextProvider>
               <LoginContextProvider>
                 <TextSearchContextProvider>
-                <PlayerEventsContextProvider>
-                  <Head>
-                    <script src="//vk.com/js/api/openapi.js"></script>
-                    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
-                    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
-                    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v10.0" nonce="SUBXHY9c"></script>
-                  </Head>
-                  <Layout>
-                    <Component {...pageProps} />
-                  </Layout>
+                  <PlayerEventsContextProvider>
+                    <Head>
+                      <script src="//vk.com/js/api/openapi.js"></script>
+                      <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+                      <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+                      <script
+                        async
+                        defer
+                        crossorigin="anonymous"
+                        src="https://connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v10.0"
+                        nonce="SUBXHY9c"
+                      ></script>
+                    </Head>
+                    <img
+                      src="https://mc.yandex.ru/watch/64534015"
+                      style={{ position: "absolute", left: -9999 }}
+                      alt=""
+                    />
+                    <Layout>
+                      <Component {...pageProps} />
+                    </Layout>
                   </PlayerEventsContextProvider>
                 </TextSearchContextProvider>
               </LoginContextProvider>
