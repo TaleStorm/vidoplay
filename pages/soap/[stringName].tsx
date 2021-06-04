@@ -10,10 +10,12 @@ import { useContext, useEffect, useState } from "react"
 import ReviewsAndLikes from "../../components/movieComponents/reviewsAndLikes"
 import MovieContext from "../../components/context/movieContext"
 import { useRouter } from "next/router"
+import axios from "axios"
+import requestIp from "request-ip"
 
 const ApiReq = new apiReq()
 
-export default function IndexPage({ movie, playlist, movies, comments }) {
+export default function IndexPage({ movie, playlist, movies, comments, allow }) {
   const movieContext = useContext(MovieContext)
   const router = useRouter()
 
@@ -78,9 +80,9 @@ export default function IndexPage({ movie, playlist, movies, comments }) {
         </nav>
 
         <Video
+          allow={allow}
           name={movie.title}
           series={series}
-          movieId={movie._id}
           movies={movies}
           langs={movie.localization}
           video={movie.video}
@@ -135,9 +137,13 @@ export const getServerSideProps = async (ctx) => {
   const playlists = await ApiReq.getEntities("playlists")
   const playlist = playlists[0]
   const movie = await ApiReq.getMovieBySringName(stringName)
-  console.log(movie)
   const result = await ApiReq.getPlaylistMoves(playlist._id)
   const movies = [...result.data]
   const comments = await ApiReq.getComments(movie._id)
-  return { props: { movie , playlist, movies, comments } }
+  const ip = requestIp.getClientIp(ctx.req)
+  const allow = await axios.post("http://localhost:3000/api/checkLocation", {
+    ip,
+    head: ctx.req.headers
+  })
+  return { props: { movie , playlist, movies, comments, allow: allow.data } }
 }
