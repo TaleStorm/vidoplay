@@ -292,6 +292,8 @@ export default function Player(data) {
 
 
   useEffect(() => {
+
+
     if (api) {
       changeSerie(0)
     }
