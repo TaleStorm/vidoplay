@@ -42,6 +42,7 @@ const nextConfig = {
       "media.gcorelabs.com"
     ],
   },
+  trailingSlash: true,
 }
 
 const config = nextConfig

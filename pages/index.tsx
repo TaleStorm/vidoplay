@@ -3,6 +3,7 @@ import Slider from "../components/slider"
 import Comments from "../components/comments"
 import FilmCategory from "../components/filmCategory"
 import apiReq from "../services/api-requests"
+import Head from "next/head"
 
 const ApiReq = new apiReq()
 
@@ -19,16 +20,46 @@ function IndexPage({ playlists = [], movies, comments, banners }) {
   console.log(playlists)
 
   return (
+    <>
+      <Head>
+        <link rel="canonical" href="https://chillvision.ru/" />
+        <meta property="og:title" content="Chill Vision" />
+        <meta property="og:description" content="Первый веб-кинотеатр в России, у которого нет аналогов в мире. Уникальная мультимедийная платформа для просмотра веб-сериалов." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={"https://chillvision.ru/"} />
+        <meta property="og:image" content="https://chillvision.ru/images/aboutChill.png" />
+      </Head>
       <div className="w-full">
         <div className=" md:grid grid-cols-5 grid-rows-1 gap-7">
           <div className="lg:col-span-4 md:col-span-5 grid grid-cols-1">
             <div>
-            <div className={`mb-10`}>
-            <Slider cards={banners} />
+              <div className={`mb-10`}>
+                <Slider cards={banners} />
+              </div>
+              {playlists.map((playlist, i) => {
+                return (
+                  <div className={`mb-10`}>
+                    <FilmCategory
+                      key={i}
+                      name={playlist.name}
+                      stringName={playlist.stringName}
+                      cards={movies[i]}
+                      cardToShow={2}
+                      sliderIndex={i}
+                    />
+                    { i === 0 &&
+                      <a href="/piloty">
+                        <img className={`rounded-lg w-full mt-10`} src="/images/Pilots.png" alt="" />
+                      </a>
+                    }
+                  </div>
+                )
+              })}
+              {/* <PartnerSlider cards={partnerCards} cardToShow={3} sliderIndex={8} /> */}
             </div>
             {playlists.map((playlist, i) => {
 
-              if(playlist.stringName === "piloty")
+              if (playlist.stringName === "piloty")
                 return
 
               return (
@@ -42,33 +73,33 @@ function IndexPage({ playlists = [], movies, comments, banners }) {
                     sliderIndex={i}
                   />
                   { i === 0 &&
-                  <a href="/piloty">
-                    <img  className={`rounded-lg w-full mt-10`} src="/images/Pilots.png" alt=""/>
-                  </a>
+                    <a href="/piloty">
+                      <img className={`rounded-lg w-full mt-10`} src="/images/Pilots.png" alt="" />
+                    </a>
                   }
                 </div>
               )
             })}
             {/* <PartnerSlider cards={partnerCards} cardToShow={3} sliderIndex={8} /> */}
           </div>
-          </div>
           <div className="hidden lg:col-span-1 md:-mr-8 lg:block">
             <Comments comments={comments} />
           </div>
         </div>
       </div>
+    </>
   )
 }
 
 export const getStaticProps = async (ctx) => {
-  let time = new Date().getTime()/1000
+  let time = new Date().getTime() / 1000
   const data = await ApiReq.getTableFromAirtable("banner")
   let banners = data.records.map(record => {
-      return {
-        link: record.fields.link,
-        image: record.fields.attachment[0].url,
-        visibility: record.fields.visibility
-      }
+    return {
+      link: record.fields.link,
+      image: record.fields.attachment[0].url,
+      visibility: record.fields.visibility
+    }
   }).filter(a => a.visibility === "true")
 
   const playlists = await ApiReq.getEntities("playlists")
@@ -79,11 +110,11 @@ export const getStaticProps = async (ctx) => {
     const result = await ApiReq.getPlaylistMoves(playlist._id)
     movies.push(result.data)
     count++
-    }
+  }
 
-  return { 
-    props: { 
-      playlists, 
+  return {
+    props: {
+      playlists,
       movies,
       comments,
       banners

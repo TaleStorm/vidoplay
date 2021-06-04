@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Sitemap: https://chillvision.ru/chill-sitemap.xml
+Disallow:
+Disallow: https://gate.chillvision.ru/admin/movies
+Disallow: https://gate.chillvision.ru/admin/users
+Disallow: https://gate.chillvision.ru/admin/playlists
+Disallow: https://gate.chillvision.ru/admin/comments
+Disallow: https://gate.chillvision.ru/admin/categoryes
+Disallow: https://gate.chillvision.ru/admin/tempComments
+Disallow: https://gate.chillvision.ru/admin/favoriteFilms

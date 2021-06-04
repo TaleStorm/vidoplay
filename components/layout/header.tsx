@@ -14,7 +14,7 @@ import SearchContext from "../context/searchContext"
 import SearchIcon from "../icons/searchIcon"
 
 
-const HeadNav = ({pathname, context}) => {
+const HeadNav = ({ pathname, context }) => {
   const path = pathname.split("/")
   const navDisplayed = () => {
     if (path[1]) {
@@ -189,12 +189,12 @@ export default function Header({
                   authModalContext.setModalOpen(true)
                 }
                 }} className={`w-6 h-6 sm:h-8 sm:w-8 hidden sm:block ${!loginContext.userToken ? "text-mainText" : "text-orange"} cursor-pointer ml-6`}>
-              <UserIcon/>
-              </div>
-              <div onClick={() => {setIsSidebarOpen(!isSidebarOpen)}} className={`sm:hidden ml-5 w-6 h-6 sm:h-8 sm:w-8 cursor-pointer ${isSidebarOpen ? 'text-orange' : "text-mainText"}`}>
-              <MenuIcon isSidebarOpen={!isSidebarOpen}/>
-              </div>
-            </nav>
+                  <UserIcon />
+                </div>
+                <div onClick={() => { setIsSidebarOpen(!isSidebarOpen) }} className={`sm:hidden ml-5 w-6 h-6 sm:h-8 sm:w-8 cursor-pointer ${isSidebarOpen ? 'text-orange' : "text-mainText"}`}>
+                  <MenuIcon isSidebarOpen={!isSidebarOpen} />
+                </div>
+              </nav>
               {/* <nav
                 className={`
             ${
