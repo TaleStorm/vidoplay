@@ -50,7 +50,9 @@ export default function IndexPage({ movie, playlist, movies, comments, allow }) 
   return "title" in movie ? (
     <>
       <Head>
-
+      <title>{movie.type === "Сериал" ?
+      movie.gener.includes("Дорама") ? `Дорама ${movie.title} смотреть онлайн в хорошем качестве - Веб-кинотеатр Chill` : `Сериал ${movie.title} смотреть онлайн в хорошем качестве - Веб-кинотеатр Chill` : `${movie.title} смотреть онлайн в хорошем качестве - Веб-кинотеатр Chill`
+      }</title>
       </Head>
       <div className="w-full grid grid-cols-1">
         <nav className="hidden sm:flex justify-start md:inline">
