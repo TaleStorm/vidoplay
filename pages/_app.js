@@ -65,17 +65,13 @@ function MyApp({ Component, pageProps, token }) {
                   <PlayerEventsContextProvider>
                   <CatalogContextProvider>
                   <Head>
-                  <title>Веб-кинотеатр CHILL</title>
+                    <title>Веб-кинотеатр CHILL. Веб-сериалы онлайн</title>
                     <script src="//vk.com/js/api/openapi.js"></script>
                     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
                     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
                     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v10.0" nonce="SUBXHY9c"></script>
                     <script src="https://vplatform.gcdn.co/_players/v2.0.71/gplayerAPI.js"></script>
-                      {/* <script
-          dangerouslySetInnerHTML={{
-            __html: `history.scrollRestoration = "manual"`,
-          }}
-        /> */}
+                    
                   </Head>
                   <Layout>
                     <Component {...pageProps} />
@@ -98,7 +94,7 @@ function MyApp({ Component, pageProps, token }) {
 
 MyApp.getInitialProps = async ({component, ctx}) => {
   let token = ''
-  if (ctx.req) {
+  if (ctx.req.headers.cookie) {
     const chips = ctx.req.headers.cookie.split(";")
     const chillToken = chips.find(a => a.match("chill_token"))
     if (chillToken) {
