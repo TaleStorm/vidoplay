@@ -81,7 +81,6 @@ function MyApp({ Component, pageProps, token }) {
                   </SearchContextProvider>
                 </TextSearchContextProvider>
               </LoginContextProvider>
-              
             </PlayerContextProvider>
           </AuthModalContextProvider>
         </UserDisplayContextProvider>
@@ -94,7 +93,7 @@ function MyApp({ Component, pageProps, token }) {
 
 MyApp.getInitialProps = async ({component, ctx}) => {
   let token = ''
-  if (ctx.req.headers.cookie) {
+  if (ctx.req?.headers?.cookie) {
     const chips = ctx.req.headers.cookie.split(";")
     const chillToken = chips.find(a => a.match("chill_token"))
     if (chillToken) {

@@ -18,8 +18,8 @@ const SearchFilmCard = (
     return (
         <a 
         href={`/soap/${stringName}`}
-        className={`w-full bg-cardBackground text-white p-4 rounded-lg h-40  flex cursor-pointer`}>
-            <div className={`h-full w-60 mr-5 relative flex-shrink-0 rounded-lg`}>
+        className={`w-full bg-cardBackground text-white p-1 md:p-4 rounded-lg md:h-40 h-13 flex cursor-pointer`}>
+            <div className={`h-full md:w-60 w-20 mr-5 relative flex-shrink-0 rounded-lg`}>
                 <Image
                 src={image}
                 layout="fill"
@@ -27,17 +27,20 @@ const SearchFilmCard = (
                 className={`rounded-lg`}
                 />
             </div>
-            <div className={`overflow-hidden`}>
-                <div className={`text-h7 font-medium mb-3`}>
+            <div className={`overflow-hidden w-full`}>
+                <div className={`md:text-h7 text-h2-mobile font-medium mb-3`}>
                 {title}
                 </div>
-                <div className={`opacity-70 text-h2-mobile`}>
+                <div className={`opacity-70 text-h2-mobile hidden md:block`}>
                 {excerpt}
                 </div>
             </div>
             <a 
             href={`/soap/${stringName}`}
-            className={`flex-shrink-0 ml-5 flex text-orange h-5 items-center cursor-pointer`}>
+            className={`flex-shrink-0 ml-5 text-orange h-5 items-center cursor-pointer hidden md:flex`}>
+                <div>
+
+                </div>
                 Перейти
                 <div className={`w-5 h-5 ml-1`}>
                 <ArrowIcon/>
