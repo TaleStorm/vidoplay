@@ -94,21 +94,12 @@ const Partnership = () => {
             ]
         }
         const result = await fetch(`https://api.airtable.com/v0/app5Hw3RVknO5eZ4P/applications`, {
-<<<<<<< HEAD
         headers: {
             'Authorization': 'Bearer', 
             "Content-Type" : "application/json"
         },
         method: "POST",
         body: JSON.stringify(airtableData)
-=======
-            headers: {
-                'Authorization': 'Bearer keyVIkP5eKsQsa5gA',
-                "Content-Type": "application/json"
-            },
-            method: "POST",
-            body: JSON.stringify(airtableData)
->>>>>>> SEO
         })
         const data = await result.json()
         console.log(data)
