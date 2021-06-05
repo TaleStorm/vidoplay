@@ -78,7 +78,7 @@ export default function Video({
     }
 
     return (
-        <>
+        <>            
             <div className="mb-14 flex items-center">
                 <h4 className="hidden mt-6 font-roboto text-mainText font-normal text-3xl sm:block mb-4 col-span-1 w-full">
                     {name}

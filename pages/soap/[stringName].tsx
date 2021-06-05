@@ -17,6 +17,8 @@ const ApiReq = new apiReq()
 
 export default function IndexPage({ movie, playlist, movies, comments, allow }) {
   const movieContext = useContext(MovieContext)
+  const [currentUrl, setCurrentUrl] = useState<string>("")
+  const [score, setscore] = useState(null)
   const router = useRouter()
 
   useEffect(() => {
@@ -29,7 +31,9 @@ export default function IndexPage({ movie, playlist, movies, comments, allow }) 
     }
   }, [])
 
-  const [score, setscore] = useState(null)
+  useEffect(() => {
+    setCurrentUrl(document.location.href)
+  }, [])
 
   const series = []
 
@@ -50,17 +54,46 @@ export default function IndexPage({ movie, playlist, movies, comments, allow }) 
   return "title" in movie ? (
     <>
       <Head>
-      <title>{movie.type === "Сериал" ?
-      movie.gener.includes("Дорама") ? `Дорама ${movie.title} смотреть онлайн в хорошем качестве - Веб-кинотеатр Chill` : `Сериал ${movie.title} смотреть онлайн в хорошем качестве - Веб-кинотеатр Chill` : `${movie.title} смотреть онлайн в хорошем качестве - Веб-кинотеатр Chill`
-      }</title>
+        <title>{movie.type === "Сериал" ?
+          movie.gener.includes("Дорама") ? `Дорама ${movie.title} смотреть онлайн в хорошем качестве - Веб-кинотеатр Chill` : `Сериал ${movie.title} смотреть онлайн в хорошем качестве - Веб-кинотеатр Chill` : `${movie.title} смотреть онлайн в хорошем качестве - Веб-кинотеатр Chill`
+        }</title>
+        <meta property="og:title" content={movie?.title} />
+        <meta property="og:url" content={currentUrl} />
+        {series.map((season, sei) => season.map((seria, sri) =>
+          <meta key={`${sei}-${sri}`} property="og:video" content={seria.videoId} />
+        ))}
+        <meta property="og:image" content={movie?.image} />
+        <meta property="og:description" content={movie?.excerpt} />
+        <meta property="ya:ovs:upload_date" content={`${movie?.released}-01-01`} />
+        <meta property="ya:ovs:adult" content={String(parseInt(movie?.age) >= 18)} />
+        <meta property="video:duration" content="PT6M58S" />
+        <meta property="og:type" content={movie?.type === "Сериал" ? "video.episode" : "video.movie"} />
+        <meta property="og:video:type" content="flash" />
+        <script src="https://vplatform.gcdn.co/_players/v2.0.71/gplayerAPI.js"></script>
       </Head>
+      {series.map((season, sei) => season.map((seria, sri) =>
+        <div hidden itemScope itemType="http://schema.org/VideoObject">
+          <a itemProp="url" href={seria.videoId}>
+            <h2 itemProp="name">{movie?.title}</h2>
+          </a>
+          <p itemProp="description">{movie?.excerpt}</p>
+          <meta itemProp="duration" content="PT6M58S" />
+          <meta itemProp="isFamilyFriendly" content={String(parseInt(movie?.age) < 18)} />
+          <p>Дата загрузки:<span itemProp="uploadDate">{`${movie?.released}-01-01T00:00:00`}</span></p>
+          <span itemProp="thumbnail" itemScope itemType="http://schema.org/ImageObject">
+            <img itemProp="contentUrl" src={seria.image} />
+            <meta itemProp="width" content="800" />
+            <meta itemProp="height" content="450" />
+          </span>
+        </div>
+      ))}
       <div className="w-full grid grid-cols-1">
         <nav className="hidden sm:flex justify-start md:inline">
-          <a 
-          onClick={() => {
-            window.history.back()
-          }}
-          className="text-base">
+          <a
+            onClick={() => {
+              window.history.back()
+            }}
+            className="text-base">
             <svg
               width="17"
               height="17"
@@ -147,5 +180,5 @@ export const getServerSideProps = async (ctx) => {
     ip,
     head: ctx.req.headers
   })
-  return { props: { movie , playlist, movies, comments, allow: allow.data } }
+  return { props: { movie, playlist, movies, comments, allow: allow.data } }
 }

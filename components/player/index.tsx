@@ -211,6 +211,7 @@ export default function Player(data) {
     const bounds = ref.current.getBoundingClientRect()
     const value = 1 - ((e.clientY - bounds.y)/bounds.height)
     setVolumeCurrent(Number((value * 100).toFixed(0)))
+    api.method({ name: "setVolume", params: Number((value * 100).toFixed(0)) })
   }
 
   const changeCurrentVolumeY = (e, ref) => {
@@ -286,7 +287,6 @@ export default function Player(data) {
       setIntro(true)
       setHasBeenPlayed(false) 
       setApi(null)
-    
     }
   }, [])
 
@@ -339,11 +339,6 @@ export default function Player(data) {
   return (
     <div className={`h-full`} >
       <div draggable={false} id="mainframe" className={`${isLoaded ? "visible" : "hidden"} h-full`}>
-        {/* <FullScreen onChange={(e) => {console.log(e)}} className={`relative`} handle={handle}>
-          <div className={`w-full h-full bg-gradient-to-t from-orange to-loveTag`}>
-
-          </div>
-        </FullScreen> */}
           <div
           style={{
           }}

@@ -41,13 +41,13 @@ const EmbeddedPage = ({movie, movies}) => {
         <Head>
 
         </Head>
-        <div className={`flex-shrink-0 w-full h-full bg-black`}>
-            <Player 
-            
+        <div className={`fixed top-0 left-0 w-full h-full`}>
+        <Player
             movies={movies}
             series={series}
             />
         </div>
+
         </>
     )
 
