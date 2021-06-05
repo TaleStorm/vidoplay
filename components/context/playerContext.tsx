@@ -239,16 +239,6 @@ const PlayerContextProvider = ({ children }: Props) => {
     
     if (api) {
       console.log(api)
-      const resizeListener = () => {
-        // setTimeout(() => {
-        //   api.method({
-        //     name: "resize", params: {
-        //       width: "100%",
-        //       height: "100%"
-        //     }
-        //   })
-        // }, 1000)
-      }
        if (hasBeenPlayed) {   
           api.on("ready", () => {
             sendPostMessage("READY_VIDEO")
@@ -261,7 +251,6 @@ const PlayerContextProvider = ({ children }: Props) => {
           })
         }
 
-      window.addEventListener("resize", resizeListener)
 
     }
 

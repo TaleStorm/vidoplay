@@ -92,7 +92,6 @@ function IndexPage({ playlists = [], movies, comments, banners }) {
 }
 
 export const getStaticProps = async (ctx) => {
-  let time = new Date().getTime() / 1000
   const data = await ApiReq.getTableFromAirtable("banner")
   let banners = data.records.map(record => {
     return {
@@ -104,13 +103,15 @@ export const getStaticProps = async (ctx) => {
 
   const playlists = await ApiReq.getEntities("playlists")
   const comments = await ApiReq.getEntities("comments")
-  let count = 1
-  const movies = []
+  const reqArr = []
   for (let playlist of playlists) {
-    const result = await ApiReq.getPlaylistMoves(playlist._id)
-    movies.push(result.data)
-    count++
+    reqArr.push(ApiReq.getPlaylistMoves(playlist._id))
   }
+  const moviesData = await Promise.all(reqArr)
+  const movies = moviesData.map((movieData) => {
+    return movieData.data
+  })
+  
 
   return {
     props: {
