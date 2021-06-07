@@ -83,6 +83,10 @@ export default class NewsService {
     return this.postResource(`${regPrefix}/api/profile/${userId}`, data)
   }
 
+  getUser = async (userId) => {
+    return this.getResource(`${regPrefix}/api/profile/${userId}`)
+  }
+
   validate = async (data) => {
     return this.postResource(`${regPrefix}/api/validate`, data)
   }

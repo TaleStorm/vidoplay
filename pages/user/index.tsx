@@ -5,10 +5,8 @@ import DataEditor from "../../components/userComponents/dataEditor"
 import Favourites from "../../components/userComponents/favourites"
 import History from "../../components/userComponents/history"
 import Loader from "../../components/userComponents/loader"
-import axios from "axios"
 import UserDisplayContext from '../../components/context/userDisplayContext'
 import LoginContext from "../../components/context/loginContext"
-import getUser from "../api/getUser"
 import GoodToast from "../../components/goodtoast"
 import UserContext from "../../components/context/userContext"
 import { useRouter } from "next/router"
@@ -54,15 +52,33 @@ const IndexPage = () => {
   useEffect(() => {
     async function fetchMyAPI() {
       if (localStorage.getItem('_user')) {
+        const token = localStorage.getItem("_user");
         const data = {
-          _userId: localStorage.getItem('_user')
-        }
+          _userId: token
+        };
         const res = await ApiReq.getUserFavorites(data)
         console.log(res)
+
+        const validateRes = await ApiReq.validate({token: token})
+        const userId = validateRes.id
+        const userInfo = await ApiReq.getUser(userId)
+        if (userInfo.ok && res) {
+          setUser({
+            ...user,
+            firstname: userInfo.profile.firstName,
+            lastname: userInfo.profile.lastName,
+            middleName: userInfo.profile.middleName,
+            _password: userPassword,
+            list: {
+              favorites: res
+            }
+          })
+        }
       }
     }
 
     fetchMyAPI()
+    console.log(user)
   }, [])
 
   const getUser = async () => {
@@ -83,22 +99,21 @@ const IndexPage = () => {
   }
 
   const updateUser = async () => {
-    const userId = localStorage.getItem("_user")
+    const token = localStorage.getItem("_user")
     const data = {
       firstName: name,
       lastName: lastName,
       middleName: middleName
     }
     const validateData = {
-      token: userId
+      token: token
     }
-
     const validateRes = await ApiReq.validate(validateData)
-    console.log(validateRes)
-
+    const userId = validateRes.id
     const res = await ApiReq.updateUserInfo(data, userId)
 
-    if (res.status === 200) {
+    console.log(res)
+    if (res.ok) {
       setUser({
         ...user,
         firstname: name,
