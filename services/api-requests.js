@@ -77,8 +77,16 @@ export default class NewsService {
     return this.postResource(`${urlPrefix}/api/getUserFavorites`, data)
   }
 
+  getUserHistory = async (data) => {
+    return this.postResource(`${urlPrefix}/api/getUserHistory`, data)
+  }
+
   updateFavoriteFilm = async (data) => {
     return this.postResource(`${urlPrefix}/api/updateFavoriteFilm`, data)
+  }
+
+  updateHistory = async (data) => {
+    return this.postResource(`${urlPrefix}/api/updateHistory`, data)
   }
 
   updateLikes = async (movieId, data) => {

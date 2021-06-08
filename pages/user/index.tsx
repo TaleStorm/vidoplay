@@ -64,13 +64,10 @@ const IndexPage = () => {
         const data = {
           _userId: token
         };
-        const res = await ApiReq.getUserFavorites(data)
-        console.log(token)
-        console.log(res)
-
+        const resFavorites = await ApiReq.getUserFavorites(data)
+        const resHistory = await ApiReq.getUserHistory(data)
         const validateRes = await ApiReq.validate({token: token})
         const userId = validateRes.id
-        console.log(userId)
         const userInfo = await ApiReq.getUser(userId)
         if (userInfo.ok) {
           setUser({
@@ -80,8 +77,8 @@ const IndexPage = () => {
             middleName: userInfo.profile.middleName,
             _password: userPassword,
             list: {
-              favorites: res,
-              history: res
+              favorites: resFavorites,
+              history: resHistory
             }
           })
         }
@@ -89,7 +86,6 @@ const IndexPage = () => {
     }
 
     fetchMyAPI()
-    console.log(user)
   }, [])
 
   const getUser = async () => {
@@ -103,7 +99,7 @@ const IndexPage = () => {
     if (user.list) {
       //Подгружаем по запросу в будущем!!
       setFavourites(user.list.favorites)
-      setHistory(user.list.favorites)
+      setHistory(user.list.history)
     }
 
     setLoading(false)
@@ -122,8 +118,6 @@ const IndexPage = () => {
     const validateRes = await ApiReq.validate(validateData)
     const userId = validateRes.id
     const res = await ApiReq.updateUserInfo(data, userId)
-
-    console.log(res)
     if (res.ok) {
       setUser({
         ...user,
