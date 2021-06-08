@@ -7,6 +7,13 @@ import PlayerContext from "./context/playerContext"
 
 const ApiReq = new apiReq()
 
+function getCookie(name) {
+  let matches = document.cookie.match(new RegExp(
+    "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+  ));
+  return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
 const CommentForm = ({ onClose, movieId, addComment }) => {
   const [comentData, setCommentData] = useState({ text: '' })
   const [date, setDate] = useState(new Date())
@@ -18,7 +25,7 @@ const CommentForm = ({ onClose, movieId, addComment }) => {
   }
 
   const sendComment = async () => {
-    const userId = localStorage.getItem('_user')
+    const userId = getCookie("chill_token");
     if (userId && comentData.text !== '') {
       let data = {
         text: comentData.text,

@@ -46,24 +46,33 @@ const IndexPage = () => {
   const router = useRouter()
   const [exitModalOpen, setExitModalOpen] = useState(false)
 
+  function getCookie(name) {
+    let matches = document.cookie.match(new RegExp(
+      "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+  }
+
   useEffect(() => {
     getUser()
   }, [user])
 
   useEffect(() => {
     async function fetchMyAPI() {
-      if (localStorage.getItem('_user')) {
-        const token = localStorage.getItem("_user");
+      const token = getCookie("chill_token");
+      if (token) {
         const data = {
           _userId: token
         };
         const res = await ApiReq.getUserFavorites(data)
+        console.log(token)
         console.log(res)
 
         const validateRes = await ApiReq.validate({token: token})
         const userId = validateRes.id
+        console.log(userId)
         const userInfo = await ApiReq.getUser(userId)
-        if (userInfo.ok && res) {
+        if (userInfo.ok) {
           setUser({
             ...user,
             firstname: userInfo.profile.firstName,
@@ -71,7 +80,8 @@ const IndexPage = () => {
             middleName: userInfo.profile.middleName,
             _password: userPassword,
             list: {
-              favorites: res
+              favorites: res,
+              history: res
             }
           })
         }
@@ -100,7 +110,7 @@ const IndexPage = () => {
   }
 
   const updateUser = async () => {
-    const token = localStorage.getItem("_user")
+    const token = getCookie("chill_token");
     const data = {
       firstName: name,
       lastName: lastName,
