@@ -1,4 +1,5 @@
 import axios from "axios"
+import Head from "next/head"
 import { useRouter } from "next/router"
 import { type } from "node:os"
 import { useEffect, useState } from "react"
@@ -39,11 +40,21 @@ export default function IndexPage({ }) {
   const films = new Array(amount).fill(stub, 0, amount)
 
   return (
-    <div className="w-full">
-      {films.map((item: mockupType,i) =>
-        <WantToSeeCard key={i} {...item}/>
-      )}
-    </div>
+    <>
+      <Head>
+        <link rel="canonical" href="https://chillvision.ru/wanttosee" />
+        <meta property="og:title" content="Хочу увидеть на Chill" />
+        <meta property="og:description" content="Проголосуйте за новый сериал или фильмы на Chill, сделайте свой выбор!" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={"https://chillvision.ru/wanttosee"} />
+        <meta property="og:image" content="https://chillvision.ru/images/aboutChill.png" />
+      </Head>
+      <div className="w-full">
+        {films.map((item: mockupType, i) =>
+          <WantToSeeCard key={i} {...item} />
+        )}
+      </div>
+    </>
   )
 }
 

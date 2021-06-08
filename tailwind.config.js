@@ -2,6 +2,14 @@ module.exports = {
   purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   darkMode: false, // or 'media' or 'class'
   theme: {
+    screens: {
+      "xs": "480px",
+      'sm': '640px',
+      'md': '768px',
+      'lg': '1024px',
+      'xl': '1280px',
+      '2xl': '1536px',
+    },
     colors: {      
       black: "#000000",
       white: "#FFFFFF",
@@ -47,6 +55,14 @@ module.exports = {
       inter: ["Inter"]
     },
     extend: {
+      zIndex: {
+        60:60,
+        70:70,
+        80:80,
+      },
+      minWidth: {
+        "auto" : "auto"
+      },
       transitionDuration: {
         400: "400ms"
       },

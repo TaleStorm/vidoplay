@@ -45,6 +45,12 @@ export default class NewsService {
     })
   }
 
+  getMovieBySringName = (stringName) => {
+    return this.postResource(`${urlPrefix}/api/getEntityByStringName`, {
+      stringName: stringName
+    })
+  }
+
   getTableFromAirtable = async (table) => {
     const result = await fetch(`https://api.airtable.com/v0/app5Hw3RVknO5eZ4P/${table}?view=Grid%20view`, {
       headers: {
@@ -86,6 +92,8 @@ export default class NewsService {
   getUser = async (userId) => {
     return this.getResource(`${regPrefix}/api/profile/${userId}`)
   }
+
+  getAllowed
 
   validate = async (data) => {
     return this.postResource(`${regPrefix}/api/validate`, data)

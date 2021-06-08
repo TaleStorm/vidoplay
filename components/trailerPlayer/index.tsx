@@ -69,8 +69,9 @@ const TrailerPlayer = ({
     useEffect(() => {
 
         const listener = () => {
-            setDuration(videoRef.current.duration)
+            if (videoRef) {}
             try {
+                setDuration(videoRef.current.duration)
                 const r = videoRef.current.buffered;
                 const total = videoRef.current.duration;
                 const end = r.end(r.length - 1);
@@ -83,9 +84,12 @@ const TrailerPlayer = ({
         }
         videoRef.current.addEventListener("progress", listener)
         return () => {
-            videoRef.current.removeEventListener("progress", listener)
+            if (videoRef.current) {
+                videoRef.current.removeEventListener("progress", listener)
+            }
+            
         }
-    }, [currentTime])
+    }, [currentTime, videoRef])
 
     const changeVideoPercent = () => {
         videoRef.current.currentTime = duration * hoveredPercent/100
@@ -101,7 +105,7 @@ const TrailerPlayer = ({
         }}
         id="trailerFrame"
         className={`h-full w-full relative`}>
-        <video preload="metadata" ref={videoRef} className="w-full h-full" src={'http://' + videoUrl} />
+        <video preload="metadata" ref={videoRef} className="w-full h-full" src={'https://' + videoUrl} />
         <div className={`absolute bottom-0 left-0 w-full pb-4 bg-black bg-opacity-10 flex px-4`}>
         <div onClick={() => (setIsPlaying(!isPlaying))}  className={`relative lg:hover:bg-orange transition-all duration-200 rounded-lg flex-shrink-0 p-2 cursor-pointer hidden md:block w-10 h-10 bg-white bg-opacity-20`}>
           {isPlaying ? <PauseIcon/>  : <PlayIcon/>}

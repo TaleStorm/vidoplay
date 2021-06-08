@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect, useState } from "react";
-import authAxios from "../network/authAxios";
+
 
 const PlayerContext = React.createContext({
   setIsSpaceListenerActive: (arg: boolean | ((arg:boolean)=>boolean)) => { },
@@ -47,7 +47,16 @@ const PlayerContext = React.createContext({
   setVideoPercentBuffer: (arg: string) => { },
   currentVolume: 100,
   setVolumeCurrent: (arg: number) => { },
+  isTopPanelActive: false,
+  api: null,
+  setHasBeenPlayed: (arg: boolean) => { },
 });
+
+// В этой функции отправляем сообщения
+export const sendPostMessage = (message) => {
+  console.log(message)
+  return window.parent.postMessage(message, "*")
+}
 
 interface Props {
   children: ReactNode;
@@ -78,6 +87,7 @@ const PlayerContextProvider = ({ children }: Props) => {
   const [buttonState, setButton] = useState("visible");
   const [currentTimeBuffer, setVideoPercentBuffer] = useState("0");
   const [isSpaceListenerActive, setIsSpaceListenerActive] = useState(false)
+  const [isTopPanelActive, setTopPanelActive] = useState(false)
   const warningDuration = 4
 
   var removeFakeButton = () => {
@@ -85,22 +95,6 @@ const PlayerContextProvider = ({ children }: Props) => {
     setButton("hidden");
   }
 
-
-  // Определяем ориентацию (устройства)
-  // useEffect(() => {
-  //   console.log(screen.orientation.angle)
-  //   const listener = () => {
-  //     if (screen.orientation.angle === 0) {
-  //       setIsLandscape(false)
-  //     }
-  //     else {
-  //       setIsLandscape(true)
-  //     }
-  //   }
-  //   listener()
-  //   window.addEventListener("orientationchange", listener)
-  //   return () => {window.removeEventListener("orientationchange", listener)}
-  // },[])
 
   //Определяем, мобильное ли устройство при маунте
   useEffect(() => {
@@ -145,6 +139,7 @@ const PlayerContextProvider = ({ children }: Props) => {
     return () => { clearTimeout(timer) }
   }, [mobileOverlayStage])
 
+
   //Хэндлим фуллскрин
   useEffect(() => {
     if (api) {
@@ -166,12 +161,15 @@ const PlayerContextProvider = ({ children }: Props) => {
     if (api) {
       delete api._events["play"]
       api.on('play', () => {
+        if (isIntro) {
+          sendPostMessage("PLAYING_INTRO")
+        }
+        else {
+          sendPostMessage("PLAYING_VIDEO")
+        }
+
         console.log("playing")
         api.method({name: "setVolume", params: currentVolume})
-        // api.method({name: "getVolume", params: {}, callback: (e) => {
-        //   console.log(e)
-        //   
-        // }})
         setButton("hidden");
         changeActing(currentActing)
         setIsPlaying(true);
@@ -189,14 +187,17 @@ const PlayerContextProvider = ({ children }: Props) => {
       })
 
     }
-  }, [api, currentActing, currentVolume])
+  }, [api, currentActing, currentVolume, isIntro])
 
+
+  //Листенеры на ended
   useEffect(() => {
     if (api) {
       delete api._events["ended"]
       if (isIntro) {
         api.on("ended", () => {
           setIntro(false)
+          sendPostMessage("INTRO_ENDED")
           removeFakeButton();
         })
       }
@@ -204,40 +205,52 @@ const PlayerContextProvider = ({ children }: Props) => {
         api.on("ended", () => {
           api.method({ name: "seekPercentage", params: 100 });
           api.method({ name: "pause" });
+          sendPostMessage("VIDEO_ENDED")
           setIsEndedModalOpen(true);
         })
+        
       }
     }
     return () => {if (api) delete api._events["ended"]}
 
   }, [api, isIntro])
 
-  useEffect(() => { 
 
-  }, [isFullScreen, api])
+  //Реклама
+  useEffect(() => { 
+    if (api) {
+      api.on("advertisementWasStarted", () => {
+        sendPostMessage("ADS_STARTED")
+        setTopPanelActive(false)
+        setButton("hidden")
+        setPanel("hidden")
+      })
+      api.on("advertisementWasFinished", () => {
+        sendPostMessage("ADS_ENDED")
+        setTopPanelActive(true)
+        setButton("visible")
+        setPanel("visible")
+      })
+    }
+  }, [api])
 
   // Цепляем на апи листнеры
   useEffect(() => {
     
     if (api) {
       console.log(api)
-      const resizeListener = () => {
-        setTimeout(() => {
-          api.method({
-            name: "resize", params: {
-              width: "100%",
-              height: "100%"
-            }
+       if (hasBeenPlayed) {   
+          api.on("ready", () => {
+            sendPostMessage("READY_VIDEO")
+            api.method({ name: "play" });
           })
-        }, 1000)
-      }
-      if (hasBeenPlayed) {
-        delete api._events["ready"]
-        api.on("ready", () => {
-          api.method({ name: "play" });
-        })
-      }
-      window.addEventListener("resize", resizeListener)
+        }
+        else {
+          api.on("ready", () => {
+            sendPostMessage("READY_INTRO")
+          })
+        }
+
 
     }
 
@@ -312,14 +325,24 @@ const PlayerContextProvider = ({ children }: Props) => {
     }
   }
 
+  useEffect(() => {
+    const fullScreenListener = (e) => {
+      if (document.fullscreenElement) {
+        setFullScreen(true)
+        return
+      }
+      setFullScreen(false)
+    }
+    window.addEventListener("fullscreenchange", fullScreenListener)
+    return () => {window.removeEventListener("fullscreenchange", fullScreenListener)}
+  }, [])
+
   //Добляем или удаляем обработчик пробела
   useEffect(() => {
     if (isSpaceListenerActive && !isIntro)
       window.addEventListener("keydown", spaceListener);
     else
-      window.removeEventListener("keydown", spaceListener)
-
-
+      window.removeEventListener("keydown", spaceListener);
     return(()=>{window.removeEventListener("keydown", spaceListener)}) 
   }, [isSpaceListenerActive, isPlaying, isIntro])
 
@@ -397,7 +420,10 @@ const PlayerContextProvider = ({ children }: Props) => {
         currentTimeBuffer,
         setVideoPercentBuffer,
         currentVolume, 
-        setVolumeCurrent
+        setVolumeCurrent,
+        isTopPanelActive,
+        api,
+        setHasBeenPlayed
     }}
     >
       {children}

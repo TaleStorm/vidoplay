@@ -9,7 +9,6 @@ const EmbeddedPage = ({movie, movies}) => {
 
     
   const movieContext = useContext(MovieContext)
-
   const series = []
 
   console.log(movie);
@@ -33,7 +32,6 @@ const EmbeddedPage = ({movie, movies}) => {
     const next = document.getElementById("__next")
     next.classList.add("h-full")
     movieContext.setMovie({...movie})
-
   }, [])
 
 
@@ -41,15 +39,15 @@ const EmbeddedPage = ({movie, movies}) => {
     return (
         <> 
         <Head>
-        <script src="https://vplatform.gcdn.co/_players/v2.0.71/gplayerAPI.js"></script>
+
         </Head>
-        <div className={`flex-shrink-0 w-full h-full bg-black`}>
-            <Player 
-            
+        <div className={`fixed top-0 left-0 w-full h-full`}>
+        <Player
             movies={movies}
             series={series}
             />
         </div>
+
         </>
     )
 

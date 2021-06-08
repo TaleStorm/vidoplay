@@ -5,10 +5,10 @@ const usePredictor = id => {
     const [predictions, setPredictions] = useState([])
 	useEffect(() => {
         const fetchPredicitons = async () => {
-            const result = await axios.post("/api/predictions", {
+            // const result = await axios.post("/api/predictions", {
                 
-            })
-            setPredictions(result.data)
+            // })
+            // setPredictions(result.data)
         }
         fetchPredicitons()
 	}, [])

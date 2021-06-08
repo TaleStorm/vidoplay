@@ -37,9 +37,9 @@ const VkLogin = () => {
                      id: obj.user_id,
                      type: "vk"
                  })
-                 
-                 router.push("/")
+                 console.log(resp)
                  logIn(resp.data.token)
+                 router.push("/")
                  GoodToast("Логин успешен")
                 return
             }

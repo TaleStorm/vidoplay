@@ -11,6 +11,7 @@ import GoodToast from "../../components/goodtoast"
 import UserContext from "../../components/context/userContext"
 import { useRouter } from "next/router"
 import apiReq from "../../services/api-requests"
+import Head from "next/head"
 
 const ApiReq = new apiReq()
 
@@ -26,7 +27,7 @@ const IndexPage = () => {
 
   const [loading, setLoading] = useState(true)
   const [filmLoading, setFilmLoading] = useState(false)
-  const {display, setDisplay} = useContext(UserDisplayContext)
+  const { display, setDisplay } = useContext(UserDisplayContext)
   const [isNewData, setIsNewData] = useState(true)
 
   const [history, setHistory] = useState([])
@@ -94,7 +95,7 @@ const IndexPage = () => {
       setFavourites(user.list.favorites)
       setHistory(user.list.favorites)
     }
-    
+
     setLoading(false)
   }
 
@@ -127,6 +128,14 @@ const IndexPage = () => {
 
   return (
     <>
+      <Head>
+        <link rel="canonical" href="https://chillvision.ru/user" />
+        <meta property="og:title" content="Профиль Chill Vision" />
+        <meta property="og:description" content="Информация о профиле, история просмотров, избранное" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={"https://chillvision.ru/user"} />
+        <meta property="og:image" content="https://chillvision.ru/images/aboutChill.png" />
+      </Head>
       <ModalOverlay modalOpen={exitModalOpen} setModalOpen={setExitModalOpen} classes={`px-4`}>
         <div
           className={`w-full h-auto bg-popupBackground mt-30 flex flex-col items-center sm:px-8 px-4 pt-4 pb-8 max-w-md mx-auto`}
@@ -139,8 +148,8 @@ const IndexPage = () => {
                 router.push("/")
                 localStorage.removeItem("_user")
                 logOut("")
-                
-                
+
+
               }}
               className="mb-3 text-center text-h2-mobile text-white bg-orange p-3 duration-300 rounded-lg hover:bg-orange w-full"
             >

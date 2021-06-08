@@ -31,7 +31,7 @@ export default function ProgressBar({isMobile, setCurrentVolumeY, ...data}) {
     const volumeRef = useRef(null) as MutableRefObject<HTMLDivElement>
 
     const muteController = (        
-      <div className={`w-9 h-9 mr-4 flex-shrink-0 md:hidden
+      <div className={`absolute bottom-1 left-0 xs:static w-8 h-8 xs:w-9 xs:h-9 md:h-11 md:w-11 mr-4 flex-shrink-0 md:hidden
       `}>
               <MuteIcon/>
           </div>)
@@ -39,10 +39,9 @@ export default function ProgressBar({isMobile, setCurrentVolumeY, ...data}) {
     return(
       <div  
         className={`
-          ${isMobile ? "hidden" : "flex"}
           ${fullScreenHide && "hidden"}
-          ${isIntro && "hidden"}
-          absolute md:bottom-4 px-5 pb-5 md:px-0 md:pb-0 bottom-0 z-20 inset-x-0 md:mx-4 w-auto  items-end`
+          ${isIntro && "invisible"}
+          absolute md:bottom-4 xs:px-5 px-2 xs:pb-5 pb-1 md:px-0 md:pb-0 bottom-0 z-20 inset-x-0 md:mx-4 w-auto xs:flex items-end`
         }
       > 
         <div onClick={() => (setIsPlaying(!isPlaying))}  className={`relative lg:hover:bg-orange transition-all duration-200 rounded-lg flex-shrink-0 p-2 cursor-pointer hidden md:block w-10 h-10 bg-white bg-opacity-20 z-10`}>
@@ -50,7 +49,7 @@ export default function ProgressBar({isMobile, setCurrentVolumeY, ...data}) {
         </div>
         <div 
         onClick={() => data.setPlay()}
-        className={`md:hidden w-9 h-9 mr-4 flex-shrink-0`}>
+        className={`md:hidden w-9 h-9 mr-4 flex-shrink-0 absolute hidden xs:block xs:static`}>
          {isPlaying ? <PauseIcon/> : <PlayIcon/>}
         </div>
         <MenuWrapper controller={muteController}>
@@ -97,7 +96,7 @@ export default function ProgressBar({isMobile, setCurrentVolumeY, ...data}) {
 
         </MenuWrapper>
         <div
-        className={`text-h2-mobile font-medium md:hidden flex-shrink-0 mr-3`}
+        className={`text-h2-mobile font-medium hidden xs:block md:hidden flex-shrink-0 mr-3`}
         >
           {currentTimeUser}
         </div>
@@ -121,7 +120,7 @@ export default function ProgressBar({isMobile, setCurrentVolumeY, ...data}) {
                   data.setDrag(false)  
               }}
             >
-                <div className=" bg-white top-0 bg-opacity-20 w-full h-6 z-10">
+                <div className=" bg-white top-0 bg-opacity-20 w-full xs:h-6 h-2 z-10">
                   <div  className={`mb-2 w-1 overflow-visible text-center z-20 justify-center items-center absolute bottom-6 flex ${data.draggerVisible ? '':'hidden'}`} style={{ left:data.draggerPercent + "%" }}>
                       <div className={`absolute h-10 -top-12 w-36 bg-white bg-opacity-20 flex justify-center rounded-xl`}>
                       <span className="text-white text-sm pointer-events-none flex items-center font-medium" >
@@ -216,7 +215,7 @@ export default function ProgressBar({isMobile, setCurrentVolumeY, ...data}) {
               </Menu>
             </div>
         <div
-        className={`text-h2-mobile font-medium ml-3 md:hidden`}
+        className={`text-h2-mobile font-medium ml-3 hidden xs:block md:hidden`}
         >
         {durationTimeUser}
         </div>
@@ -229,7 +228,7 @@ export default function ProgressBar({isMobile, setCurrentVolumeY, ...data}) {
           
         }}
         className={`cursor-pointer block ml-3 md:ml-0`}>
-          <div className={`w-9 h-9 md:h-11 md:w-11 md:p-1.5 md:bg-white md:bg-opacity-20 rounded-lg md:hover:bg-orange flex items-center`}>
+          <div className={`absolute xs:static right-2 bottom-4 w-8 h-8  xs:w-9 xs:h-9 md:h-11 md:w-11 md:p-1.5 md:bg-white md:bg-opacity-20 rounded-lg md:hover:bg-orange flex items-center`}>
             <FullScreenIcon isFullScreen={data.isFullScreen}/>
           </div>
         </div>

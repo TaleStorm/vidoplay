@@ -6,7 +6,15 @@ import MovieContext from "./context/movieContext";
 import Tabs from "./Tabs";
 import TrailerPlayer from "./trailerPlayer";
 
-export default function Video(data) {
+export default function Video({
+    name,
+    series,
+    movies,
+    langs,
+    isSerial,
+    video,
+    allow=true
+}) {
     const targetRef = useRef() as MutableRefObject<HTMLDivElement>
     const containRef = useRef() as MutableRefObject<HTMLDivElement>
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
@@ -59,7 +67,10 @@ export default function Video(data) {
     }, [isFullScreen])
 
     const isActive  = () => {
-        if((data.movies?.length > 0 && data.series?.length > 0) || (data.video !== '')){
+        if (!allow) {
+            return false
+        }
+        if((movies?.length > 0 && series?.length > 0) || (video !== '')){
             return true
         }else{
             return false
@@ -67,13 +78,13 @@ export default function Video(data) {
     }
 
     return (
-        <>
+        <>            
             <div className="mb-14 flex items-center">
                 <h4 className="hidden mt-6 font-roboto text-mainText font-normal text-3xl sm:block mb-4 col-span-1 w-full">
-                    {data.name}
+                    {name}
                 </h4>
                 <div className="hidden sm:block">
-                    <ShareButtons url={shareUrl} title={data.name} image={movie.image} text="Смотрите на Chill" />
+                    <ShareButtons url={shareUrl} title={name} image={movie.image} text="Смотрите на Chill" />
                 </div>
             </div>
             <div ref={containRef} className={`md:mx-auto ${isFullScreen ? "fixed h-full max-h-full top-0 left-0 z-50" : "max-w-5xl"}  w-full`}>
@@ -82,20 +93,20 @@ export default function Video(data) {
                     <Tabs startIndex={0} tabs={["Плеер", "Трейлер"]}>
                         {isActive() ? (
                             <PLayer
-                                movies={data.movies}
+                                movies={movies}
                                 width={String(dimensions.width)}
                                 height={String(dimensions.height)}
-                                series={data.series}
-                                langs={data.langs}
-                                name={data.name}
+                                series={series}
+                                langs={langs}
+                                name={name}
                                 parentRef={targetRef}
                                 isFullScreen={isFullScreen}
                                 setFullScreen={setFullScreen}
-                                isSerial={data.isSerial}
+                                isSerial={isSerial}
                             />) :
                             (<div className="flex justify-center items-center w-full h-full">
                                 <h1 className="text-h1-mobile sm:text-3xl">
-                                    Видео скоро появится
+                                   {allow ? "Видео скоро появится" : "Видео не доступно в вашем регионе"} 
                             </h1>
                             </div>)}
                         <TrailerPlayer videoUrl={movie.trailer}/>
@@ -114,10 +125,10 @@ export default function Video(data) {
                 </div>
             </div>
             <h4 className="mt-6 font-roboto text-mainText font-normal text-xl sm:hidden block sm:mb-5 col-span-1">
-                {data.name}
+                {name}
             </h4>
             <div className="sm:hidden">
-                <ShareButtons wrap url={"http://coderhs.com/archive/change_text_url"} title={data.name} image={movie.image} text="Смотрите на Chill" />
+                <ShareButtons wrap url={"http://coderhs.com/archive/change_text_url"} title={name} image={movie.image} text="Смотрите на Chill" />
             </div>
             <div className={`w-full`}>
 

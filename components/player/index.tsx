@@ -18,6 +18,37 @@ import PlayerContext from "../context/playerContext";
 import MovieContext from "../context/movieContext";
 import AgeWarning from "./ageWarning";
 
+// useEffect(() => {
+//   if (api) {
+//     api.method({
+//       name: 'getCurrentTime', params: {}, callback: (res) => {
+//         setVideoCurrent(res)
+//         setIntervalVideo(setInterval(() => tick(), 500));
+//         const percent = 100 * res / durationTime
+//         setVideoPercentCurrent(percent.toFixed(1))
+//       }
+//     })
+//   }
+// }, [durationTime,api])
+
+// useEffect(() => {
+//   if (api) {
+//   api.method({name: "pause"})
+//   }
+// }, [currentSerie])
+
+// useEffect(() => {
+//   if (api) {
+//     api.method({
+//       name: 'getCurrentTime', params: {}, callback: (res) => {
+//         setVideoCurrent(res)
+//         const percent = 100 * res / durationTime
+//         setVideoPercentCurrent(percent.toFixed(1))
+//       }
+//     })
+//   }
+// }, [realInterval,durationTime])
+
 export default function Player(data) {
   //Контекст, в идеале запихнуть в него всю функциональную часть плеера, здесь оставив лишь декорации
   const {
@@ -51,7 +82,10 @@ export default function Player(data) {
     setButton,
     setIsSpaceListenerActive,
     currentVolume,
-    setVolumeCurrent
+    setVolumeCurrent,
+    setIntro,
+    api,
+    setHasBeenPlayed
   } = useContext(PlayerContext)
 
   const [interval, setIntervalVideo] = useState(undefined);
@@ -63,70 +97,41 @@ export default function Player(data) {
   const [currentQuality, setCurrentQuality] = useState("AUTO");
   const [isCompliationModalOpen, setIsCompliationModalOpen] = useState(false);
   const [currentCompilationMovie, setCurrentCompilationMovie] = useState(data.movies[0]);
-  const [globalGplayerAPI, setPlayer] = useState(undefined);
   const [draggerPercent, setDraggerPercent] = useState("0");
   const [draggerVisible, setDraggerVisible] = useState(false);
   const [possibleDurationTime, setPossibleDurationTime] = useState(0);
 
-  //скелет
-  const [isLoaded, setisLoaded] = useState(true);
-
-  
-  const intro = "https://chillvision.gcdn.co/videos/18824_73D1CCWxB499h8xa"
-
-  const getPlayer = useCallback(async () => {
-    setVideoPercentCurrent("0");
-    console.log((window as any))
-    const GcorePlayer = (window as any).GcorePlayer.gplayerAPI;
-    const gplayerAPI = new GcorePlayer(document.getElementById("gplayer"))
-
-    const fullScreenListener = (e) => {
-      if (document.fullscreenElement) {
-        setApi(gplayerAPI)
-        setFullScreen(true)
-        return
-      }
-      setFullScreen(false)
-      setApi(gplayerAPI)
-    }
-    window.addEventListener("fullscreenchange", fullScreenListener)
-
-
-    setPlayer(gplayerAPI);
-    setApi(gplayerAPI)
-    return { gplayerAPI: gplayerAPI, userWindow: { width: (window).innerWidth, height: (window).innerHeight } }
-  }, []) 
-
   useEffect(() => {
-    if (globalGplayerAPI) {
-      globalGplayerAPI.method({
+    if (api) {
+      api.method({
         name: 'getCurrentTime', params: {}, callback: (res) => {
           setVideoCurrent(res)
           setIntervalVideo(setInterval(() => tick(), 500));
           const percent = 100 * res / durationTime
           setVideoPercentCurrent(percent.toFixed(1))
         }
-      })
+     })
     }
-  }, [durationTime,globalGplayerAPI])
+  }, [durationTime,api])
 
-  useEffect(() => {
-    if (globalGplayerAPI) {
-    globalGplayerAPI.method({name: "pause"})
-    }
-  }, [currentSerie])
+   useEffect(() => {
+  if (api) {
+    api.method({
+      name: 'getCurrentTime', params: {}, callback: (res) => {
+        setVideoCurrent(res)
+        const percent = 100 * res / durationTime
+        setVideoPercentCurrent(percent.toFixed(1))
+     }
+     })
+  }
+ }, [realInterval,durationTime])
+ 
 
-  useEffect(() => {
-    if (globalGplayerAPI) {
-      globalGplayerAPI.method({
-        name: 'getCurrentTime', params: {}, callback: (res) => {
-          setVideoCurrent(res)
-          const percent = 100 * res / durationTime
-          setVideoPercentCurrent(percent.toFixed(1))
-        }
-      })
-    }
-  }, [realInterval,durationTime])
+  //скелет
+  const [isLoaded, setisLoaded] = useState(true);
+
+  
+  const intro = "https://chillvision.gcdn.co/videos/18824_73D1CCWxB499h8xa"
 
   var tick = () => {
     if (realInterval > 60) {
@@ -136,17 +141,12 @@ export default function Player(data) {
   }
 
   useEffect(() => {
-    if (globalGplayerAPI) {
+    if (api) {
       setIsSpaceListenerActive(true)
     }
 
     return () => {setIsSpaceListenerActive(false)}
-  }, [isPlaying, globalGplayerAPI])
-
-
-
-
-
+  }, [isPlaying, api])
 
   var changeVideo = async (direction) => {
     if (direction == "prev") {
@@ -167,11 +167,11 @@ export default function Player(data) {
   var changeMute = async () => {
     if (isMuted) {
       setMute(false);
-      globalGplayerAPI.method({ name: "unmute" });
+      api.method({ name: "unmute" });
       setVolumeCurrent(bufferVolume);
     } else {
       setMute(true);
-      globalGplayerAPI.method({ name: "mute" });
+      api.method({ name: "mute" });
       setVolumeBuffer(currentVolume);
       setVolumeCurrent(0);
     }
@@ -181,7 +181,7 @@ export default function Player(data) {
     const target = e.target.getBoundingClientRect();
     const percent = 100 * (e.clientX - target.x) / e.target.parentElement.offsetWidth
     if (isDragged) {
-      globalGplayerAPI.method({ name: "seekPercentage", params: percent.toFixed(1) })
+      api.method({ name: "seekPercentage", params: percent.toFixed(1) })
     }
     setDraggerVisible(true)
     setDraggerPercent((percent).toFixed(1))
@@ -196,14 +196,14 @@ export default function Player(data) {
   var setCurrentDuration = (e) => {
     const target = e.target.getBoundingClientRect();
     const percent = 100 * (e.clientX - target.x) / e.target.parentElement.offsetWidth
-    globalGplayerAPI.method({ name: "seekPercentage", params: percent.toFixed(1) })
+    api.method({ name: "seekPercentage", params: percent.toFixed(1) })
   }
 
   var changeCurrentVolume = (e) => {
     setMute(false);
     const target = e.target.parentElement.getBoundingClientRect();
     const percent = 100 * (e.clientX - target.x) / e.target.parentElement.offsetWidth
-    globalGplayerAPI.method({ name: "setVolume", params: percent.toFixed(0) })
+    api.method({ name: "setVolume", params: percent.toFixed(0) })
     setVolumeCurrent(Number(percent.toFixed(0)))
   }
 
@@ -211,6 +211,7 @@ export default function Player(data) {
     const bounds = ref.current.getBoundingClientRect()
     const value = 1 - ((e.clientY - bounds.y)/bounds.height)
     setVolumeCurrent(Number((value * 100).toFixed(0)))
+    api.method({ name: "setVolume", params: Number((value * 100).toFixed(0)) })
   }
 
   const changeCurrentVolumeY = (e, ref) => {
@@ -218,13 +219,13 @@ export default function Player(data) {
     const target = ref.current.parentElement.getBoundingClientRect();
     const result = (((target.height - (e.changedTouches[0].clientY - target.y))/ target.height) * 100)
     const percent = result < 100.1 ? result : 100
-    globalGplayerAPI.method({ name: "setVolume", params: percent.toFixed(0) })
+    api.method({ name: "setVolume", params: percent.toFixed(0) })
     setVolumeCurrent(Number(percent.toFixed(0)))
   }
 
   var changeCurrentLevel = (quality) => {
     setCurrentQuality(quality);
-    globalGplayerAPI.method({
+    api.method({
       name: 'getPlugin', params: {
         pluginName: 'level_selector',
         pluginMethod: 'setLevel',
@@ -274,9 +275,39 @@ export default function Player(data) {
   const predictions = useContext(MovieContext)
   useEffect(() => {
     //set global player API
-    getPlayer()
-    return () => {globalGplayerAPI.method({name: "pause"})}
+    setVideoPercentCurrent("0");
+    const frame = document.getElementById("gplayer")
+    const GcorePlayer = (window as any).GcorePlayer.gplayerAPI;
+    const gplayerAPI = new GcorePlayer(frame)
+    setApi(gplayerAPI)
+    
+    return () => {
+      setButton("visible")
+      setIsPlaying(false)
+      setIntro(true)
+      setHasBeenPlayed(false) 
+      setApi(null)
+    }
   }, [])
+
+
+  useEffect(() => {
+
+
+    if (api) {
+      changeSerie(0)
+    }
+    return () => {
+      if (api) {
+        delete api._events["play"]
+        delete api._events["ready"]
+        delete api._events["progress"]
+        delete api._events["advertisementWasStarted"]
+        delete api._events["advertisementWasFinished"]
+      }
+    }
+
+  }, [api])
 
   const TouchListener = async (e) => {
     const playingPanel = document.getElementById("playingPanel")
@@ -308,11 +339,6 @@ export default function Player(data) {
   return (
     <div className={`h-full`} >
       <div draggable={false} id="mainframe" className={`${isLoaded ? "visible" : "hidden"} h-full`}>
-        {/* <FullScreen onChange={(e) => {console.log(e)}} className={`relative`} handle={handle}>
-          <div className={`w-full h-full bg-gradient-to-t from-orange to-loveTag`}>
-
-          </div>
-        </FullScreen> */}
           <div
           style={{
           }}
@@ -325,10 +351,10 @@ export default function Player(data) {
             className={`relative inline-block w-full h-full`}
           >
             <iframe
-              width={data.width}
-              height={data.height}
+              width="100%"
+              height="100%"
               tabIndex={-1}
-              src={isIntro ? `${intro}?player_id=777` : `${data.series[currentSeason] && data.series[currentSeason][currentSerie].videoId || intro}?player_id=777`}
+              src={isIntro ? `${intro}?player_id=777&autoplay=false` : `${data.series[currentSeason] && data.series[currentSeason][currentSerie].videoId || intro}?player_id=777`}
               // src={`${data.series[currentSeason][currentSerie].videoId}?player_id=777`}
               // src={`${intro}?player_id=777`}
               allowFullScreen
@@ -483,28 +509,6 @@ export default function Player(data) {
               isFullScreen={isFullScreen}
             />
             </div>
-
-            <MobileProgressBar 
-              isMobile={isMobile}
-              mobileOverlayStage={mobileOverlayStage}
-              setMobileOverlayStage={setMobileOverlayStage}
-              globalGplayerAPI = {globalGplayerAPI}
-              isFullScreen = {isFullScreen}
-              fullScreenFunc={fullScreenFunc}
-              possibleDurationTime={possibleDurationTime}
-              setMouseOver={setMouseOver}
-              draggerPercent={draggerPercent}
-              draggerVisible={draggerVisible}
-              setDrag={setDrag}
-              currentTimePercent={currentTimePercent}
-              bufferTimePercent={currentTimeBuffer}
-              getMousePos={getMousePos}
-              setCurrentDuration={setCurrentDuration}
-              durationTime={durationTime}
-              currentTime={currentTime}
-              setCurrentVolume={changeCurrentVolumeY}
-              currentVolume={currentVolume}
-            />
               <ProgressBar
                 isMobile = {isMobile}
                 possibleDurationTime={possibleDurationTime}
