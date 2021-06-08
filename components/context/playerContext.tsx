@@ -1,6 +1,5 @@
 import React, { ReactNode, useEffect, useState } from "react";
 
-
 const PlayerContext = React.createContext({
   setIsSpaceListenerActive: (arg: boolean | ((arg:boolean)=>boolean)) => { },
   setFullScreen: (arg: boolean) => { },
@@ -54,7 +53,7 @@ const PlayerContext = React.createContext({
 
 // В этой функции отправляем сообщения
 export const sendPostMessage = (message) => {
-  console.log(message)
+  // console.log(message)
   return window.parent.postMessage(message, "*")
 }
 
@@ -94,7 +93,6 @@ const PlayerContextProvider = ({ children }: Props) => {
     setPanel("visible");
     setButton("hidden");
   }
-
 
   //Определяем, мобильное ли устройство при маунте
   useEffect(() => {
@@ -168,7 +166,7 @@ const PlayerContextProvider = ({ children }: Props) => {
           sendPostMessage("PLAYING_VIDEO")
         }
 
-        console.log("playing")
+        // console.log("playing")
         api.method({name: "setVolume", params: currentVolume})
         setButton("hidden");
         changeActing(currentActing)
@@ -238,7 +236,7 @@ const PlayerContextProvider = ({ children }: Props) => {
   useEffect(() => {
     
     if (api) {
-      console.log(api)
+      // console.log(api)
        if (hasBeenPlayed) {   
           api.on("ready", () => {
             sendPostMessage("READY_VIDEO")
@@ -303,7 +301,7 @@ const PlayerContextProvider = ({ children }: Props) => {
   //Прячем курсор когда надо, а когда не надо, не прячем)
   useEffect(() => {
     const body = document.querySelector('body')
-    console.log("cursor changed")
+    // console.log("cursor changed")
     if (fullScreenHide) {
       body.style.cursor = "none"
     }

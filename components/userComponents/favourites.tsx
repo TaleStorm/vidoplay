@@ -1,7 +1,6 @@
 import MiniFavouritesFilmCard from "../filmCards/miniFavouritesFilmCard"
 
 const Favourites = ({films}) => {
-    console.log(films)
     return (
         <div className={`w-full`}>
             <div className={`w-full`}>
