@@ -7,6 +7,7 @@ import apiReq from "../../services/api-requests"
 const ApiReq = new apiReq()
 
 const IndexPage = ({ playlist, movies, comments }) => {
+    // console.log(movies);
     return (
         <>
             <div className="w-full ">
@@ -59,14 +60,27 @@ const IndexPage = ({ playlist, movies, comments }) => {
 export const getServerSideProps = async (ctx) => {
     const { category } = ctx.query
 
-    const playlist = await ApiReq.getSingleEntity("playlists",category)
     const comments = await ApiReq.getEntities("comments")
-    const movies = []
+    
+    const playlists = await ApiReq.getEntities("playlists")
+    console.log(playlists)
+    const playlist = playlists[0]
 
-    for (let movie in playlist.movies) {
-        const movieInfo = await ApiReq.getSingleEntity("movies",playlist.movies[movie]._id)
-        movies.push(movieInfo)
-    }
+    
+    const result = await ApiReq.getPlaylistMovies(playlist._id)
+    const movies = [...result.data]
+
+    // const playlist = await ApiReq.getSingleEntity("playlists",category)
+    // console.log(playlist)
+    // const comments = await ApiReq.getEntities("comments")
+    // let movies = await ApiReq.getPlaylistMoves(playlist._id)
+
+    // console.log(movies)
+
+    // for (let movie in playlist.movies) {
+    //     const movieInfo = await ApiReq.getSingleEntity("movies",playlist.movies[movie]._id)
+    //     movies.push(movieInfo)
+    // }
     return({props: { playlist, movies, comments }})
 }
 

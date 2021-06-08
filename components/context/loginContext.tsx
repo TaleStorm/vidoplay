@@ -8,6 +8,8 @@ import AuthModalContext from "./authModalContext";
 import UserContext from "./userContext";
 import apiReq from "../../services/api-requests"
 
+const ApiReq = new apiReq()
+
 
 function setCookie(name, value, options) {
 
@@ -188,6 +190,10 @@ const handleGoogleLogin = async (data) => {
   const logIn = async (token: string) => {
     let valid 
     try {
+      // const validateData = {
+      //   token: token
+      // }
+      // valid = await ApiReq.validate(validateData)
       valid = await axios.post("/api/validate", { token });
       document.cookie = `chill_token=${token}`
       setUserToken(token)

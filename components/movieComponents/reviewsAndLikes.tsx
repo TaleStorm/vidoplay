@@ -9,6 +9,13 @@ import apiReq from "../../services/api-requests"
 
 const ApiReq = new apiReq()
 
+function getCookie(name) {
+    let matches = document.cookie.match(new RegExp(
+      "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
 const ReviewsAndLikes = ({setscore, score, movie, movieId}) => {
     const authModalContext = useContext(AuthModalContext)
     const loginContext = useContext(LoginContext)
@@ -19,9 +26,10 @@ const ReviewsAndLikes = ({setscore, score, movie, movieId}) => {
     const stars = [1,2,3,4,5]
 
     const updateFavoriteFilm = async (additional) => {
+        const token = getCookie("chill_token");
         const data = {
             _movieId: movieId,
-            _userId: localStorage.getItem('_user')
+            _userId: token
         }
         const result = Object.assign(data, additional)
         await ApiReq.updateFavoriteFilm(result)
@@ -60,10 +68,11 @@ const ReviewsAndLikes = ({setscore, score, movie, movieId}) => {
 
     useEffect(() => {
         async function fetchMyAPI() {
-            if (localStorage.getItem('_user')) {
+            const token = getCookie("chill_token");
+            if (token) {
                 const data = {
                     _movieId: movieId,
-                    _userId: localStorage.getItem('_user')
+                    _userId: token
                 }
                 const res = await ApiReq.getFavoriteFilm(data)
                 setscore(res.score)
@@ -114,7 +123,7 @@ const ReviewsAndLikes = ({setscore, score, movie, movieId}) => {
         <div className="text-sm col-span-1 flex flex-row sm:justify-end justify-center items-center content-end mt-8 ">
             <div className="self-center mr-5 flex justify-center w-full sm:w-auto bg-popupBackground sm:bg-transparent py-2 sm:py-0">
                 <h6 className="font-roboto mr-2 text-mainText text-base inline self-center">
-                    {likes}
+                    {likes < 0 ? 0 : likes}
                 </h6>
                 <div 
                 onClick={() => {
@@ -127,7 +136,7 @@ const ReviewsAndLikes = ({setscore, score, movie, movieId}) => {
 
             <a className="self-center flex justify-center w-full sm:w-auto bg-popupBackground sm:bg-transparent py-2 sm:py-0">
                 <h6 className="font-roboto mr-2 text-mainText text-base self-center">
-                    {dislikes}
+                    {dislikes < 0 ? 0 : dislikes}
                 </h6>
                 <div 
                 onClick={() => {

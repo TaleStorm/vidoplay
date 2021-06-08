@@ -172,7 +172,7 @@ export const getServerSideProps = async (ctx) => {
   const playlists = await ApiReq.getEntities("playlists")
   const playlist = playlists[0]
   const movie = await ApiReq.getMovieBySringName(stringName)
-  const result = await ApiReq.getPlaylistMoves(playlist._id)
+  const result = await ApiReq.getPlaylistMovies(playlist._id)
   const movies = [...result.data]
   const comments = await ApiReq.getComments(movie._id)
   const ip = requestIp.getClientIp(ctx.req)
