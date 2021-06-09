@@ -26,20 +26,19 @@ const IndexPage = ({ playlist, movies, comments }) => {
                             {playlist.name}
                     </h2>
                     <div className={`grid gap-x-8 gap-y-6 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1`}>
-                    {movies.map((card, i) => (
-                            // <FilmCategorySliderCard key={i} {...dorama} imageSize={"52"} />
+                        {movies.map((card, i) => (
                             <div className={`h-full`}>
-                            <FilmCategorySliderCard 
-                    title={card.title} 
-                    image={card.image}
-                    stringName={card.stringName}
-                    imageSize={"40"}
-                    excerpt={card.excerpt}
-                    localization={card.localization}
-                    _comment={card._comment}
-                    score={card.score}
-                    tags={card.tags}
-                            />
+                                <FilmCategorySliderCard 
+                                    title={card.title} 
+                                    image={card.image}
+                                    stringName={card.stringName}
+                                    imageSize={"40"}
+                                    excerpt={card.excerpt}
+                                    localization={card.localization}
+                                    _comment={card._comment}
+                                    score={card.score}
+                                    tags={card.tags}
+                                />
                             </div>
                         ))}
                     </div>
@@ -59,14 +58,15 @@ const IndexPage = ({ playlist, movies, comments }) => {
 export const getServerSideProps = async (ctx) => {
     const { category } = ctx.query
 
-    const playlist = await ApiReq.getSingleEntity("playlists",category)
     const comments = await ApiReq.getEntities("comments")
-    const movies = []
+    
+    const playlists = await ApiReq.getEntities("playlists")
+    console.log(playlists)
+    const playlist = playlists[0]
 
-    for (let movie in playlist.movies) {
-        const movieInfo = await ApiReq.getSingleEntity("movies",playlist.movies[movie]._id)
-        movies.push(movieInfo)
-    }
+    
+    const result = await ApiReq.getPlaylistMovies(playlist._id)
+    const movies = [...result.data]
     return({props: { playlist, movies, comments }})
 }
 

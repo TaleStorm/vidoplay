@@ -105,7 +105,7 @@ export const getStaticProps = async (ctx) => {
   const comments = await ApiReq.getEntities("comments")
   const reqArr = []
   for (let playlist of playlists) {
-    reqArr.push(ApiReq.getPlaylistMoves(playlist._id))
+    reqArr.push(ApiReq.getPlaylistMovies(playlist._id))
   }
   const moviesData = await Promise.all(reqArr)
   const movies = moviesData.map((movieData) => {

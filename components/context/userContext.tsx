@@ -11,7 +11,10 @@ const UserContext = React.createContext({
         lastname: '',
         _vkId: '',
         _password: '',
-        list: { favorites: [], commnets: [], video: [], likes: [], dislikes: [] },
+        list: { 
+          favorites: [], 
+          history: [], 
+        },
         _user: ''
     }    
 });
@@ -29,7 +32,7 @@ const UserContextProvider = ({ children }: Props) => {
     lastname: '',
     _vkId: '',
     _password: '',
-    list: { favorites: [], commnets: [], video: [], likes: [], dislikes: [] },
+    list: { favorites: [], history: [] },
     _user: ''
   })
 
@@ -46,7 +49,7 @@ const UserContextProvider = ({ children }: Props) => {
         lastname: '',
         _vkId: '',
         _password: '',
-        list: { favorites: [], commnets: [], video: [], likes: [], dislikes: [] },
+        list: { favorites: [], history: [] },
         _user: ''
       })
   }

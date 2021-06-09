@@ -5,9 +5,9 @@ const Favourites = ({films}) => {
         <div className={`w-full`}>
             <div className={`w-full`}>
                 <div className={`grid gap-x-8 gap-y-6 lg:grid-cols-3`}>
-                    {films.map((film, i: number) => (
-                        <MiniFavouritesFilmCard key={`${film.title}${i}`} filmId={film.movieId} imageSize={"40"} />
-                    ))}
+                    {films ? films.map((film, i: number) => (
+                        <MiniFavouritesFilmCard key={`${film.title}${i}`} imageSize={"40"} filmData={film} />
+                    )): ""}
                 </div>
             </div>
         </div>
