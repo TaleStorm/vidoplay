@@ -112,7 +112,8 @@ const PlayerContextProvider = ({ children }: Props) => {
         api.method({ name: "setVolume", params: currentVolume });
         setRealPanel("hidden")
         setMobileOverlayStage(0)
-        api.method({ name: "play" })
+        api.method({ name: "play", params: {}, callback: (e) => {
+        } })
         setHasBeenPlayed(true)
         if (!hasBeenPlayed) {
           setIsWarningVisible(true)
@@ -163,9 +164,9 @@ const PlayerContextProvider = ({ children }: Props) => {
           sendPostMessage("PLAYING_INTRO")
         }
         else {
+          
           sendPostMessage("PLAYING_VIDEO")
         }
-
         // console.log("playing")
         api.method({name: "setVolume", params: currentVolume})
         setButton("hidden");
@@ -239,12 +240,13 @@ const PlayerContextProvider = ({ children }: Props) => {
       // console.log(api)
        if (hasBeenPlayed) {   
           api.on("ready", () => {
+
             sendPostMessage("READY_VIDEO")
-            api.method({ name: "play" });
           })
         }
         else {
           api.on("ready", () => {
+
             sendPostMessage("READY_INTRO")
           })
         }
@@ -345,10 +347,18 @@ const PlayerContextProvider = ({ children }: Props) => {
   }, [isSpaceListenerActive, isPlaying, isIntro])
 
   var changeSerie = async (newSerie) => {
-    setPanel("hidden");
+   
     setIntro(true);
     setIsWarningVisible(true)
-    setIsPlaying(false)
+    if (!isIntro) {
+      setPanel("hidden");
+      setIsPlaying(false)
+    }
+    else {
+      api.method({name: "seekPercentage", params: 0})
+      api.method({name: "play"})
+    }
+    
     setMobileOverlayStage(0)
     if (isEndedModalOpen) {
       setIsEndedModalOpen(false);
