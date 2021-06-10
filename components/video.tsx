@@ -92,7 +92,7 @@ export default function Video({
                 <div
                     className="relative w-full h-full" ref={targetRef}>
                     <Tabs startIndex={0} tabs={["Плеер", "Трейлер"]}>
-                        {isActive() ? (
+                        {true ? (
                             <PLayer
                                 movies={movies}
                                 width={String(dimensions.width)}

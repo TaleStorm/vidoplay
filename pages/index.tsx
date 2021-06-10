@@ -91,6 +91,7 @@ export const getStaticProps = async (ctx) => {
   const movies = moviesData.map((movieData) => {
     return movieData.data
   })
+  console.log(moviesData)
   
 
   return {

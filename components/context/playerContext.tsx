@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useMemo, useState } from "react";
 
 const PlayerContext = React.createContext({
   setIsSpaceListenerActive: (arg: boolean | ((arg:boolean)=>boolean)) => { },
@@ -49,6 +49,7 @@ const PlayerContext = React.createContext({
   isTopPanelActive: false,
   api: null,
   setHasBeenPlayed: (arg: boolean) => { },
+  isIphone: false
 });
 
 // В этой функции отправляем сообщения
@@ -93,6 +94,26 @@ const PlayerContextProvider = ({ children }: Props) => {
     setPanel("visible");
     setButton("hidden");
   }
+
+  const [isIphone, setIsIphone] = useState(false)
+
+  useEffect(() => {
+    function iOS() {
+      return [
+        'iPad Simulator',
+        'iPhone Simulator',
+        'iPod Simulator',
+        'iPad',
+        'iPhone',
+        'iPod'
+      ].includes(navigator.platform)
+      // iPad on iOS 13 detection
+      || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+    }
+    setIsIphone(iOS())
+  }, [])
+
+ 
 
   //Определяем, мобильное ли устройство при маунте
   useEffect(() => {
@@ -164,14 +185,13 @@ const PlayerContextProvider = ({ children }: Props) => {
           sendPostMessage("PLAYING_INTRO")
         }
         else {
-          
           sendPostMessage("PLAYING_VIDEO")
         }
         // console.log("playing")
         api.method({name: "setVolume", params: currentVolume})
         setButton("hidden");
         changeActing(currentActing)
-        setIsPlaying(true);
+        setIsPlaying(true)
         api.method({
           name: 'getDuration', params: {}, callback: (res) => {
             setVideoDuration(res);
@@ -237,16 +257,14 @@ const PlayerContextProvider = ({ children }: Props) => {
   useEffect(() => {
     
     if (api) {
-      // console.log(api)
+       console.log(api)
        if (hasBeenPlayed) {   
           api.on("ready", () => {
-
             sendPostMessage("READY_VIDEO")
           })
         }
         else {
           api.on("ready", () => {
-
             sendPostMessage("READY_INTRO")
           })
         }
@@ -431,7 +449,8 @@ const PlayerContextProvider = ({ children }: Props) => {
         setVolumeCurrent,
         isTopPanelActive,
         api,
-        setHasBeenPlayed
+        setHasBeenPlayed,
+        isIphone
     }}
     >
       {children}
