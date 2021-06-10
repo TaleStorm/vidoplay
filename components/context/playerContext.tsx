@@ -258,9 +258,11 @@ const PlayerContextProvider = ({ children }: Props) => {
     
     if (api) {
        console.log(api)
-       if (hasBeenPlayed) {   
+       if (hasBeenPlayed) {  
+
           api.on("ready", () => {
             sendPostMessage("READY_VIDEO")
+            api.method({name: "play"})
           })
         }
         else {
