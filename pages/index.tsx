@@ -36,8 +36,6 @@ function IndexPage({ playlists = [], movies, comments, banners }) {
               <div className={`mb-10`}>
                 <Slider cards={banners} />
               </div>
-
-              {/* <PartnerSlider cards={partnerCards} cardToShow={3} sliderIndex={8} /> */}
             </div>
             {playlists.map((playlist, i) => {
 

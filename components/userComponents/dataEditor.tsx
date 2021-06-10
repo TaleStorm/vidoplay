@@ -2,13 +2,14 @@ import { MutableRefObject, useEffect, useRef, useState } from "react"
 import ModalOverlay from "../layout/modalOverlay"
 import TextInput from "../inputs/textInput"
 
-const DataEditor = ({ name, setName, lastName, setLastName, middleName, setMiddleName, password, setPassword, currentPassword, setCurrentPassword, newPassword, setNewPassword, confrimPassword, setConfrimPassword }) => {
+const DataEditor = ({
+    name, setName, lastName, setLastName, middleName, setMiddleName, password, setPassword, currentPasswordErorrs,
+    currentPassword, setCurrentPassword, newPassword, setNewPassword, confrimPassword, setConfrimPassword, changePassword, passwordLogin }) => {
 
     const [stage, setStage] = useState(0)
     const sliderBody = useRef() as MutableRefObject<HTMLDivElement>
     const [modalOpen, setModalOpen] = useState(false)
     const [erorrs, setErrors] = useState({
-        currentPassword: { error: false, message: "Введённый пароль должен совпадать с текущим" },
         newPassword: { error: false, message: "Пароли должны совпадать" }
     })
 
@@ -26,16 +27,11 @@ const DataEditor = ({ name, setName, lastName, setLastName, middleName, setMiddl
     }, [modalOpen])
 
     const isPasswordsValid = () => {
-
-        const IsCurrentPasswordMatch = password === currentPassword
         const IsNewPasswordMatch = newPassword === confrimPassword
-
         setErrors({
-            currentPassword: { ...erorrs.currentPassword, error: !IsCurrentPasswordMatch },
             newPassword: { ...erorrs.newPassword, error: !IsNewPasswordMatch }
         })
-
-        if (IsCurrentPasswordMatch && IsNewPasswordMatch)
+        if (IsNewPasswordMatch)
             return true
 
         return false
@@ -49,7 +45,9 @@ const DataEditor = ({ name, setName, lastName, setLastName, middleName, setMiddl
                     <button
                         onClick={() => {
                             setModalOpen(!modalOpen);
-                            setPassword(newPassword)
+                            setPassword(newPassword);
+                            changePassword();
+
                         }}
                         className="mb-3 text-center text-h2-mobile text-white bg-orange p-3 duration-300 rounded-lg hover:bg-orange w-full">
                         Сменить пароль
@@ -73,15 +71,15 @@ const DataEditor = ({ name, setName, lastName, setLastName, middleName, setMiddl
                         <TextInput label={`Отчество`} name={`middleName`} state={middleName} setState={setMiddleName} />
                     </div>
                 </div>
-                <div>
+                {passwordLogin ? <div>
                     <div>
                         <h3 className={`text-lk-header mb-5`}>
                             Сменить пароль
                     </h3>
                         <div className={`grid lg:grid-cols-2 gap-x-14 gap-y-6`}>
                             <TextInput
-                                error={erorrs.currentPassword.error}
-                                errorMessage={erorrs.currentPassword.message}
+                                error={currentPasswordErorrs.error}
+                                errorMessage={currentPasswordErorrs.message}
                                 label={`Текущий пароль`} name={`password`}
                                 state={currentPassword}
                                 setState={setCurrentPassword}
@@ -101,6 +99,7 @@ const DataEditor = ({ name, setName, lastName, setLastName, middleName, setMiddl
                             <button
                                 onClick={() => {
                                     if (isPasswordsValid())
+                                        // changePassword();
                                         setModalOpen(!modalOpen);
                                 }}
                                 className="text-center text-h2-mobile text-white bg-orange p-3 duration-300 rounded-lg hover:bg-orange w-full ">
@@ -109,33 +108,38 @@ const DataEditor = ({ name, setName, lastName, setLastName, middleName, setMiddl
                         </div>
 
                     </div>
-                </div>
+                </div> : <div>
+
+                </div>}
+
             </div>
 
             <div className={`w-full overflow-x-hidden sm:hidden`}>
-                <div className={`w-full flex py-2`}>
-                    <div
-                        onClick={() => {
-                            setStage(0)
-                        }}
-                        className={`w-full flex justify-center items-center text-ui-text`}>
-                        Личная информация
-                </div>
-                    <div
-                        onClick={() => {
-                            setStage(1)
-                        }}
-                        className={`w-full flex justify-center items-center text-ui-text`}>
-                        Сменить пароль
-                </div>
-                </div>
-                <div className={`mb-4`}>
-                    <div
-                        style={{
-                            transform: sliderBody.current ? `translate3d(${stage * sliderBody.current.getBoundingClientRect().width / 2}px, 0px, 0px)` : ``
-                        }}
-                        className={`h-0.5 bg-orange w-1/2 transition-all duration-300`}></div>
-                </div>
+                {passwordLogin ? <div>
+                    <div className={`w-full flex py-2`}>
+                        <div
+                            onClick={() => {
+                                setStage(0)
+                            }}
+                            className={`w-full flex justify-center items-center text-ui-text`}>
+                            Личная информация
+                        </div>
+                        <div
+                            onClick={() => {
+                                setStage(1)
+                            }}
+                            className={`w-full flex justify-center items-center text-ui-text`}>
+                            Сменить пароль
+                        </div>
+                    </div>
+                    <div className={`mb-4`}>
+                        <div
+                            style={{
+                                transform: sliderBody.current ? `translate3d(${stage * sliderBody.current.getBoundingClientRect().width / 2}px, 0px, 0px)` : ``
+                            }}
+                            className={`h-0.5 bg-orange w-1/2 transition-all duration-300`}></div>
+                    </div>
+                </div> : <div></div>}
                 <div className={`flex w-full`}>
                     <div
                         style={{
@@ -158,6 +162,7 @@ const DataEditor = ({ name, setName, lastName, setLastName, middleName, setMiddl
                             <TextInput label={`Новый пароль`} name={`name`} state={newPassword} setState={setNewPassword} type={`password`} />
                             <TextInput label={`Повторите новый пароль`} name={`name`} state={confrimPassword} setState={setConfrimPassword} type={`password`} />
                             <button onClick={() => {
+                                // changePassword();
                                 setModalOpen(!modalOpen);
                             }} className="mt-1 text-h2-mobile text-center text-white bg-orange p-3 duration-300 rounded-lg hover:bg-orange w-full ">
                                 Сменить пароль
