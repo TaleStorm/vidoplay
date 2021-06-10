@@ -61,8 +61,9 @@ export const getServerSideProps = async (ctx) => {
     const comments = await ApiReq.getEntities("comments")
     
     const playlists = await ApiReq.getEntities("playlists")
-    console.log(playlists)
-    const playlist = playlists[0]
+    const current = playlists.find(x => x.stringName == category)
+    console.log(current)
+    const playlist = current
 
     
     const result = await ApiReq.getPlaylistMovies(playlist._id)
