@@ -36,26 +36,6 @@ function IndexPage({ playlists = [], movies, comments, banners }) {
               <div className={`mb-10`}>
                 <Slider cards={banners} />
               </div>
-              {playlists.map((playlist, i) => {
-                return (
-                  <div className={`mb-10`}>
-                    <FilmCategory
-                      key={i}
-                      name={playlist.name}
-                      stringName={playlist.stringName}
-                      cards={movies[i]}
-                      cardToShow={2}
-                      sliderIndex={i}
-                    />
-                    { i === 0 &&
-                      <a href="/piloty">
-                        <img className={`rounded-lg w-full mt-10`} src="/images/Pilots.png" alt="" />
-                      </a>
-                    }
-                  </div>
-                )
-              })}
-              {/* <PartnerSlider cards={partnerCards} cardToShow={3} sliderIndex={8} /> */}
             </div>
             {playlists.map((playlist, i) => {
 

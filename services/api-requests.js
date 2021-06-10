@@ -109,5 +109,9 @@ export default class NewsService {
     return this.postResource(`${regPrefix}/api/validate`, data)
   }
 
+  createDraft = async (data, category) => {
+    return this.postResource(`${regPrefix}/api/${category}/draft`, data)
+  }
+
   getAllowed
 }

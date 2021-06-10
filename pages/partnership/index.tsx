@@ -13,105 +13,122 @@ import Head from "next/head";
 
 const Partnership = () => {
     const [name, setName] = useState("")
-
     const [email, setEmail] = useState("")
     const [emailError, setEmailError] = useState(false)
-
     const [seriesName, setSeriesName] = useState("")
-
     const [seriesOriginalName, setSeriesOriginalName] = useState("")
-
     const [year, setYear] = useState("")
-
     const [projectLink, setProjectLink] = useState("")
-
     const [seasonAmount, setSeasonAmount] = useState("")
-
     const [serieLength, setSerieLength] = useState("")
-
     const [annotation, setAnnotation] = useState("")
-
     const [director, setDirector] = useState("")
-
     const [producer, setProducer] = useState("")
-
     const [actors, setActors] = useState("")
-
     const [trailer, setTrailer] = useState("")
-
     const [facebookLink, setFacebookLink] = useState("")
-
     const [vkLink, setVkLink] = useState("")
-
     const [instagramLink, setInstagramLink] = useState("")
-
     const [youtubeLink, setYoutubeLink] = useState("")
-
     const [festivalInfo, setFestivalInfo] = useState("")
-
     const [conditions, setConditions] = useState("")
-
+    //images
     const [images, setImages] = useState([])
     const [poster, setPoster] = useState([])
 
     const sendApplication = async () => {
-        const seriesImages = []
-        const posters = []
-        for (let image of images) {
-            const formData = new FormData();
-            formData.append("image", image, image.name)
-            formData.append("email", email)
-            const resp = await axios.post("/api/uploadPicture", formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                }
-            })
-            const url = "https://new.chillvision.ru/" + resp.data.url
-            seriesImages.push(url)
+        console.log(name, year)
+        const personalInfo = {
+            name: name,
+            email: email
         }
-        for (let singlePoster of poster) {
-            const formData = new FormData();
-            formData.append("image", singlePoster, singlePoster.name)
-            formData.append("email", email)
-            const resp = await axios.post("/api/uploadPicture", formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                }
-            })
-            const url = "https://new.chillvision.ru/" + resp.data.url
-            posters.push(url)
+        const serialInfo = {
+            seriesName: seriesName,
+            seriesOriginalName: seriesOriginalName,
+            year: year,
+            projectLink: projectLink,
+            seasonAmount: seasonAmount,
+            serieLength: serieLength,
+            annotation: annotation,
         }
-        const airtableData = {
-            records: [
-                {
-                    "fields": {
-                        "name": name,
-                        "email": email,
-                        "series": seriesImages.map(a => ({ url: a })),
-                        "posters": posters.map(a => ({ url: a }))
-                    }
-                }
-            ]
+        const additioanlInfo = {
+            director: director,
+            producer: producer,
+            actors: actors,
+            trailer: trailer
         }
-        const result = await fetch(`https://api.airtable.com/v0/app5Hw3RVknO5eZ4P/applications`, {
-        headers: {
-            'Authorization': 'Bearer', 
-            "Content-Type" : "application/json"
-        },
-        method: "POST",
-        body: JSON.stringify(airtableData)
-        })
-        const data = await result.json()
-        console.log(data)
+        const sotialNetworks = {
+            facebookLink: facebookLink,
+            vkLink: vkLink,
+            instagramLink: instagramLink,
+            youtubeLink: youtubeLink,
+            festivalInfo: festivalInfo
+        }
+        const data = {
+            personalInfo: personalInfo,
+            serialInfo: serialInfo,
+            additioanlInfo: additioanlInfo,
+            sotialNetworks: sotialNetworks
+        }
     }
+
+    // const sendApplication = async () => {
+    //     const seriesImages = []
+    //     const posters = []
+    //     for (let image of images) {
+    //         const formData = new FormData();
+    //         formData.append("image", image, image.name)
+    //         formData.append("email", email)
+    //         const resp = await axios.post("/api/uploadPicture", formData, {
+    //             headers: {
+    //                 "Content-Type": "multipart/form-data",
+    //             }
+    //         })
+    //         const url = "https://new.chillvision.ru/" + resp.data.url
+    //         seriesImages.push(url)
+    //     }
+    //     for (let singlePoster of poster) {
+    //         const formData = new FormData();
+    //         formData.append("image", singlePoster, singlePoster.name)
+    //         formData.append("email", email)
+    //         const resp = await axios.post("/api/uploadPicture", formData, {
+    //             headers: {
+    //                 "Content-Type": "multipart/form-data",
+    //             }
+    //         })
+    //         const url = "https://new.chillvision.ru/" + resp.data.url
+    //         posters.push(url)
+    //     }
+    //     const airtableData = {
+    //         records: [
+    //             {
+    //                 "fields": {
+    //                     "name": name,
+    //                     "email": email,
+    //                     "series": seriesImages.map(a => ({ url: a })),
+    //                     "posters": posters.map(a => ({ url: a }))
+    //                 }
+    //             }
+    //         ]
+    //     }
+    //     const result = await fetch(`https://api.airtable.com/v0/app5Hw3RVknO5eZ4P/applications`, {
+    //         headers: {
+    //             'Authorization': 'Bearer',
+    //             "Content-Type": "application/json"
+    //         },
+    //         method: "POST",
+    //         body: JSON.stringify(airtableData)
+    //     })
+    //     const data = await result.json()
+    //     console.log(data)
+    // }
 
     return (
         <>
             <Head>
                 <link rel="canonical" href="https://chillvision.ru/partnership" />
                 <meta property="og:title" content="Стань частью Chill Vision" />
-                <meta property="og:description" content="СHILL — первая независимая платформа для веб-контента с прозрачной монетизацией, Вы размещаете свой контент —его смотрят — вы зарабатываете. Чем больше просмотров, тем больше ваш гонорар. Если ваш сериал за месяц набирает
-1 млн просмотров — мы платим вам 300 тысяч рублей. Если у вас только пилот веб-сериала и вы хотите найти инвестора, добро пожаловать в наш раздел Пилоты." />
+                <meta property="og:description" content="СHILL — первая независимая платформа для веб-контента с прозрачной монетизацией, Вы размещаете свой контент — его смотрят — вы зарабатываете. Чем больше просмотров, тем больше ваш гонорар. Если ваш сериал за месяц набирает 1 млн просмотров — мы платим вам 300 тысяч рублей. Если у вас только пилот веб-сериала и вы хотите найти инвестора, добро пожаловать в наш раздел Пилоты." />
                 <meta property="og:type" content="website" />
                 <meta property="og:url" content={"https://chillvision.ru/partnership"} />
                 <meta property="og:image" content="https://chillvision.ru/images/aboutChill.png" />
@@ -292,16 +309,19 @@ const Partnership = () => {
                             <div className={`w-6 h-6 mr-3`}>
                                 <Checkbox state={conditions} setState={setConditions} />
                             </div>
-        Я принимаю условия пользования платформой
-        </div>
+                            Я принимаю условия пользования платформой
+                        </div>
                     </label>
                     <button
-                        onClick={
-                            sendApplication
-                        }
+                        onClick={() => {
+                            sendApplication()
+                        }}
+                        // onClick={
+                        //     sendApplication()
+                        // }
                         className="mt-10 text-h2-mobile text-center text-white bg-orange p-4 duration-300 rounded-lg hover:bg-orange w-full md:w-64">
                         Отправить
-        </button>
+                    </button>
                 </div>
             </form>
         </>
