@@ -239,8 +239,13 @@ export default function Player(data) {
       msRequestFullscreen(): Promise<void>;
     };
     if (isFullScreen) {
-      screen.orientation.unlock()
-      document.exitFullscreen()
+      screen?.orientation?.unlock()
+      if (document?.exitFullscreen) {
+        document.exitFullscreen()
+      }
+      if ((document as any)?.webkitExitFullscreen) {
+        (document as any).webkitExitFullscreen()
+      }
       setFullScreen(false);
       return
     } else {
@@ -253,7 +258,7 @@ export default function Player(data) {
       } else if (elem.webkitRequestFullscreen) {
         elem.webkitRequestFullscreen();
       }
-      screen.orientation.lock("landscape")
+      screen?.orientation?.lock("landscape")
       setFullScreen(true);
       return
     }
@@ -338,7 +343,7 @@ export default function Player(data) {
             }
           }
 
-          className={`relative inline-block w-full h-full`}
+          className={`absolute inset-0 w-full h-full`}
         >
           <iframe
             width="100%"
@@ -361,7 +366,7 @@ export default function Player(data) {
 
           <div ref={overlayRef} className={`absolute inset-0 w-full h-full ${buttonState} pointer-events-none`} >
             <div className="flex justify-center flex-wrap content-center h-full">
-              <div className="md:w-24 flex justify-end cursor-pointer w-12">
+              <div className="md:w-24 flex items-center justify-end cursor-pointer w-12">
                 <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="playerButtons cursor-pointer"
                   onClick={() => {
                     setIsPlaying(!isPlaying);
@@ -465,10 +470,11 @@ export default function Player(data) {
             </PlayerModalOverlay>
           </div>
 
-          <div className={`${mobileOverlayStage > 0 ? "absolute bg-opacity-50 h-full" : "bg-opacity-0 opacity-0  h-0 absolute"} 
+          <div className={`${mobileOverlayStage > 0 ? "absolute bg-opacity-50 h-full" : "bg-opacity-0 opacity-0  h-0 absolute pointer-events-none"} 
             ${!isMobile && "hidden"}
+            ${isIntro && "hidden"}
             transition-opacity duration-400 bg-black bottom-0 left-0 w-full z-10 flex items-center overflow-hidden `}>
-            <div className={`w-full flex justify-between items-center px-5`}>
+            <div className={`w-full flex justify-between items-center px-5 `}>
               <div
                 onClick={() => {
 

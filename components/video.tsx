@@ -5,6 +5,7 @@ import ShareButtons from "./shareButtons";
 import MovieContext from "./context/movieContext";
 import Tabs from "./Tabs";
 import TrailerPlayer from "./trailerPlayer";
+import PlayerContext from "./context/playerContext";
 
 export default function Video({
     name,
@@ -18,7 +19,7 @@ export default function Video({
     const targetRef = useRef() as MutableRefObject<HTMLDivElement>
     const containRef = useRef() as MutableRefObject<HTMLDivElement>
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
-    const [isFullScreen, setFullScreen] = useState(false)
+    const {isFullScreen} = useContext(PlayerContext)
 
     const [shareUrl, setShareUrl] = useState<string>("")
 
@@ -100,8 +101,6 @@ export default function Video({
                                 langs={langs}
                                 name={name}
                                 parentRef={targetRef}
-                                isFullScreen={isFullScreen}
-                                setFullScreen={setFullScreen}
                                 isSerial={isSerial}
                             />) :
                             (<div className="flex justify-center items-center w-full h-full">

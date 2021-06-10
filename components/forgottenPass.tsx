@@ -22,7 +22,7 @@ export default function Registration(data:ForgottenPassProps) {
               Восстановление пароля
             </h1>
             </div>
-            <form action="" className="mt-3 sm:mt-6">
+            <form className="mt-3 sm:mt-6">
               <div className={`w-full mb-6`}>
                 <TextInput label={"Email"} name={"email"} type={`email`} placeholder={"Введите email"} state={email} setState={setEmail}/>
               </div>
