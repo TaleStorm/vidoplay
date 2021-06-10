@@ -93,6 +93,10 @@ export default class NewsService {
     return this.putResource(`${urlPrefix}/api/movies/${movieId}`, data)
   }
 
+  changePassword = async (data) => {
+    return this.postResource(`${urlPrefix}/api/changePassword`, data)
+  }
+
   updateUserInfo = async (data, userId) => {
     return this.postResource(`${regPrefix}/api/profile/${userId}`, data)
   }
@@ -101,9 +105,9 @@ export default class NewsService {
     return this.getResource(`${regPrefix}/api/profile/${userId}`)
   }
 
-  getAllowed
-
   validate = async (data) => {
     return this.postResource(`${regPrefix}/api/validate`, data)
   }
+
+  getAllowed
 }

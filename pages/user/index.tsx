@@ -43,8 +43,10 @@ const IndexPage = () => {
   const [currentPassword, setCurrentPassword] = useState(undefined)
   const [newPassword, setNewPassword] = useState(undefined)
   const [confrimPassword, setConfrimPassword] = useState(undefined)
+
   const router = useRouter()
   const [exitModalOpen, setExitModalOpen] = useState(false)
+  const [passwordLogin, setPasswordLogin] = useState(false)
 
   function getCookie(name) {
     let matches = document.cookie.match(new RegExp(
@@ -66,10 +68,12 @@ const IndexPage = () => {
         };
         const resFavorites = await ApiReq.getUserFavorites(data)
         const resHistory = await ApiReq.getUserHistory(data)
-        const validateRes = await ApiReq.validate({token: token})
+        const validateRes = await ApiReq.validate({ token: token })
         const userId = validateRes.id
         const userInfo = await ApiReq.getUser(userId)
+        console.log(userInfo)
         if (userInfo.ok) {
+          setPasswordLogin(validateRes.passwordLogin)
           setUser({
             ...user,
             firstname: userInfo.profile.firstName,
@@ -88,20 +92,50 @@ const IndexPage = () => {
     fetchMyAPI()
   }, [])
 
+  const [erorrs, setErrors] = useState({
+    currentPassword: { error: false, message: "Введённый пароль не совпадает с вашим текущим" },
+  })
+
+  const isPasswordsValid = (res) => {
+    let IsCurrentPasswordMatch = false
+    console.log(res)
+    if (res.success) {
+      IsCurrentPasswordMatch = true
+    }
+    setErrors({
+      currentPassword: { ...erorrs.currentPassword, error: !IsCurrentPasswordMatch },
+    })
+    return IsCurrentPasswordMatch
+}
+
+  const changePassword = async () => {
+    const token = getCookie("chill_token");
+    if (token) {
+      const data = {
+        token: token,
+        oldPassword: currentPassword,
+        newPassword: newPassword
+      }
+      const res = await ApiReq.changePassword(data)
+      const isValid = isPasswordsValid(res)
+      if (isValid){
+        GoodToast("Пароль успешно изменен")
+      }
+    };
+  }
+
   const getUser = async () => {
     setEmail(user.email)
     setName(user.firstname)
     setLastName(user.lastname)
     setMiddleName(user.middleName)
     setUserPassword(user._password)
-
     //Проверку не убирать! Если отсутствуют данные, то страница крашится!
     if (user.list) {
       //Подгружаем по запросу в будущем!!
       setFavourites(user.list.favorites)
       setHistory(user.list.history)
     }
-
     setLoading(false)
   }
 
@@ -119,6 +153,7 @@ const IndexPage = () => {
     const userId = validateRes.id
     const res = await ApiReq.updateUserInfo(data, userId)
     if (res.ok) {
+      setPasswordLogin(validateRes.passwordLogin)
       setUser({
         ...user,
         firstname: name,
@@ -152,8 +187,6 @@ const IndexPage = () => {
                 router.push("/")
                 localStorage.removeItem("_user")
                 logOut("")
-
-
               }}
               className="mb-3 text-center text-h2-mobile text-white bg-orange p-3 duration-300 rounded-lg hover:bg-orange w-full"
             >
@@ -308,6 +341,7 @@ const IndexPage = () => {
                 </div>
                 {display === "data" ? (
                   <DataEditor
+                    currentPasswordErorrs={erorrs.currentPassword}
                     name={name}
                     setName={setName}
                     lastName={lastName}
@@ -315,6 +349,8 @@ const IndexPage = () => {
                     middleName={middleName}
                     setMiddleName={setMiddleName}
                     setConfrimPassword={setCurrentPassword}
+                    changePassword={changePassword}
+                    passwordLogin={passwordLogin}
                     {...({
                       password: userPassword,
                       setPassword: setUserPassword,
