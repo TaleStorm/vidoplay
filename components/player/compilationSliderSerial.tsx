@@ -25,7 +25,7 @@ const CompilationSlider = ({setModalOpen, isSliderOpen, setIsSliderOpen, movies,
     }, [isSliderOpen])
 
     return (
-        <div className={`absolute bottom-18 inset-x-0 w-full items-end flex flex-col px-4 z-10`}>
+        <div className={`absolute bottom-18 inset-x-0 w-full items-end flex-col px-4 z-10 hidden sm:flex `}>
             <div
                 ref={sliderContainerRef}
                 className={`w-full overflow-hidden transition-all duration-300 ease-out`}>
