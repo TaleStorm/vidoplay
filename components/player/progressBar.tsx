@@ -27,7 +27,7 @@ export default function ProgressBar({isMobile, changeCurrentVolumeY , setCurrent
     const currentTimeUser = convertTime(data.currentTime);
     const durationTimeUser = convertTime(data.durationTime);
     const possibleDurationTimeUser = convertTime(data.possibleDurationTime);
-    const {fullScreenHide, isIntro, isPlaying, setIsPlaying, currentVolume} = useContext(PlayerContext)
+    const {fullScreenHide, isIntro, isPlaying, setIsPlaying, currentVolume, isIphone} = useContext(PlayerContext)
     const volumeRef = useRef(null) as MutableRefObject<HTMLDivElement>
 
     const muteController = (        
@@ -39,7 +39,7 @@ export default function ProgressBar({isMobile, changeCurrentVolumeY , setCurrent
     return(
       <div  
         className={`
-          ${fullScreenHide && "hidden"}
+          ${!isIphone && fullScreenHide && "hidden"}
           ${isIntro && "invisible"}
           absolute md:bottom-4 xs:px-5 px-2 xs:pb-5 pb-1 md:px-0 md:pb-0 bottom-0 z-20 inset-x-0 md:mx-4 w-auto xs:flex items-end`
         }
