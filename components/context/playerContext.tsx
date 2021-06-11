@@ -35,6 +35,7 @@ const PlayerContext = React.createContext({
   currentTimePercent: "0",
   setVideoPercentCurrent: (arg: string) => { },
   changeSerie: (arg: number) => { },
+  changeSeason: (arg: number, arg2: number) => { },
   currentActing: 0,
   setActing: (arg: number) => { },
   changeActing: (arg: number) => { },
@@ -388,6 +389,11 @@ const PlayerContextProvider = ({ children }: Props) => {
     changeActing(currentActing)
   }
 
+  const changeSeason = (season, serie) => {
+    setSeason(season)
+    changeSerie(serie)
+  }
+
 
   var changeActing = (newActing) => {
     setActing(newActing);
@@ -452,7 +458,8 @@ const PlayerContextProvider = ({ children }: Props) => {
         isTopPanelActive,
         api,
         setHasBeenPlayed,
-        isIphone
+        isIphone,
+        changeSeason
     }}
     >
       {children}

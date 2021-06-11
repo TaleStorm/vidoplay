@@ -12,7 +12,7 @@ type SeriesSliderProps = SeriesSliderData
 
 const minWidth = 640
 
-export default function SeriesSlider(data: SeriesSliderProps) {
+export default function SeriesSlider(data) {
   const [swiperWidth, setSwiperWidth] = useState(1920)
 
   return (
@@ -23,6 +23,7 @@ export default function SeriesSlider(data: SeriesSliderProps) {
                 id={i}
                 videoLength={serie.videoLength}
                 image={serie.image}
+                season = {data.slider}
               />
         })}
     </SliderWrapper>

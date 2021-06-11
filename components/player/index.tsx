@@ -247,6 +247,7 @@ export default function Player(data) {
       if ((document as any)?.webkitExitFullscreen) {
         (document as any).webkitExitFullscreen()
       }
+
       setFullScreen(false);
       return
     } else {
@@ -258,6 +259,9 @@ export default function Player(data) {
         elem.mozRequestFullScreen();
       } else if (elem.webkitRequestFullscreen) {
         elem.webkitRequestFullscreen();
+      }
+      if (isIphone) {
+        api.method({name: "toggleFullscreen"})
       }
       screen?.orientation?.lock("landscape")
       setFullScreen(true);
@@ -360,6 +364,37 @@ export default function Player(data) {
           ></iframe>
           {isIphone && <TopPlayerPanel
             />}
+            {isIphone &&  <div className={`relative z-20`}>
+            <ProgressBar
+            isMobile={isMobile}
+            possibleDurationTime={possibleDurationTime}
+            setMouseOver={setMouseOver}
+            draggerPercent={draggerPercent}
+            draggerVisible={draggerVisible}
+            setDrag={setDrag}
+            currentTimePercent={currentTimePercent}
+            bufferTimePercent={currentTimeBuffer}
+            getMousePos={getMousePos}
+            setCurrentDuration={setCurrentDuration}
+            setPlay={() => { setIsPlaying(!isPlaying) }}
+            isPlaying={realPanelState == "hidden"}
+            durationTime={durationTime}
+            currentTime={currentTime}
+            handle={handle}
+            isFullScreen={isFullScreen}
+            fullScreenFunc={fullScreenFunc}
+            setFullScreen={fullScreenFunc}
+            changeMute={changeMute}
+            isMuted={isMuted}
+            setCurrentVolume={changeCurrentVolume}
+            setCurrentVolumeY={changeCurrentVolumeYClick}
+            changeCurrentVolumeY = {changeCurrentVolumeY}
+            currentVolume={currentVolume}
+            changeCurrentLevel={changeCurrentLevel}
+            currentQuality={currentQuality}
+          />
+              </div>}
+         
           
 
 
