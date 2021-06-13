@@ -7,8 +7,10 @@ import PartnershipHeroBlock from "../../components/partnershipHeroBlock";
 import ResizableTextInput from "../../components/inputs/resizableTextInput";
 import ImageInput from "../../components/inputs/imageInput";
 import Checkbox from "../../components/inputs/checkbox";
-import axios from "axios";
 import Head from "next/head";
+import apiReq from "../../services/api-requests"
+
+const ApiReq = new apiReq()
 
 
 const Partnership = () => {
@@ -37,7 +39,8 @@ const Partnership = () => {
     const [poster, setPoster] = useState([])
 
     const sendApplication = async () => {
-        console.log(name, year)
+        const imagesLinks = []
+        const posterLinks = []
         const personalInfo = {
             name: name,
             email: email
@@ -64,64 +67,32 @@ const Partnership = () => {
             youtubeLink: youtubeLink,
             festivalInfo: festivalInfo
         }
+        for (let image of images) {
+            const formData = new FormData();
+            formData.append("image", image)
+            const res = await ApiReq.addImage(formData)
+            imagesLinks.push(res.data.path)
+        }
+        for (let elem of poster) {
+            const formData = new FormData();
+            formData.append("image", elem)
+            const res = await ApiReq.addImage(formData)
+            posterLinks.push(res.data.path)
+        }
+        const files = {
+            images: imagesLinks,
+            poster: posterLinks
+        }
         const data = {
             personalInfo: personalInfo,
             serialInfo: serialInfo,
             additioanlInfo: additioanlInfo,
-            sotialNetworks: sotialNetworks
+            sotialNetworks: sotialNetworks,
+            files: files
         }
+        const res = await ApiReq.partnership(data)
+        // console.log(res)
     }
-
-    // const sendApplication = async () => {
-    //     const seriesImages = []
-    //     const posters = []
-    //     for (let image of images) {
-    //         const formData = new FormData();
-    //         formData.append("image", image, image.name)
-    //         formData.append("email", email)
-    //         const resp = await axios.post("/api/uploadPicture", formData, {
-    //             headers: {
-    //                 "Content-Type": "multipart/form-data",
-    //             }
-    //         })
-    //         const url = "https://new.chillvision.ru/" + resp.data.url
-    //         seriesImages.push(url)
-    //     }
-    //     for (let singlePoster of poster) {
-    //         const formData = new FormData();
-    //         formData.append("image", singlePoster, singlePoster.name)
-    //         formData.append("email", email)
-    //         const resp = await axios.post("/api/uploadPicture", formData, {
-    //             headers: {
-    //                 "Content-Type": "multipart/form-data",
-    //             }
-    //         })
-    //         const url = "https://new.chillvision.ru/" + resp.data.url
-    //         posters.push(url)
-    //     }
-    //     const airtableData = {
-    //         records: [
-    //             {
-    //                 "fields": {
-    //                     "name": name,
-    //                     "email": email,
-    //                     "series": seriesImages.map(a => ({ url: a })),
-    //                     "posters": posters.map(a => ({ url: a }))
-    //                 }
-    //             }
-    //         ]
-    //     }
-    //     const result = await fetch(`https://api.airtable.com/v0/app5Hw3RVknO5eZ4P/applications`, {
-    //         headers: {
-    //             'Authorization': 'Bearer',
-    //             "Content-Type": "application/json"
-    //         },
-    //         method: "POST",
-    //         body: JSON.stringify(airtableData)
-    //     })
-    //     const data = await result.json()
-    //     console.log(data)
-    // }
 
     return (
         <>
@@ -136,7 +107,7 @@ const Partnership = () => {
             <div className={`mb-16`}>
                 <PartnershipHeroBlock />
             </div>
-            <form onSubmit={(e) => { e.preventDefault() }}>
+            <form onSubmit={(e) => { e.preventDefault() }} encType="multipart/form-data">
                 <div className={`xl:w-3/4`}>
                     <DropdownWrapper heading={`Контактная информация`}>
                         <div className={`w-full grid grid-cols-1 md:grid-cols-2 gap-x-14 gap-y-6 py-6`}>
@@ -316,9 +287,6 @@ const Partnership = () => {
                         onClick={() => {
                             sendApplication()
                         }}
-                        // onClick={
-                        //     sendApplication()
-                        // }
                         className="mt-10 text-h2-mobile text-center text-white bg-orange p-4 duration-300 rounded-lg hover:bg-orange w-full md:w-64">
                         Отправить
                     </button>

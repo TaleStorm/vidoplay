@@ -1,5 +1,6 @@
-const urlPrefix  = process.env.API_DOMAIN
-const regPrefix  = process.env.ONE_LOG_DOMAIN
+const isProd = process.env.NODE_ENV === 'production'
+const urlPrefix = isProd ? process.env.API_DOMAIN : 'http://localhost:3001'
+const regPrefix = isProd ? process.env.ONE_LOG_DOMAIN : 'http://localhost:3002'
 
 export default class NewsService {
   getResource = async (url) => {
@@ -15,6 +16,18 @@ export default class NewsService {
       headers: {
         "Content-Type": "application/json",
       },
+    })
+
+    const result = await response.json()
+    return result
+  }
+
+  postResourceWithoutJson = async (url, body) => {
+    const response = await fetch(url, {
+      method: "POST",
+      body: body,
+      processData: false,
+      contentType: false
     })
 
     const result = await response.json()
@@ -91,6 +104,14 @@ export default class NewsService {
 
   updateLikes = async (movieId, data) => {
     return this.putResource(`${urlPrefix}/api/movies/${movieId}`, data)
+  }
+
+  partnership = async (data) => {
+    return this.postResource(`${urlPrefix}/api/partnership`, data)
+  }
+
+  addImage = async (data) => {
+    return this.postResourceWithoutJson(`${urlPrefix}/api/addImage/test`, data)
   }
 
   changePassword = async (data) => {
