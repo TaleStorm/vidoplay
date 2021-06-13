@@ -8,6 +8,7 @@ import ResizableTextInput from "../../components/inputs/resizableTextInput";
 import ImageInput from "../../components/inputs/imageInput";
 import Checkbox from "../../components/inputs/checkbox";
 import Head from "next/head";
+import GoodToast from "../../components/goodtoast"
 import apiReq from "../../services/api-requests"
 
 const ApiReq = new apiReq()
@@ -91,7 +92,7 @@ const Partnership = () => {
             files: files
         }
         const res = await ApiReq.partnership(data)
-        // console.log(res)
+        GoodToast("Форма успешно отправлена")
     }
 
     return (
