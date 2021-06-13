@@ -23,11 +23,11 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
   }
 
-export default function ProgressBar({isMobile, setCurrentVolumeY, ...data}) {
+export default function ProgressBar({isMobile, changeCurrentVolumeY , setCurrentVolumeY, ...data}) {
     const currentTimeUser = convertTime(data.currentTime);
     const durationTimeUser = convertTime(data.durationTime);
     const possibleDurationTimeUser = convertTime(data.possibleDurationTime);
-    const {fullScreenHide, isIntro, isPlaying, setIsPlaying, currentVolume} = useContext(PlayerContext)
+    const {fullScreenHide, isIntro, isPlaying, setIsPlaying, currentVolume, isIphone} = useContext(PlayerContext)
     const volumeRef = useRef(null) as MutableRefObject<HTMLDivElement>
 
     const muteController = (        
@@ -39,7 +39,7 @@ export default function ProgressBar({isMobile, setCurrentVolumeY, ...data}) {
     return(
       <div  
         className={`
-          ${fullScreenHide && "hidden"}
+          ${!isIphone && fullScreenHide && "hidden"}
           ${isIntro && "invisible"}
           absolute md:bottom-4 xs:px-5 px-2 xs:pb-5 pb-1 md:px-0 md:pb-0 bottom-0 z-20 inset-x-0 md:mx-4 w-auto xs:flex items-end`
         }
@@ -67,15 +67,15 @@ export default function ProgressBar({isMobile, setCurrentVolumeY, ...data}) {
               }}
                 onTouchStart={(e) => {
                     e.preventDefault()
-                    //setCurrentVolume(e, volumeRef)
+                    changeCurrentVolumeY(e, volumeRef)
                 }}
                 onTouchMove={(e) => {
 
-                    //setCurrentVolume(e, volumeRef)
+                  changeCurrentVolumeY(e, volumeRef)
                 }}
                 onTouchEnd={(e) => {
                         e.preventDefault()
-                        //setCurrentVolume(e, volumeRef)
+                        changeCurrentVolumeY(e, volumeRef)
                          }}
               className={`bg-white bg-opacity-40
                w-7 h-full relative
@@ -134,7 +134,7 @@ export default function ProgressBar({isMobile, setCurrentVolumeY, ...data}) {
                       className={`absolute h-4 w-7 -top-2 bg-white bg-opacity-20`}/>
                   </div>
                 </div>
-                <div className="absolute bg-white top-0 opacity-30 w-34/100 h-full z-20" style={{width:String(data.bufferTimePercent)+"%"}}/>
+                <div className="absolute bg-white top-0 opacity-30 w-34/100 h-full z-20 max-w-full" style={{width:String(data.bufferTimePercent)+"%"}}/>
                 <div className={`absolute bg-playerSecond top-0 h-full z-20`} style={{width:String(data.currentTimePercent)+"%"}}/>
                 <span className="absolute font-medium md:block inset-y-0 right-4 z-20 text-mainText text-sm pointer-events-none hidden" >
                     {currentTimeUser} | {durationTimeUser}

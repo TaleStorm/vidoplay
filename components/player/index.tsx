@@ -64,7 +64,8 @@ export default function Player(data) {
     setVolumeCurrent,
     setIntro,
     api,
-    setHasBeenPlayed
+    setHasBeenPlayed,
+    isIphone
   } = useContext(PlayerContext)
 
   const { movie } = useContext(MovieContext)
@@ -246,6 +247,7 @@ export default function Player(data) {
       if ((document as any)?.webkitExitFullscreen) {
         (document as any).webkitExitFullscreen()
       }
+
       setFullScreen(false);
       return
     } else {
@@ -257,6 +259,9 @@ export default function Player(data) {
         elem.mozRequestFullScreen();
       } else if (elem.webkitRequestFullscreen) {
         elem.webkitRequestFullscreen();
+      }
+      if (isIphone) {
+        api.method({name: "toggleFullscreen"})
       }
       screen?.orientation?.lock("landscape")
       setFullScreen(true);
@@ -352,19 +357,55 @@ export default function Player(data) {
             src={isIntro ? `${intro}?player_id=777&autoplay=false` : `${data.series[currentSeason] && data.series[currentSeason][currentSerie].videoId || intro}?player_id=777`}
             // src={`${data.series[currentSeason][currentSerie].videoId}?player_id=777`}
             // src={`${intro}?player_id=777`}
+            className={` ${isIphone && "z-10 relative"}`}
             allowFullScreen
             frameBorder="0"
             id="gplayer"
           ></iframe>
+          {isIphone && <TopPlayerPanel
+            />}
+            {isIphone &&  <div className={`relative z-20`}>
+            <ProgressBar
+            isMobile={isMobile}
+            possibleDurationTime={possibleDurationTime}
+            setMouseOver={setMouseOver}
+            draggerPercent={draggerPercent}
+            draggerVisible={draggerVisible}
+            setDrag={setDrag}
+            currentTimePercent={currentTimePercent}
+            bufferTimePercent={currentTimeBuffer}
+            getMousePos={getMousePos}
+            setCurrentDuration={setCurrentDuration}
+            setPlay={() => { setIsPlaying(!isPlaying) }}
+            isPlaying={realPanelState == "hidden"}
+            durationTime={durationTime}
+            currentTime={currentTime}
+            handle={handle}
+            isFullScreen={isFullScreen}
+            fullScreenFunc={fullScreenFunc}
+            setFullScreen={fullScreenFunc}
+            changeMute={changeMute}
+            isMuted={isMuted}
+            setCurrentVolume={changeCurrentVolume}
+            setCurrentVolumeY={changeCurrentVolumeYClick}
+            changeCurrentVolumeY = {changeCurrentVolumeY}
+            currentVolume={currentVolume}
+            changeCurrentLevel={changeCurrentLevel}
+            currentQuality={currentQuality}
+          />
+              </div>}
+         
+          
+
 
           <div className={`absolute  top-0 left-0 w-full h-auto ${buttonState}`} >
-            <TopPlayerPanel
-            />
+            {isIphone && <TopPlayerPanel
+            />}
           </div>
 
           <AgeWarning />
 
-          <div ref={overlayRef} className={`absolute inset-0 w-full h-full ${buttonState} pointer-events-none`} >
+          <div ref={overlayRef} className={`absolute inset-0 w-full h-full ${buttonState} pointer-events-none z-40`} >
             <div className="flex justify-center flex-wrap content-center h-full">
               <div className="md:w-24 flex items-center justify-end cursor-pointer w-12">
                 <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="playerButtons cursor-pointer"
@@ -471,6 +512,7 @@ export default function Player(data) {
           </div>
 
           <div className={`${mobileOverlayStage > 0 ? "absolute bg-opacity-50 h-full" : "bg-opacity-0 opacity-0  h-0 absolute pointer-events-none"} 
+           ${isIphone && "hidden"}
             ${!isMobile && "hidden"}
             ${isIntro && "hidden"}
             transition-opacity duration-400 bg-black bottom-0 left-0 w-full z-10 flex items-center overflow-hidden `}>
@@ -488,7 +530,7 @@ export default function Player(data) {
                 onClick={() => {
                   setIsPlaying(!isPlaying)
                 }}
-                className={`flex-shrink-0 w-20 h-20 p-5 bg-opacity-20 bg-white  active:bg-orange rounded-lg`}>
+                className={`flex-shrink-0 w-20 h-20 p-5 bg-opacity-20 bg-white  active:bg-orange rounded-lg `}>
                 {mobileOverlayStage === 1 && <PauseIcon />}
                 {mobileOverlayStage === 2 && <PlayIcon />}
               </button>
@@ -538,6 +580,7 @@ export default function Player(data) {
             isMuted={isMuted}
             setCurrentVolume={changeCurrentVolume}
             setCurrentVolumeY={changeCurrentVolumeYClick}
+            changeCurrentVolumeY = {changeCurrentVolumeY}
             currentVolume={currentVolume}
             changeCurrentLevel={changeCurrentLevel}
             currentQuality={currentQuality}

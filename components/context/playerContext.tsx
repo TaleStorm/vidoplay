@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useMemo, useState } from "react";
 
 const PlayerContext = React.createContext({
   setIsSpaceListenerActive: (arg: boolean | ((arg:boolean)=>boolean)) => { },
@@ -35,6 +35,7 @@ const PlayerContext = React.createContext({
   currentTimePercent: "0",
   setVideoPercentCurrent: (arg: string) => { },
   changeSerie: (arg: number) => { },
+  changeSeason: (arg: number, arg2: number) => { },
   currentActing: 0,
   setActing: (arg: number) => { },
   changeActing: (arg: number) => { },
@@ -49,6 +50,7 @@ const PlayerContext = React.createContext({
   isTopPanelActive: false,
   api: null,
   setHasBeenPlayed: (arg: boolean) => { },
+  isIphone: false
 });
 
 // В этой функции отправляем сообщения
@@ -93,6 +95,26 @@ const PlayerContextProvider = ({ children }: Props) => {
     setPanel("visible");
     setButton("hidden");
   }
+
+  const [isIphone, setIsIphone] = useState(false)
+
+  useEffect(() => {
+    function iOS() {
+      return [
+        'iPad Simulator',
+        'iPhone Simulator',
+        'iPod Simulator',
+        'iPad',
+        'iPhone',
+        'iPod'
+      ].includes(navigator.platform)
+      // iPad on iOS 13 detection
+      || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+    }
+    setIsIphone(iOS())
+  }, [])
+
+ 
 
   //Определяем, мобильное ли устройство при маунте
   useEffect(() => {
@@ -164,14 +186,13 @@ const PlayerContextProvider = ({ children }: Props) => {
           sendPostMessage("PLAYING_INTRO")
         }
         else {
-          
           sendPostMessage("PLAYING_VIDEO")
         }
         // console.log("playing")
         api.method({name: "setVolume", params: currentVolume})
         setButton("hidden");
         changeActing(currentActing)
-        setIsPlaying(true);
+        setIsPlaying(true)
         api.method({
           name: 'getDuration', params: {}, callback: (res) => {
             setVideoDuration(res);
@@ -237,16 +258,16 @@ const PlayerContextProvider = ({ children }: Props) => {
   useEffect(() => {
     
     if (api) {
-      // console.log(api)
-       if (hasBeenPlayed) {   
-          api.on("ready", () => {
+       console.log(api)
+       if (hasBeenPlayed) {  
 
+          api.on("ready", () => {
             sendPostMessage("READY_VIDEO")
+            api.method({name: "play"})
           })
         }
         else {
           api.on("ready", () => {
-
             sendPostMessage("READY_INTRO")
           })
         }
@@ -368,6 +389,11 @@ const PlayerContextProvider = ({ children }: Props) => {
     changeActing(currentActing)
   }
 
+  const changeSeason = (season, serie) => {
+    setSeason(season)
+    changeSerie(serie)
+  }
+
 
   var changeActing = (newActing) => {
     setActing(newActing);
@@ -431,7 +457,9 @@ const PlayerContextProvider = ({ children }: Props) => {
         setVolumeCurrent,
         isTopPanelActive,
         api,
-        setHasBeenPlayed
+        setHasBeenPlayed,
+        isIphone,
+        changeSeason
     }}
     >
       {children}

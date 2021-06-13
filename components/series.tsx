@@ -19,8 +19,8 @@ export default function Series(data: SeriesProps) {
         <div className="sm:mx-0 sm:py-10">
             <ul className=" flex sm:px-3 mb-3">
                 {data.series.map((serie, i) => {
-                    return <li key={i} className={i == slider ? "flex active items-center p-2 mr-2 mb-2 border-b-2 border-orange md:inline w-16" : "flex items-center p-2 mr-2 mb-2 border-orange md:inline w-16"}>
-                        <a className=" tabLinks text-sm hover:text-orange" data-select={i + 1} id={"tabLink" + String(i + 1)} onClick={() => changeSlider(i)}>
+                    return <li key={i} className={i == slider ? "flex active items-center p-2 mr-2 mb-2 border-b-2 border-orange md:inline w-16 flex-shrink-0" : "flex items-center p-2 mr-2 mb-2 border-orange md:inline w-16 flex-shrink-0"}>
+                        <a className=" tabLinks text-sm hover:text-orange flex-shrink-0" data-select={i + 1} id={"tabLink" + String(i + 1)} onClick={() => changeSlider(i)}>
                             {i + 1} сезон
                             </a>
                     </li>
@@ -29,7 +29,7 @@ export default function Series(data: SeriesProps) {
             <div className="content">
                 {data.series.map((serie, i) => {
                     return <div key={i} className={i == slider ? "" : "hidden"} >
-                        <SeriesSlider series={serie} index={i} sliderInfo={settings} />
+                        <SeriesSlider slider={slider} series={serie} index={i} sliderInfo={settings} />
                     </div>
                 })}
             </div>
