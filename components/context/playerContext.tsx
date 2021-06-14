@@ -263,7 +263,7 @@ const PlayerContextProvider = ({ children }: Props) => {
 
           api.on("ready", () => {
             sendPostMessage("READY_VIDEO")
-            api.method({name: "play"})
+            !isIphone && api.method({name: "play"})
           })
         }
         else {
@@ -276,7 +276,7 @@ const PlayerContextProvider = ({ children }: Props) => {
     }
 
     return () => { if (api) console.log(api)}
-  }, [api, hasBeenPlayed])
+  }, [api, hasBeenPlayed, isIphone])
 
 
 
