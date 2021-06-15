@@ -35,6 +35,7 @@ const nextConfig = {
       'www.film.ru',
       "dl.airtable.com",
       'chillvision.ru',
+      'gate.chillvision.ru',
       "hsto.org",
       's-ed1.cloud.gcore.lu',
       "habrastorage.org",

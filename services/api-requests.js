@@ -118,6 +118,10 @@ export default class NewsService {
     return this.postResource(`${urlPrefix}/api/changePassword`, data)
   }
 
+  setWantToSeeVotes = async (data) => {
+    return this.postResource(`${urlPrefix}/api/changevotes`, data)
+  }
+
   updateUserInfo = async (data, userId) => {
     return this.postResource(`${regPrefix}/api/profile/${userId}`, data)
   }
