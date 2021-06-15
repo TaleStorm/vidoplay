@@ -354,7 +354,7 @@ export default function Player(data) {
             width="100%"
             height="100%"
             tabIndex={-1}
-            src={isIntro ? `${intro}?player_id=777&autoplay=false` : `${data.series[currentSeason] && data.series[currentSeason][currentSerie].videoId || intro}?player_id=777`}
+            src={isIntro ? `${intro}?player_id=777&autoplay=false` : `${data.series[currentSeason] && data.series[currentSeason][currentSerie].videoId || intro}?player_id=777${isIphone ? "&autoplay=false" : ""}`}
             // src={`${data.series[currentSeason][currentSerie].videoId}?player_id=777`}
             // src={`${intro}?player_id=777`}
             className={` ${isIphone && "z-10 relative"}`}
