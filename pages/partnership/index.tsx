@@ -155,6 +155,17 @@ const Partnership = () => {
                                 errorMessage={"Обязательное поле"}
                             />
                             <TextInput
+                                label={`Ссылка на скачивание проекта`}
+                                name={`series-name`}
+                                placeholder={`mp4, 16:9, H.264, HD(1920*1080); Аудио: 48 кгц, Stereo)`}
+                                state={projectLink}
+                                setState={setProjectLink}
+                                validator={validator.default}
+                                error={projectLinkError}
+                                setError={setProjectLinkError}
+                                errorMessage={"Обязательное поле"}
+                            />
+                            <TextInput
                                 label={`Название (На английском)`}
                                 name={`series-name`}
                                 placeholder={`Название (на английском)`}
@@ -167,17 +178,6 @@ const Partnership = () => {
                                 placeholder={"Введите год выпуска"}
                                 state={year}
                                 setState={setYear}
-                            />
-                            <TextInput
-                                label={`Ссылка на скачивание проекта`}
-                                name={`series-name`}
-                                placeholder={`mp4, 16:9, H.264, HD(1920*1080); Аудио: 48 кгц, Stereo)`}
-                                state={projectLink}
-                                setState={setProjectLink}
-                                validator={validator.default}
-                                error={projectLinkError}
-                                setError={setProjectLinkError}
-                                errorMessage={"Обязательное поле"}
                             />
                             <TextInput
                                 label={'Количество сезонов и серий'}
