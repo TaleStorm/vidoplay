@@ -17,7 +17,6 @@ const ApiReq = new apiReq()
 const Partnership = () => {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
-    const [emailError, setEmailError] = useState(false)
     const [seriesName, setSeriesName] = useState("")
     const [seriesOriginalName, setSeriesOriginalName] = useState("")
     const [year, setYear] = useState("")
@@ -38,6 +37,11 @@ const Partnership = () => {
     //images
     const [images, setImages] = useState([])
     const [poster, setPoster] = useState([])
+
+    const [emailError, setEmailError] = useState(true)
+    const [nameError, setNameError] = useState(true)
+    const [nameSeriesError, setNameSeriesError] = useState(true)
+    const [projectLinkError, setProjectLinkError] = useState(true)
 
     const sendApplication = async () => {
         const imagesLinks = []
@@ -118,6 +122,10 @@ const Partnership = () => {
                                 placeholder={"Константин Констанитинопольский"}
                                 state={name}
                                 setState={setName}
+                                validator={validator.default}
+                                error={nameError}
+                                setError={setNameError}
+                                errorMessage={"Обязательное поле"}
                             />
                             <TextInput
                                 label={`Email`}
@@ -129,6 +137,7 @@ const Partnership = () => {
                                 validator={validator.email}
                                 error={emailError}
                                 setError={setEmailError}
+                                errorMessage={"Неправильный формат почты"}
                             />
                         </div>
                     </DropdownWrapper>
@@ -140,6 +149,21 @@ const Partnership = () => {
                                 placeholder={"Название (на языке оригинала)"}
                                 state={seriesName}
                                 setState={setSeriesName}
+                                validator={validator.default}
+                                error={nameSeriesError}
+                                setError={setNameSeriesError}
+                                errorMessage={"Обязательное поле"}
+                            />
+                            <TextInput
+                                label={`Ссылка на скачивание проекта`}
+                                name={`series-name`}
+                                placeholder={`mp4, 16:9, H.264, HD(1920*1080); Аудио: 48 кгц, Stereo)`}
+                                state={projectLink}
+                                setState={setProjectLink}
+                                validator={validator.default}
+                                error={projectLinkError}
+                                setError={setProjectLinkError}
+                                errorMessage={"Обязательное поле"}
                             />
                             <TextInput
                                 label={`Название (На английском)`}
@@ -154,13 +178,6 @@ const Partnership = () => {
                                 placeholder={"Введите год выпуска"}
                                 state={year}
                                 setState={setYear}
-                            />
-                            <TextInput
-                                label={`Ссылка на скачивание проекта`}
-                                name={`series-name`}
-                                placeholder={`mp4, 16:9, H.264, HD(1920*1080); Аудио: 48 кгц, Stereo)`}
-                                state={projectLink}
-                                setState={setProjectLink}
                             />
                             <TextInput
                                 label={'Количество сезонов и серий'}
