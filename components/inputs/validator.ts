@@ -4,7 +4,7 @@ class Valiadator {
     }
     
     default(value:string){
-        if (value.length > 1) {
+        if (value.length > 0) {
             return true
         }
         else return false
