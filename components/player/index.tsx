@@ -337,6 +337,7 @@ export default function Player(data) {
   })
 
   return (
+    <> 
     <div className={`h-full`} >
       <div draggable={false} id="mainframe" className={`${isLoaded ? "visible" : "hidden"} h-full`}>
         <div
@@ -628,5 +629,9 @@ export default function Player(data) {
         </div>
       </div> */}
     </div>
+      <button className={`h-48 w-full bg-orange`} onClick={() => {api.method({name: "play"})}}>
+      Играть
+      </button>
+    </>
   )
 }
