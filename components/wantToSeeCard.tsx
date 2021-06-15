@@ -1,26 +1,13 @@
 import { useEffect, useRef, useState } from "react"
+import apiReq from "../services/api-requests"
 
-type mockupType = {
-  image: string,
-  title: string,
-  description: string,
-  year: number,
-  genre: Array<string>,
-  country: string,
-  serias: string
-}
+const ApiReq = new apiReq()
 
-const maxLength = 170
-
-export default function WantToSeeCard(data: mockupType) {
-
+export default function WantToSeeCard(data) {
   const [voiceIsCounted, setVoiceIsCounted] = useState<boolean>(false)
-
   const [openDiscription, setOpenDiscription] = useState<boolean>(false)
   const [isDiscriptionLong, setIsDiscriptionLong] = useState<boolean>(false)
-
   const [butt, setbuut] = useState(<></>)
-
   const disriptionRef = useRef()
 
   const toggleOpen = () => setOpenDiscription(!openDiscription)
@@ -29,22 +16,26 @@ export default function WantToSeeCard(data: mockupType) {
     return element.scrollWidth > element.offsetWidth || element.scrollHeight > element.offsetHeight;
   }
 
+  const setVoiceServer = async () => {
+    const body = {
+      movieId: data._id
+    }
+    const res = await ApiReq.setWantToSeeVotes(body)
+    console.log(res)
+  }
+
   useEffect(() => {    
     setIsDiscriptionLong(isOverFlowed(disriptionRef.current))
-
     let listener = () => {
       setIsDiscriptionLong((prev) => isOverFlowed(disriptionRef.current))
     }
-
     window.addEventListener("resize", listener)
-
     return ()=>{
       window.removeEventListener("resize", listener)
     }
   }, [])
 
   useEffect(() => {
-    console.info("Changed, is dis long?", isDiscriptionLong);
     if(!isDiscriptionLong)
       setOpenDiscription(false)
   }, [isDiscriptionLong])
@@ -69,7 +60,6 @@ export default function WantToSeeCard(data: mockupType) {
               style={openDiscription ? {} : { maxHeight: 100 }}
             >
               {data.description}
-              {/* {!openDiscription && isDiscriptionLong ? data.description + " " : data.description.slice(0, maxLength) + "... "} */}
             </div>
             {butt}
             {isDiscriptionLong &&
@@ -95,7 +85,9 @@ export default function WantToSeeCard(data: mockupType) {
             <div className="hidden lg:flex items-end">
               {voiceIsCounted ? (<button
                 className={`flex px-6 justify-center text-white transition-colors duration-300 hover:bg-voice-button-voted-hover bg-voice-button-voted p-3 rounded-lg w-full`}
-                onClick={() => { setVoiceIsCounted(!voiceIsCounted) }}
+                onClick={() => { 
+                  setVoiceIsCounted(!voiceIsCounted) 
+                }}
               >
                 <div className="flex items-center">
                   <p className="mr-1 whitespace-nowrap">
@@ -108,7 +100,10 @@ export default function WantToSeeCard(data: mockupType) {
               </button>) : (
                 <button
                   className={`flex px-6 justify-center text-white transition-colors duration-300 hover:bg-button-hover bg-orange p-3 rounded-lg w-full`}
-                  onClick={() => { setVoiceIsCounted(!voiceIsCounted) }}
+                  onClick={() => { 
+                    setVoiceIsCounted(!voiceIsCounted);
+                    setVoiceServer();
+                  }}
                 >
                   <div className="flex items-center">
                     <p className="mr-1 whitespace-nowrap">
@@ -130,7 +125,9 @@ export default function WantToSeeCard(data: mockupType) {
       <div className="flex justify-end">
         {voiceIsCounted ? (<button
           className={`lg:hidden flex mt-3 px-6 justify-center text-white transition-colors duration-300 hover:bg-voice-button-voted-hover bg-voice-button-voted p-3 rounded-lg w-full  sm:w-auto`}
-          onClick={() => { setVoiceIsCounted(!voiceIsCounted) }}
+          onClick={() => { 
+            setVoiceIsCounted(!voiceIsCounted) 
+          }}
         >
           <div className="flex items-center">
             <p className="mr-1 whitespace-nowrap">
@@ -143,7 +140,10 @@ export default function WantToSeeCard(data: mockupType) {
         </button>) : (
           <button
             className={`lg:hidden flex mt-3 px-6 justify-center text-white transition-colors duration-300 hover:bg-button-hover bg-orange p-3 rounded-lg w-full sm:w-auto`}
-            onClick={() => { setVoiceIsCounted(!voiceIsCounted) }}
+            onClick={() => { 
+              setVoiceIsCounted(!voiceIsCounted);
+              setVoiceServer();
+            }}
           >
             <div className="flex items-center">
               <p className="mr-1 whitespace-nowrap">
